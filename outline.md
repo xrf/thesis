@@ -1,31 +1,107 @@
 # Addition and removal energies of quantum many-body systems
 
-## Introduction
+  - Introduction
 
-## Many-body methods
+  - Many-body methods
 
-### Foundations
+      - Many-body formalism
 
-### Hartree-Fock theory
+          - Second quantization
 
-### In-medium similarity renormalization group methods
+          - Normal ordering and contractions
 
-### Perturbation methods
+          - Wick's theorem
 
-## Many-body systems
+          - Diagrammatic techniques
 
-### Quantum dot
+          - Angular momentum coupling
 
-### Infinite nuclear matter
+      - Hartree-Fock method
 
-NB: it's kind of hard to talk about methods without considering a specific system
+          - Hartree-Fock equation
 
-### Neutron drop?
+          - Convergence acceleration
 
-### Electron gas?
+      - In-medium similarity renormalization group methods
 
-## Implementation
+          - Flow equation
 
-### Functional programming
+          - Wegner generator
 
-## Conclusions
+          - White generators
+
+      - Quasidegenerate perturbation theory
+
+          - Generalized Bloch equation
+
+          - Expansion to third order
+
+  - Many-body systems
+
+      - Quantum dot
+
+          - Two-dimensional harmonic oscillator basis
+
+          - Coulomb interaction
+
+      - Infinite nuclear matter
+
+          - Cartesian basis
+
+          - Minnesota interaction
+
+          - Pionless interaction
+
+      - Neutron drop (?)
+
+          - Three-dimensional harmonic oscillator basis
+
+          - Chiral EFT interaction
+
+      - Electron gas (?)
+
+  - Implementation
+
+      - Design and structure
+
+          - Block-diagonality and symmetry
+
+          - System-agnostic methods
+
+      - Testing and verification (unit tests, integration tests, CI)
+
+      - Distributed parallelization
+
+  - Results and analysis
+
+      - Quantum dot
+
+          - Ground state energy
+
+          - Addition and removal energy
+
+          - Comparison with other methods
+
+          - Extrapolation
+
+          - Extrapolation uncertainty
+
+      - Infinite nuclear matter
+
+          - Ground state energy
+
+          - Addition and removal energy
+
+          - Comparison with other methods
+
+          - Extrapolation
+
+          - ??
+
+      - Neutron drop (?)
+
+      - Electron gas (?)
+
+  - Conclusion
+
+      - Future directions

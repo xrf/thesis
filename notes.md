@@ -1,0 +1,1 @@
+- It's kind of hard to talk about methods without considering a specific system
