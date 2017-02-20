@@ -52,13 +52,17 @@
 
           - Pionless interaction
 
+          - Realistic interactions
+
+      - Electron gas (?)
+
+          - Ewald interaction
+
       - Neutron drop (?)
 
           - Three-dimensional harmonic oscillator basis
 
-          - Chiral EFT interaction
-
-      - Electron gas (?)
+          - Chiral EFT interactions
 
   - Implementation
 
@@ -98,9 +102,19 @@
 
           - ??
 
-      - Neutron drop (?)
+      - Electron gas
 
-      - Electron gas (?)
+          - Ground state energy
+
+          - Addition and removal energy
+
+          - Comparison with other methods
+
+          - Extrapolation
+
+          - ??
+
+      - Neutron drop (?)
 
   - Conclusion
 
