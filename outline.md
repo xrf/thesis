@@ -1,121 +1,58 @@
 # Addition and removal energies of quantum many-body systems
 
   - Introduction
-
+      - Focus
+          - Ab initio addition and removal energies using a combination of IMSRG and QDPT
+          - Balance of accuracy and low computational cost
+      - Motivations and prior work
+          - Nuclear astrophysics: neutron stars, EOS, symmetry energy
+          - Chemistry and condensed matter physics: artificial atoms, semiconductors, solar cells
+          - Computational science: efficient algorithms and techniques for many-body problems
+      - Outline
   - Many-body methods
-
       - Many-body formalism
-
           - Second quantization
-
           - Normal ordering and contractions
-
           - Wick's theorem
-
           - Diagrammatic techniques
-
           - Angular momentum coupling
-
       - Hartree-Fock method
-
           - Hartree-Fock equation
-
           - Convergence acceleration
-
       - In-medium similarity renormalization group methods
-
           - Flow equation
-
           - Wegner generator
-
           - White generators
-
       - Quasidegenerate perturbation theory
-
           - Generalized Bloch equation
-
           - Expansion to third order
-
-  - Many-body systems
-
-      - Quantum dot
-
-          - Two-dimensional harmonic oscillator basis
-
-          - Coulomb interaction
-
-      - Infinite nuclear matter
-
-          - Cartesian basis
-
-          - Minnesota interaction
-
-          - Pionless interaction
-
-          - Realistic interactions
-
-      - Electron gas (?)
-
-          - Ewald interaction
-
-      - Neutron drop (?)
-
-          - Three-dimensional harmonic oscillator basis
-
-          - Chiral EFT interactions
-
   - Implementation
-
       - Design and structure
-
           - Block-diagonality and symmetry
-
           - System-agnostic methods
-
       - Testing and verification (unit tests, integration tests, CI)
-
       - Distributed parallelization
-
-  - Results and analysis
-
-      - Quantum dot
-
+  - Application and results
+      - Systems
+          - Quantum dot
+              - Two-dimensional harmonic oscillator basis
+              - Coulomb interaction
+          - Infinite nuclear matter
+              - Cartesian basis
+              - Minnesota interaction
+              - Pionless interaction
+              - Realistic interactions
+          - Electron gas
+              - Ewald interaction
+          - Finite nuclei and neutron drop
+              - Three-dimensional harmonic oscillator basis
+              - Chiral EFT interactions
+      - Analysis
           - Ground state energy
-
           - Addition and removal energy
-
           - Comparison with other methods
-
           - Extrapolation
-
           - Extrapolation uncertainty
-
-      - Infinite nuclear matter
-
-          - Ground state energy
-
-          - Addition and removal energy
-
-          - Comparison with other methods
-
-          - Extrapolation
-
-          - ??
-
-      - Electron gas
-
-          - Ground state energy
-
-          - Addition and removal energy
-
-          - Comparison with other methods
-
-          - Extrapolation
-
-          - ??
-
-      - Neutron drop (?)
-
   - Conclusion
-
+      - Summary
       - Future directions
