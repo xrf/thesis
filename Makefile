@@ -13,7 +13,11 @@ pandoc_args=-S \
 	    -M lot \
 	    -M toc
 
-latex_pandoc_args=-H head.tex
+latex_pandoc_deps=head.tex
+latex_pandoc_args=-H $(1)
+latex_pandoc_args:=$(call latex_pandoc_args,$(latex_pandoc_deps))
+
+latex_merge_args=--front-in-body=key-to-symbols.md
 
 tool_dir=.local/src/book-mk
 include $(tool_dir)/book.mk
