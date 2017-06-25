@@ -8,6 +8,8 @@
     - [Outline](outline.md)
 - [Theory](theory.md)
     - [Background](many-body-theory.md)
+    - [Angular momentum coupling](angular-momentum-coupling.md)
+    - [Diagrams](diagrams.md)
     - [Hartree-Fock method](hartree-fock.md)
     - [In-medium similarity renormalization group method](imsrg.md)
     - [Quasidegenerate perturbation theory](qdpt.md)
