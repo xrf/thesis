@@ -57,7 +57,7 @@ For systems of fermions, the many-body space $\mathbb{H}_{\mathrm{M}}$ spanned b
 We define antisymmetrizer $\mathcal{A}$ as
 
 $$\begin{aligned}
-\mathcal{A}^a_{a'} X_a &= X_a \\
+\mathcal{A}^a_{a'} X_{a'} &= X_a \\
 \mathcal{A}^{a b}_{a' b'} X_{a' b'} &= \frac{1}{2} (X_{a b} - X_{b a}) \\
 \mathcal{A}^{a b c}_{a' b' c'} X_{a' b' c'} &= \frac{1}{6} (X_{a b c} - X_{b a c} + X_{b c a} - X_{c b a} + X_{c a b} - X_{a c b}) \\
 \mathcal{A}^{a_1 \ldots a_n}_{a'_1 \ldots a'_n} X_{a'_1 \ldots a'_n} &= \frac{1}{n!} \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) X_{a_{\sigma_1} \ldots a_{\sigma_n}}
