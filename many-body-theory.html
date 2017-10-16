@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Many-body formalism - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html" class="active"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="many-body-formalism"><span class="header-section-number">6</span> Many-body formalism</h1>
+<p>In this section we review the fundamentals of many-body theory. While we have aimed to make the presentation fairly pedagogical, the primary goal of this chapter is to define the concepts, terminology, notation, and conventions used throughout this work.</p>
+<h2 id="many-particle-states"><span class="header-section-number">6.1</span> Many-particle states</h2>
+<p>In single-particle time-independent quantum mechanics, the Schrödinger equation takes the following form in Dirac notation, <span class="math display">\[\hat{h} \ket{\psi} = \varepsilon \ket{\psi}\]</span> where</p>
+<ul>
+<li><span class="math inline">\(\hat{h}\)</span> is the single-particle Hamiltonian operator,</li>
+<li><span class="math inline">\(\ket{\psi}\)</span> is a state vector, and</li>
+<li><span class="math inline">\(\varepsilon\)</span> is the energy of the state.</li>
+</ul>
+<p>The state <span class="math inline">\(\ket{\psi}\)</span> is an abstract ket vector that lives in the Hilbert space <span class="math inline">\(\mathbb{H}\)</span> of the single-particle system. More concretely, we can also represent the state vector by a wave function <span class="math inline">\(\psi\)</span> <span class="math display">\[\ket{\psi} \leftrightarrow \psi(x)\]</span> where <span class="math inline">\(x\)</span> stands for all degrees of freedom of the particle. For example, an electron with spin in three-dimensional space would have <span class="math inline">\(x = (r_1, r_2, r_3, m_{\mathrm{s}})\)</span>, where <span class="math inline">\((r_1, r_2, r_3)\)</span> are the three spatial coordinates and <span class="math inline">\(m_{\mathrm{s}}\)</span> is the spin projection quantum number.</p>
+<p>To treat systems of multiple particles, one may add additional variables to the wave function to represent the degrees of freedom of the additional particles, that is, <span class="math display">\[\ket{\Psi} \leftrightarrow \Psi(x_1, \ldots, x_N)\]</span> where</p>
+<ul>
+<li><span class="math inline">\(\ket{\Psi}\)</span> is an <span class="math inline">\(N\)</span>-particle state,</li>
+<li><span class="math inline">\(\Psi\)</span> is its corresponding wave function,</li>
+<li><span class="math inline">\(N\)</span> is the number of particles, and</li>
+<li><span class="math inline">\(x_\alpha\)</span> represents the degrees of freedom of the <span class="math inline">\(\alpha\)</span>-th particle.</li>
+</ul>
+<p>With more than one particle, the Schrödinger equation remains conceptually the same, <span class="math display">\[\hat{H} \ket{\Psi} = E \ket{\Psi}\]</span> but there are many more degrees of freedom and thus more variables. Here, <span class="math inline">\(\hat{H}\)</span> is the <span class="math inline">\(N\)</span>-particle Hamiltonian operator and <span class="math inline">\(E\)</span> is the energy of the <span class="math inline">\(N\)</span>-particle state.</p>
+<h3 id="sec:prod-state"><span class="header-section-number">6.1.1</span> Product states</h3>
+<p>The simplest multi-particle system that can be solved is that of a non-interacting Hamiltonian of <span class="math inline">\(N\)</span> homogeneous particles, <span class="math display">\[\hat{H}_N^\circ = \sum_{\alpha = 1}^N \hat{h}(\hat{x}_\alpha, \hat{k}_\alpha)\]</span> where <span class="math inline">\(\hat{h}(\hat{x}_\alpha, \hat{k}_\alpha)\)</span> is some single-particle Hamiltonian with position <span class="math inline">\(\hat{x}_\alpha\)</span> and momentum<a href="many-body-theory.html#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> <span class="math inline">\(\hat{k}_\alpha = -\I \hat{\nabla}_\alpha\)</span> of the <span class="math inline">\(\alpha\)</span>-th particle. We assume its single-particle Schrödinger equation has a known set of solutions, <span class="math display">\[\hat{h}(\hat{x}, \hat{k}) \ket{p} = \varepsilon_p \ket{p}\]</span> These solutions form a set of <strong>single-particle basis states</strong> for the single-particle Hilbert space <span class="math inline">\(\mathbb{H}\)</span>, <span class="math display">\[\ket{p} \leftrightarrow \varphi_p(x)\]</span> each with energy <span class="math inline">\(\varepsilon_p\)</span> and labeled by the quantum numbers <span class="math inline">\(p\)</span>. For example, if <span class="math inline">\(\hat{h}\)</span> is a single-electron atomic system, then we can choose <span class="math inline">\(p = (n, l, m_\ell, m_{\mathrm{s}})\)</span>, which are the four conventional quantum numbers for atomic orbitals. The single-particle basis states <span class="math inline">\(\ket{p}\)</span> would simply be the standard atomic orbital states.</p>
+<p>From the single-particle basis, we can define a set of <span class="math inline">\(N\)</span>-particle wave functions <span class="math display">\[\ket{p_1 \otimes \cdots \otimes p_N} \leftrightarrow \Phi_{p_1 \otimes \cdots \otimes p_N}(x_1, \ldots, x_N)\]</span> via the tensor product construction<a href="many-body-theory.html#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> <span class="math display">\[\begin{gather*}
+  \ket{p_1 \otimes p_2} = \ket{p_1} \otimes \ket{p_2} \\
+  \ket{p_1 \otimes p_2 \otimes p_3} = \ket{p_1} \otimes \ket{p_2} \otimes \ket{p_3} \\
+  \ket{p_1 \otimes \cdots \otimes p_N} = \bigotimes_{\alpha = 1}^N \ket{p_\alpha}
+\end{gather*}\]</span> In terms of wave functions, this is equivalent to the definition <span class="math display">\[\begin{gather*}
+  \Phi_{p_1 \otimes p_2}(x_1, x_2) = \varphi_{p_1}(x_1) \varphi_{p_2}(x_2) \\
+  \Phi_{p_1 \otimes p_2 \otimes p_3}(x_1, x_2, x_3) = \varphi_{p_1}(x_1) \varphi_{p_2}(x_2) \varphi_{p_3}(x_3) \\
+  \Phi_{p_1 \otimes \cdots \otimes p_N}(x_1, \ldots, x_N) = \prod_{\alpha = 1}^N \varphi_{p_\alpha}(x_\alpha)
+\end{gather*}\]</span> These <strong>product states</strong> (also known as <strong>Hartree products</strong>) are eigenstates of the many-body Schrödinger equation and form an orthonormal basis for the <span class="math inline">\(N\)</span>-particle Hilbert space <span class="math inline">\(\mathbb{H}^N\)</span> of the non-interacting <span class="math inline">\(N\)</span>-particle Hamiltonian <span class="math inline">\(\hat{H}_N^\circ\)</span>.</p>
+<p>Formally, <span class="math inline">\(\mathbb{H}^N\)</span> is defined as the <span class="math inline">\(N\)</span>-th tensor power of the single-particle vector spaces<a href="many-body-theory.html#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> <span class="math display">\[\mathbb{H}^N = \bigotimes_{\alpha = 1}^N \mathbb{H}\]</span> Each product state is labeled by the tuple <span class="math inline">\((p_1, \ldots, p_N)\)</span> and has the following energy in this non-interacting system: <span class="math display">\[E^\circ_{p_1 \otimes \ldots \otimes p_N} = \sum_{\alpha = 1}^N \varepsilon_{p_\alpha}\]</span> If we consider the special case <span class="math inline">\(N = 0\)</span>, a system with no particles, we find that the tensor product Hilbert space <span class="math inline">\(\mathbb{H}^0\)</span> has precisely one basis state,<a href="many-body-theory.html#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> which we call the <strong>(physical) vacuum state</strong> <span class="math inline">\(\ket{\varnothing}\)</span>.</p>
+<p>Although the product states form a basis, they span both states in which particles are distinguishable as well as states in which particles are not distinguishable. Thus, unconstrained use of product states would violate the key principle of quantum mechanics that particles are indistinguishable.</p>
+<p>Mathematically, indistinguishability means that, under particle exchange, the wave function may only differ by a phase factor <span class="math inline">\(s\)</span>. Consider, say, the exchange of a two-particle wave function <span class="math inline">\(\Psi\)</span>, <span class="math display">\[\Psi(x_2, x_1) = \pm\Psi(x_1, x_2)\]</span></p>
+<ul>
+<li>For bosons, the phase factor <span class="math inline">\(s = +1\)</span>. This means the state is symmetric under particle exchange.</li>
+<li>For fermions, the phase factor <span class="math inline">\(s = -1\)</span>. This means the state is antisymmetric under exchange.</li>
+</ul>
+<p>To extract the relevant states, we need to either symmetrize or antisymmetrize the product states.</p>
+<h3 id="sec:symmetrization"><span class="header-section-number">6.1.2</span> Symmetrization and antisymmetrization</h3>
+<p>A mathematical object <span class="math inline">\(X_{a b}\)</span> is said to be <strong><span class="math inline">\(\pm\)</span>-symmetric</strong> in the variables <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> if <span class="math display">\[X_{a b} = \pm X_{b a}\]</span> Note that:</p>
+<ul>
+<li><em><span class="math inline">\(+\)</span>-symmetric</em> is more commonly known as <em>symmetric</em> (without any qualification).</li>
+<li><em><span class="math inline">\(-\)</span>-symmetric</em> is more commonly known as <em>antisymmetric</em> or <em>skew-symmetric</em>.</li>
+</ul>
+<p>Objects with more than two variables may be <span class="math inline">\(\pm\)</span>-symmetric in many combinations of variables. In particular, if it is <span class="math inline">\(\pm\)</span>-symmetric for every pair of variables in <span class="math inline">\(a_1 \ldots a_n\)</span>, then it is said to be <strong>fully <span class="math inline">\(\pm\)</span>-symmetric</strong> in <span class="math inline">\(a_1 \ldots a_n\)</span>.</p>
+<p>If an object is not fully <span class="math inline">\(\pm\)</span>-symmetric, we can make it so using the <strong><span class="math inline">\(\pm\)</span>-symmetrization symbol</strong> <span class="math inline">\(\symm^\pm\)</span>, defined as <span class="math display">\[\begin{gather*}
+  \symm^\pm_\varnothing X = X \\
+  \symm^\pm_a X_a = X_a \\
+  \symm^\pm_{a b} X_{a b} = \frac{1}{2} (X_{a b} \pm X_{b a}) \\
+  \symm^\pm_{a b c} X_{a b c} = \frac{1}{6} (X_{a b c} \pm X_{b a c} + X_{b c a} \pm X_{c b a} + X_{c a b} \pm X_{a c b}) \\
+  \symm^\pm_{a_1 \ldots a_n} X_{a_1 \ldots a_n} = \frac{1}{N!} \sum_{\sigma \in S_n} (\pm)^\sigma X_{\sigma(a_1 \ldots a_n)}
+\end{gather*}\]</span> where</p>
+<ul>
+<li><span class="math inline">\(X_{a_1 \ldots a_n}\)</span> is an arbitrary formula with free variables <span class="math inline">\(a_1, \ldots, a_n\)</span>,</li>
+<li><span class="math inline">\(S_n\)</span> is the symmetric group, which contains all possible permutations of <span class="math inline">\(n\)</span> objects,</li>
+<li><span class="math inline">\((-)^\sigma = \operatorname{sgn}(\sigma)\)</span>, i.e. the sign of the permutation <span class="math inline">\(\sigma\)</span>,</li>
+<li><span class="math inline">\((+)^\sigma = 1\)</span>, and</li>
+<li><span class="math inline">\(\sigma(a_1 \ldots a_n)\)</span> applies the permutation <span class="math inline">\(\sigma\)</span> to the sequence of indices <span class="math inline">\(a_1 \ldots a_n\)</span>.</li>
+</ul>
+<p>We will often use the abbreviations <span class="math inline">\(\symm = \symm^+\)</span> and <span class="math inline">\(\antisymm = \symm^-\)</span>. We will also sometimes use the shorthand <span class="math display">\[\symm^{(i)} = \symm^{(-)^i} = \begin{cases}
+  \symm^+ &amp; \text{if } i \text{ is even} \\
+  \symm^- &amp; \text{if } i \text{ is odd} \\
+\end{cases}\]</span></p>
+<p>Note that the <span class="math inline">\(\pm\)</span>-symmetrization symbol <span class="math inline">\(\symm^\pm\)</span> is merely a notational shorthand, much like the summation symbol <span class="math inline">\(\sum\)</span>. It is not a quantum operator, but we can use it to define one. Let us introduce the <strong><span class="math inline">\(N\)</span>-particle <span class="math inline">\(\pm\)</span>-symmetrizer</strong> <span class="math inline">\(\hat{S}^\pm_N\)</span>, an operator defined as<a href="many-body-theory.html#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> <span class="math display">\[\begin{gather*}
+  \hat{S}^\pm_0 \ket{\varnothing} = \ket{\varnothing} \\
+  \hat{S}^\pm_1 \ket{p} = \ket{p} \\
+  \hat{S}^\pm_2 \ket{p_1 \otimes p_2} = \frac{\ket{p_1 \otimes p_2} \pm \ket{p_2 \otimes p_1}}{2} \\
+  \hat{S}^\pm_3 \ket{p_1 \otimes p_2 \otimes p_3} = \frac{\ket{p_1 \otimes p_2 \otimes p_3} \pm \ket{p_2 \otimes p_1 \otimes p_3} + \ket{p_2 \otimes p_3 \otimes p_1} \pm \cdots}{6} \\
+  \hat{S}^\pm_N \ket{p_1 \otimes \cdots \otimes p_N} = \symm^\pm_{p_1 \ldots p_N} \ket{p_1 \otimes \cdots \otimes p_N}
+\end{gather*}\]</span> Despite the involvement of a specific single-particle basis <span class="math inline">\(\ket{p}\)</span> in the definition of <span class="math inline">\(\hat{S}^\pm_N\)</span>, one can show that the operator is actually independent of the basis choice.</p>
+<p>The <span class="math inline">\(\hat{S}^\pm_N\)</span> operator is idempotent and therefore a projection operator. It projects the <span class="math inline">\(N\)</span>-particle Hilbert space <span class="math inline">\(\mathbb{H}^N\)</span> to the <span class="math inline">\(\pm\)</span>-symmetric subspace of <span class="math inline">\(\mathbb{H}^N\)</span>. By abuse of notation, we will denote this subspace <span class="math inline">\(\hat{S}^\pm_N(\mathbb{H}^N)\)</span>.</p>
+<p>We can now define <span class="math inline">\(N\)</span>-particle <strong><span class="math inline">\(\pm\)</span>-symmetrized states</strong> in terms of product states, <span class="math display">\[\begin{gather*}
+  \ket{p_1 p_2}^\pm = \sqrt{\frac{2}{C_{p_1 p_2}}} \hat{S}^\pm_2 \ket{p_1 \otimes p_2} = \frac{\ket{p_1 \otimes p_2} \pm \ket{p_2 \otimes p_1}}{\sqrt{2 (1 + \delta_{p_1 p_2})}} \\
+  \ket{p_1 p_2 p_3}^\pm = \sqrt{\frac{6}{C_{p_1 p_2 p_3}}} \hat{S}^\pm_3 \ket{p_1 \otimes p_2 \otimes p_3} \\
+  \ket{p_1 \ldots p_N}^\pm = \sqrt{\frac{N!}{C_{p_1 \ldots p_N}}} \hat{S}^\pm_N \ket{p_1 \otimes \cdots \otimes p_N}
+\end{gather*}\]</span> where <span class="math inline">\(\delta_{a b}\)</span> denotes the Kronecker delta, and <span id="eq:compensating-factor"><span class="math display">\[C_{p_1 \ldots p_N} = \prod_p n_p!\qquad(1)\]</span></span> is a factor that compensates for overcounting due to multiple particles occupying the same state. Here, <span class="math inline">\(n_p\)</span> is the <strong>occupation number</strong> of the single-particle state <span class="math inline">\(\ket{p}\)</span>, which counts the number of times that <span class="math inline">\(p\)</span> appears in the list <span class="math inline">\(p_1 \ldots p_N\)</span>. In the case of fermions, <span class="math inline">\(n_p\)</span> can never be more than one due to the Pauli exclusion principle, and so <span class="math inline">\(C_{p_1 \ldots p_N}\)</span> is always one.</p>
+<p>Given a <span class="math inline">\(\pm\)</span>-symmetric state <span class="math inline">\(\ket{p_1 \ldots p_N}^\pm\)</span>, the particles are said to <strong>occupy</strong> the single-particle states <span class="math inline">\(\ket{p_1}, \ldots, \ket{p_N}\)</span>. Any remaining unused single-particle states are said to be <strong>unoccupied</strong>.</p>
+<p>These states are solutions of the non-interacting Hamiltonian <span class="math inline">\(\hat{H}^\circ\)</span> and they form an orthonormal basis for the <span class="math inline">\(N\)</span>-particle <span class="math inline">\(\pm\)</span>-symmetric Hilbert space <span class="math inline">\(\hat{S}^\pm_N(\mathbb{H}^N)\)</span>. Symmetric states are associated with bosons, and antisymmetric states are associated with fermions. Notationally, we distinguish <span class="math inline">\(\pm\)</span>-symmetrized states from product states by the absence of the <span class="math inline">\(\otimes\)</span> symbol in the ket.</p>
+<p>In the case of fermions, antisymmetrized states are also known as <strong>Slater determinants</strong>, because their wave functions <span class="math display">\[\ket{p_1 \ldots p_N}^- \leftrightarrow \Phi^-_{p_1 \ldots p_N}(x_1, \ldots, x_N)\]</span> can be written as a matrix determinant <span class="math display">\[\Phi^-_{p_1 \ldots p_N}(x_1, \ldots, x_N) =
+  \frac{1}{\sqrt{N!}}
+  \begin{vmatrix}
+    \varphi_{p_1}(x_1) &amp; \cdots &amp; \varphi_{p_N}(x_1) \\
+    \vdots &amp; \ddots &amp; \vdots \\
+    \varphi_{p_1}(x_N) &amp; \cdots &amp; \varphi_{p_N}(x_N) \\
+  \end{vmatrix}\]</span> Slater determinants are guaranteed to satisfy the Pauli exclusion principle. One cannot construct a state in which two particles share the same single-particle state as such states are always projected to zero by the antisymmetrizer.</p>
+<h2 id="sec:second-quantization"><span class="header-section-number">6.2</span> Second quantization</h2>
+<p>In everything we have discussed so far, the number of particles <span class="math inline">\(N\)</span> always appears as an explicit parameter. We will now shift toward the <strong>second quantization</strong> formalism, which avoids explicit mention of <span class="math inline">\(N\)</span> by treating all values of <span class="math inline">\(N\)</span> simultaneously. This offers significant simplifications to the mathematics at the cost of adding a new layer of abstraction. The prior formalism will henceforth be known as <strong>first quantization</strong>.</p>
+<p>The first step is to direct sum all of the <span class="math inline">\(N\)</span>-particle <span class="math inline">\(\pm\)</span>-symmetric Hilbert spaces <span class="math inline">\(\hat{S}^\pm_N(\mathbb{H}^N)\)</span> into a unified space, through the so-called <strong>Fock space construction</strong>, <span class="math display">\[\mathbb{F}^\pm = \bigoplus_{N = 0}^\infty \hat{S}^\pm_N(\mathbb{H}^N) = \mathbb{H}^0 \oplus \mathbb{H} \oplus \hat{S}^\pm_2 (\mathbb{H} \otimes \mathbb{H}) \oplus \hat{S}^\pm_3(\mathbb{H} \otimes \mathbb{H} \otimes \mathbb{H}) \oplus \cdots\]</span> Here, <span class="math inline">\(\mathbb{F}^\pm\)</span> is the <strong><span class="math inline">\(\pm\)</span>-symmetric Fock space</strong>.</p>
+<p>Next, we introduce a set of creation and annihilation operators, collectively known as the <strong>(physical) field operators</strong>, which serve to connect each <span class="math inline">\(N\)</span>-particle Hilbert space to an adjacent <span class="math inline">\(N \pm 1\)</span>-particle Hilbert space. The field operators are dependent on the choice of <span class="math inline">\(\pm\)</span>-symmetry but we opt to suppress this detail for clarity.</p>
+<p>The <strong>annihilation operator</strong> for the single-particle state <span class="math inline">\(\ket{p}\)</span> is denoted <span class="math inline">\(\hat{a}_p\)</span> and has the effect of removing one of the particles that occupy the <span class="math inline">\(\ket{p}\)</span> state, <span class="math display">\[\hat{a}_p \ket{p p_1 \ldots p_N}^\pm = \sqrt{n_p} \ket{p_1 \ldots p_N}^\pm\]</span> where <span class="math inline">\(n_p\)</span> denotes the occupation number of <span class="math inline">\(\ket{p}\)</span> in <span class="math inline">\(\ket{p p_1 \ldots p_N}^\pm\)</span>, i.e. the number of occurrences of <span class="math inline">\(p\)</span> in <span class="math inline">\(p p_1 \ldots p_N\)</span>. In particular, if <span class="math inline">\(\ket{p}\)</span> is not occupied in a state <span class="math inline">\(\ket{\Phi}^\pm\)</span>, then the operator collapses it to zero, <span class="math display">\[\hat{a}_p \ket{\Phi}^\pm = 0\]</span></p>
+<p>The <strong>creation operator</strong> for the single-particle state <span class="math inline">\(\ket{p}\)</span> is denoted <span class="math inline">\(\hat{a}_p^{\dagger}\)</span> and is the Hermitian adjoint of <span class="math inline">\(\hat{a}_p\)</span>. It has the effect of adding a new particle that occupies the <span class="math inline">\(\ket{p}\)</span> state, <span class="math display">\[\hat{a}_p^\dagger \ket{p_1 \ldots p_N}^\pm = \sqrt{1 \pm n_p} \ket{p p_1 \ldots p_N}^\pm\]</span> where <span class="math inline">\(n_p\)</span> denotes the occupation number of <span class="math inline">\(\ket{p}\)</span> in <span class="math inline">\(\ket{p_1 \ldots p_N}^\pm\)</span>. For fermions, if <span class="math inline">\(\ket{p}\)</span> is already occupied, then the operator collapses it to zero, <span class="math display">\[\hat{a}_p^\dagger \ket{p p_1 \ldots p_N}^- = 0\]</span></p>
+<p>A <span class="math inline">\(\pm\)</span>-symmetric state can be constructed by a chain of creation operators applied to the vacuum state <span class="math inline">\(\ket{\varnothing}\)</span>, <span class="math display">\[\ket{p_1 \ldots p_N} = \frac{\hat{a}_{p_1}^\dagger \ldots \hat{a}_{p_N}^\dagger \ket{\varnothing}}{\sqrt{C_{p_1 \ldots p_N}}}\]</span> where <span class="math inline">\(C_{p_1 \ldots p_N}\)</span> is the compensating factor defined in Eq. <a href="many-body-theory.html#eq:compensating-factor">1</a>. From the <span class="math inline">\(\pm\)</span>-symmetry of the the state, we obtain the commutation relations that define the essential behavior of field operators: <span class="math display">\[\begin{align*}
+  [\hat{a}_{p_1}, \hat{a}_{p_2}^\dagger]_\mp &amp;= \delta_{p_1 p_2} &amp;
+  [\hat{a}_{p_1}, \hat{a}_{p_2}]_\mp &amp;= [\hat{a}_{p_1}^\dagger, \hat{a}_{p_2}^\dagger]_\mp = 0
+\end{align*}\]</span> where</p>
+<ul>
+<li><span class="math inline">\([\hat{X}, \hat{Y}]_- = [\hat{X}, \hat{Y}]\)</span> denotes the commutator, chosen for symmetric states, and</li>
+<li><span class="math inline">\([\hat{X}, \hat{Y}]_+ = \{\hat{X}, \hat{Y}\}\)</span> denotes the anticommutator, chosen for antisymmetric states.</li>
+</ul>
+<h2 id="sec:many-body-oper"><span class="header-section-number">6.3</span> Many-body operators</h2>
+<p>From this section onward, we will focus mainly on fermions, so all field operators will be anticommuting.</p>
+<p>Given a set of <span class="math inline">\(N\)</span>-particle operators <span class="math inline">\(\hat{Q}_N\)</span> acting on the <span class="math inline">\(N\)</span>-particle Hilbert space, we can direct sum all of them to form a particle-number-agnostic operator <span class="math inline">\(\hat{Q}\)</span> that acts on the entire Fock space, <span class="math display">\[\hat{Q} = \bigoplus_{N = 0}^\infty \hat{Q}_N\]</span> This can be applied to any operator from first quantization, including the <span class="math inline">\(\pm\)</span>-symmetrizer <span class="math inline">\(\hat{S}^\pm_N \mapsto \hat{S}^\pm\)</span> and the Hamiltonian <span class="math inline">\(\hat{H}_N \mapsto \hat{H}\)</span>.</p>
+<p>Many-body operators are classified by <strong>rank</strong>, which determines the maximum number of particles that the operator can couple at any given instant. A rank-<span class="math inline">\(k\)</span> operator is more conventionally known as a <strong><span class="math inline">\(k\)</span>-body operator</strong>.</p>
+<h3 id="zero-body-operators"><span class="header-section-number">6.3.1</span> Zero-body operators</h3>
+<p>The most trivial kind of operator are <strong>zero-body operators</strong>, which multiplies a state by a number. Formally, we can write a zero-body operator <span class="math inline">\(\hat{Z}\)</span> in the form <span class="math display">\[\hat{Z} = Z \hat{1}\]</span> where <span class="math inline">\(Z\)</span> a complex number and <span class="math inline">\(\hat{1}\)</span> is the identity operator, but for simplicity, it suffices to call <span class="math inline">\(Z\)</span> itself the “operator” as the distinction between <span class="math inline">\(\hat{Z}\)</span> and <span class="math inline">\(Z\)</span> is largely irrelevant. The value of <span class="math inline">\(Z\)</span> can be inferred from its expectation value in the vacuum state, <span class="math display">\[Z = \bra{\varnothing} Z \ket{\varnothing}\]</span> although its expectation value in any state will still yield the same result. They do not contribute anything if the bra and ket states differ.</p>
+<h3 id="one-body-operators"><span class="header-section-number">6.3.2</span> One-body operators</h3>
+<p>The next simplest kind of operator are <strong>one-body operators</strong>, which are of the form <span class="math display">\[\hat{T} = \sum_{p q} T_{p q} \hat{a}_p^\dagger \hat{a}_q\]</span> where <span class="math inline">\(T_{p q}\)</span> defines a matrix of complex numbers indexed by <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, known as the <strong>matrix elements</strong> of <span class="math inline">\(\hat{T}\)</span>. In first quantization, one-body operators are of the form, <span class="math display">\[\hat{T}_N = \sum_{\alpha = 1}^N \hat{t}(\hat{x}_\alpha, \hat{k}_\alpha)\]</span> Kinetic energy and external potentials are examples of such operators. The matrix elements of such operators may be obtained via the integral, <span class="math display">\[T_{p q} = \bra{p} \hat{T} \ket{q} = \int \varphi_p^*(x) \hat{t} \varphi_q(x) \D x\]</span> One-body operators have two notable properties:</p>
+<ul>
+<li>Their expectation value in the vacuum state is zero: <span class="math display">\[\bra{\varnothing} \hat{T} \ket{\varnothing} = 0\]</span></li>
+<li>They do not contribute if the bra and ket states differ in more than one single-particle state. That is, unless the set intersection <span class="math inline">\(\{p_1, \ldots, p_N\} \cap \{q_1, \ldots, q_N\}\)</span> has at least <span class="math inline">\(N - 1\)</span> elements, then <span class="math display">\[\bra{p_1 \cdots p_N} \hat{T} \ket{q_1 \cdots q_N} = 0\]</span></li>
+</ul>
+<h3 id="two-body-operators"><span class="header-section-number">6.3.3</span> Two-body operators</h3>
+<p><strong>Two-body operators</strong> take the form<a href="many-body-theory.html#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> <span id="eq:two-body-operator"><span class="math display">\[\hat{V} = \frac{1}{4} \sum_{p q r s} V_{p q r s} \hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r = \frac{1}{4} \sum_{p q r s} V_{p q r s} \hat{a}_p^\dagger \hat{a}_r \hat{a}_q^\dagger \hat{a}_s\qquad(2)\]</span></span> where <span class="math inline">\(V_{p q r s}\)</span> denotes an <strong>antisymmetrized matrix element</strong> of <span class="math inline">\(\hat{V}\)</span>. Such matrix elements have the following symmetry properties, <span class="math display">\[V_{p q r s} = \antisymm_{p q} \antisymm_{r s} V_{p q r s} \quad \leftrightarrow \quad V_{p q r s} = -V_{q p r s} = V_{q p s r} = -V_{p q s r}\]</span> In first quantization, two-body operators are of the form, <span class="math display">\[\hat{V}_N = \frac{1}{2} \sum_{\alpha = 1}^N \sum_{\beta = 1}^N \hat{v}(\hat{x}_\alpha, \hat{x}_\beta, \hat{k}_\alpha, \hat{k}_\beta)\]</span> Interactions, such as the Coulomb interactions, are two-body (or higher) operators. The matrix elements of such operators may be obtained via <span class="math display">\[V_{p q r s} = \bra{p q} \hat{V} \ket{r s} = 2 \antisymm_{r s} V^\otimes_{p q r s}\]</span> where <span class="math display">\[V^\otimes_{p q r s} = \bra{p \otimes q} \hat{V} \ket{r \otimes s} = \iint \varphi_p^*(x_1) \varphi_q^*(x_2) \hat{v} \varphi_r(x_1) \varphi_s(x_2) \D x_1 \D x_2\]</span> are the <strong>non-antisymmetrized matrix elements</strong> of <span class="math inline">\(\hat{V}\)</span>, which may considered matrix elements in the product state basis. These matrix elements have a weaker symmetry, <span class="math display">\[V^\otimes_{p q r s} = \symm_{(p, r) (q, s)} V^\otimes_{p q r s}\]</span> In other words, <span class="math inline">\(V^\otimes_{p q r s} = V^\otimes_{q p s r}\)</span>. This arises from the indistinguishability of particles.</p>
+<p>Two-body operators have two notable properties:</p>
+<ul>
+<li>Matrix elements of states with one or fewer particles vanish: <span class="math display">\[\begin{align*}
+  \bra{\varnothing} \hat{V} \ket{\varnothing} &amp;= 0 &amp;
+  \bra{p} \hat{V} \ket{q} &amp;= 0
+\end{align*}\]</span></li>
+<li>They do not contribute if the bra and ket states differ in more than two single-particle states. That is, unless the set intersection <span class="math inline">\(\{p_1, \ldots, p_N\} \cap \{q_1, \ldots, q_N\}\)</span> has at least <span class="math inline">\(N - 2\)</span> elements, then <span class="math display">\[\bra{p_1 \cdots p_N} \hat{V} \ket{q_1 \cdots q_N} = 0\]</span></li>
+</ul>
+<h3 id="three-body-operators-and-beyond"><span class="header-section-number">6.3.4</span> Three-body operators and beyond</h3>
+<p>Three-body and, more generally, <span class="math inline">\(k\)</span>-body operators take the form<a href="many-body-theory.html#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> <span class="math display">\[\begin{gather*}
+  \hat{W} = \frac{1}{36} \sum_{p q r s t u} W_{p q r s t u} \hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_u \hat{a}_t \hat{a}_s = \frac{1}{36} \sum_{p q r s t u} W_{p q r s t u} \hat{a}_p^\dagger \hat{a}_s \hat{a}_q^\dagger \hat{a}_t \hat{a}_r^\dagger \hat{a}_u \\
+  \begin{aligned}
+    \hat{X}
+    &amp;= \frac{1}{k!^2} \sum_{p_1 \ldots p_k q_1 \ldots q_k} X_{p_1 \ldots p_k q_1 \ldots q_k} \hat{a}_{p_1}^\dagger \ldots \hat{a}_{p_k}^\dagger \hat{a}_{q_k} \ldots \hat{a}_{q_1} \\
+    &amp;= \frac{1}{k!^2} \sum_{p_1 \ldots p_k q_1 \ldots q_k} X_{p_1 \ldots p_k q_1 \ldots q_k} (\hat{a}_{p_1}^\dagger \hat{a}_{q_1}) \ldots (\hat{a}_{p_k}^\dagger \hat{a}_{q_k})
+  \end{aligned}
+\end{gather*}\]</span> with non-antisymmetrized matrix elements <span class="math display">\[\begin{gather*}
+  W^\otimes_{p q r s t u} = \langle p \otimes q \otimes r | \hat{W} | s \otimes t \otimes u \rangle \\
+  X^\otimes_{p_1 \ldots p_k q_1 \ldots q_k} = \langle p_1 \otimes \cdots \otimes p_k | \hat{X} | q_1 \otimes \cdots \otimes q_k \rangle
+\end{gather*}\]</span> and antisymmetrized matrix elements <span class="math display">\[\begin{gather*}
+  W_{p q r s t u} = \langle p q r | \hat{W} | s t u \rangle = 6 \antisymm_{s t u}  W^\otimes_{p q r s t u} \\
+  X_{p_1 \ldots p_k q_1 \ldots q_k} = \langle p_1 \ldots p_k | \hat{X} | q_1 \ldots q_k \rangle = k! \antisymm_{q_1 \ldots q_k}  X^\otimes_{p_1 \ldots p_k q_1 \ldots q_k}
+\end{gather*}\]</span> and symmetries <span class="math display">\[\begin{gather*}
+  W^\otimes_{p q r s t u} = \symm_{(p, s) (q, t) (r, u)} W^\otimes_{p q r s t u} \\
+  X^\otimes_{p_1 \ldots p_k q_1 \ldots q_k} = \symm_{(p_1, q_1) \ldots (p_k, q_k)} X^\otimes_{p_1 \ldots p_k q_1 \ldots q_k} \\
+  W_{p q r s t u} = \antisymm_{p q r} \antisymm_{s t u} W_{p q r s t u} \\
+  X_{p_1 \ldots p_k q_1 \ldots q_k} = \antisymm_{p_1 \ldots p_k} \antisymm_{q_1 \ldots q_k} X_{p_1 \ldots p_k q_1 \ldots q_k}
+\end{gather*}\]</span></p>
+<p><span class="math inline">\(k\)</span>-body operators have two notable properties:</p>
+<ul>
+<li>Matrix elements of states with one or fewer particles vanish. That is, if <span class="math inline">\(m &lt; k\)</span>, then <span class="math display">\[\bra{p_1 \ldots p_m} \hat{X} \ket{q_1 \ldots q_m} = 0\]</span></li>
+<li>They do not contribute if the bra and ket states differ in more than <span class="math inline">\(k\)</span> single-particle states. That is, unless the set intersection <span class="math inline">\(\{p_1, \ldots, p_N\} \cap \{q_1, \ldots, q_N\}\)</span> has at least <span class="math inline">\(N - k\)</span> elements, then <span class="math display">\[\bra{p_1 \cdots p_N} \hat{X} \ket{q_1 \cdots q_N} = 0\]</span></li>
+</ul>
+<h2 id="sec:ph-formalism"><span class="header-section-number">6.4</span> Particle-hole formalism</h2>
+<p>Any state in Fock space can be described by a chain of creation operators applied to the vacuum state. In many-body systems, the number of particles can be quite large, leading to long chains of creation operators.</p>
+<p>Instead of starting from scratch (i.e. vacuum state), it can be more convenient to start from a pre-existing <span class="math inline">\(N\)</span>-particle Slater determinant <span class="math inline">\(|\Phi\rangle\)</span>, called the <strong>reference state</strong>, <span class="math display">\[|\Phi\rangle = \hat{a}_{p_1}^\dagger \cdots \hat{a}_{p_N}^\dagger |\varnothing\rangle\]</span> Then, to access other states we would create and/or annihilate particles relative to the reference state. For example, <span class="math display">\[\hat{a}_p^\dagger \hat{a}_{p_1} |\Phi\rangle = \hat{a}_p^\dagger \hat{a}_{p_2}^\dagger \cdots \hat{a}_{p_N}^\dagger |\varnothing\rangle\]</span></p>
+<p>In addition to simplifying the algebra, this also provides a coarse measure of “distance” from the reference state, quantified by the number of field operators applied to the reference state that is needed.</p>
+<p>Formally, we can construct a set of <strong>quasiparticle (particle-hole) field operators</strong> <span class="math inline">\(\hat{b}_p^\dagger\)</span> and <span class="math inline">\(\hat{b}_p\)</span>, <span class="math display">\[\hat{b}_p = \begin{cases}
+  \hat{a}_p &amp; \text{if $p$ is unoccupied in the reference state} \\
+  \hat{a}_p^\dagger &amp; \text{if $p$ is occupied in the reference state}
+\end{cases}\]</span> In this context, <span class="math inline">\(\hat{b}_p^\dagger\)</span> applied to an occupied state <span class="math inline">\(p\)</span> is said to <em>create</em> a <strong>hole state</strong>, whereas <span class="math inline">\(\hat{b}_p^\dagger\)</span> applied to an unoccupied state <span class="math inline">\(p\)</span> is said to create a <strong>particle state</strong>. These operators define the so-called <strong>particle-hole formalism</strong>.</p>
+<p>The quasiparticle operators have an algebra analogous to the original field operators <span class="math inline">\(\hat{a}_p^\dagger\)</span> and <span class="math inline">\(\hat{a}_p\)</span>: <span class="math display">\[\begin{align*}
+  \anticomm{\hat{b}_p, \hat{b}_q^\dagger} &amp;= \delta_{p q} &amp;
+  \anticomm{\hat{b}_p, \hat{b}_q} = \anticomm{\hat{b}_p^\dagger, \hat{b}_q^\dagger} &amp;= 0 &amp;
+  \hat{b}_p \ket{\Phi} = 0
+\end{align*}\]</span> The quasiparticle field operators treat <span class="math inline">\(\ket{\Phi}\)</span> as their “vacuum” state, similar to how original field operators treat <span class="math inline">\(\ket{\varnothing}\)</span> as their vacuum state. For this reason, the reference state <span class="math inline">\(\ket{\Phi}\)</span> is also known as a <strong>Fermi vacuum</strong>.</p>
+<p>So far, we have used the letters <span class="math inline">\(p\)</span>, <span class="math inline">\(q\)</span>, <span class="math inline">\(r\)</span>, … to label single-particle states, which contain both hole and particle states relative to the Fermi vacuum. We will continue to use this convention. It is often convenient to sum over only hole states, or only particle states. To this end, we introduce a convention where <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span>, … are used to label hole states and <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, … label particle states. We also introduce a special notation for <strong>summation over holes and particles</strong>: <span id="eq:ph-summation"><span class="math display">\[\sum_{i j k \ldots \backslash a b c \ldots} \cdots\qquad(3)\]</span></span> The backslash serves as an additional reminder that <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span>, … should be summed over hole states only, and <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, … should be summed over particle states only.</p>
+<p>In this formalism, we use the following concise notation to denote states near the reference state, <span class="math display">\[\ket{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} = \hat{b}_{a_1}^\dagger \ldots \hat{b}_{a_k}^\dagger \hat{b}_{i_k}^\dagger \ldots \hat{b}_{i_1}^\dagger \ket{\Phi} = \hat{a}_{a_1}^\dagger \ldots \hat{a}_{a_k}^\dagger \hat{a}_{i_k} \ldots \hat{a}_{i_1} \ket{\Phi}\]</span> Note that although this state has <span class="math inline">\(2 k\)</span> quasi-particles, it still has exactly <span class="math inline">\(N\)</span> physical particles, because the particles and holes cancel out exactly. We also introduce a shorthand for its energy, <span class="math display">\[E_{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} = \bra{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} \hat{H} \ket{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}}\]</span></p>
+<h2 id="sec:normord"><span class="header-section-number">6.5</span> Normal ordering</h2>
+<p>We say a product of field operators is in <strong>normal order</strong> if all creation operators appear before all annihilation operators.</p>
+<p>More generally, we may define normal ordering to be an arbitrarily chosen total order subject to the constraint that if both <span class="math inline">\(\hat{\alpha} \hat{\beta}\)</span> and <span class="math inline">\(\hat{\beta} \hat{\alpha}\)</span> are normal ordered then <span class="math inline">\([\hat{\alpha}, \hat{\beta}]_\mp = 0\)</span>. But we will not need this general definition here. Wick’s theorem (introduced later) does hold in this general setting, though.</p>
+<p>Given a monomial <span class="math inline">\(c \hat{\Pi}\)</span>, where <span class="math inline">\(c\)</span> is a numeric coefficient and <span class="math inline">\(\hat{\Pi}\)</span> is a product of field operators,<a href="many-body-theory.html#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> we define its <strong>normal ordering</strong> as <span class="math display">\[\normord{c \hat{\Pi}} = (\pm)^\sigma c \, \sigma(\hat{\Pi})\]</span> where <span class="math inline">\(\sigma\)</span> is a permutation that rearranges the field operators in <span class="math inline">\(\hat{\Pi}\)</span> such that <span class="math inline">\(\sigma(\Pi)\)</span> is in normal order, and</p>
+<ul>
+<li>for bosons, <span class="math inline">\((+)^\sigma = +\)</span>;</li>
+<li>for fermions, <span class="math inline">\((-)^\sigma\)</span> is the sign of the permutation <span class="math inline">\(\sigma\)</span>.</li>
+</ul>
+<p>Although the definition leaves the permutation underdetermined, the definition of normal order ensures that normal ordering will yield the same result no matter which permutation is chosen.</p>
+<p>The operation is dependent on the choice of field operators. In this text, we have two choices:</p>
+<ul>
+<li>When normal ordering relative to the <em>physical vacuum</em>, the physical field operators <span class="math inline">\(\hat{a}_p^\dagger\)</span> and <span class="math inline">\(\hat{a}_p\)</span> are used.</li>
+<li>When normal ordering relative to the <em>Fermi vacuum</em>, the quasiparticle field operators <span class="math inline">\(\hat{b}_p^\dagger\)</span> and <span class="math inline">\(\hat{b}_p\)</span> are used.</li>
+</ul>
+<p>We will typically work with normal ordering relative to the Fermi vacuum. For normal ordering relative to the physical vacuum, we use three dots instead of a colon: <span class="math display">\[\vnormord{c \hat{\Pi}}\]</span></p>
+<p>Several notations exist for this operation: <span class="math display">\[\begin{align*}
+  &amp;\normord{c \hat{\Pi}} &amp;
+  &amp;\mathrm{N}[ c \hat{\Pi} ] &amp;
+  &amp;\bigl\{ c \hat{\Pi} \bigr\}
+\end{align*}\]</span> The colon notation is common in nuclear physics, <span class="citation" data-cites="PhysRevC.95.044304">(Parzuchowski, Morris, and Bogner 2017)</span> whereas delimiters prefixed with the letter “N” <span class="citation" data-cites="shavitt2009many">(Shavitt and Bartlett 2009)</span> or curly braces <span class="citation" data-cites="reimann2013quantum">(Reimann 2013)</span> are common in quantum chemistry.</p>
+<p>As an example, consider the fermionic monomial <span class="math inline">\(-2 \hat{b}_p \hat{b}_q^\dagger\)</span> with coefficient <span class="math inline">\(c = -2\)</span> and operators <span class="math inline">\(\hat{\Pi} = \hat{b}_p \hat{b}_q^\dagger\)</span>. We can normal order it relative to the Fermi vacuum: <span class="math display">\[\normord{-2 \hat{b}_p \hat{b}_q^\dagger} = 2 \hat{b}_q^\dagger \hat{b}_p\]</span> Since this permutation has odd parity, the sign is flipped.</p>
+<p>As another example, consider the fermionic monomial <span class="math inline">\(\hat{a}_p \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_s \hat{a}_t\)</span>. It has several normal-ordered forms: <span class="math display">\[\vnormord{\hat{a}_p \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_s \hat{a}_t}
+= \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_p \hat{a}_s \hat{a}_t
+= -\hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_p \hat{a}_t \hat{a}_s
+= \hat{a}_r^\dagger \hat{a}_q^\dagger \hat{a}_p \hat{a}_t \hat{a}_s
+= \cdots
+\]</span> They are all equally valid.</p>
+<p>Normal ordering is idempotent, and moreover supersedes existing normal orderings: <span class="math display">\[\normord{(\hat{\Pi} \normord{\hat{\Gamma}} \hat{\Lambda})} = \normord{\hat{\Pi} \hat{\Gamma} \hat{\Lambda}}\]</span> Bosonic/fermionic normal-ordered products are symmetric/antisymmetric under operator exchange, i.e. for any permutation <span class="math inline">\(\sigma\)</span>, <span class="math display">\[\normord{\hat{\Pi}} = (\pm)^\sigma \normord{\sigma(\hat{\Pi})}\]</span></p>
+<h3 id="matrix-elements-relative-to-the-fermi-vacuum"><span class="header-section-number">6.5.1</span> Matrix elements relative to the Fermi vacuum</h3>
+<p>The primary application of normal ordering is in the redistribution of matrix elements between different ranks of operators, as the rank of an operator is dependent on the vacuum used.</p>
+<p>Usually, many-body operators are given relative to the physical vacuum. For example, a (0, 1, 2, 3)-body operator <span class="math inline">\(\hat{H}\)</span> has the standard form <span class="math display">\[\hat{H} = E_\varnothing + \hat{H}_1^\varnothing + \hat{H}_2^\varnothing + \hat{H}_3^\varnothing\]</span> where <span class="math inline">\(E_\varnothing\)</span> is the physical vacuum energy (0-body component) and <span class="math inline">\(\hat{H}_k^\varnothing\)</span> denotes its <span class="math inline">\(k\)</span>-body component relative to the physical vacuum. In other words, the monomials of each component are already in normal order relative to the physical vacuum, <span class="math display">\[\begin{gather*}
+  \hat{H}_1^\varnothing = \sum_{p q} H_{p q}^\varnothing \vnormord{\hat{a}_p^\dagger \hat{a}_q} \\
+  \hat{H}_2^\varnothing = \frac{1}{4} \sum_{p q r s} H_{p q r s}^\varnothing \vnormord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r} \\
+  \hat{H}_3^\varnothing = \frac{1}{36} \sum_{p q r s t u} H_{p q r s t u}^\varnothing \vnormord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_u \hat{a}_t \hat{a}_s}
+\end{gather*}\]</span> These definitions are identical to those in Sec. <a href="many-body-theory.html#sec:many-body-oper">6.3</a>. The normal ordering notation is present only for emphasis.</p>
+<p>If we rearrange their monomials so that they are in normal order relative to the <em>Fermi</em> vacuum, portions of higher-rank operators would migrate to lower-rank operators. Take, for example, the two-body component: <span class="math display">\[\vnormord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r} = \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r} + 4 \antisymm_{p q} \antisymm_{r s} n_q \delta_{q s} \normord{\hat{a}_p^\dagger \hat{a}_r} + 2 \antisymm_{r s} n_p n_q \delta_{p r} \delta_{q s}\]</span> This leads to a different decomposition of the operators into particle-hole components, <span class="math display">\[\hat{H} = E_\Phi + \hat{H}_1^\Phi + \hat{H}_2^\Phi + \hat{H}_3^\Phi\]</span> where <span class="math inline">\(E_\Phi\)</span> is the Fermi vacuum energy and <span class="math inline">\(\hat{H}_k^\Phi\)</span> denotes<a href="many-body-theory.html#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> its <span class="math inline">\(k\)</span>-body component relative to the Fermi vacuum <span class="math inline">\(\ket{\Phi}\)</span>, <span class="math display">\[\begin{gather*}
+  \hat{H}^\Phi_1 = \sum_{p q} H^\Phi_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} \\
+  \hat{H}^\Phi_2 = \frac{1}{4} \sum_{p q r s} H^\Phi_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r} \\
+  \hat{H}^\Phi_3 = \frac{1}{36} \sum_{p q r s t u} H^\Phi_{p q r s t u} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_u \hat{a}_t \hat{a}_s}
+\end{gather*}\]</span> and with matrix elements given by <span id="eq:normord-ph"><span class="math display">\[\begin{aligned}
+  E_\Phi &amp;= E_\varnothing + \sum_{i \backslash} H^\varnothing_{i i} + \frac{1}{2} \sum_{i j \backslash} H^\varnothing_{i j i j} + \frac{1}{6} \sum_{i j k \backslash} H^\varnothing_{i j k i j k} \\
+  H^\Phi_{p q} &amp;= H^\varnothing_{p q} + \sum_{i \backslash} H^\varnothing_{p i q i} + \frac{1}{2} \sum_{i j \backslash} H^\varnothing_{p i j q i j} \\
+  H^\Phi_{p q r s} &amp;= H^\varnothing_{p q r s} + \sum_{i \backslash} H^\varnothing_{p q i r s i} \\
+  H^\Phi_{p q r s t u} &amp;= H^\varnothing_{p q r s t u}
+\end{aligned}\qquad(4)\]</span></span> Note that these particle-hole components <span class="math inline">\(\hat{H}_k^\Phi\)</span> do not conserve the number of quasiparticles, so their algebraic properties are not entirely analogous to the physical components <span class="math inline">\(\hat{H}_k^\varnothing\)</span>. Properly rewriting the operators in terms of quasiparticle field operators would lead to tedious results such as: <span class="math display">\[\hat{H}^\Phi_1 = \sum_{i \backslash a} H^\Phi_{a i} \normord{\hat{b}_a^\dagger \hat{b}_i^\dagger} + \sum_{\backslash a b} H^\Phi_{a b} \normord{\hat{b}_a^\dagger \hat{b}_b} - \sum_{i j \backslash} H^\Phi_{i j} \normord{\hat{b}_j^\dagger \hat{b}_i} + \sum_{i \backslash a} H^\Phi_{i a} \normord{\hat{b}_i \hat{b}_a}\]</span> Fortunately, we do not need to do this.</p>
+<p>The matrix elements in Eq. <a href="many-body-theory.html#eq:normord-ph">4</a> can be derived using the definition of normal ordering and the usual commutation relations, more efficiently, using Wick’s theorem or many-body diagrams.</p>
+<h3 id="ambiguity-of-normal-ordering-on-non-monomials"><span class="header-section-number">6.5.2</span> Ambiguity of normal ordering on non-monomials</h3>
+<p>The following expressions are not monomials: <span class="math display">\[\begin{align*}
+  &amp;1 + \hat{a}_p \hat{a}_q^\dagger &amp;
+  &amp;\E^{\hat{a}_p^\dagger \hat{a}_q}
+  &amp;\hat{H}
+\end{align*}\]</span> Normal ordering is <em>ill-defined</em> (ambiguous) on such non-monomial operators. The following paradox illustrates the problem: consider the fermionic product <span class="math inline">\(\hat{a}_p^\dagger \hat{a}_q \hat{a}_r\)</span>, <span class="math display">\[\begin{align*}
+  \hat{a}_p^\dagger \hat{a}_q \hat{a}_r
+  &amp;= \vnormord{\hat{a}_p^\dagger \hat{a}_q \hat{a}_r} \\
+  &amp;\stackrel{?}{=} \vnormord{\delta_{p q} \hat{a}_r - \hat{a}_q \hat{a}_p^\dagger \hat{a}_r} \\
+  &amp;\stackrel{?}{=} \vnormord{\delta_{p q} \hat{a}_r} - \vnormord{\hat{a}_q \hat{a}_p^\dagger \hat{a}_r} \\
+  &amp;= \delta_{p q} \hat{a}_r + \hat{a}_p^\dagger \hat{a}_q \hat{a}_r
+\end{align*}\]</span> To eliminate ambiguity one must expand the expression in a very specific way, causing normal ordering of non-monomial expressions to be sensitive to how it is written (its syntactic form). It is possible for two non-monomial expressions that are semantically equal to have semantically unequal normal-ordered results, leading to the paradox above. This paradox does not occur if we focus solely on monomial operators.</p>
+<p>When normal ordering is applied non-monomial expressions, it is conventional to choose the most “direct” expansion without any usage of the <span class="math inline">\(\pm\)</span>-commutation relations. For example, <span class="math display">\[\begin{matrix}
+  \normord{1 + \hat{b}_p^\dagger \hat{b}_q} &amp; \to &amp;
+  1 + \normord{\hat{b}_p^\dagger \hat{b}_q} \\
+  \normord{\E^{\hat{b}_p^\dagger \hat{b}_q}} &amp; \to &amp;
+  1 + \normord{\hat{b}_p^\dagger \hat{b}_q} + \normord{\frac{1}{2} \hat{b}_p^\dagger \hat{b}_q \hat{b}_p^\dagger \hat{b}_q} + \cdots \\
+  \normord{\hat{H}} &amp; \to &amp;
+  E + \normord{\hat{H}_1} + \normord{\hat{H}_2} + \cdots
+\end{matrix}\]</span></p>
+<h2 id="wicks-theorem"><span class="header-section-number">6.6</span> Wick’s theorem</h2>
+<p>Wick’s theorem <span class="citation" data-cites="PhysRev.80.268">(Wick 1950)</span> is an algebraic theorem for simplifying products of bosonic (commuting) or fermionic (anticommuting) field operators into sums of normal-ordered products. Many of the equations in the previous sections can be derived much more quickly and systematically using this theorem.</p>
+<p>To describe the theorem, it is necessary to introduce the concept of Wick contractions.</p>
+<h3 id="adjacent-wick-contractions"><span class="header-section-number">6.6.1</span> Adjacent Wick contractions</h3>
+<p>In the simplest case, a <strong>Wick contraction</strong> between two adjacent field operators <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span>, denoted by a connecting line, is defined as, <span id="eq:wick-contr"><span class="math display">\[\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} = \hat{\alpha} \hat{\beta} - \normord{\hat{\alpha} \hat{\beta}}\qquad(5)\]</span></span> For Wick’s theorem to apply, we require the result of a contraction to be a number, not an operator.<a href="many-body-theory.html#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
+<p>Intuitively, contractions are the “remainder” of normal ordering. We can elaborate the definition to <span id="eq:wick-contr-alt"><span class="math display">\[\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} = \begin{cases}
+0 &amp; \text{if $\hat{\alpha} \hat{\beta}$ is in normal order} \\
+\comm{\hat{\alpha}, \hat{\beta}}_\mp &amp; \text{if $\hat{\alpha} \hat{\beta}$ is not in normal order} \\
+\end{cases}\qquad(6)\]</span></span> where commutator <span class="math inline">\(\comm{,}_- = \comm{,}\)</span> is chosen for bosons and anticommutator <span class="math inline">\(\comm{,}_+ = \anticomm{,}\)</span> is chosen for fermions. Observe that contractions have no effect if a product is already normal ordered.</p>
+<p>For fermionic physical operators <span class="math inline">\(\hat{a}_p\)</span>, we obtain these cases for contractions relative to the physical vacuum: <span class="math display">\[\begin{align*}
+  \lcontr{-1}{\hat{a}}_p \rcontr{-1}{\hat{a}}_q^\dagger &amp;= \delta_{p q} &amp;
+  \lcontr{-1}{\hat{a}}_p \rcontr{-1}{\hat{a}}_q =
+  \lcontr{-1}{\hat{a}}_p^\dagger \rcontr{-1}{\hat{a}}_q =
+  \lcontr{-1}{\hat{a}}_p^\dagger \rcontr{-1}{\hat{a}}_q^\dagger &amp;= 0
+\end{align*}\]</span> Here, connecting lines are drawn at the bottom of the symbols to indicate that these are contractions relative to the <em>physical</em> vacuum. That is, <span class="math display">\[\lcontr{-1}{\hat{\alpha}} \rcontr{-1}{\hat{\beta}} = \hat{\alpha} \hat{\beta} - \vnormord{\hat{\alpha} \hat{\beta}}\]</span></p>
+<p>We obtain analogous relations for contractions of fermionic quasiparticle operators <span class="math inline">\(\hat{b}_p\)</span> relative to the Fermi vacuum: <span class="math display">\[\begin{align*}
+  \lcontr{1}{\hat{b}}_p \rcontr{1}{\hat{b}}_q^\dagger &amp;= \delta_{p q} &amp;
+  \lcontr{1}{\hat{b}}_p \rcontr{1}{\hat{b}}_q =
+  \lcontr{1}{\hat{b}}_p^\dagger \rcontr{1}{\hat{b}}_q =
+  \lcontr{1}{\hat{b}}_p^\dagger \rcontr{1}{\hat{b}}_q^\dagger &amp;= 0
+\end{align*}\]</span> However, contraction of physical operators <span class="math inline">\(\hat{a}_p\)</span> relative to the Fermi vacuum are different: <span class="math display">\[\begin{align*}
+  \lcontr{1}{\hat{a}}_p \rcontr{1}{\hat{a}}_q^\dagger &amp;= (1 - n_p) \delta_{p q} &amp;
+  \lcontr{1}{\hat{a}}_p^\dagger \rcontr{1}{\hat{a}}_q &amp;= n_p \delta_{p q} &amp;
+  \lcontr{1}{\hat{a}}_p \rcontr{1}{\hat{a}}_q =
+  \lcontr{1}{\hat{a}}_p^\dagger \rcontr{1}{\hat{a}}_q^\dagger &amp;= 0
+\end{align*}\]</span> where <span class="math inline">\(n_p\)</span> is equal to <span class="math inline">\(1\)</span> if <span class="math inline">\(p\)</span> is occupied in the reference state, <span class="math inline">\(0\)</span> otherwise.</p>
+<h3 id="normal-ordered-wick-contractions"><span class="header-section-number">6.6.2</span> Normal-ordered Wick contractions</h3>
+<p>Next, we consider non-adjacent Wick contractions, which is only defined <em>within</em> a normal-ordered product. Note that the contraction operation takes place prior to the normal ordering operation, otherwise the operation would be useless (it would always vanish according to Eq. <a href="many-body-theory.html#eq:wick-contr-alt">6</a>).</p>
+<p>Let <span class="math inline">\(\hat{\Pi}\)</span> be a product of <span class="math inline">\(m\)</span> field operators. We define the Wick contraction of <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\beta}\)</span> within a normal ordered product <span class="math inline">\(\normord{\hat{\alpha} \hat{\Pi} \hat{\beta}}\)</span> as <span class="math display">\[\normord{\lcontr{1}{\hat{\alpha}} \hat{\Pi} \rcontr{1}{\hat{\beta}}} = (\pm)^m \lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} \normord{\hat{\Pi}}\]</span> where the sign is <span class="math inline">\((+)\)</span> for bosonic operators and <span class="math inline">\((-)\)</span> for fermionic operators.</p>
+<p>In effect, we unite the two contracted operators using the <span class="math inline">\(\pm\)</span>-symmetries of the normal-ordered product before attempting to evaluate the contraction. Consider this example with fermionic operators, <span class="math display">\[\normord{\lcontr{1}{\hat{\alpha}} \hat{\beta} \rcontr{1}{\hat{\gamma}} \hat{\delta}} = -\normord{\hat{\beta} \lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\gamma}} \hat{\delta}} = -\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\gamma}} \normord{\hat{\beta} \hat{\delta}}\]</span> Note that it does not matter whether <span class="math inline">\(\{\hat{\alpha}, \hat{\beta}\}\)</span> is zero, because inside a normal-ordered product all operators behave <em>as though</em> their <span class="math inline">\(\pm\)</span>-commutators are zero.</p>
+<h3 id="multiple-wick-contractions"><span class="header-section-number">6.6.3</span> Multiple Wick contractions</h3>
+<p>Given a normal-ordered product of <span class="math inline">\(n\)</span> field operators, there can be multiple ways to contract its contents. Consider the case <span class="math inline">\(n = 4\)</span>, <span class="math display">\[\begin{gather*}
+  \begin{matrix}
+    \normord{\hat{\alpha} \hat{\beta} \hat{\gamma} \hat{\delta}}
+  \end{matrix} \\ \\
+  \begin{matrix}
+    \normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} \hat{\gamma} \hat{\delta}} &amp;
+    \normord{\lcontr{1}{\hat{\alpha}} \hat{\beta} \rcontr{1}{\hat{\gamma}} \hat{\delta}} &amp;
+    \normord{\lcontr{1}{\hat{\alpha}} \hat{\beta} \hat{\gamma} \rcontr{1}{\hat{\delta}}} &amp;
+    \normord{\hat{\alpha} \lcontr{1}{\hat{\beta}} \rcontr{1}{\hat{\gamma}} \hat{\delta}} &amp;
+    \normord{\hat{\alpha} \lcontr{1}{\hat{\beta}} \hat{\gamma} \rcontr{1}{\hat{\delta}}} &amp;
+    \normord{\hat{\alpha} \hat{\beta} \lcontr{1}{\hat{\gamma}} \rcontr{1}{\hat{\delta}}}
+  \end{matrix} \\ \\
+  \begin{matrix}
+    \normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} \lcontr{1}{\hat{\gamma}} \rcontr{1}{\hat{\delta}}} &amp;
+    \normord{\lcontr{2}{\hat{\alpha}} \lcontr{1}{\hat{\beta}} \rcontr{2}{\hat{\gamma}} \rcontr{1}{\hat{\delta}}} &amp;
+    \normord{\lcontr{2}{\hat{\alpha}} \lcontr{1}{\hat{\beta}} \rcontr{1}{\hat{\gamma}} \rcontr{2}{\hat{\delta}}}
+  \end{matrix}
+\end{gather*}\]</span> The first row contains all normal-ordered products with zero contractions. This is the trivial case.</p>
+<p>The second row contains all normal-ordered products with exactly one contraction. We shall denote the sum of all entries in the second row by <span class="math display">\[\normord{\mathcal{C}^1(\hat{\alpha} \hat{\beta} \hat{\gamma} \hat{\delta})} =
+  \normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} \hat{\gamma} \hat{\delta}} +
+  \normord{\lcontr{1}{\hat{\alpha}} \hat{\beta} \rcontr{1}{\hat{\gamma}} \hat{\delta}} +
+  \normord{\lcontr{1}{\hat{\alpha}} \hat{\beta} \hat{\gamma} \rcontr{1}{\hat{\delta}}} +
+  \normord{\hat{\alpha} \lcontr{1}{\hat{\beta}} \rcontr{1}{\hat{\gamma}} \hat{\delta}} +
+  \normord{\hat{\alpha} \lcontr{1}{\hat{\beta}} \hat{\gamma} \rcontr{1}{\hat{\delta}}} +
+  \normord{\hat{\alpha} \hat{\beta} \lcontr{1}{\hat{\gamma}} \rcontr{1}{\hat{\delta}}}\]</span></p>
+<p>The third row contains all normal-ordered products with exactly two contractions. Analogous to the second row, we shall denote the sum of all entries in the third row by <span class="math display">\[\normord{\mathcal{C}^2(\hat{\alpha} \hat{\beta} \hat{\gamma} \hat{\delta})} =
+  \normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}} \lcontr{1}{\hat{\gamma}} \rcontr{1}{\hat{\delta}}} +
+  \normord{\lcontr{2}{\hat{\alpha}} \lcontr{1}{\hat{\beta}} \rcontr{2}{\hat{\gamma}} \rcontr{1}{\hat{\delta}}} +
+  \normord{\lcontr{2}{\hat{\alpha}} \lcontr{1}{\hat{\beta}} \rcontr{1}{\hat{\gamma}} \rcontr{2}{\hat{\delta}}}\]</span></p>
+<p>We can generalize this notation. If we have a product <span class="math inline">\(\hat{\Pi}\)</span> of <span class="math inline">\(n\)</span> field operators, the notation <span class="math inline">\(\normord{\mathcal{C}^k(\hat{\Pi})}\)</span> denotes the sum of all normal-ordered products with exactly <span class="math inline">\(k\)</span> contractions. In particular:</p>
+<ul>
+<li><p>If <span class="math inline">\(k = 0\)</span>, then there are no contractions. Therefore, <span class="math display">\[\normord{\mathcal{C}^0(\hat{\Pi})} = \normord{\hat{\Pi}}\]</span></p></li>
+<li><p>It is impossible to have more than <span class="math inline">\(\lfloor n / 2 \rfloor\)</span> contractions. Therefore, <span class="math display">\[\begin{align*}
+  2 k &amp;&gt; n &amp; &amp;\implies &amp; \normord{\mathcal{C}^k(\hat{\Pi})} &amp;= 0
+\end{align*}\]</span></p></li>
+</ul>
+<h3 id="statement-of-wicks-theorem"><span class="header-section-number">6.6.4</span> Statement of Wick’s theorem</h3>
+<p>We are now ready to state <strong>Wick’s theorem</strong>: A product of <span class="math inline">\(n\)</span> field operators <span class="math inline">\(\hat{\Pi}\)</span> may be expanded as <span class="math display">\[\hat{\Pi} = \sum_{k = 0}^\infty \normord{\mathcal{C}^k(\hat{\Pi})} = \normord{\hat{\Pi}} + \sum_{k = 1}^{\lfloor n / 2 \rfloor} \normord{\mathcal{C}^k(\hat{\Pi})}\]</span> That is, any product of field operators may be expanded as a sum of every possible combination of contractions within its normal-ordered product.</p>
+<p>The definition of contractions in Eq. <a href="many-body-theory.html#eq:wick-contr">5</a> yields a special case of Wick’s theorem for exactly two field operators, <span class="math display">\[\hat{\alpha} \hat{\beta} = \normord{\hat{\alpha} \hat{\beta}} + \lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\beta}}\]</span></p>
+<p>There is also a <strong>generalized Wick’s theorem</strong>: A product of two normal-ordered products <span class="math inline">\(\normord{\hat{\Pi}}\)</span> and <span class="math inline">\(\normord{\hat{\Gamma}}\)</span> may be expanded as <span class="math display">\[\normord{\hat{\Pi}} \times \normord{\hat{\Gamma}} = \sum_{k = 0}^\infty \normord{\mathcal{C}^k(\normord{\hat{\Pi}} \times \normord{\hat{\Gamma}})}\]</span> where <span class="math inline">\(\normord{\mathcal{C}^k(\normord{\hat{\Pi}} \times \normord{\hat{\Gamma}})}\)</span> is a sum of every possible combination of <span class="math inline">\(k\)</span> contractions between elements of <span class="math inline">\(\normord{\hat{\Pi}}\)</span> and elements of <span class="math inline">\(\normord{\hat{\Gamma}}\)</span> within the normal-ordered product <span class="math inline">\(\normord{(\normord{\hat{\Pi}} \times \normord{\hat{\Gamma}})}\)</span>. Contractions among elements of <span class="math inline">\(\normord{\hat{\Pi}}\)</span> are excluded (and likewise for <span class="math inline">\(\normord{\hat{\Gamma}}\)</span>) because contraction between elements that are already in normal order is zero (Eq. <a href="many-body-theory.html#eq:wick-contr-alt">6</a>). Despite its name, the generalized Wick’s theorem is not actually a generalization but a special case of Wick’s theorem when the product is already partly in normal order.</p>
+<h3 id="proof-of-wicks-theorem"><span class="header-section-number">6.6.5</span> Proof of Wick’s theorem</h3>
+<p>To prove Wick’s theorem, we need the following lemma: <span class="math display">\[\hat{\alpha} \hat{\gamma}_1 \ldots \hat{\gamma}_j = (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j \hat{\alpha} + \sum_{i = 1}^j (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_j\]</span> which describes the process of moving <span class="math inline">\(\hat{\alpha}\)</span> from the left of a product <span class="math inline">\(\hat{\gamma}_1 \ldots \hat{\gamma}_j\)</span> to the right. In doing so, it accumulates a series of <span class="math inline">\(\pm\)</span>-commutators involving <span class="math inline">\(\hat{\alpha}\)</span>.</p>
+<p>To prove the lemma by induction, we start with the obvious base case for <span class="math inline">\(j = 0\)</span>, <span class="math display">\[\hat{\alpha} = (\pm)^0 \hat{\alpha} + 0\]</span> For the induction step, assume the lemma holds for <span class="math inline">\(j\)</span>. Then, we can prove it holds for <span class="math inline">\(j + 1\)</span> as well, <span class="math display">\[\begin{align*}
+  &amp;\hat{\alpha} \hat{\gamma}_1 \ldots \hat{\gamma}_{j + 1} \\
+  &amp;= (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j \hat{\alpha} \hat{\gamma}_{j + 1} + \sum_{i = 1}^j (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1} \\
+  &amp;= (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j (\pm \hat{\gamma}_{j + 1} \hat{\alpha} + [\hat{\alpha}, \hat{\gamma}_{j + 1}]_\mp) + \sum_{i = 1}^j (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1} \\
+  &amp;= (\pm)^{j + 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{j + 1} \hat{\alpha} + \sum_{i = 1}^{j + 1} (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1}
+\end{align*}\]</span> thus we have proven the case for <span class="math inline">\(j + 1\)</span>. <span class="math inline">\(\blacksquare\)</span></p>
+<p>The lemma is very general but also verbose. If we assume the <span class="math inline">\(\pm\)</span>-commutators are all numbers, then there is another way to state the lemma using Wick contractions and normal ordering. Suppose we have a product <span class="math inline">\(\hat{\gamma}_1 \ldots \hat{\gamma}_j \hat{\alpha} \hat{\gamma}_{j + 1} \ldots \hat{\gamma}_m\)</span> that is in normal order. Observe that:</p>
+<ul>
+<li><p>If <span class="math inline">\(i \le j\)</span>, then <span class="math inline">\(\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\gamma}}_i = [\hat{\alpha}, \hat{\gamma}_i]_\mp\)</span> because either (a) <span class="math inline">\(\hat{\alpha} \hat{\gamma}_i\)</span> is not in normal order, or (b) both <span class="math inline">\(\hat{\alpha} \hat{\gamma}_i\)</span> and <span class="math inline">\(\hat{\gamma}_i \hat{\alpha}\)</span> are in normal order, in which case both the <span class="math inline">\(\pm\)</span>-commutator and contraction are zero.</p></li>
+<li><p>If <span class="math inline">\(i &gt; j\)</span>, then <span class="math inline">\(\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\gamma}}_i = 0\)</span> because <span class="math inline">\(\hat{\alpha} \hat{\gamma}_i\)</span> is in normal order.</p></li>
+</ul>
+<p>Therefore, we can replace the <span class="math inline">\(\pm\)</span>-commutators with Wick contractions and artifically raise the upper limit of the summation from <span class="math inline">\(j\)</span> to <span class="math inline">\(m\)</span> because all those extra <span class="math inline">\(\pm\)</span>-commutators are zero, leading to <span class="math display">\[\hat{\alpha} \hat{\gamma}_1 \ldots \hat{\gamma}_m = (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j \hat{\alpha} \hat{\gamma}_{j + 1} \ldots \hat{\gamma}_m + \sum_{i = 1}^m (\pm)^{i - 1} \lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\gamma}}_i \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_m\]</span> We can rewrite this using our definition of normal ordering and Wick contraction within normal-ordered products, <span class="math display">\[\hat{\alpha} \normord{\hat{\gamma}_1 \ldots \hat{\gamma}_m} = \normord{\hat{\alpha} \hat{\gamma}_1 \ldots \hat{\gamma}_m} + \sum_{i = 1}^m \normord{\lcontr{1}{\hat{\alpha}} \hat{\gamma}_1 \ldots \rcontr{1}{\hat{\gamma}}_i \ldots \hat{\gamma}_m}\]</span> If we define <span class="math inline">\(\normord{\hat{\Gamma}} = s \normord{\hat{\gamma}_1 \ldots \hat{\gamma}_m}\)</span> with some sign <span class="math inline">\(s\)</span>, we may rewrite the previous equation as: <span id="eq:wick-lemma-pre"><span class="math display">\[\frac{1}{s} \hat{\alpha} \normord{\hat{\Gamma}} = \frac{1}{s} \normord{\hat{\alpha} \hat{\Gamma}} + \frac{1}{s} \normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\Gamma}}}\qquad(7)\]</span></span> where <span class="math inline">\(\normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\Gamma}}}\)</span> is a shorthand for <span class="math display">\[\normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\Gamma}}} = \sum_{i = 1}^m s \normord{\lcontr{1}{\hat{\alpha}} \hat{\gamma}_1 \ldots \rcontr{1}{\hat{\gamma}}_i \ldots \hat{\gamma}_m}\]</span> Then, Eq. <a href="many-body-theory.html#eq:wick-lemma-pre">7</a> simplifies to: <span id="eq:wick-lemma"><span class="math display">\[\hat{\alpha} \normord{\hat{\Gamma}} = \normord{\hat{\alpha} \hat{\Gamma}} + \normord{\lcontr{1}{\hat{\alpha}} \rcontr{1}{\hat{\Gamma}}}\qquad(8)\]</span></span></p>
+<p>Now we may prove Wick’s theorem using induction. The base case is obvious, <span class="math display">\[1 = \normord{1}\]</span> For the inductive step, we start by assuming that Wick’s theorem holds for the product <span class="math inline">\(\hat{\Pi}\)</span> and wish to prove that it holds for <span class="math inline">\(\hat{\alpha} \hat{\Pi}\)</span>. From the assumption, we write <span class="math display">\[\hat{\alpha} \hat{\Pi} = \sum_{k = 0}^\infty \hat{\alpha} \normord{\mathcal{C}^k(\hat{\Pi})}\]</span> Now we may use the lemma in Eq. <a href="many-body-theory.html#eq:wick-lemma">8</a> with <span class="math inline">\(\hat{\Gamma} = \mathcal{C}^k(\hat{\Pi})\)</span>, <span class="math display">\[\begin{align*}
+  \sum_{k = 0}^\infty \hat{\alpha} \normord{\mathcal{C}^k(\hat{\Pi})}
+  &amp;= \sum_{k = 0}^\infty \normord{\hat{\alpha} \mathcal{C}^k(\hat{\Pi})} + \sum_{k = 0}^\infty \normord{\lcontr{1}{\hat{\alpha}} \mathcal{C}^k(\rcontr{1}{\hat{\Pi}})} \\
+  &amp;= \normord{\hat{\alpha} \mathcal{C}^0(\hat{\Pi})} + \sum_{k = 1}^\infty (\normord{\hat{\alpha} \mathcal{C}^k(\hat{\Pi})} + \normord{\lcontr{1}{\hat{\alpha}} \mathcal{C}^{k - 1}(\rcontr{1}{\hat{\Pi}})})
+\end{align*}\]</span> Observe that <span class="math inline">\(\normord{\mathcal{C}^0(\hat{\Pi})} = \normord{\hat{\Pi}}\)</span> and <span class="math display">\[\normord{\mathcal{C}^k(\hat{\alpha} \hat{\Pi})} = \normord{\hat{\alpha} \mathcal{C}^k(\hat{\Pi})} + \normord{\lcontr{1}{\hat{\alpha}} \mathcal{C}^{k - 1}(\rcontr{1}{\hat{\Pi}})}\]</span> In other words, <span class="math inline">\(k\)</span> contractions in <span class="math inline">\(\hat{\alpha} \hat{\Pi}\)</span> can be either</p>
+<ul>
+<li><span class="math inline">\(k\)</span> contractions only within <span class="math inline">\(\hat{\Pi}\)</span>, or</li>
+<li>one contraction between <span class="math inline">\(\hat{\alpha}\)</span> and <span class="math inline">\(\hat{\Pi}\)</span> and <span class="math inline">\(k - 1\)</span> contractions within <span class="math inline">\(\hat{\Pi}\)</span>.</li>
+</ul>
+<p>Hence, <span class="math display">\[\hat{\alpha} \hat{\Pi} = \normord{\hat{\alpha} \hat{\Pi}} + \sum_{k = 1}^\infty \normord{\mathcal{C}^k(\hat{\alpha} \hat{\Pi})}\]</span> <span class="math inline">\(\blacksquare\)</span></p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="introduction.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="diagrams.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="introduction.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="diagrams.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

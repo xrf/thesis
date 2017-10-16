@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>In-medium similarity renormalization group method - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html" class="active"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="similarity-renormalization-group-methods"><span class="header-section-number">11</span> Similarity renormalization group methods</h1>
+<h2 id="sec:srgmethods"><span class="header-section-number">11.1</span> Free space SRG</h2>
+<p>The central theme of similarity renormalization group (SRG) methods is the application of a continuous sequence of unitary transformations on the Hamiltonian to evolve it into a band- or block-diagonal form. This allows the decoupling of a small, designated <strong>model space</strong> from its larger complementary space. The problem can thus be truncated to the small model space while preserving a large amount of information about the system. See for examples <span class="citation" data-cites="kehrein2006flow Hergert2016165 lnp936">(Kehrein 2006; Hergert et al. 2016; Hjorth-Jensen, Lombardo, and Kolck 2017)</span> for derivations and calculational details.</p>
+<p>The sequence of transformations is parameterized by a continuous variable <span class="math inline">\(s\)</span> known as the <strong>flow parameter</strong>. Without loss of generality, we can define <span class="math inline">\(s = 0\)</span> to be the beginning of this sequence, thus <span class="math inline">\(\hat{H}(0)\)</span> is simply the original Hamiltonian. At any value of <span class="math inline">\(s\)</span>, the evolving Hamiltonian <span class="math inline">\(\hat{H}(s)\)</span> is related to the original Hamiltonian by <span class="math display">\[\hat{H}(s) = \hat{U}(s) \hat{H}(0) \hat{U}^\dagger(s)\]</span> where <span class="math inline">\(U(s)\)</span> is a unitary operator that describes the product of all such transformations since <span class="math inline">\(s = 0\)</span>. Taking the derivative with respect to <span class="math inline">\(s\)</span>, we obtain: <span class="math display">\[\frac{\D}{\D s} \hat{H}(s) = \frac{\D \hat{U}(s)}{\D s} \hat{H}(0) \hat{U}^\dagger(s) + \hat{U}(s) \hat{H}(0) \frac{\D \hat{U}^\dagger (s)}{\D s}\]</span> If we define the <strong>generator</strong> <span class="math inline">\(\hat{\eta}(s)\)</span> as <span id="eq:etadefinition"><span class="math display">\[\hat{\eta}(s) = \frac{\D \hat{U}(s)}{\D s} \hat{U}^\dagger(s)\qquad(47)\]</span></span> we find that it is antihermitian as a result of the unitarity of <span class="math inline">\(\hat{U}(s)\)</span>: <span class="math display">\[\hat{\eta}(s) + \hat{\eta}^\dagger(s) = \frac{\D}{\D s} \left(\hat{U}(s) \hat{U}^\dagger(s)\right) = 0\]</span> From this property we can derive a differential equation known as the <strong>SRG flow equation</strong>: <span id="eq:imsrgode"><span class="math display">\[\frac{\D \hat{H}(s)}{\D s} = [\hat{\eta}(s), \hat{H}(s)]\qquad(48)\]</span></span> This equation allows <span class="math inline">\(\hat{H}(s)\)</span> to be evaluated without explicitly constructing the full transformation <span class="math inline">\(\hat{U}(s)\)</span>. The focus is instead shifted to the operator <span class="math inline">\(\hat{\eta}(s)\)</span>, the generator of the transformation. When <span class="math inline">\(\hat{\eta}(s)\)</span> is <em>multiplicatively</em> integrated (<strong>product integral</strong>), the full unitary transformation <span class="math inline">\(\hat{U}(s)\)</span> is recovered: <span id="eq:etaintegral"><span class="math display">\[\hat{U}(s&#39;) = \lim_{\Delta s \to 0} \prod_{i = 1}^{\to n} \mathrm{e}^{\hat{\eta}(s_i) \Delta s}\qquad(49)\]</span></span> where <span class="math inline">\(s_i = i \Delta s\)</span>, <span class="math inline">\(n = \lfloor s&#39; / \Delta s \rfloor\)</span>, <span class="math inline">\(\lfloor x \rfloor\)</span> denotes the floor of <span class="math inline">\(x\)</span>, and the product is ordered from left (<span class="math inline">\(i = 1\)</span>) to right (<span class="math inline">\(i = n\)</span>). This is the formal solution to the linear differential equation Eq. <a href="imsrg.html#eq:etadefinition">47</a>. The product integral in Eq. <a href="imsrg.html#eq:etaintegral">49</a> may also be reinterpreted as “<span class="math inline">\(s\)</span>-ordering” <span class="citation" data-cites="reimann2013quantum">(Reimann 2013)</span> in analogy to time-ordering from quantum field theory.</p>
+<p>The power of SRG methods lies in the flexibility of the generator <span class="math inline">\(\hat{\eta}\)</span>, which is usually chosen in an <span class="math inline">\(s\)</span>-dependent manner. In particular, it is often dependent on the evolving Hamiltonian <span class="math inline">\(\hat{H}(s)\)</span>. The operator <span class="math inline">\(\hat{\eta}\)</span> determines which parts of the Hamiltonian matrix would become suppressed by the evolution, which are usually considered “off-diagonal” in an abstract sense. The “off-diagonal” parts could be elements far away from the matrix diagonal, in which case the evolution drives the matrix towards a band-diagonal form. Or, the “off-diagonal” parts could be elements that couple the ground state from the excited state, in which case the evolution drives the matrix towards a block-diagonal form that isolates the ground state. Or, the “off-diagonal” could be literally the elements that do not lie on the diagonal, in which case the evolution would simply diagonalize the Hamiltonian. Through different choices of <span class="math inline">\(\hat{\eta}\)</span>, the SRG evolution can be controlled and adapted to the features of a particular problem.</p>
+<h2 id="in-medium-srg"><span class="header-section-number">11.2</span> In-medium SRG</h2>
+<p>The SRG flow equation Eq. <a href="imsrg.html#eq:imsrgode">48</a> can be solved in the second quantization formalism described in Sec. <a href="many-body-theory.html#sec:second-quantization">6.2</a>, where field operators are defined with respect to the physical vacuum state. However, since the basis of a many-body problem grows factorially with the number of particles and the size of the model space, the applicability of the naive (free-space) SRG method is restricted to comparatively small systems. A more practical approach is to perform the evolution <em>in medium</em> <span class="citation" data-cites="kehrein2006flow">(Kehrein 2006)</span>, i.e. using a many-body Slater determinant as a reference state, which is assumed to be a fair approximation to the true ground state. This gives rise to the in-medium similarity renormalization group (IM-SRG) method <span class="citation" data-cites="PhysRevC.85.061304 Hergert2016165 lnp936">(Tsukiyama, Bogner, and Schwenk 2012; Hergert et al. 2016; Hjorth-Jensen, Lombardo, and Kolck 2017)</span>.</p>
+<p>We begin by decomposing the Hamiltonian <span class="math inline">\(\hat{H}\)</span> into normal-ordered components relative to an appropriately chosen reference state (Fermi vacuum) <span class="math inline">\(\ket{\Phi}\)</span>: <span id="eq:normordhamiltonian"><span class="math display">\[\hat{H} = E_\Phi + \sum_{p q} H^\Phi_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q^{}} + \frac{1}{4} \sum_{p q r s} H^\Phi_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s^{} \hat{a}_r^{}} + \cdots\qquad(50)\]</span></span> where <span class="math inline">\(E_\Phi\)</span> is the energy of the reference state and <span class="math inline">\(H^\Phi_{p_1 \ldots p_k q_1 \ldots q_k}\)</span> are matrix elements of the <span class="math inline">\(k\)</span>-body component <span class="math inline">\(\hat{H}^\Phi_k\)</span>. In IM-SRG we work exclusively with matrix elements relative to <span class="math inline">\(\ket{\Phi}\)</span>, thus we will omit the <span class="math inline">\(\Phi\)</span> suffix in this section.</p>
+<p>The use of a Hamiltonian with components relative to the Fermi vacuum may seem like a triviality – it is still the same <span class="math inline">\(\hat{H}\)</span> after all. However, this makes a critical difference when the operator expressions are <em>truncated</em>, i.e. higher-body components discarded from the computation for efficiency reasons. By normal-ordering the components relative to a reference state <span class="math inline">\(\ket{\Phi}\)</span>, we preserve a portion of the higher-body contributions within the lower-body operators, significantly decreasing the importance of higher-body operators.</p>
+<p>Higher-body operators arise from integrating the flow equations of Eq. <a href="imsrg.html#eq:imsrgode">48</a>, which is one of the main challenges of the SRG method. With each evaluation of the commutator, the Hamiltonian gains terms of increasingly higher order, and these induced contributions will in subsequent integration steps feed back into terms of lower order. Thus, the higher-body contributions are not irrelevant to the final solution even if only the ground state energy (zero-body component) is desired.</p>
+<p>Computationally, higher-body terms rapidly become unfeasible to handle: naive storage of the matrix elements of <span class="math inline">\(k\)</span>-body operator requires an exponentially increasing amount of memory, <span class="math display">\[\bigo(n_{\mathrm{b}}^{2 k})\]</span> where <span class="math inline">\(n_{\mathrm{b}}\)</span> is the number of single-particle basis states. Moreover, the flow equations are capable of generating an infinite number of higher-body terms as the Hamiltonian evolves. To make the method tractable, the IM-SRG flow equations must be closed by truncating the equations to a finite order. We call this <strong>operator truncation</strong>.</p>
+<p>In this work, we truncate both <span class="math inline">\(\hat{H}\)</span> and <span class="math inline">\(\hat{\eta}\)</span> at the two-body level, leading to an approach known as <strong>IM-SRG(2)</strong>. This normal-ordered two-body approximation appears to be sufficient in many cases and has yielded excellent results for several nuclei <span class="citation" data-cites="PhysRevLett.106.222502 PhysRevLett.109.052501 Hergert2016165">(Tsukiyama, Bogner, and Schwenk 2011; Roth et al. 2012; Hergert et al. 2016)</span>.</p>
+<p>Operator truncation is but one out of the two primary sources of error in this method. The other source of error comes from <strong>basis truncation</strong>: the size of the single-particle is finite and therefore does not encompass the full infinite-dimensional Hilbert space. This is a concern for any finite-basis approach, including HF, IM-SRG, CC, and many others. This source of error can be reduced by increasing the size of the basis at the expense of greater computational effort, albeit the cost increases much less rapidly in this direction. The CPU cost of IM-SRG methods is polynomial with respect to the number of states in the single-particle basis <span class="math inline">\(n_{\mathrm{b}}\)</span>. For IM-SRG(2) in particular, the CPU cost scales roughly as <span class="math display">\[\mathcal{O}(n_{\mathrm{b}}^6)\]</span> This is comparable to coupled cluster singles-and-doubles (CCSD), which also scales as <span class="math inline">\(\mathcal{O}(n_{\mathrm{b}}^6)\)</span>.</p>
+<p>The commutator in the flow equations Eq. <a href="imsrg.html#eq:imsrgode">48</a> ensures that the evolved state <span class="math inline">\(\hat U(s) \ket{\Phi}\)</span> consists of <em>linked diagrams</em> only <span class="citation" data-cites="shavitt2009many">(Shavitt and Bartlett 2009)</span>. This indicates that IM-SRG is a size-extensive <span class="citation" data-cites="ISI:A1981MN73700014">(Bartlett 1981)</span> method by construction, even if the operators are truncated.</p>
+<p>An accurate and robust solver is required to solve ordinary differential equation (ODE) in Eq. <a href="imsrg.html#eq:imsrgode">48</a>. In particular, the solver must be capable of handling the stiffness that often arises in such problems. For our numerical experiments, we used a high-order ODE solver algorithm by L. F. Shampine and M. K. Gordon <span class="citation" data-cites="shampine1975computer">(Shampine and Gordon 1975)</span>, which is a multistep method based on the implicit Adams predictor-corrector formulas. Its source code is freely available <span class="citation" data-cites="odesolver sgode">(L. Shampine and Gordon, n.d.; L. Shampine, Gordon, and Yuan, n.d.)</span>.</p>
+<p>IM-SRG has relations to several other well-known methods of quantum chemistry such as coupled cluster theory <span class="citation" data-cites="shavitt2009many">(Shavitt and Bartlett 2009)</span>, canonical transformation theory <span class="citation" data-cites="White:cond-mat0201346 CTreview">(White 2002; Neuscamman, Yanai, and Chan 2010)</span>, the irreducible/anti-Hermitian contracted Schrödinger equation approach <span class="citation" data-cites="Mazziotti1 Mazziotti2">(Mazziotti 2007b, 2007a)</span>, and the driven similarity renormalization group method <span class="citation" data-cites="Evangelista">(Evangelista 2014)</span>. These connections are explored in more detail in <span class="citation" data-cites="HeikoReview">(Hergert 2017)</span>.</p>
+<h2 id="im-srg-generators"><span class="header-section-number">11.3</span> IM-SRG generators</h2>
+<p>With an appropriate choice of the generator <span class="math inline">\(\hat{\eta}\)</span>, the evolved state <span class="math inline">\(\hat U(s) \ket{\Phi}\)</span> will gradually approach a more “diagonal” form. If the “diagonal” form decouples the ground state from the excited states, then <span class="math inline">\(\hat{U}(\infty) \ket{\Phi}\)</span> would yield the exact ground state solution of the problem if no operator or basis truncations are made. In particular, <span class="math inline">\(E_\Phi(\infty)\)</span> would be the exact ground state energy.</p>
+<p>The traditional <strong>Wegner generator</strong> <span class="citation" data-cites="Wegner200177">(Wegner 2001)</span> is defined as <span class="math display">\[\hat{\eta}^{\text{Wg}} = [\hat{H}^{\text{d}}, \hat{H} - \hat{H}^{\text{d}}] = [\hat{H}^{\text{d}}, \hat{H}]\]</span> where <span class="math inline">\(\hat{H}^{\text{d}}\)</span> denotes the “diagonal” part of the Hamiltonian and <span class="math inline">\(\hat{H} - \hat{H}^{\text{d}}\)</span> denotes the “off-diagonal” part. This is in the abstract sense described at the end of Section Sec. <a href="imsrg.html#sec:srgmethods">11.1</a>. Since <span class="math inline">\(\hat{H}\)</span> depends on the flow parameter <span class="math inline">\(s\)</span>, so does <span class="math inline">\(\hat{\eta}\)</span> in general.</p>
+<p>Since <span class="math inline">\(\hat{\eta}^{\text{Wg}}\)</span> is a commutator between two Hermitian operators, it is antihermitian as required for a generator. Additionally, it can be shown that the commutator has the property of suppressing off-diagonal matrix elements as the state evolves via the flow equation <span class="citation" data-cites="kehrein2006flow">(Kehrein 2006)</span>, as we would like. Matrix elements “far” from the diagonal – i.e. where the Hamiltonian couples states with large energy differences – are suppressed much faster than those “close” to the diagonal.</p>
+<p>There exist several other generators in literature. One choice, proposed by White <span class="citation" data-cites="White:cond-mat0201346">(White 2002)</span>, makes numerical approaches much more efficient. The problem with the Wegner generator is the widely varying decaying speeds of the Hamiltonian matrix elements. Terms with large energy separations from the ground state are suppressed initially, followed by those with smaller energy separations. This leads to stiffness in the flow equation, which in turn causes numerical difficulties when solving the set of coupled differential equations.</p>
+<p>The <strong>White generator</strong> takes an alternative approach, which is well suited for problems where one is mainly interested in the ground state of a system. Firstly, instead of driving all off-diagonal elements of the Hamiltonian to zero, the generator focuses exclusively on those that are coupled to the reference state <span class="math inline">\(\ket{\Phi}\)</span> so as to decouple the reference state from the remaining Hamiltonian. This reduces the amount of change done to the Hamiltonian, reducing the accuracy lost from the operator truncation. Secondly, the rate of decay in Hamiltonian matrix elements are approximately normalized by dividing the generator matrix elements by an appropriate factor. This ensures that the affected elements decay at approximately the same rate, reducing the stiffness of the flow equations.</p>
+<p>The White generator is explicitly constructed in the following way <span class="citation" data-cites="PhysRevLett.106.222502 White:cond-mat0201346">(Tsukiyama, Bogner, and Schwenk 2011; White 2002)</span>: <span id="eq:white-generator"><span class="math display">\[\hat{\eta}^{\text{Wh}} = \hat{\eta}&#39; - \hat{\eta}&#39;{}^\dagger\qquad(51)\]</span></span> where <span class="math inline">\(\hat{\eta}&#39;\)</span> is defined as <span class="math display">\[\hat{\eta}&#39; = \sum_{i \backslash a} \frac{H_{a i}}{\tilde{\Delta}_{a i}} \normord{\hat{a}^\dagger_a \hat{a}_i} + \frac{1}{4} \sum_{i j \backslash a b} \frac{H_{a b i j}}{\tilde{\Delta}_{a b i j}} \normord{\hat{a}^\dagger_a \hat{a}^\dagger_b \hat{a}_j \hat{a}_i} + \cdots\]</span> The symbol <span class="math inline">\(\tilde{\Delta}\)</span> denotes the <strong>Epstein–Nesbet energy denominators</strong> <span class="citation" data-cites="PhysRev.28.695 Nesbet312 shavitt2009many">(Epstein 1926; Nesbet 1955; Shavitt and Bartlett 2009)</span>, defined as <span class="math display">\[\begin{align*}
+  \tilde{\Delta}_{a i} &amp;= E_{\Phi_{a i}} - E_\Phi \\
+  &amp;= \Delta_{a i} - H_{a i a i} \\
+  \tilde{\Delta}_{a b i j} &amp;= E_{\Phi_{a b i j}} - E_\Phi \\
+  &amp;= \Delta_{a b i j} + H_{a b a b} - H_{a i a i} - H_{b i b i} + H_{i j i j} - H_{a j a j} - H_{b j b j} \\
+  \tilde{\Delta}_{a_1 \ldots a_k i_1 \ldots i_k} &amp;= E_{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} - E_\Phi
+\end{align*}\]</span> whereas <span class="math inline">\(\Delta\)</span> denotes the Møller–Plesset energy denominators <span class="citation" data-cites="MoellerPlesset1934">(Møller and Plesset 1934)</span> defined in Eq. <a href="hartree-fock.html#eq:moellerplessetdenominator">45</a>. White generators can also use Møller–Plesset energy denominators directly in lieu of Epstein–Nesbet energy denominators <span class="citation" data-cites="Hergert2016165">(Hergert et al. 2016)</span>, which leads to a slightly different variant of the White generator. In our calculations, we use exclusively Epstein–Nesbet denominators.</p>
+<p>Compared to the Wegner generator, where the derivatives of the final flow equations contain cubes of the Hamiltonian matrix elements (i.e. each term contains a product of 3 one-body and/or two-body matrix elements), the elements in White generators contribute only linearly. This reduces the stiffness in the differential equation, providing a net increase in computational efficiency as stiff ODE solvers tend to be slower and consume more memory.</p>
+<h2 id="sec:imsrg-eqs"><span class="header-section-number">11.4</span> IM-SRG(2) equations</h2>
+<p>In the 2-body operator truncation scheme, the generator <span class="math inline">\(\hat{\eta}\)</span> can be written as a generic 2-body operator: <span class="math display">\[\hat{\eta} = \sum_{p q} \eta_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} + \frac{1}{4} \sum_{p q r s} \eta_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r}\]</span> where <span class="math inline">\(\eta_{p q}\)</span> and <span class="math inline">\(\eta_{p q r s}\)</span> respectively are its one- and two-body matrix elements normal ordered relative to <span class="math inline">\(\ket{\Phi}\)</span> and subject to the antihermittivity constraint.</p>
+<p>The main complication of the IM-SRG flow equation Eq. <a href="imsrg.html#eq:imsrgode">48</a> lies in the commutator, <span class="math display">\[[\hat{\eta}, \hat{H}] = \hat{\eta} \hat{H} - \hat{H} \hat{\eta}\]</span> By expanding the commutator diagrammatically, we find that all terms where <span class="math inline">\(\hat{\eta}\)</span> and <span class="math inline">\(\hat{H}\)</span> are connected (disconnected diagrams) vanish because they commute. The remaining terms are simply the linked products between the two operators, which we denote <span class="math inline">\(\hat{C}(\hat{\eta}, \hat{H})\)</span>, in either order: <span class="math display">\[[\hat{\eta}, \hat{H}] = \hat{C}(\hat{\eta}, \hat{H}) - \hat{C}(\hat{H}, \hat{\eta})\]</span></p>
+<p>Consider a generic linked product <span class="math inline">\(\hat{C}(\hat{A}, \hat{B})\)</span> where <span class="math inline">\(\hat{C}\)</span> is a (0, 1, 2, 3)-operator given by <span class="math display">\[\begin{gather*}
+  \hat{C} = C_\Phi + \sum_{p q} C_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} + \frac{1}{4} \sum_{p q r s} C_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r} \\
+  \quad + \frac{1}{36} \sum_{p q r s t u} C_{p q r s t u} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_u \hat{a}_t \hat{a}_s}
+\end{gather*}\]</span> To write out the linked product, we start considering all possible Hugenholtz skeletons<a href="imsrg.html#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> <span class="math inline">\(\hat{C}^{c a b}\)</span> where <span class="math inline">\(a\)</span> is the rank of the first operator from <span class="math inline">\(\hat{A}\)</span>, <span class="math inline">\(b\)</span> is the rank of the second operator from <span class="math inline">\(\hat{B}\)</span>, and <span class="math inline">\(c\)</span> is the rank of the product diagram. This leads to the following terms: <span class="math display">\[\begin{align*}
+  \hat{C}^{0} &amp;= \hat{C}^{011} + \hat{C}^{022} &amp;
+  \hat{C}^{1} &amp;= \hat{C}^{111} + \hat{C}^{112} + \hat{C}^{121} + \hat{C}^{122} \\
+  \hat{C}^{2} &amp;= \hat{C}^{212} + \hat{C}^{221} + \hat{C}^{222} &amp;
+  \hat{C}^{3} &amp;= \hat{C}^{322}
+\end{align*}\]</span> We can then elaborate on this by considering all possible assignments of the arrows. We classify these diagrams as <span class="math inline">\(\hat{C}^{c a b d}\)</span> where <span class="math inline">\(d\)</span> is the number of arrows going from <span class="math inline">\(\hat{B}\)</span> toward <span class="math inline">\(\hat{A}\)</span>, which is also the number of particle lines. <span class="math display">\[\begin{align*}
+  \hat{C}^{011} &amp;= \hat{C}^{0110} &amp;
+  \hat{C}^{022} &amp;= \hat{C}^{0220} \\
+  \hat{C}^{111} &amp;= \hat{C}^{1110} + \hat{C}^{1111} &amp;
+  \hat{C}^{112} &amp;= \hat{C}^{1120} \\
+  \hat{C}^{121} &amp;= \hat{C}^{1210} &amp;
+  \hat{C}^{122} &amp;= \hat{C}^{1220} + \hat{C}^{1221} \\
+  \hat{C}^{212} &amp;= \hat{C}^{2120} + \hat{C}^{2121} &amp;
+  \hat{C}^{221} &amp;= \hat{C}^{2210} + \hat{C}^{2211} \\
+  \hat{C}^{222} &amp;= \hat{C}^{2220} + \hat{C}^{2221} + \hat{C}^{2222} &amp;
+  \hat{C}^{322} &amp;= \hat{C}^{3220} + \hat{C}^{3221}
+\end{align*}\]</span> Finally, we write out the diagrams as, <span class="math display">\[\begin{align*}
+  C^{0110}_\Phi &amp;= +\sum_{i \backslash a} A_{i a} B_{a i} &amp;
+  C^{0220}_\Phi &amp;= +\frac{1}{4} \sum_{i j \backslash a b} A_{i j a b} B_{a b i j} \\
+  C^{1110}_{p q} &amp;= -\sum_{i \backslash} A_{i q} B_{p i} &amp;
+  C^{1111}_{p q} &amp;= +\sum_{\backslash a} A_{p a} B_{a q} \\
+  C^{1120}_{p q} &amp;= +\sum_{i \backslash a} A_{i a} B_{a p i q} &amp;
+  C^{1210}_{p q} &amp;= +\sum_{i \backslash a} A_{i p a q} B_{a i} \\
+  C^{1220}_{p q} &amp;= -\frac{1}{2} \sum_{i j \backslash a} A_{i j a q} B_{a p i j} &amp;
+  C^{1221}_{p q} &amp;= +\frac{1}{2} \sum_{i \backslash a b} A_{i p a b} B_{a b i q} \\
+  C^{2120}_{p q r s} &amp;= -2 \mathcal{A}_{r s} \sum_{i \backslash} A_{i r} B_{p q i s} &amp;
+  C^{2121}_{p q r s} &amp;= +2 \mathcal{A}_{p q} \sum_{\backslash a} A_{p a} B_{a q r s} \\
+  C^{2210}_{p q r s} &amp;= -2 \mathcal{A}_{p q} \sum_{i \backslash} A_{i q r s} B_{p i} &amp;
+  C^{2211}_{p q r s} &amp;= +2 \mathcal{A}_{r s} \sum_{\backslash a} A_{p q a s} B_{a r} \\
+  C^{2220}_{p q r s} &amp;= +\frac{1}{2} \sum_{i j \backslash} A_{i j r s} B_{p q i j} &amp;
+  C^{2221}_{p q r s} &amp;= -4 \mathcal{A}_{p q} \mathcal{A}_{r s} \sum_{i \backslash a} A_{i q a r} B_{a p i s} \\
+  C^{2222}_{p q r s} &amp;= +\frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s} \\
+  C^{3220}_{p q r s t u} &amp;= -9 \mathcal{A}_{p q r} \mathcal{A}_{s t u} \sum_{i \backslash} A_{i q s t} B_{p r i u} &amp;
+  C^{3221}_{p q r s t u} &amp;= +9 \mathcal{A}_{p q r} \mathcal{A}_{s t u} \sum_{\backslash a} A_{p q a t} B_{a r s u}
+\end{align*}\]</span> Fig. <a href="imsrg.html#fig:diagrams-imsrg">18</a> shows these diagrams in diagrammatic form.</p>
+<figure>
+<img src="fig-diagrams-imsrg" alt="Figure 18: Hugenholtz diagrams representing the linked product \hat{C}(\circ, \bullet) in the IM-SRG flow equation, with open circles representing \hat{A} and filled circles representing \hat{B}. We omit diagrams that are related by permutations among the external bra lines or among the external ket lines." id="fig:diagrams-imsrg" /><figcaption>Figure 18: Hugenholtz diagrams representing the linked product <span class="math inline">\(\hat{C}(\circ, \bullet)\)</span> in the IM-SRG flow equation, with open circles representing <span class="math inline">\(\hat{A}\)</span> and filled circles representing <span class="math inline">\(\hat{B}\)</span>. We omit diagrams that are related by permutations among the external bra lines or among the external ket lines.</figcaption>
+</figure>
+<h2 id="sec:imsrg-j-eqs"><span class="header-section-number">11.5</span> IM-SRG(2) equations in J-scheme</h2>
+<p>Once again, we use the implicit-J convention (Sec. <a href="angular-momentum-coupling.html#sec:implicit-j">8.12.3</a>) to write J-scheme equations. Although some equations in J-scheme appear superficially identical to those in M-scheme, they are not interpreted in the same way due to the lack of <span class="math inline">\(m\)</span>-type variables in J-scheme.</p>
+<p>The Epstein–Nesbet energy denominators that arise in White generators contain two-body terms that cannot be expressed in J-scheme. As a practical workaround, one could replace occurrences of <span class="math inline">\(H_{p q r s}\)</span> in the denominator with the monopole matrix element <span class="math display">\[H_{p q r s}^{\mathrm{mono}} = \frac{\sum_{j_{p q}} \jweight{j}_{p q}^2 H_{p q r s}}{\sum_{j_{p q}} \jweight{j}_{p q}^2 \tridelta{j_p}{j_q}{j_{p q}}}\]</span> Unlike the usual matrix element <span class="math inline">\(H_{p q r s}\)</span>, the monopole matrix element <span class="math inline">\(H_{p q r s}^{\mathrm{mono}}\)</span> does not depend on <span class="math inline">\(j_{p q}\)</span>.</p>
+<p>The replacement by monopole matrix elements leads to the following Epstein–Nesbet energy denominators: <span class="math display">\[\begin{align*}
+  \tilde{\Delta}_{a i}^{\mathrm{mono}} &amp;= \Delta_{a i} - H_{a i a i}^{\mathrm{mono}} \\
+  \tilde{\Delta}_{a b i j}^{\mathrm{mono}} &amp;= \Delta_{a b i j} + H_{a b a b}^{\mathrm{mono}} - H_{a i a i}^{\mathrm{mono}} - H_{b i b i}^{\mathrm{mono}} + H_{i j i j}^{\mathrm{mono}} - H_{a j a j}^{\mathrm{mono}} - H_{b j b j}^{\mathrm{mono}}
+\end{align*}\]</span> These do result in a different White generator, however. The generator in M-scheme is no longer equivalent to that in J-scheme if monopole matrix elements are used.</p>
+<p>Finally, here are the J-scheme IM-SRG(2) equations using the implicit-J convention (Sec. <a href="angular-momentum-coupling.html#sec:implicit-j">8.12.3</a>): <span class="math display">\[\begin{align*}
+  C^{0110}_\Phi &amp;= +\sum_{i \backslash a} \jweight{j}_i^2 A_{i a} B_{a i} &amp;
+  C^{0220}_\Phi &amp;= +\frac{1}{4} \sum_{j_{i j}} \sum_{i j \backslash a b} \jweight{j}_{i j}^2 A_{i j a b} B_{a b i j} \\
+  C^{1110}_{p q} &amp;= -\sum_{i \backslash} A_{i q} B_{p i} &amp;
+  C^{1111}_{p q} &amp;= +\sum_{\backslash a} A_{p a} B_{a q} \\
+  C^{1120}_{p q} &amp;= +\sum_{j_{a p}} \sum_{i \backslash a} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} A_{i a} B_{a p i q} &amp;
+  C^{1210}_{p q} &amp;= +\sum_{j_{i p}} \sum_{i \backslash a} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A_{i p a q} B_{a i} \\
+  C^{1220}_{p q} &amp;= -\frac{1}{2} \sum_{j_{a p}} \sum_{i j \backslash a} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} A_{i j a q} B_{a p i j} &amp;
+  C^{1221}_{p q} &amp;= +\frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A_{i p a b} B_{a b i q} \\
+  C^{2120}_{p q r s} &amp;= -2 \mathcal{A}_{r s} \sum_{i \backslash} A_{i r} B_{p q i s} &amp;
+  C^{2121}_{p q r s} &amp;= +2 \mathcal{A}_{p q} \sum_{\backslash a} A_{p a} B_{a q r s} \\
+  C^{2210}_{p q r s} &amp;= -2 \mathcal{A}_{p q} \sum_{i \backslash} A_{i q r s} B_{p i} &amp;
+  C^{2211}_{p q r s} &amp;= +2 \mathcal{A}_{r s} \sum_{\backslash a} A_{p q a s} B_{a r} \\
+  C^{2220}_{p q r s} &amp;= +\frac{1}{2} \sum_{i j \backslash} A_{i j r s} B_{p q i j} &amp;
+  \tilde{C}^{2221}_{p s r q} &amp;= +4 \sum_{i \backslash a} \tilde{A}_{i a r q} \tilde{B}_{p s i a} \\
+  C^{2222}_{p q r s} &amp;= +\frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s}
+\end{align*}\]</span> where the tilde symbol (<span class="math inline">\(\tilde{C}\)</span>) denotes non-antisymmetrized Pandya-coupled matrix elements (Sec. <a href="angular-momentum-coupling.html#sec:pandya">8.12.2</a>).</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="hartree-fock.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="qdpt.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="hartree-fock.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="qdpt.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

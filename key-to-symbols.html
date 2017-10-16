@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Key to Symbols - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html" class="active">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="key-to-symbols"><span class="header-section-number">4</span> Key to Symbols</h1>
+<ul>
+<li><span class="math inline">\(\bm{x}\)</span> (bold) — matrix or vector</li>
+<li><span class="math inline">\(\hat{x}\)</span> (hat) — quantum operator</li>
+<li><span class="math inline">\(x^*\)</span> (superscript asterisk) — complex conjugation</li>
+<li><span class="math inline">\(x^\dagger\)</span> (superscript dagger) — Hermitian adjoint</li>
+<li><span class="math inline">\(\bm{1}\)</span> — identity matrix</li>
+<li><span class="math inline">\(\hat{1}\)</span> — identity operator</li>
+<li><span class="math inline">\(\mathbb{N}\)</span> — nonnegative integers</li>
+<li><span class="math inline">\(\mathbb{Z}\)</span> — integers</li>
+<li><span class="math inline">\(\mathbb{H}\)</span> — Hilbert space of a quantum system</li>
+<li><span class="math inline">\(\mathbb{F}^\pm\)</span> — <span class="math inline">\(\pm\)</span>-symmetric Fock space (Sec. <a href="many-body-theory.html#sec:second-quantization">6.2</a>)</li>
+<li><span class="math inline">\(\delta_{p q}\)</span> — Kronecker delta</li>
+<li><span class="math inline">\(\epsilon_{i j k}\)</span> — Levi–Civita symbol</li>
+<li><span class="math inline">\(\Gamma(x)\)</span> — gamma function</li>
+<li><span class="math inline">\(L_n^\alpha(x)\)</span> — associated Laguerre polynomial (Eq. <a href="quantum-dots.html#eq:laguerre-polynomials">57</a>)</li>
+<li><span class="math inline">\(\bar{L}_n^\alpha(x)\)</span> – normalized associated Laguerre polynomial (Eq. <a href="quantum-dots.html#eq:laguerre-polynomials">57</a>)</li>
+<li><span class="math inline">\(Y_{\ell m}(\theta, \varphi)\)</span> — spherical harmonic with Condon–Shortley phase <span class="citation" data-cites="DLMF">(“NIST Digital Library of Mathematical Functions” 2016)</span></li>
+<li><span class="math inline">\((-)^i\)</span> — shorthand for <span class="math inline">\((-1)^i\)</span></li>
+<li><span class="math inline">\((-)^\sigma\)</span> — sign of a permutation <span class="math inline">\(\sigma\)</span></li>
+<li><span class="math inline">\(\lfloor x \rfloor\)</span> — floor of <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\([\hat{x}, \hat{y}]_- = [\hat{x}, \hat{y}]\)</span> — commutator</li>
+<li><span class="math inline">\([\hat{x}, \hat{y}]_+ = \{\hat{x}, \hat{y}\}\)</span> — anticommutator</li>
+<li><span class="math inline">\(\normord{x}\)</span> — normal ordering relative to Fermi vaccuum (Sec. <a href="many-body-theory.html#sec:normord">6.5</a>)</li>
+<li><span class="math inline">\(\vnormord{x}\)</span> — normal ordering relative to physical vacuum (Sec. <a href="many-body-theory.html#sec:normord">6.5</a>)</li>
+<li><span class="math inline">\(\mathbb{V} \otimes \mathbb{W}\)</span> — tensor product of vector spaces</li>
+<li><span class="math inline">\(\ket{a} \otimes \ket{b}\)</span> — tensor product constructor of kets</li>
+<li><span class="math inline">\(\ket{p \otimes q}\)</span> — tensor product state (Sec. <a href="many-body-theory.html#sec:prod-state">6.1.1</a>)</li>
+<li><span class="math inline">\(\ket{p q}^+\)</span> — symmetrized state (Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>)</li>
+<li><span class="math inline">\(\ket{p q}^- = \ket{p q}\)</span> — antisymmetrized state (Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>)</li>
+<li><span class="math inline">\(\ket{\varnothing}\)</span> — physical vacuum state (Sec. <a href="many-body-theory.html#sec:prod-state">6.1.1</a>)</li>
+<li><span class="math inline">\(\ket{\Phi}\)</span> — reference state (Sec. <a href="many-body-theory.html#sec:ph-formalism">6.4</a>)</li>
+<li><span class="math inline">\(\hat{a}_p\)</span> — physical annihilation operator (Sec. <a href="many-body-theory.html#sec:second-quantization">6.2</a>)</li>
+<li><span class="math inline">\(\hat{b}_p\)</span> — quasiparticle annihilation operator (Sec. <a href="many-body-theory.html#sec:ph-formalism">6.4</a>)</li>
+<li><span class="math inline">\(\symm^\pm\)</span>, <span class="math inline">\(\symm^{(i)}\)</span>, <span class="math inline">\(\symm\)</span>, <span class="math inline">\(\antisymm\)</span> — symmetrization/antisymmetrization symbols (Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>)</li>
+<li><span class="math inline">\(\sum_{i j \backslash a b}\)</span> — summation over holes and particles (Eq. <a href="many-body-theory.html#eq:ph-summation">3</a>)</li>
+<li><span class="math inline">\(\prod_{k = m}^{\to n}\)</span> — ordered product from left (<span class="math inline">\(k = m\)</span>) to right (<span class="math inline">\(k = n\)</span>)</li>
+<li><span class="math inline">\(M_j = \{-j, -j + 1, \ldots, j - 1, j\}\)</span> — projection quantum numbers of a multiplet (Eq. <a href="angular-momentum-coupling.html#eq:mset">13</a>)</li>
+<li><span class="math inline">\(\jweight{j}_a = \sqrt{2 j_a + 1}\)</span> — (Eq. <a href="angular-momentum-coupling.html#eq:jweight">17</a>)</li>
+<li><span class="math inline">\(\check{a}\)</span> — time-reversed angular momentum (Eq. <a href="angular-momentum-coupling.html#eq:arrow-diagram">24</a>)</li>
+<li><span class="math inline">\(\begin{pmatrix} j \\ m \quad m&#39; \end{pmatrix}\)</span> — Herring–Wigner 1-jm symbol (Eq. <a href="angular-momentum-coupling.html#eq:arrow">25</a>)</li>
+<li><span class="math inline">\(\bkt{a \| \hat{Q} \| b}\)</span> — reduced matrix element (Sec. <a href="angular-momentum-coupling.html#sec:wigner-eckart">8.6</a>)</li>
+<li><span class="math inline">\(\bkt{a, b | ab} = \bkt{j_a m_a j_b m_b | j_{a b} m_{a b}}\)</span> — Clebsch–Gordan coefficient (Sec. <a href="angular-momentum-coupling.html#sec:clebschgordan">8.2</a>)</li>
+<li><span class="math inline">\((a b c) = \begin{pmatrix} j_a &amp; j_b &amp; j_c \\ m_a &amp; m_b &amp; m_c \end{pmatrix}\)</span> — Wigner 3-jm symbol (Sec. <a href="angular-momentum-coupling.html#sec:3jm">8.3</a>)</li>
+<li><span class="math inline">\(\tridelta{j_a}{j_b}{j_c}\)</span> — triangular delta (Sec. <a href="angular-momentum-coupling.html#sec:tridelta">8.8.1</a>)</li>
+<li><span class="math inline">\(\begin{Bmatrix} j_a &amp; j_b &amp; j_c \\ j_d &amp; j_e &amp; j_f \end{Bmatrix}\)</span> — Wigner 6-j symbol (Sec. <a href="angular-momentum-coupling.html#sec:6j">8.8.2</a>)</li>
+<li><span class="math inline">\(\begin{Bmatrix} j_a &amp; j_b &amp; j_c \\ j_d &amp; j_e &amp; j_f \\ j_g &amp; j_h &amp; j_i \end{Bmatrix}\)</span> — Wigner 9-j symbol (Sec. <a href="angular-momentum-coupling.html#sec:9j">8.8.3</a>)</li>
+</ul>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="acknowledgments.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="introduction.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="acknowledgments.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="introduction.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

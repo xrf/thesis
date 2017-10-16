@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Conclusions - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html" class="active"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="conclusions"><span class="header-section-number">18</span> Conclusions</h1>
+<p>In this work, our focus has been on the calculation of single-particle energies (addition and removal energies) of quantum dots and nuclei using a combination of Hartree–Fock (HF) theory, in-medium similarity renormalization group theory up to two-body operators (IM-SRG(2)), and quasidegenerate perturbation theory at third order (QDPT3). We have compared the results to other methods like equations-of-motion up to two-particle excitations (EOM2) and coupled cluster with singles and doubles (CCSD) and found good agreement in the majority of the systems. Thus, we have a reasonably effective and inexpensive way to compute energies of states near closed-shell nuclei.</p>
+<p>To achieve this calculation, we have developed an open-source J-scheme implementation of the three major many-body methods verified by a variety of tests. It is capable of calculating various quantum systems, including quantum dots and nuclei. The framework of the code is highly flexible: one can readily add additional quantum systems simply by writing a module that supplies the appropriate input single-particle basis (Sec. <a href="implementation.html#sec:input-single-particle-basis">16.4.4.1</a>).</p>
+<p>In concert with the J-scheme implementation, we have also developed a graphical tool for painless manipulation of angular momentum coupling diagrams. This greatly reduces the effort required to derive J-scheme equations and eliminates many sources of human error. We expect this to be particularly useful in theories where spherical tensor operators occur.</p>
+<h2 id="future-perspectives"><span class="header-section-number">18.1</span> Future perspectives</h2>
+<p>There are many directions in which our current work can be improved upon. The most immediate extension is the exploration of additional parameters for our nuclear calculations, including additional oscillator frequencies <span class="math inline">\(\omega\)</span>, additional values of <span class="math inline">\(e_{\mathrm{max}}\)</span> (maximum shell index, Eq. <a href="nuclei.html#eq:emax">63</a>), and of course additional nuclear isotopes. There are numerous possibilities here.</p>
+<p>After obtaining nuclear results with more parameters, we could perform a more detailed analysis of the convergence patterns with respect to both <span class="math inline">\(e_{\mathrm{max}}\)</span> and <span class="math inline">\(\omega\)</span>. We can also compute extrapolations using, for example, the prescription in <span class="citation" data-cites="Hergert2016165">(Hergert et al. 2016)</span>.</p>
+<p>As we have already implemented systems like infinite nuclear matter <span class="citation" data-cites="lnp936">(Hjorth-Jensen, Lombardo, and Kolck 2017)</span> and homogeneous electron gas <span class="citation" data-cites="PhysRevLett.110.226401">(Shepherd and Grüneis 2013)</span>, we could explore these systems and analyze the quality our method in these systems. Neutron drop calculations can also be readily achieved with our code since it uses essentially the same basis as nuclei.</p>
+<p>It is possible to construct valence shell model Hamiltonians using only QDPT <span class="citation" data-cites="HJORTHJENSEN1995125">(Hjorth-Jensen, Kuo, and Osnes 1995)</span>, but concerns were raised about its convergence due to the strength of the nuclear interaction. Given our preliminary but promising results, it may be possible to use IM-SRG + QDPT to construct valence shell model Hamiltonians and operators with comparable quality to those from EOM-based approaches, which are significantly more expensive.</p>
+<p>The inclusion of three-body force is likely a necessity for results that are comparable with experimental data. We can introduce a large fraction of its contribution through the three-body normal-ordering process, which is computationally tractable, unlike IM-SRG(3). We could also upgrade the HF framework to include three-body forces.</p>
+<p>We could improve the IM-SRG(2) approximation by incorporating some of the truncated higher-body terms in the commutator through approximate techniques such as those described in <span class="citation" data-cites="Hergert2016165 morris2016thesis">(Hergert et al. 2016; Morris 2016)</span>. It may also be worth evaluating additional QDPT terms at fourth order for greater accuracy. Since the nature of IM-SRG can eliminate a large number of QDPT terms, QDPT4 may be feasible. Some classes of diagrams could even be summed to infinite order through resummation techniques.</p>
+<p>Our J-scheme implementation is not yet fully optimized. Some of the expensive commutator terms are still coded fairly naively and could be improved. We have also made very little use of parallelization at either the shared-memory or distributed-memory level – currently, parallelization occurs primarily within the external GEMM implementation, which is limited to threads. The Shampine–Gordon ODE solver library that we use is very much designed for distributed-memory parallelization – if we enable this feature, it would help distribute both the computational and memory load across multiple nodes. Several of the expensive GEMM calculations could be distributed between nodes on a block-by-block basis similar to <span class="citation" data-cites="5999822">(Aktulga et al. 2011)</span>.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="results.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="bibliography.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="results.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="bibliography.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

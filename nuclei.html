@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Nuclei - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html" class="active"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="nuclei"><span class="header-section-number">15</span> Nuclei</h1>
+<p>The nuclear many-body problem is challenging problem due to the strength of as well as the uncertainty in the interaction.</p>
+<h2 id="the-nuclear-hamiltonian"><span class="header-section-number">15.1</span> The nuclear Hamiltonian</h2>
+<p>A nucleus is a self-bound system of nucleons: neutrons and protons. The nucleons interact with each other through the nuclear interaction. The parameters of the system are:</p>
+<ul>
+<li><span class="math inline">\(A\)</span>: the number of nucleons,</li>
+<li><span class="math inline">\(N\)</span>: the number of neutrons,<a href="nuclei.html#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a></li>
+<li><span class="math inline">\(Z\)</span>: the number of protons,</li>
+<li><span class="math inline">\(m\)</span>: the mass of each nucleon, and</li>
+<li><span class="math inline">\(\hat{V}\)</span>: the nuclear interaction.</li>
+</ul>
+<p>Note that for simplicity we treat neutrons and protons as having the same mass, which is generally adequate given the current levels of accuracy.</p>
+<p>The many-body Hamiltonian consists of two components, the relative kinetic energy <span class="math inline">\(\hat{T}^{\mathrm{rel}}\)</span> and the nuclear interaction <span class="math inline">\(\hat{V}\)</span>, <span class="math display">\[\hat{H} = \hat{T}^{\mathrm{rel}} + \hat{V}\]</span> The relative kinetic energy is given by: <span class="math display">\[\hat{T}^{\mathrm{rel}} = \sum_{\alpha = 1}^A \frac{\hat{\bm{p}}_\alpha^2}{2 m} - \frac{1}{2 m A} \left(\sum_{\alpha = 1}^A \hat{\bm{p}}_\alpha\right)^2 = \sum_{\alpha = 1}^A \sum_{\beta = 1}^{\alpha - 1} \frac{(\hat{\bm{p}}_\alpha - \hat{\bm{p}}_\beta)^2}{2 m}\]</span> In second quantization, this can be written as a combination of a one-body and a two-body operator: <span class="math display">\[\begin{align*}
+  \hat{t}^{\mathrm{rel}}_1(\bm{p}) &amp;= \left(1 - \frac{1}{A}\right) \frac{\hat{\bm{p}}^2}{2 m} &amp;
+  \hat{t}^{\mathrm{rel}}_2(\bm{p}, \bm{p}&#39;) &amp;= -\frac{\hat{\bm{p}} \cdot \hat{\bm{p}}&#39;}{m A} \\
+  \hat{T}^{\mathrm{rel}}_1 &amp;= \sum_{\alpha = 1}^A \hat{t}^{\mathrm{rel}}_1(\bm{p}_\alpha) &amp;
+  \hat{T}^{\mathrm{rel}}_2 &amp;= \sum_{\alpha = 1}^A \sum_{\beta = 1}^{\alpha - 1} \hat{t}^{\mathrm{rel}}_2(\bm{p}_\alpha, \bm{p}_\beta)
+\end{align*}\]</span></p>
+<p>The units we use in nuclear theory are <span class="math inline">\(\si{MeV}\)</span>, <span class="math inline">\(\si{fm}\)</span>, and combinations thereof. We set the constants <span class="math inline">\(\hbar = c = 1\)</span>.</p>
+<h2 id="the-nuclear-interaction"><span class="header-section-number">15.2</span> The nuclear interaction</h2>
+<p>The nuclear interaction <span class="math inline">\(\hat{V}\)</span> is generally quite complicated. Typically it is either a two-body operator, or a combination of two-body and three-body operators. In principle, this interaction could even have higher-body operators than three.</p>
+<p>Unlike quantum dots, there are many possible choices for <span class="math inline">\(\hat{V}\)</span>, none of which could be considered canonical. This is due to current limitations in the understanding of the nuclear interaction.</p>
+<p>So far, the state of the art in nuclear interactions lies in chiral effective field theory (chiral EFT or <span class="math inline">\(\chi\)</span>-EFT) <span class="citation" data-cites="MACHLEIDT20111 RevModPhys.81.1773">(Machleidt and Entem 2011; Epelbaum, Hammer, and Meißner 2009)</span>, which uses a power-counting scheme to build an effective Lagrangian with nucleons as the degrees of freedom. Most of the coupling constants of this Lagrangian are not known <em>a priori</em> and must be determined by fitting experimental data.</p>
+<p>Chiral EFT interactions are characterized by the level of truncation in the power-counting scheme, as well as the cut-off momentum <span class="math inline">\(\Lambda\)</span> used for regularization. A commonly used choice in the literature is the nucleon-nucleon interaction of <span class="citation" data-cites="PhysRevC.68.041001">(Entem and Machleidt 2003)</span> computed to the next-to-next-to-next-to-leading order (N<sup>3</sup>LO) with a momentum cutoff at <span class="math inline">\(\Lambda = \SI{500}{MeV}\)</span>. This interaction has proven to be quite accurate in practice.</p>
+<p>Many kinds of nuclear interactions, including chiral EFT ones, are typically <em>hard</em> in that they couple low-momentum states with high-momentum ones, caused by the presence of a strongly repulsive core <span class="citation" data-cites="BOGNER201094">(Bogner, Furnstahl, and Schwenk 2010)</span>. This can significantly hinder the convergence of many-body methods, necessitating the use of a large single-particle basis.</p>
+<p>To mitigate this, free-space SRG may be used to renormalize the interaction, decoupling the low-momentum states from high-momentum states, thereby <em>softening</em> the interaction. This extra preprocessing step confers significant benefits to the convergence of many-body methods, reducing computational cost <span class="citation" data-cites="PhysRevC.75.061001">(Bogner, Furnstahl, and Perry 2007)</span>.</p>
+<p>The SRG softening is characterized by the flow parameter <span class="math inline">\(s_{\mathrm{SRG}}\)</span>, or equivalently by the momentum <span class="math display">\[\lambda_{\mathrm{SRG}} = \frac{1}{s_{\mathrm{SRG}}^4}\]</span> which is not to be confused with the cutoff momentum <span class="math inline">\(\Lambda\)</span> in chiral EFT. In our calculations, we choose <span class="math inline">\(s_{\mathrm{SRG}} = \SI{0.0625}{fm^4}\)</span> or equivalently <span class="math inline">\(\lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}\)</span>.</p>
+<h2 id="spherical-harmonic-oscillator-basis"><span class="header-section-number">15.3</span> Spherical harmonic oscillator basis</h2>
+<p>The standard basis used for nuclei is that of the three-dimensional harmonic oscillator, chosen for both its analytic properties and similarity to the nuclear problem. Note unlike quantum dots, the spherical oscillator basis are <em>not</em> the eigenstates of the one-body part of the nuclear Hamiltonian.</p>
+<p>The frequency <span class="math inline">\(\omega\)</span> of the basis is not associated with the physical system, unlike in the case of quantum dots. Therefore, it adds an additional, arbitrary parameter for the nuclear many-body problem. The parameter can be used to evaluate the quality of the result: in a perfect calculation where the results are well converged, there should be no dependence on <span class="math inline">\(\omega\)</span> since it is not a physical parameter.</p>
+<p>There are several kinds of bases for the three-dimensional harmonic oscillator. We choose the spherical version to take advantage of angular momentum symmetries. They are given by: <span class="math display">\[\psi_{n \ell m_\ell}(r, \theta, \varphi) = \sqrt{2 \left(\frac{m \omega}{\hbar}\right)^{\ell + 3/2}} r^\ell \E^{-m \omega r^2 / (2 \hbar)} \bar{L}_n^{(\ell + 1/2)}\left(\frac{m \omega r^2}{\hbar}\right) Y_{\ell m_\ell}(\theta, \varphi)\]</span> where <span class="math inline">\(n\)</span> is the principal quantum number, <span class="math inline">\(\ell\)</span> is the orbital angular momentum magnitude, <span class="math inline">\(m_\ell\)</span> is the orbital angular momentum projection, <span class="math inline">\(\bar{L}_n^\alpha\)</span> are normalized associated Laguerre polynomials defined in Eq. <a href="quantum-dots.html#eq:laguerre-polynomials">57</a>, and <span class="math inline">\(Y_{\ell m_\ell}\)</span> are spherical harmonics.</p>
+<figure>
+<img src="fig-shell-ho3d" alt="Figure 21: Shell structure of the spherical harmonic oscillator" id="fig:shell-ho3d" /><figcaption>Figure 21: Shell structure of the spherical harmonic oscillator</figcaption>
+</figure>
+<p>The energy is given by: <span class="math display">\[E_{n \ell m_\ell} = \hbar \omega \left(e + \frac{3}{2}\right)\]</span> where <span class="math inline">\(e\)</span> is the <strong>shell index of the three-dimensional harmonic oscillator</strong>: <span id="eq:ho3d-shell-index"><span class="math display">\[e = 2 n + \ell\qquad(62)\]</span></span> which counts shells starting at zero. Compare with Eq. <a href="quantum-dots.html#eq:shell_index">60</a>, which is for the two-dimensional harmonic oscillator. These shells are also equidistant with an energy spacing of <span class="math inline">\(\hbar \omega\)</span>.</p>
+<p>Nucleons are associated with two additional non-spatial quantum numbers: spin projection <span class="math inline">\(m_s = \pm 1 / 2\)</span> and isospin projection <span class="math inline">\(m_t = \pm 1 / 2\)</span>. This means a proper nucleonic state should have 5 quantum numbers: <span class="math display">\[\ket{n \ell m_\ell m_s m_t}\]</span></p>
+<p>In practice, however, it is more beneficial to use LS coupled states as the nuclear Hamiltonian conserves not <span class="math inline">\(\hat{\bm{L}}\)</span> but <span class="math inline">\(\hat{\bm{J}}\)</span>: <span class="math display">\[\ket{n \ell j m_j m_t} = \sum_{m_\ell m_s} \ket{n \ell m_\ell m_s m_t} \bkt{\ell m_\ell \frac{1}{2} m_s | j m_j}\]</span> The corresponding harmonic oscillator shell structure is shown in Fig. <a href="nuclei.html#fig:shell-ho3d">21</a> using spectroscopic notation <span class="math inline">\(n \ell_j\)</span>, where s, p, d, f correspond to <span class="math inline">\(\ell = 0\)</span>, <span class="math inline">\(\ell = 1\)</span>, <span class="math inline">\(\ell = 2\)</span>, and <span class="math inline">\(\ell = 3\)</span>.</p>
+<p>The nuclear Hamiltonian also conserves parity, thus it can be convenient to use the parity quantum number <span class="math inline">\(\pi = (-)^\ell\)</span> in lieu of <span class="math inline">\(\ell\)</span>, since from <span class="math inline">\(\pi\)</span> and <span class="math inline">\(j\)</span> one can recover <span class="math inline">\(\ell\)</span>: <span class="math display">\[\ket{n \pi j m_j m_t} \simeq \ket{n \ell j m_j m_t}\]</span></p>
+<p>For calculations, it is necessary to truncate the single-particle harmonic oscillator basis. The simplest way is to impose a limit on the number of shells by the <strong>maximum shell index</strong> parameter <span class="math inline">\(e_{\mathrm{max}}\)</span>: <span id="eq:emax"><span class="math display">\[e \le e_{\mathrm{max}}\qquad(63)\]</span></span> We can analogously limit <span class="math inline">\(n\)</span> and/or <span class="math inline">\(\ell\)</span>: <span id="eq:nlmax"><span class="math display">\[n \le n_{\mathrm{max}} \qquad \qquad \ell \le \ell_{\mathrm{max}}\qquad(64)\]</span></span> On two-particle states constructed from the harmonic oscillator, we may also impose a limit through the <span class="math inline">\(E_{\mathrm{max}}\)</span> parameter (not to be confused with energy): <span id="eq:eemax"><span class="math display">\[e_1 + e_2 \le E_{\mathrm{max}}\qquad(65)\]</span></span> Currently, for our calculations we only use the <span class="math inline">\(e_{\mathrm{max}}\)</span> truncation. In future, we may require other forms of truncation in addition to <span class="math inline">\(e_{\mathrm{max}}\)</span> to keep the basis from growing too rapidly as we explore higher numbers of shells.</p>
+<h2 id="matrix-elements-of-kinetic-energy"><span class="header-section-number">15.4</span> Matrix elements of kinetic energy</h2>
+<p>For calculations in a harmonic oscillator basis, one often needs to compute matrix elements of the kinetic energy, <span class="math display">\[\langle n&#39; \ell&#39; m_\ell&#39; | \frac{\hat{\bm{p}}^2}{2 m} | n \ell m_\ell \rangle\]</span> Since linear momentum squared <span class="math inline">\(\hat{\bm{p}}^2\)</span> is a scalar, it commutes with angular momentum <span class="math inline">\(\hat{\bm{L}}\)</span> and therefore matrix elements with differing <span class="math inline">\(\ell\)</span> and <span class="math inline">\(m_\ell\)</span> must vanish.</p>
+<p>For now, let us use natural units – we will return to ordinary units shortly. To simplify the calculation, observe that <span class="math display">\[\frac{\hat{\bm{p}}^2}{2} = \hat{H} - \frac{\hat{\bm{r}}^2}{2}\]</span> This way, instead of calculating an integral involving a Laplacian, we can get away with an integral involving just <span class="math inline">\(r^2\)</span>.</p>
+<p>Using the recurrence relation of Laguerre polynomials, <span class="math display">\[\left(2 n + \ell + \frac{3}{2} - r^2\right) L_n^{(\ell + 1/2)}(r^2) = (n + 1) L_{n + 1}^{(\ell + 1/2)}(r^2) + \left(n + \ell + \frac{1}{2}\right) L_{n - 1}^{(\ell + 1/2)}(r^2)\]</span> we can expand <span class="math display">\[\begin{aligned}
+\hat{\bm{r}}^2 | n \ell m_\ell \rangle &amp;= -\sqrt{n \left(n + \ell + \frac{1}{2}\right)} | (n - 1) \ell m_\ell \rangle \\
+&amp;\quad + \left(2 n + \ell + \frac{3}{2}\right) | n \ell m_\ell \rangle \\
+&amp;\quad - \sqrt{(n + 1) \left(n + \ell + \frac{3}{2}\right)} | (n + 1) \ell m_\ell \rangle
+\end{aligned}\]</span> Hence, in ordinary units the matrix elements of potential energy are <span class="math display">\[\begin{align*}
+&amp;\langle n&#39; \ell&#39; m_\ell&#39; | \frac{m \omega^2 \hat{\bm{r}}^2}{2} | n \ell m_\ell \rangle = \\
+&amp;\quad \frac{\delta_{\ell&#39; \ell} \delta_{m_\ell&#39; m_\ell} \hbar \omega}{2} \left(\left(2 n + \ell + \frac{3}{2}\right) \delta_{n&#39; n} - \sqrt{\eta \left(\eta + \ell + \frac{1}{2}\right)} \delta_{|n&#39; - n| 1}\right)
+\end{align*}\]</span> where <span class="math inline">\(\eta = \max\{n&#39;, n\}\)</span> is the larger of the two. From here it is straightforward to compute the matrix elements of kinetic energy, <span id="eq:ho3d-kinetic-energy"><span class="math display">\[\begin{aligned}
+&amp;\langle n&#39; \ell&#39; m_\ell&#39; | \frac{\hat{\bm{p}}^2}{2 m} | n \ell m_\ell \rangle = \\
+&amp;\quad \frac{\delta_{\ell&#39; \ell} \delta_{m_\ell&#39; m_\ell} \hbar \omega}{2} \left(\left(2 n + \ell + \frac{3}{2}\right) \delta_{n&#39; n} + \sqrt{\eta \left(\eta + \ell + \frac{1}{2}\right)} \delta_{|n&#39; - n| 1}\right)
+\end{aligned}\qquad(66)\]</span></span> with the same <span class="math inline">\(\eta\)</span> as defined earlier.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="quantum-dots.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="implementation.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="quantum-dots.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="implementation.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

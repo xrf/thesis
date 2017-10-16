@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hartree–Fock method - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html" class="active"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="hartree-fock-method"><span class="header-section-number">10</span> Hartree-Fock method</h1>
+<p>The reference state formed by basis states of the non-interacting Hamiltonian may not offer a good approximation of the true ground state (i.e. of the interacting Hamiltonian). The Hartree–Fock (HF) method <span class="citation" data-cites="hartree_1928 Fock1930">(Hartree 1928; Fock 1930)</span> provides a way to optimize the basis states such that the reference state provides the best variational estimate of the ground state energy.</p>
+<h2 id="hartreefock-equations"><span class="header-section-number">10.1</span> Hartree–Fock equations</h2>
+<p>Using the variational principle, one can compute an approximate ground state <span class="math inline">\(\ket{\Phi}\)</span> by minimizing the energy expectation value (<strong>Hartree–Fock energy</strong>) <span id="eq:hfexpectation"><span class="math display">\[E_\Phi = \bra{\Phi} \hat H \ket{\Phi}\qquad(37)\]</span></span> with respect to a reference state <span class="math inline">\(\ket{\Phi}\)</span>, subject to the restriction that <span class="math inline">\(\ket{\Phi}\)</span> remains a single Slater determinant constructed from an unknown single-particle basis <span class="math inline">\(\ket{p&#39;},\)</span><a href="hartree-fock.html#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> <span class="math display">\[\ket{\Phi} = \ket{i_1&#39; \ldots i_N&#39;}\]</span> where <span class="math inline">\(\{i_1&#39;, \ldots, i_N\}\)</span> are an unknown set of occupied state labels drawn from the unknown single-particle basis. The restriction of <span class="math inline">\(\ket{\Phi}\)</span> to a single Slater determinant is what enables the simplicity and efficiency of this method.</p>
+<p>To perform numerical calculations, we further assume that each unknown state <span class="math inline">\(\ket{p&#39;}\)</span> is built from a linear combination of known states <span class="math inline">\(\ket{p}\)</span>, with an unknown matrix of coefficients <span class="math inline">\(\bm{C}\)</span> defined via the transformation equation <span class="math display">\[\ket{p&#39;} = \sum_p \ket{p} C_{p p&#39;}\]</span> This allows the problem to be reduced from an abstract minimization problem Eq. <a href="hartree-fock.html#eq:hfexpectation">37</a> to a concrete numerical problem. The caveat is that the set of known functions must be large enough to capture the relevant behavior of the system.</p>
+<p>To ensure orthonormality of the states, we require there to be as many unknown states <span class="math inline">\(\ket{p&#39;}\)</span> as known states <span class="math inline">\(\ket{p}\)</span>, and the coefficient matrix <span class="math inline">\(\bm{C}\)</span> must be unitary, <span class="math display">\[\bm{C}^\dagger \bm{C} = \bm{1}\]</span> These conditions are more strict than needed, but they greatly simplify the calculations and allow the states <span class="math inline">\(\ket{p&#39;}\)</span> to act as <em>optimized</em> inputs for methods beyond HF (<strong>post-HF</strong> methods). At the end of the calculation, of the set of states <span class="math inline">\(\ket{p&#39;}\)</span> there would be exactly <span class="math inline">\(N\)</span> occupied states that participate in the optimized Slater determinant <span class="math inline">\(\ket{\Phi}\)</span>. The remaining unoccupied states serve as the complementary space into which particles can be excited by the interaction <span class="math inline">\(\hat{V}\)</span> during post-HF calculations.</p>
+<p>Consider a Hamiltonian <span class="math inline">\(\hat{H}\)</span> that can be decomposed into a set of <span class="math inline">\((1, 2, 3)\)</span>-body operators relative to the physical vacuum, <span class="math display">\[\hat{H} = \hat{H}^\varnothing_1 + \hat{H}^\varnothing_2 + \hat{H}^\varnothing_3\]</span> where <span class="math inline">\(\hat{H}^\varnothing_k\)</span> is its <span class="math inline">\(k\)</span>-body component relative to the physical vacuum. (We will omit the <span class="math inline">\(\varnothing\)</span> suffix in this section.) The goal is to find the coefficients <span class="math inline">\(\bm{C}\)</span> that minimize the Hartree–Fock energy <span class="math inline">\(E_\Phi\)</span>, <span id="eq:hfenergy"><span class="math display">\[E_\Phi = \sum_{i&#39; \backslash} \bra{i&#39;} \hat{H}_1 \ket{i&#39;} + \frac{1}{2} \sum_{i&#39; j&#39; \backslash} \bra{i&#39; j&#39;} \hat{H}_2 \ket{i&#39; j&#39;}\qquad(38)\]</span></span> where <span id="eq:hftransform"><span class="math display">\[\begin{aligned}
+  &amp;\bra{p&#39;} \hat{H}_1 \ket{q&#39;} = \sum_{p q} C_{p p&#39;}^* \bra{p} \hat{H}_1 \ket{q} C_{q q&#39;} \\
+  &amp;\bra{p&#39; q&#39;} \hat{H}_2 \ket{r&#39; s&#39;} = \sum_{p q r s} C_{p p&#39;}^* C_{q q&#39;}^* \bra{p q} \hat{H}_2 \ket{r s} C_{r r&#39;} C_{s s&#39;}
+\end{aligned}\qquad(39)\]</span></span> and <span class="math inline">\(\sum_{i&#39; \backslash}\)</span> denotes a summation over all hole states <span class="math inline">\(\ket{i&#39;}\)</span> in the unknown basis (see Eq. <a href="many-body-theory.html#eq:ph-summation">3</a>).</p>
+<p>With the method of Lagrange multipliers, the minimization problem can be reduced to the solving of a nonlinear equation – the self-consistent <strong>Hartree–Fock equations</strong>: <span id="eq:hartreefock"><span class="math display">\[\bm{F} \bm{C} = \bm{C} \bm{\varepsilon}\qquad(40)\]</span></span> where the <strong>Fock matrix</strong> <span class="math inline">\(\bm F\)</span> is defined as <span id="eq:fock"><span class="math display">\[F_{p q} = \bra{p} \hat{H}_1 \ket{q} + \sum_{r s} \sum_{i&#39; \backslash} C_{r i&#39;}^* \bra{p r} \hat{H}_2 \ket{q s} C_{s i&#39;}\qquad(41)\]</span></span> with <span class="math inline">\(i&#39;\)</span> ranging over occupied states only, and <span class="math inline">\(\bm{\varepsilon}\)</span> is a vector of Lagrange multipliers, which serve to constrain the orthonormality of the single-particle basis. Each multiplier <span class="math inline">\(\varepsilon_{p&#39;}\)</span> is associated with a specific single-particle state <span class="math inline">\(\ket{p&#39;}\)</span>. Observe that the Fock matrix <span class="math inline">\(\bm{F}\)</span> contains precisely the matrix elements of the one-body Hamiltonian <span class="math inline">\(\hat{H}^\Phi_1\)</span> relative to the Fermi vacuum <span class="math inline">\(\ket{\Phi}\)</span> in the original basis <span class="math inline">\(\ket{p}\)</span> Eq. <a href="many-body-theory.html#eq:normord-ph">4</a>, and the HF energy <span class="math inline">\(E_\Phi\)</span> is exactly the zero-body component in Eq. <a href="many-body-theory.html#eq:normord-ph">4</a>.</p>
+<h2 id="hf-equations-in-j-scheme"><span class="header-section-number">10.2</span> HF equations in J-scheme</h2>
+<p>In this work, we use the implicit-J convention of Sec. <a href="angular-momentum-coupling.html#sec:implicit-j">8.12.3</a> to describe J-scheme equations.</p>
+<p>In J-scheme, the HF energy of Eq. <a href="hartree-fock.html#eq:hfenergy">38</a> is given by <span id="eq:hfenergy-j"><span class="math display">\[E_\Phi = \sum_{i&#39; \backslash} \jweight{j}_{i&#39;}^2 \bra{i&#39;} \hat{H}_1 \ket{i&#39;} + \frac{1}{2} \sum_{j_{i&#39; j&#39;}} \sum_{i&#39; j&#39; \backslash} \jweight{j}_{i&#39; j&#39;}^2 \bra{i&#39; j&#39;} \hat{H}_2 \ket{i&#39; j&#39;}\qquad(42)\]</span></span> and the Fock matrix of Eq. <a href="hartree-fock.html#eq:fock">41</a> is given by <span id="eq:fock-j"><span class="math display">\[F_{p q} = \bra{p} \hat{H}_1 \ket{q} + \sum_{j_{p r} r s} \sum_{i&#39; \backslash} \frac{\jweight{j}_{p r}^2}{\jweight{j}_p^2} C_{r i&#39;}^* \bra{p r} \hat{H}_2 \ket{q s} C_{s i&#39;}\qquad(43)\]</span></span></p>
+<p>The transformation equations of Eq. <a href="hartree-fock.html#eq:hftransform">39</a> remain superficially identical to M-scheme.</p>
+<h2 id="solving-hf-equations"><span class="header-section-number">10.3</span> Solving HF equations</h2>
+<p>Aside from trivial cases that are analytically solvable, the HF equation is generally solved numerically using an iterative algorithm. We begin with an initial guess <span class="math inline">\(\bm{C}^{(k)}\)</span> on the <span class="math inline">\(k\)</span>-th iteration, which is fed into Eq. <a href="hartree-fock.html#eq:fock">41</a> to produce the Fock matrix. This is then used in Eq. <a href="hartree-fock.html#eq:hartreefock">40</a>, which leads to a standard eigenvalue problem from which <span class="math inline">\(\bm{C}^{(k + 1)}\)</span> arises as the matrix of eigenvectors and <span class="math inline">\(\bm{\varepsilon}^{(k + 1)}\)</span> as the vector of eigenvalues. This process can be repeated indefinitely until <span class="math inline">\(\bm{C}\)</span> approaches a fixed point (self-consistency). While in theory it is possible for the solution to never reach a fixed point, or that it may require an unfeasibly large number of iterations, in practice this naive approach can adequately provide solutions for many cases. In other cases where it is insufficient, methods such as direct inversion of the iterative subspace (DIIS) <span class="citation" data-cites="PULAY1980393 JCC:JCC540030413">(Pulay 1980, 1982)</span>, Broyden’s method <span class="citation" data-cites="broyden1965class">(Broyden 1965)</span>, or even <em>ad hoc</em> linear mixing can improve and accelerate convergence greatly. Therefore, the possibility of slow or non-convergence is generally not a concern in practice.</p>
+<p>For the initial guess, we simply use the ground state of our noninteracting Hamiltonian, thus <span class="math inline">\(\bm{C}^{(0)} = \bm{1}\)</span>, the identity matrix. At each iteration, we calculate the sum of the Lagrange multipliers <span class="math inline">\(\bm{\varepsilon}\)</span> as a diagnostic for convergence: as the iteration approaches convergence, the change in the sum per iteration should decrease rapidly.</p>
+<h2 id="post-hf-methods"><span class="header-section-number">10.4</span> Post-HF methods</h2>
+<p>Since HF restricts the ground state to merely a single Slater determinant of single-particle states, it cannot provide an exact solution to a problem where multi-particle correlations are present even if the single-particle basis is not truncated (infinite in size). The discrepancy between the HF energy and the exact ground state energy is often referred to as the <strong>correlation energy</strong>, by definition. The focus of post-HF methods such as IM-SRG or CC is to add corrections beyond mean-field approximations such as HF.</p>
+<p>To make use of the HF solution as the reference state for post-HF calculations, we transform the matrix elements via Eq. <a href="hartree-fock.html#eq:hftransform">39</a>. In effect, this means we are no longer operating within the harmonic oscillator single-particle basis, but rather a HF-optimized single-particle basis. However, we will omit the prime symbols as the post-HF methods are generic and can be used in any basis, whether optimized by HF or not.</p>
+<p>A commonly used post-HF method is the <strong>Møller–Plesset perturbation theory at second order</strong> (MP2) <span class="citation" data-cites="MoellerPlesset1934">(Møller and Plesset 1934)</span>, which adds an energy correction to the Hartree–Fock result: <span id="eq:mp2"><span class="math display">\[\Delta E = \frac{1}{4} \sum_{i j \backslash a b} \frac{V_{i j a b} V_{a b i j}}{\Delta_{i j a b}}\qquad(44)\]</span></span> where <span class="math inline">\(V_{i j a b}\)</span> are two-body matrix elements of the HF-transformed Hamiltonian, <span class="math inline">\(\Delta\)</span> denotes the <strong>Møller–Plesset energy denominators</strong> <span class="citation" data-cites="MoellerPlesset1934">(Møller and Plesset 1934)</span>, <span id="eq:moellerplessetdenominator"><span class="math display">\[\Delta_{q_1 \ldots q_k p_1 \ldots p_k} = \sum_{i = 1}^k (\varepsilon_{q_i} -  \varepsilon_{p_i})\qquad(45)\]</span></span> and <span class="math inline">\(\varepsilon_p\)</span> are HF orbital energies. In J-scheme, the MP2 correction is given by: <span id="eq:mp2-j"><span class="math display">\[\Delta E = \frac{1}{4} \sum_{j_{i j}} \sum_{i j \backslash a b} \jweight{j}_{i j}^2 \frac{V_{i j a b} V_{a b i j}}{\Delta_{i j a b}}\qquad(46)\]</span></span> The MP2 calculation is extremely simple and cheap, thus it is often used as a diagnostic for estimating the strength of correlations that remain unaccounted for.</p>
+<p>A more sophisticated post-HF method is the <em>coupled-cluster</em> (CC) method <span class="citation" data-cites="shavitt2009many">(Shavitt and Bartlett 2009)</span>, in which the <span class="math inline">\(N\)</span>-particle correlated wave function <span class="math inline">\(\ket{\Psi}\)</span> is expressed as the exponential ansatz, <span class="math display">\[\ket{\Psi} = \E^{\hat{T}} \ket{\Phi}\]</span> Here, <span class="math inline">\(\ket{\Phi}\)</span> is a Slater determinant reference state such as the one from HF and <span class="math inline">\(\hat{T}\)</span> is the <em>cluster operator</em>, which is a sum of <span class="math inline">\(k\)</span>-particle-<span class="math inline">\(k\)</span>-hole excitation operators of various <span class="math inline">\(k\)</span>. The Schrödinger equation with this ansatz becomes a set of non-linear algebraic equations (<em>coupled-cluster equations</em>) with which one can solve for the matrix elements of <span class="math inline">\(\hat{T}\)</span> and thereby obtain information about <span class="math inline">\(\ket{\Psi}\)</span>.</p>
+<p>The focus of this work is not on the coupled-cluster method, however, although we will present benchmarks of it for comparison. Our focus is on the in-medium similarity renormalization group (IM-SRG) method.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="methods.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="imsrg.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="methods.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="imsrg.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

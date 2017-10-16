@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Results and analysis - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html" class="active"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="results-and-analysis"><span class="header-section-number">17</span> Results and analysis</h1>
+<p>Finally, we discuss the results we obtained with our many-body methods for quantum dots and nuclei.</p>
+<h2 id="sec:methodology"><span class="header-section-number">17.1</span> Methodology</h2>
+<figure>
+<img src="fig-methods" alt="Figure 22: A schematic view of the various ways in which many-body methods in this work could be combined to calculate ground state, addition, and removal energies." id="fig:methods" /><figcaption>Figure 22: A schematic view of the various ways in which many-body methods in this work could be combined to calculate ground state, addition, and removal energies.</figcaption>
+</figure>
+<p>There is significant flexibility in the application of many-body methods. The approaches we use are shown in Fig. <a href="results.html#fig:methods">22</a>. Applying the methods in this order maximizes the benefits of each method: HF acts as an initial, crude procedure to soften the Hamiltonian, followed by IM-SRG or CC (coupled cluster method) to refine the ground state energy, and then finally QDPT or EOM (equations-of-motion method) to refine the addition and removal energies. We expect single-reference IM-SRG and CC to recover a substantial part of the dynamical correlations, while QDPT and EOM help account for static correlations.</p>
+<p>The general process begins with setting up the input matrix elements. Afterward, there are several paths through which one can traverse Fig. <a href="results.html#fig:methods">22</a> to obtain output observables. Our primarily focus is on the three combinations:</p>
+<ol type="a">
+<li>HF + IM-SRG(2) + QDPT3, computed by us,</li>
+<li>HF + IM-SRG(2) + EOM2, computed and contributed by Nathan M. Parzuchowski, and</li>
+<li>HF + CCSD + EOM2, computed and contributed by Samuel J. Novario.</li>
+</ol>
+<p>It is possible to omit some steps of the process. For example, one can omit HF, but continue with the remaining two steps. While this is doable, from our experience HF significantly improves the results of the later post-HF methods at very low cost compared to the post-HF methods. Therefore, in practice there is little reason to omit HF. We will however investigate the effects of removing one or more of the post-HF methods.</p>
+<p>Since every calculation in this work begins with the HF stage, we will not explicitly state <em>HF</em> unless there is no post-HF method used at all, in which case we write <em>HF only</em>.</p>
+<p>All calculations of ground state energy <span class="math inline">\(E_N\)</span> in this work are restricted to cases where the number of particles <span class="math inline">\(N\)</span> is a magic number, i.e. a <strong>closed shell</strong> system. This is a limitation of the many-body methods used in this work and while there are ways to overcome this limit they are beyond the scope of this work (see <span class="citation" data-cites="HeikoReview">(Hergert 2017)</span>). Addition/removal energies <span class="math inline">\(\varepsilon^{(\pm)}\)</span> are similarly restricted in that we only calculate the energy difference between <span class="math inline">\(E_N\)</span> of a closed shell system and <span class="math inline">\(E_{N \pm 1}\)</span> of the same system but with one particle added/removed: <span class="math display">\[\begin{align*}
+  \varepsilon^{(+)} &amp;= E_{(N + 1)} - E_N \\
+  \varepsilon^{(-)} &amp;= E_N - E_{(N - 1)}
+\end{align*}\]</span></p>
+<h2 id="results-for-quantum-dots"><span class="header-section-number">17.2</span> Results for quantum dots</h2>
+<p>The results in this section have been previously presented in <span class="citation" data-cites="doi:10.1063/1.4995615">(Yuan et al. 2017)</span>. There is a difference, however, in the numerical data for HF + QDPT3 presented here. In the original paper, one of the QDPT3 was calculated with the incorrect sign, affecting all HF + QDPT3 results. It has been corrected in this chapter. The conclusions remain unchanged.</p>
+<p>Ideally, ground state energies should be characterized entirely by the two system parameters <span class="math inline">\((N, \omega)\)</span>, where <span class="math inline">\(N\)</span> is number of particles and <span class="math inline">\(\omega\)</span> is the oscillator frequency. However, the methods that we study are limited to a <em>finite</em> (truncated) basis and the results depend on the level of truncation. This is characterized by <span class="math inline">\(K\)</span>, the total number of shells in the single-particle basis. Thus, results are generally presented as a graph plotted against <span class="math inline">\(K\)</span>. In Sec. <a href="results.html#sec:extrapolation">17.2.4</a> we discuss how to estimate results as <span class="math inline">\(K \to \infty\)</span> (infinite-basis limit) through extrapolations.</p>
+<p>The addition and removal energies are similar, but they require an additional parameter: the total orbital angular momentum <span class="math inline">\(M_\ell\)</span>, defined as the sum of the <span class="math inline">\(m_\ell\)</span> of each particle. This is due to the presence of multiple states with near-degenerate energies. For this work, we will consider exclusively the addition/removal energies with the lowest <span class="math inline">\(|M_\ell|\)</span> subject to the constraint that the particle added/removed lies within the next/last shell. This means the <span class="math inline">\(N + 1\)</span> states of interest are those with <span class="math inline">\(|M_\ell| = K_{\mathrm{F}} \bmod 2\)</span> (where <span class="math inline">\(\bmod\)</span> stands for the modulo operation) where <span class="math inline">\(K_{\mathrm{F}}\)</span> is the number of occupied shells, while the <span class="math inline">\(N - 1\)</span> states of interest are those with <span class="math inline">\(|M_\ell| = 1 - (K_{\mathrm{F}} \bmod 2)\)</span>.</p>
+<p>Not all cases are solvable with our selection of many-body methods. Low frequency systems are particularly strenuous for these many-body methods due to their strong correlations, leading to equations that are difficult and expensive to solve numerically. In the tables, <em>n.c.</em> marks the cases where IM-SRG(2) or CCSD either diverged or converged extremely slowly. This also affects the extrapolation results in Sec. <a href="results.html#sec:extrapolation">17.2.4</a>, as for consistency reasons we chose to extrapolate only when all five points were available.</p>
+<p>Numerical calculations in this section are performed with a relative precision of about <span class="math inline">\(10^{-5}\)</span> or lower. This does not necessarily mean the results are as precise as <span class="math inline">\(10^{-5}\)</span>, since numerical errors tend to accumulate over the multiple steps of the calculation, thus the precision of the final results is expected to be roughly <span class="math inline">\(10^{-4}\)</span>.</p>
+<h3 id="ground-state-energy"><span class="header-section-number">17.2.1</span> Ground state energy</h3>
+
+<figure>
+<embed src="fig-gs2.pdf" id="fig:gs" /><figcaption>Figure 23: Plots of ground state energy of quantum dots with <span class="math inline">\(N\)</span> particles and an oscillatory frequency of <span class="math inline">\(\omega\)</span> against the number of shells <span class="math inline">\(K\)</span>. Since DMC does not utilize a finite basis, the horizontal axis is irrelevant and DMC results are plotted as horizontal lines.</figcaption>
+</figure>
+
+<p>Fig. <a href="results.html#fig:gs">23</a> and Tbl.  display a selection of ground state energies calculated using HF + IM-SRG(2) and HF + CCSD as described in Sec. <a href="results.html#sec:methodology">17.1</a>. We include results from Møller–Plesset perturbation theory to second order (MP2), DMC <span class="citation" data-cites="hoegberget2013thesis">(Høgberget 2013)</span>, and FCI <span class="citation" data-cites="olsen2013thesis">(Olsen 2013)</span> (see Tbl. ) for comparison where available.</p>
+<p>We do not include results from <em>HF only</em> to avoid overshadowing the comparatively smaller differences between the non-HF results in the plots. Some HF results can be found in Fig. <a href="results.html#fig:by-freq-10-6-normal">26</a> instead. Generally, the HF ground state energies differ from the non-HF ones by a few to several percent, whereas non-HF energies tend to differ from each other by less than a percent.</p>
+<p>With respect to the number of shells, both IM-SRG(2) and CCSD appear to converge slightly faster than second order perturbation theory (MP2), mainly due to the presence of higher order corrections in IM-SRG(2) and CCSD.</p>
+<p>There are a few cases where the IM-SRG over-corrects the result, leading to an energy lower than the quasi-exact DMC results. This is not unexpected given that, unlike the HF results, the IM-SRG method is non-variational in the presence of operator truncations, which in turn results in small unitarity violations. This over-correction tends to occur when the frequency is low (high correlation), or when <em>few</em> particles are involved.</p>
+<h3 id="addition-and-removal-energies"><span class="header-section-number">17.2.2</span> Addition and removal energies</h3>
+
+<figure>
+<img src="fig-add2" alt="Figure 24: Addition energies for a selection of quantum dot parameters. See Fig. 23 for details." id="fig:add" /><figcaption>Figure 24: Addition energies for a selection of quantum dot parameters. See Fig. <a href="results.html#fig:gs">23</a> for details.</figcaption>
+</figure>
+<figure>
+<embed src="fig-rm2.pdf" id="fig:rm" /><figcaption>Figure 25: Removal energies for a selection of quantum dot parameters. See Fig. <a href="results.html#fig:add">24</a> for details.</figcaption>
+</figure>
+<p>The results of our addition and removal energy calculations are summarized in Fig. <a href="results.html#fig:add">24</a> and Fig. <a href="results.html#fig:rm">25</a> respectively. The figures show the addition/removal energies for using the approaches mentioned in Sec. <a href="results.html#sec:methodology">17.1</a>. Where available, results from diffusion Monte Carlo (DMC) <span class="citation" data-cites="PhysRevB.84.115302">(Pedersen Lohne et al. 2011)</span> are shown as a dashed line.</p>
+<p>As before, we do not include results from <em>HF only</em> in these plots as they are significantly further from the rest. Analogously, we also exclude results from pure IM-SRG (i.e. without QDPT nor EOM) or pure CCSD, as QDPT or EOM both add significant contributions to addition and removal energies. Some HF only and pure IM-SRG results can be seen in Fig. <a href="results.html#fig:by-freq-10-6-normal">26</a>.</p>
+<figure>
+<img src="fig-by-freq-10-6-normal" alt="Figure 26: The behavior of ground state, addition, and removal energies as a function of the oscillator frequency \omega, with K = 10 shells in the basis. The energy is normalized with respect to the HF values to magnify the differences. Lower frequency leads to stronger correlations and thereby a more difficult problem." id="fig:by-freq-10-6-normal" /><figcaption>Figure 26: The behavior of ground state, addition, and removal energies as a function of the oscillator frequency <span class="math inline">\(\omega\)</span>, with <span class="math inline">\(K = 10\)</span> shells in the basis. The energy is normalized with respect to the HF values to magnify the differences. Lower frequency leads to stronger correlations and thereby a more difficult problem.</figcaption>
+</figure>
+<p>There is strong agreement between IM-SRG(2) + QDPT3 and IM-SRG(2) + EOM2 in many cases, and slightly weaker agreement between the IM-SRG and CCSD families. This suggests that the EOM2 corrections are largely accounted for by the inexpensive QDPT3 method. However, in some cases, most notably with few particles and high correlations (low frequency), the IM-SRG(2) + QDPT3 result differs significantly from both IM-SRG(2) + EOM2 and CCSD + EOM2.</p>
+<h3 id="rate-of-convergence"><span class="header-section-number">17.2.3</span> Rate of convergence</h3>
+<figure>
+<embed src="fig-rel-slopes2.pdf" id="fig:rel-slopes" /><figcaption>Figure 27: The impact of the interaction on convergence of addition and removal energies using IM-SRG(2) + QDPT3. For clarity, the plot does not distinguish between addition and removal energies. The horizontal axis shows the system parameters, where <span class="math inline">\(N\)</span> is the number of particles and <span class="math inline">\(\omega\)</span> is the oscillator frequency. The vertical axis shows <span class="math inline">\(|\rho_{15}|\)</span> (<em>relative slope</em>), which estimates the rate of convergence at 15 total shells. The lower the value of <span class="math inline">\(|\rho_{15}|\)</span>, the faster the convergence. The data points are categorized by the interactions. The trends suggest that the singular short-range part of the interaction has a much stronger impact on the convergence than the long-range tail.</figcaption>
+</figure>
+<p>To analyze the rate of convergence more quantitatively, we define <span class="math inline">\(\rho_K\)</span> as the relative backward difference of the energy (<strong>relative slope</strong>): <span class="math display">\[\rho_K = \frac{\varepsilon_K - \varepsilon_{(K - 1)}}{\varepsilon_K}\]</span> The denominator allows the quantity to be meaningfully compared between different systems. We expect this quantity to become increasingly small as the calculations converge towards the complete basis set limit.</p>
+<p>In Fig. <a href="results.html#fig:rel-slopes">27</a>, we plot the <span class="math inline">\(\rho_{15}\)</span> for IM-SRG(2) + QDPT3. The many-body methods were tested against a <em>modified</em> Coulomb-like interaction, parametrized by two lengths <span class="math inline">\(\sigma_{\mathrm{A}}\)</span> and <span class="math inline">\(\sigma_{\mathrm{B}}\)</span> that characterize the range of the interaction: <span class="math display">\[V_{\sigma_{\mathrm{A}}, \sigma_{\mathrm{B}}}(r) = \frac{(1 + c)^{1 - 1/c}}{c} \left(1 - \E^{-r^2 / (2 \sigma_{\mathrm{A}}^2)}\right) \E^{-r^2 / (2 \sigma_{\mathrm{B}}^2)} \frac{1}{r}\]</span> where <span class="math inline">\(c = \sqrt{\sigma_{\mathrm{B}} / \sigma_{\mathrm{A}}}\)</span>. The coefficient is chosen to ensure the peak of the envelope remains at unity. With <span class="math inline">\((\sigma_{\mathrm{A}}, \sigma_{\mathrm{B}}) = (0, \infty)\)</span> one recovers the original Coulomb interaction. By increasing <span class="math inline">\(\sigma_{\mathrm{A}}\)</span> one can truncate the short-range part of the interaction, and analogously by increasing <span class="math inline">\(\sigma_{\mathrm{B}}\)</span> one can truncate the long-range part of the interaction. For our numerical experiments we considered the following four combinations of <span class="math inline">\((\sigma_{\mathrm{A}}, \sigma_{\mathrm{B}})\)</span>: <span class="math inline">\((0, \infty)\)</span>, <span class="math inline">\((\frac{1}{2}, \infty)\)</span>, <span class="math inline">\((0, 4)\)</span>, <span class="math inline">\((\frac{1}{2}, 4)\)</span>.</p>
+<p>Reducing the short-range part of the interaction appears to improve the rate of convergence substantially. Many of the cases have reached the precision of the ODE solver (<span class="math inline">\(10^{-5}\)</span> to <span class="math inline">\(10^{-6}\)</span>). In contrast, eliminating the long-range part of the interaction had very little effect. This suggests that the main cause of the slow convergence lies in the highly repulsive, short-ranged part of the interaction, which leads to the presence of nondifferentiable cusps (the so-called <em>Coulomb cusps</em>) in the exact wave functions that are difficult to reproduce exactly using linear combinations of the smooth harmonic oscillator wave functions.</p>
+<p>The convergence is negatively impacted at lower frequencies and, to a lesser extent, by the increased number of particles. Both are expected: lower frequencies increase the correlation in the system, while higher number of particles naturally require more shells to converge.</p>
+<p>In general, there does not appear to be any difference between the convergence behavior of addition energies as compared to that of removal energies.</p>
+<h3 id="sec:extrapolation"><span class="header-section-number">17.2.4</span> Extrapolation</h3>
+
+<figure>
+<img src="fig-fit-2-1p0-add" alt="Figure 28: A five-point fit of the addition energies of the (N, \omega) = (6, 1.0) system with K_{\text{stop}} = 15. The grey shaded region contains the masked data points, which are ignored by the fitting procedure. The left figure plots the central difference of the addition energies \varepsilon^{(+)} with respect to the number of shells K. On such a plot, the power law model should appear as a straight line. The fits are optimized using the procedure described in Sec. 17.2.4. Note that the lines do not evenly pass through the points in the left plot as the fitting weights are tuned for the energy on a linear scale, not the energy differences on a logarithmic scale." id="fig:by-fit-2-1p0-add" /><figcaption>Figure 28: A five-point fit of the addition energies of the <span class="math inline">\((N, \omega) = (6, 1.0)\)</span> system with <span class="math inline">\(K_{\text{stop}} = 15\)</span>. The grey shaded region contains the masked data points, which are ignored by the fitting procedure. The left figure plots the central difference of the addition energies <span class="math inline">\(\varepsilon^{(+)}\)</span> with respect to the number of shells <span class="math inline">\(K\)</span>. On such a plot, the power law model should appear as a straight line. The fits are optimized using the procedure described in Sec. <a href="results.html#sec:extrapolation">17.2.4</a>. Note that the lines do not evenly pass through the points in the left plot as the fitting weights are tuned for the energy on a linear scale, not the energy differences on a logarithmic scale.</figcaption>
+</figure>
+<p>To reduce errors from the basis set truncation, one can either use explicitly correlated R12/F12 methods that account for the correct cusp behavior in many-electron wave functions <span class="citation" data-cites="Kutzelnigg1985 KLOPPER198717 explicitcorrelationreview">(Kutzelnigg 1985; Klopper and Kutzelnigg 1987; Kong, Bischoff, and Valeev 2012)</span>, or one can use basis extrapolation techniques. In the present work, we focus on the latter. As derived by Kvaal <span class="citation" data-cites="PhysRevB.80.045321 Kvaal2007">(Kvaal 2009; Kvaal, Hjorth-Jensen, and Møll Nilsen 2007)</span>, the asymptotic convergence of quantum dot observables in a finite harmonic oscillator basis can be approximately described by a power law model: <span class="math display">\[\Delta E \propto K^{-\beta}\]</span> where <span class="math inline">\(\Delta E\)</span> is the difference between the finite-basis result and the infinite-basis result, <span class="math inline">\(K\)</span> is the number of shells in the single-particle basis, and <span class="math inline">\(\beta\)</span> is some positive real exponent. The <em>smoothness</em> of the exact wave function determines the rate of the convergence: the more times the exact wave function can be differentiated, the higher the exponent <span class="math inline">\(\beta\)</span>.</p>
+<p>We note that this model was derived under the assumption that all correlations are included in the calculation (i.e. FCI), thus we are making an assumption that our selection of methods approximately obey the same behavior. The validity of this assumption will be assessed at the end of this section.</p>
+<p>In general, the exponent <span class="math inline">\(\beta\)</span> cannot be determined <em>a priori</em>, thus we will empirically compute <span class="math inline">\(\beta\)</span> by fitting the following model through our data: <span id="eq:power_law_model"><span class="math display">\[E = \alpha K^{-\beta} + \gamma \qquad(75)\]</span></span> As a nonlinear curve fit, it can be quite sensitive to the initial parameters. Therefore, good guesses of the parameters are necessary to obtain a sensible result. For this, we first fit a linear model of <span class="math inline">\(\log |\partial E / \partial K|\)</span> against <span class="math inline">\(\log K\)</span>: <span class="math display">\[\log \left|\frac{\partial E}{\partial K}\right| = - (\beta + 1) \log K + \log|\alpha \beta|\]</span> This is useful because linear fits are very robust and will often converge even if the initial parameters are far from their final values. It also provides a means to visually assess the quality of the fit. The derivative is approximated using the central difference: <span class="math display">\[\frac{\partial E}{\partial K} \approx E\left(K + \frac{1}{2}\right) - E\left(K - \frac{1}{2}\right)\]</span> The process of numerically calculating the derivative can amplify the noise in the data and distorts the weights of the data points. Moreover, it does not provide a means to compute <span class="math inline">\(\gamma\)</span>, the extrapolated energy. Thus a second accurate nonlinear curve fit is necessary.</p>
+<p>The parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are extracted from the linear fit and used as inputs for a power-law fit of <span class="math inline">\(E\)</span> against <span class="math inline">\(K\)</span>. It is necessary to estimate the infinite-basis energy <span class="math inline">\(\gamma\)</span> as well, which is done by fitting Eq. <a href="results.html#eq:power_law_model">75</a> while the parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are fixed to the initial guesses. The fixing ensures that the fit is still linear in nature and thus highly likely to converge. Afterward, we do a final fit with all three parameters free to vary. All fits are done using the traditional Levenberg–Marquardt (LM) optimization algorithm <span class="citation" data-cites="10.2307/43633451 doi:10.1137/0111030">(Levenberg 1944; Marquardt 1963)</span> as implemented in <code>MINPACK</code> <span class="citation" data-cites="More1978 More:126569">(Moré 1978; Moré, Garbow, and Hillstrom 1980)</span>, with equal weighting of all data points.</p>
+<p>There is still one additional tuning knob for this model that is not explicitly part of Eq. <a href="results.html#eq:power_law_model">75</a>: the range of data points taken into consideration (<strong>fit range</strong>). Since the model describes the <em>asymptotic</em> behavior, we do not expect the fit to produce good results when the energy is still very far from convergence. To account for this, we only fit the last few data points within some chosen range. If the range is too large, then the non-asymptotic behavior would perturb the result too much, whereas if the range is too small, there would be more noise and less confidence in whether the trend is legitimate rather than accidental. Empirically, we chose to fit the last 5 points of our available data. The results are shown in Tbls. , , and . A specific example of the fit is shown in Fig. <a href="results.html#fig:by-fit-2-1p0-add">28</a></p>
+<p>The LM fitting procedure also computes uncertainties for the parameters from an approximate Hessian of the model function. It is therefore tempting to use the uncertainty of the fit to quantify the uncertainty of the extrapolated energy. We certainly would not expect this to account for the error due to the operator truncation, but how accurately does it quantify the discrepancy of our extrapolated result from the true infinite-basis energy?</p>
+<p>We investigated this idea by performing a fit over <em>all possible</em> 5-point fit ranges <span class="math inline">\([K_{\text{stop}} - 4, K_{\text{stop}}]\)</span>. By comparing the extrapolated results at varying values of <span class="math inline">\(K_{\text{stop}}\)</span> with the extrapolated result at the highest possible <span class="math inline">\(K_{\text{stop}}\)</span> and treating the latter as the “true” infinite-basis result, we can statistically assess whether the fit uncertainties are a good measure of the discrepancy from the true infinite-basis result. Our results show a somewhat bimodal distribution: when the relative fit uncertainty is higher than <span class="math inline">\(10^{-3.5}\)</span>, the fit uncertainty quantifies the discrepancy well; otherwise, the fit uncertainty underestimates the discrepancy by a factor of 10 or less.</p>
+<p>Unlike the other methods, HF energies are somewhat unusual in that they generally do not conform to the power-law model. In fact, the plots indicate an <em>exponential</em> convergence with respect to the number of shells, which has also been observed in molecular systems <span class="citation" data-cites="HALKIER1999437">(Halkier et al. 1999)</span>. We surmise that HF is insensitive to the Coulomb cusp.</p>
+<p>Nonetheless, despite the poor fits that often arise, the extrapolated energies are often quite good for HF. This is likely due to its rapid convergence, which leaves very little degree of freedom even for a poorly chosen model. Moreover, we found that the fit uncertainties of the energy are fairly good measures of the true discrepancy.</p>
+<p>Not all fits yield a positive value of <span class="math inline">\(\beta\)</span> for addition and removal energies, which suggests that the data points do not converge, or require a very high number of shells to converge. This affects exclusively IM-SRG(2) + QDPT3 for systems with few particles and low frequencies, indicating that perturbation theory is inadequate for such systems.</p>
+<h2 id="results-for-nuclei"><span class="header-section-number">17.3</span> Results for nuclei</h2>
+<p>In this section, we provide a few selected results for nuclear systems as a proof of concept. Due to time constraints, we have not been able to run calculations with higher values of <span class="math inline">\(e_{\mathrm{max}}\)</span> (Eq. <a href="nuclei.html#eq:emax">63</a>) or to explore a greater span of the oscillator frequency <span class="math inline">\(\omega\)</span> of the basis. We expect to gather a more diverse collection of results in a future publication <span class="citation" data-cites="SpEnergiesNucl">(Yuan et al., n.d.)</span>.</p>
+<figure>
+<img src="fig-o16" alt="Figure 29: Ground state of 16O, computed using IM-SRG(2) and CCSD with the N3LO(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}) interaction" id="fig:o16" /><figcaption>Figure 29: Ground state of <sup>16</sup>O, computed using IM-SRG(2) and CCSD with the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})\)</span> interaction</figcaption>
+</figure>
+<p>Fig. <a href="results.html#fig:o16">29</a> shows the computed ground state energies of oxygen-16 plotted as a function of the basis oscillator frequency <span class="math inline">\(\omega\)</span>. The results were computed using two many-body methods: HF + IM-SRG and HF + CCSD (coupled cluster singles and doubles). The interaction we use is the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV})\)</span> interaction of <span class="citation" data-cites="PhysRevC.68.041001">(Entem and Machleidt 2003)</span>, softened by SRG evolution to <span class="math inline">\(\lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}\)</span>. We use a strictly two-body nuclear interaction here.</p>
+<p>We observe that both methods agree with each other to about <span class="math inline">\(\SI{1}{MeV}\)</span>. Furthermore, we see that the results are very close to convergence with respect to <span class="math inline">\(e_{\mathrm{max}}\)</span>. The cup-shaped curve suggests the existence of a local minimum near <span class="math inline">\(\omega = \SI{24}{MeV} / \hbar\)</span>. The curve is quite flat, which again suggests that the results are nearly converged.</p>
+<p>For reference, the experimental value is about <span class="math inline">\(\SI{-128}{MeV}\)</span>. The reason for this large discrepancy is that the SRG softening of the interaction has introduced a significant three-body component to the nuclear interaction that we are neglecting. With the appropriate treatment of this three-body component, one can achieve values much closer to experimental data. Readers interested in more elaborate ground state energy calculations using IM-SRG may consult <span class="citation" data-cites="PhysRevC.87.034307">(Hergert et al. 2013)</span>.</p>
+<figure>
+<img src="fig-o17" alt="Figure 30: Addition energy from 16O to 17O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N3LO(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}) interaction" id="fig:o17" /><figcaption>Figure 30: Addition energy from <sup>16</sup>O to <sup>17</sup>O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})\)</span> interaction</figcaption>
+</figure>
+<p>We now consider the addition energy going from oxygen-16 to oxygen-17, achieved by adding a neutron to the <span class="math inline">\(0\mathrm{d}_{5/2}\)</span> state. This is presented in Fig. <a href="results.html#fig:o17">30</a>. The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.</p>
+<p>Both methods agree with each other to about <span class="math inline">\(\SI{0.2}{MeV}\)</span>. With respect to <span class="math inline">\(e_{\mathrm{max}}\)</span>, both curves are converging at a rate of <span class="math inline">\(\SI{0.05}{MeV}\)</span> per shell, which is also quite good. Unlike the ground state however, the curve is no longer cup-shaped, but increasing with the frequency. This is not entirely unusual, as such shapes have been observed in other non-energy observables. It may also be possible that there is a local minimum to the left side of the graph, though we consider this unlikely given our removal energy results in the next figure.</p>
+<p>For comparison, the experimental value is about <span class="math inline">\(\SI{-4.1}{MeV}\)</span>. We suspect that the absence of three-body forces is a significant reason for this discrepancy.</p>
+<figure>
+<img src="fig-n15" alt="Figure 31: Removal energy from 16O to 15N, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N3LO(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}) interaction" id="fig:n15" /><figcaption>Figure 31: Removal energy from <sup>16</sup>O to <sup>15</sup>N, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})\)</span> interaction</figcaption>
+</figure>
+<p>The removal energy going from oxygen-16 to nitrogen-15 is achieved by removing a proton from the <span class="math inline">\(0\mathrm{p}_{1/2}\)</span> state. This is presented in Fig. <a href="results.html#fig:n15">31</a>. The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.</p>
+<p>Both methods agree with each other to about <span class="math inline">\(\SI{0.3}{MeV}\)</span>. With respect to <span class="math inline">\(e_{\mathrm{max}}\)</span>, both curves are converging at a rate of <span class="math inline">\(\SI{0.02}{MeV}\)</span> per shell, which is really good considering the magnitude of the removal energy. Like the addition energies, the curve is not cup-shaped, but leans to the side. However, in this case we clearly see a point where the curves at different <span class="math inline">\(e_{\mathrm{max}}\)</span> values cross each other, at around <span class="math inline">\(\omega = \SI{25}{MeV} / \hbar\)</span>.</p>
+<p>For comparison, the experimental value is about <span class="math inline">\(\SI{-12}{MeV}\)</span>. Again, our values are significantly different, likely due to missing three-body contributions.</p>
+<p>For reference, we have also attached the results for nitrogen-15 in the excited state <span class="math inline">\(J^\pi = \frac{3}{2}^-\)</span> in Fig. <a href="results.html#fig:n15-3">32</a>, oxygen-23 in Fig. <a href="results.html#fig:o23">33</a>, and oxygen 21 in Fig. <a href="results.html#fig:o21">34</a>. All these results were calculated using the same approach as before. In all cases, the difference between the two methods is very small and the convergence with respect to <span class="math inline">\(e_{\mathrm{max}}\)</span> appears to be quite good.</p>
+<figure>
+<img src="fig-n15-3" alt="Figure 32: Removal energy from 16O to 15N in the excited J^\pi = \frac{3}{2}^- state, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N3LO(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}) interaction" id="fig:n15-3" /><figcaption>Figure 32: Removal energy from <sup>16</sup>O to <sup>15</sup>N in the excited <span class="math inline">\(J^\pi = \frac{3}{2}^-\)</span> state, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})\)</span> interaction</figcaption>
+</figure>
+<figure>
+<img src="fig-o23" alt="Figure 33: Addition energy from 22O to 23O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N3LO(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}) interaction" id="fig:o23" /><figcaption>Figure 33: Addition energy from <sup>22</sup>O to <sup>23</sup>O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})\)</span> interaction</figcaption>
+</figure>
+<figure>
+<img src="fig-o21" alt="Figure 34: Removal energy from 22O to 21O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N3LO(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}) interaction" id="fig:o21" /><figcaption>Figure 34: Removal energy from <sup>22</sup>O to <sup>21</sup>O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N<sup>3</sup>LO<span class="math inline">\((\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})\)</span> interaction</figcaption>
+</figure>
+<p>From the preliminary results so far, we see that our perturbative results agree quite well with the EOM results. In conjunction with the testing and verification described in Sec. <a href="implementation.html#sec:testing">16.10</a>, this helps confirm the correctness of our J-scheme implementation. We believe these results indicate a promising start for more extensive studies of nuclei through this approach.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="implementation.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="conclusions.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="implementation.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="conclusions.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Quantum dots - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html" class="active"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="quantum-dots"><span class="header-section-number">14</span> Quantum dots</h1>
+<p>Quantum dots, also known as “artificial atoms”, are prototypical quantum systems consisting of electrons confined by an external potential.</p>
+<h2 id="quantum-dot-hamiltonian"><span class="header-section-number">14.1</span> Quantum dot Hamiltonian</h2>
+<p>We will devote our focus on <em>circular</em> quantum dots, consisting of a collection of nonrelativistic electrons trapped in a two-dimensional harmonic oscillator potential, interacting through the standard Coulomb interaction. The parameters of the system are:</p>
+<ul>
+<li><span class="math inline">\(N\)</span>: the number of electrons,</li>
+<li><span class="math inline">\(m\)</span>: the mass of each electron,</li>
+<li><span class="math inline">\(e\)</span>: the charge of each electron,</li>
+<li><span class="math inline">\(\epsilon\)</span>: the permittivity of the medium, and</li>
+<li><span class="math inline">\(\omega\)</span>: the angular frequency of the harmonic oscillator potential.</li>
+</ul>
+<p>The three basic components of the Hamiltonian are the kinetic energy <span class="math inline">\(t(\bm{p})\)</span>, the potential energy <span class="math inline">\(u(\bm{r})\)</span>, and the Coulomb interaction <span class="math inline">\(v(R)\)</span>: <span class="math display">\[\begin{align*}
+t(\bm{p}) &amp;= \frac{\bm{p}^2}{2 m} &amp;
+u(\bm{r}) &amp;= \frac{m \omega^2 \bm{r}^2}{2} &amp;
+v(R) &amp;= \frac{e^2}{4 \pi \epsilon |R|}
+\end{align*}\]</span> where <span class="math inline">\(\bm{r}\)</span> is the position of an electron relative to the center of the trap, <span class="math inline">\(\bm{p}\)</span> is its linear momentum, and <span class="math inline">\(R\)</span> is the distance between two electrons. The kinetic and potential energies combine to form the standard harmonic oscillator Hamiltonian <span class="math inline">\(h(\bm{r}, \bm{p})\)</span>: <span class="math display">\[h(\bm{r}, \bm{p}) = t(\bm{p}) + u(\bm{r})\]</span></p>
+<p>The quantum many-body problem is described by the Hamiltonian <span class="math display">\[\hat{H} = \hat{H}_1 + \hat{H}_2\]</span> where <span class="math inline">\(\hat{H}_1\)</span> and <span class="math inline">\(\hat{H}_2\)</span> are respectively its one- and two-body components,<a href="quantum-dots.html#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> namely <span id="eq:onetwobodyhamiltonian"><span class="math display">\[\begin{aligned}
+  \hat{H}_1 &amp;= \sum_{\alpha = 1}^N h(\hat{\bm r}_\alpha, \hat{\bm p}_\alpha) \\
+  \hat{H}_2 &amp;= \sum_{\alpha = 1}^N \sum_{\beta = 1}^{\alpha - 1} v(|\hat{\bm r}_\alpha - \hat{\bm r}_\beta|)
+\end{aligned}\qquad(55)\]</span></span> The operator <span class="math inline">\(\hat{\bm r}_\alpha\)</span> is the position operator of the <span class="math inline">\(\alpha\)</span>-th particle, and <span class="math inline">\(\hat{\bm p}_\alpha = -\mathrm{i} \hat{\bm{\nabla}}_{\bm{r}_\alpha}\)</span> is its momentum operator.</p>
+<p>Even though the model system contains five parameters, many of them are redundant. With an appropriate choice of units, the number of parameters in the system can be reduced to just two. For this system, it is convenient to choose <strong>atomic units</strong> where <span class="math display">\[\hbar = m = e = 4 \pi \epsilon = 1\]</span> Here, Hartree <span class="math inline">\(E_{\mathrm{h}}\)</span> is the unit of energy and Bohr radius <span class="math inline">\(a\)</span> is the unit of length: <span class="math display">\[\begin{align*}
+  E_{\mathrm{h}} &amp;= m \left(\frac{e^2}{4 \pi \epsilon \hbar}\right)^2 &amp;
+  a &amp;= \frac{4 \pi \epsilon \hbar^2}{m e^2}
+\end{align*}\]</span> This leaves us with <span class="math inline">\((N, \omega)\)</span> as the only two parameters needed to specify the quantum dot system, with <span class="math inline">\(\omega\)</span> in units of <span class="math inline">\(E_{\mathrm{h}} / \hbar\)</span>.</p>
+<h2 id="fockdarwin-basis"><span class="header-section-number">14.2</span> Fock–Darwin basis</h2>
+<p>We will use the noninteracting part of the many-body Hamiltonian <span class="math inline">\(\hat{H}_1\)</span> to define the single-particle basis. The single-particle Hamiltonian is of the form: <span class="math display">\[\begin{align*}
+  \hat{h} = \frac{1}{2} \hat{\bm{\nabla}}^2 + \frac{1}{2} \omega^2 \hat{\bm{r}}^2
+\end{align*}\]</span> In Cartesian coordinates, the two-dimensional harmonic oscillator is trivially reducible to the well-known one-dimensional problem. However, to exploit the circular symmetry, we prefer to use <strong>Fock–Darwin states</strong> <span class="citation" data-cites="Fock1928 darwin_1931">(Fock 1928; Darwin 1931)</span>, which are written in polar coordinates <span class="math inline">\(\bm{r} = (r, \varphi)\)</span>. Such states have the computationally useful property of conserving orbital angular momentum, <span class="math display">\[\hat{L}_3 = -\mathrm{i} \frac{\hat{\partial}}{\partial \varphi}\]</span></p>
+<p>The Fock–Darwin wave functions can be decomposed into radial and angular components,<span class="citation" data-cites="lohne2010coupled">(Lohne 2010)</span> <span id="eq:fockdarwin"><span class="math display">\[\begin{aligned}
+  &amp;F_{n m_\ell}(r, \varphi) = \sqrt{\frac{m \omega}{\hbar}} R_{n |m_\ell|}\left(\sqrt{\frac{m \omega}{\hbar}} r\right) A_{m_\ell}(\varphi) \\
+  &amp;R_{n \mu}(\rho) = \sqrt{2} \mathrm{e}^{-\rho^2 / 2} \rho^\mu \bar{L}_n^\mu(\varrho^2) \\
+  &amp;A_{m_\ell}(\varphi) = \frac{1}{\sqrt{2 \pi}} \mathrm{e}^{\mathrm{i} m_\ell \varphi}
+\end{aligned}\qquad(56)\]</span></span> in ordinary units. Here, <span class="math inline">\(\sqrt{\hbar / m \omega}\)</span> is the characteristic length of the harmonic oscillator, <span class="math inline">\(\Gamma(x)\)</span> is the gamma function, and <span class="math inline">\(\bar{L}_n^\alpha(x)\)</span> is the <em>normalized</em> variant of the associated Laguerre polynomial <span class="math inline">\(L_n^\alpha(x)\)</span> of degree <span class="math inline">\(n\)</span> and parameter <span class="math inline">\(\alpha\)</span> <span class="citation" data-cites="DLMF">(“NIST Digital Library of Mathematical Functions” 2016)</span>: <span id="eq:laguerre-polynomials"><span class="math display">\[\begin{aligned}
+  &amp;\bar{L}^\alpha_n(x) = \sqrt{\frac{n!}{\Gamma(n + \alpha + 1)}} L^\alpha_n(x) \\
+  &amp;L_n^\alpha(x) = \frac{1}{n!} x^{-\alpha} \mathrm{e}^x \frac{\mathrm{d}^n}{\mathrm{d} x^n} (\mathrm{e}^{-x} x^{\alpha + n})
+\end{aligned}\qquad(57)\]</span></span> The normalized Laguerre polynomials satisfy the following orthogonality relation: <span class="math display">\[\int_0^\infty u^\alpha \E^{-u} \bar{L}_m^{(\alpha)}(u) \bar{L}_n^{(\alpha)}(u) \D u = \delta_{m n}\]</span></p>
+<p>The states are labeled by two quantum numbers: the principal quantum number <span class="math inline">\(n \in \{0, 1, 2, \ldots\}\)</span> and orbital angular momentum projection <span class="math inline">\(m_\ell \in \mathbb \{\ldots, -2, -1, 0, +1, +2, \ldots\}\)</span>. For a wave function, <span class="math inline">\(n\)</span> indicates the degree of the Laguerre polynomial, whereas <span class="math inline">\(m_\ell\)</span> is the eigenvalue of <span class="math inline">\(\hat{L}_3\)</span>.</p>
+<p>Since electrons are spin-<span class="math inline">\(\frac{1}{2}\)</span> fermions, they can occupy either of the two possible spin states <span class="math inline">\(\chi_{-\frac{1}{2}}\)</span> or <span class="math inline">\(\chi_{+\frac{1}{2}}\)</span>. Thus, every single-particle basis state <span class="math inline">\(|n m_\ell m_s\rangle\)</span> contains both a spatial component  and a spin component, <span id="eq:singleparticlestate"><span class="math display">\[\langle r \varphi m_s&#39; |n m_\ell m_s\rangle = F_{n m_\ell}(r, \varphi) \delta_{m_s^{} m_s&#39;}\qquad(58)\]</span></span> Here we have introduced spin projection <span class="math inline">\(m_s \in \bigl\{-\frac{1}{2}, +\frac{1}{2}\bigr\}\)</span> as the third quantum number, which is the eigenvalue of the spin projection operator <span class="math inline">\(\hat{S}_3\)</span>.</p>
+<figure>
+<img src="fig-shell-structure" alt="Figure 20: The 42 lowest single-particle states (the first 5 shells) in the 2D harmonic oscillator basis. Each box represents a single-particle state arranged by m_\ell, m_s, and energy, and the up/down arrows indicate the spin of the states. Within each column, the principal quantum number n increases as one traverses upward." id="fig:shell-structure" /><figcaption>Figure 20: The 42 lowest single-particle states (the first 5 shells) in the 2D harmonic oscillator basis. Each box represents a single-particle state arranged by <span class="math inline">\(m_\ell\)</span>, <span class="math inline">\(m_s\)</span>, and energy, and the up/down arrows indicate the spin of the states. Within each column, the principal quantum number <span class="math inline">\(n\)</span> increases as one traverses upward.</figcaption>
+</figure>
+<p>The energy of the single-particle state <span class="math inline">\(|n m_\ell m_s\rangle\)</span> is given by <span id="eq:energysingleparticlestate"><span class="math display">\[\varepsilon_{n m_\ell m_s} = (2 n + |m_\ell| + 1) \hbar \omega\qquad(59)\]</span></span> in ordinary units. These energies are degenerate with respect to the spin projection <span class="math inline">\(m_s\)</span> as our Hamiltonian <span class="math inline">\(\hat{h}\)</span> does not distinguish between them. Additionally, they are degenerate with respect to the number of quanta <span class="math inline">\(k\)</span>, defined as <span id="eq:shell_index"><span class="math display">\[k = 2 n + |m_\ell|\qquad(60)\]</span></span> We also call <span class="math inline">\(k\)</span> the <strong>shell index of the two-dimensional harmonic oscillator</strong> as this nonnegative integer labels each shell starting from zero. The shells are equidistant with an energy spacing of <span class="math inline">\(\hbar \omega\)</span>. This is depicted graphically in Fig. <a href="quantum-dots.html#fig:shell-structure">20</a>.</p>
+<p>When the number of particles <span class="math inline">\(N\)</span> satisfies <span class="math inline">\(N = K_{\mathrm{F}} (K_{\mathrm{F}} + 1)\)</span> for some nonnegative integer <span class="math inline">\(K_{\mathrm{F}}\)</span>, there would be just enough particles to form a closed-shell Slater determinant, leading to a unique, well-isolated ground state. These specific values of <span class="math inline">\(N\)</span> form the <strong>magic numbers</strong> of this system. We call <span class="math inline">\(K_{\mathrm{F}}\)</span> the <strong>number of filled shells</strong> (or “Fermi level”). In particular, a single-particle state is occupied in the ground state Slater determinant if and only if <span class="math inline">\(k &lt; K_{\mathrm{F}}\)</span>, where <span class="math inline">\(k\)</span> is the shell index of the single-particle state as defined in Eq. <a href="quantum-dots.html#eq:shell_index">60</a>.</p>
+<h2 id="coulomb-interaction-in-the-fockdarwin-basis"><span class="header-section-number">14.3</span> Coulomb interaction in the Fock–Darwin basis</h2>
+<p>For many-body calculations, we will need matrix elements of the Coulomb interaction in the Fock–Darwin basis that we chose. The antisymmetrized matrix elements, needed for Eq. <a href="many-body-theory.html#eq:two-body-operator">2</a>, are given by <span class="math display">\[\begin{aligned}
+  &amp;\bra{(n m s)_1 (n m s)_2} \hat{H}_2 \ket{(n m s)_3 (n m s)_4} \\
+  &amp;= \bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4} \delta_{s_1 s_3} \delta_{s_2 s_4} \\
+  &amp;\quad - \bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_4 (n m)_3} \delta_{s_1 s_4} \delta_{s_2 s_3}
+\end{aligned}\]</span> where for brevity we have relabeled the quantum numbers with <span class="math inline">\(m = m_\ell\)</span> and <span class="math inline">\(s = m_s\)</span>, and <span id="eq:qdots-integral"><span class="math display">\[\begin{aligned}
+  &amp;\bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4} \\
+  &amp;= \frac{e^2}{4 \PI \epsilon} \iint \frac{F_{(n m)_1}(\bm{r}) F_{(n m)_2}(\bm{r}&#39;) F_{(n m)_3}(\bm{r}) F_{(n m)_4}(\bm{r}&#39;)}{|\bm{r} - \bm{r}&#39;|} \D^2 r \D^2 r&#39;
+\end{aligned}\qquad(61)\]</span></span> denotes the <em>non-antisymmetrized</em> matrix element in ordinary units, and <span class="math inline">\(F_{n m}(\bm{r})\)</span> denotes a Fock–Darwin wave function.</p>
+<p>Analytically, the integral may be evaluated <span class="citation" data-cites="0953-8984-10-3-013">(Anisimovas and Matulis 1998)</span> as <span class="math display">\[\begin{aligned}
+  &amp;\frac{\bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4}}{\sqrt{\hbar \omega E_{\mathrm{h}}}} \\
+  &amp;= \delta_{m_1 + m_2, m_3 + m_4} \sqrt{\prod_{i = 1}^4 \frac{n_i!}{(n_i + |m_i|)!}} \sum_{j_1 = 0}^{n_1} \sum_{j_2 = 0}^{n_2} \sum_{j_3 = 0}^{n_3} \sum_{j_4 = 0}^{n_4} \\
+  &amp;\qquad \left(\prod_{i = 1}^4  \frac{(-)^{j_i}}{j_i!} \binom{n_i + |m_i|}{n_i - j_i}\right) \frac{1}{2^{(G + 1) / 2}} \sum_{l_1 = 0}^{\gamma_1} \sum_{l_2 = 0}^{\gamma_2} \sum_{l_3 = 0}^{\gamma_3} \sum_{l_4 = 0}^{\gamma_4} \\
+  &amp;\qquad\quad \delta_{l_1 + l_2, l_3 + l_4} (-)^{\gamma_2 + \gamma_4 - l_2 - l_4} \Gamma\left(1 + \frac{\Lambda}{2}\right) \Gamma\left(\frac{G - \Lambda + 1}{2}\right) \prod_{i = 1}^4 \binom{\gamma_i}{l_i} \\
+  &amp;G = \sum_{i = 1}^4 \gamma_1 \\
+  &amp;\Lambda = \sum_{i = 1}^4 l_1 \\
+  &amp;\gamma_1 = j_1 + j_3 + \frac{|m_1| + m_1}{2} + \frac{|m_3| - m_3}{2} \\
+  &amp;\gamma_2 = j_2 + j_4 + \frac{|m_2| + m_2}{2} + \frac{|m_4| - m_4}{2} \\
+  &amp;\gamma_3 = j_3 + j_1 + \frac{|m_3| + m_3}{2} + \frac{|m_1| - m_1}{2} \\
+  &amp;\gamma_4 = j_4 + j_2 + \frac{|m_4| + m_4}{2} + \frac{|m_2| - m_2}{2}
+\end{aligned}\]</span></p>
+<p>However, the analytic approach is rather inefficient: it has effectively 7 nested summations, which means the computational cost of <em>each</em> matrix element grows as <span class="math inline">\(\bigo(k^7)\)</span> where <span class="math inline">\(k\)</span> is the number of shells. It is also prone to precision losses due to the highly oscillatory terms.</p>
+<p>A more effective way to compute the integral is through the technique described in <span class="citation" data-cites="2008arXiv0810.2644K">(Kvaal 2008)</span> as implemented in the OpenFCI package. By transforming product states <span class="math inline">\(\ket{(n m)_1 \otimes (n m)_2}\)</span> into their center-of-mass frame, one arrives at a radial integral <span class="math display">\[C^\mu_{n n&#39;} = 2 (-)^{n + n&#39;} \int_0^\infty R^{2 \mu} \bar{L}^\mu_n(R^2) \bar{L}^\mu_{n&#39;}(R^2) v(\sqrt{2} R) \E^{-R^2} R \D R \]</span> where <span class="math inline">\(\bar{L}^\alpha_n(x)\)</span> is the normalized associated Laguerre polynomial defined in Eq. <a href="quantum-dots.html#eq:laguerre-polynomials">57</a> and <span class="math inline">\(v(R)\)</span> is our central interaction, although this technique generalizes to many kinds of central interactions. The radial integral may be calculated <em>exactly</em> using Gauss–Hermite quadrature of sufficiently high order. The results are transformed back into the laboratory frame using Talmi–Brody–Moshinsky transformation brackets <span class="citation" data-cites="Talmi1952 brody1967tables MOSHINSKY1959104">(Talmi 1952; Brody and Moshinsky 1967; Moshinsky 1959)</span>.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="systems.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="nuclei.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="systems.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="nuclei.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Implementation - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html" class="active"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="implementation"><span class="header-section-number">16</span> Implementation</h1>
+<p>We now discuss the details of our specific implementation of the many-body methods that we have discussed. In our experience, we find a dearth of such documentation in scientific literature, potentially leading to the loss of valuable practical knowledge. We hope readers will find this information helpful for either developing their own codes, reproducing our results, or utilizing our code.</p>
+<p>The many-body methods in this work are implemented as part of the Lutario project <span class="citation" data-cites="Lutario">(Yuan, n.d.)</span>, an open-source library written in Rust, dual licensed under the permissive MIT <span class="citation" data-cites="MIT">(“MIT License,” n.d.)</span> and Apache 2.0 licenses <span class="citation" data-cites="Apache2">(“Apache License, Version 2.0,” n.d.)</span>. Lutario implements a J-scheme framework for many-body calculations, upon which HF, Møller–Plesset perturbation theory to second order (MP2), IM-SRG(2), and QDPT3 are written. The code supports several systems, including quantum dots and nuclei, whose results we discuss in detail in the next chapter. The code also contains implementations of infinite matter and homogeneous electron gas, but we have not included any of those results in this work.</p>
+<h2 id="programming-language"><span class="header-section-number">16.1</span> Programming language</h2>
+<p>Rust is a systems programming language focused on memory safety and performance <span class="citation" data-cites="Rust RustBook">(“Rust,” n.d.; The Rust Project Developers 2017)</span>. It is intended to fulfill a niche similar to those of other close-to-metal languages such as C, C++, or Fortran. These languages are characterized by extremely low overhead on all operations and they offer a high degree of manual control over memory usage and layout. This contrasts with the higher level, garbage-collected languages such as C#, Java, Python, or R, where the manual memory management is eschewed in favor of an automatic memory management with the aid of a garbage collector (GC) that reclaims unused memory without the programmer’s assistance.</p>
+<p>Rust differs from mainstream close-to-metal languages like C or C++ in a few critical ways:</p>
+<ul>
+<li><p>The Rust language is partitioned into <em>safe</em> and <em>unsafe</em> subsets. While the unsafe subset is as flexible and performant as C, the safe subset sacrifices a bit of flexibility or performance so as to prevent the dreaded <em>undefined behavior</em> that plagues similar languages. Use of the safe subset is heavily encouraged by design.</p></li>
+<li><p>Among many ideas adopted from research in functional programming languages, it offers a novel <em>affine</em> type system augmented with <em>borrowing</em> semantics, allowing easy management of scarce resources such as memory and file handles.</p></li>
+</ul>
+<p>In a way, the design choices of Rust is a natural consequence of making safety a top priority and then making pragmatic trade-offs between flexibility and performance.</p>
+<p>Nonetheless, our motivation for choosing Rust is not simply because of safety, which is certainly important but not the most important concern in numerical software. Instead, we chose Rust for a combination of reasons:</p>
+<ul>
+<li><p>Rust includes a subset of the features commonly found in functional programming languages, greatly enhancing productivity. These features include closures, algebraic data types, and traits. While they have also made their way to other languages such as C++, Java, or C#, which were originally object-oriented but have become increasingly multi-paradigm, Rust was originally designed with these features from the outset, and as a result they integrate better into the language’s design, whereas older languages have had to retrofit these features.</p></li>
+<li><p>Rust comes with an official package manager Cargo <span class="citation" data-cites="Cargo">(“Cargo: The Rust Package Manager,” n.d.)</span> with high adoption among the community. It makes it extremely easy to build and install Rust <em>crates</em> (packages) from the Rust package registry [CratesIo], while encouraging sharing and reuse of code.</p></li>
+<li><p>Rust has a flourishing and close-knit community from many diverse backgrounds, ranging from system programmers to high-performance computing specialists. This aids adoption of the young language and offers a helpful environment for learners.</p></li>
+</ul>
+<p>With that being said, there are also reasons to not choose Rust:</p>
+<ul>
+<li><p>Rust remains a very young language by any measure. While the language is officially stable, some portions remain under experimentation. Large parts of the library ecosystem are still in their infancy stages, so there is a high risk of immature, rapidly evolving libraries.</p></li>
+<li><p>Rust puts safety above all else. As a result, highly performant but unsafe Rust code can be awkward and non-idiomatic to write. This can often be mitigated with the design of safer data abstractions, but these are also active areas of research.</p></li>
+<li><p>The lack of a garbage collector requires significant compromises on abstractions in Rust. For example, closures in Rust are more complex (but also more performant) than those in languages with GC such as Python or JavaScript. One should consider whether these complications are a worthwhile trade-off.</p></li>
+</ul>
+<p>We will discuss the project with a perspective heavily influenced by Rust, but conceptually many of these apply to C and C++ just as well. We will use Rust snippets to illustrate concepts, but we expect any reader familiar with C++ should have little trouble adjusting to the slightly different notation.</p>
+<p>In the next two subsections we will provide some motivations to the design of Rust, which can be safely skipped.</p>
+<h3 id="undefined-behavior"><span class="header-section-number">16.1.1</span> Undefined behavior</h3>
+<p><strong>Undefined behavior</strong> (UB) is any behavior that is not defined by the language. Compilers are not obliged to detect whether a program has UB. If a program does have UB, the compiled program is not guaranteed to function correctly at all. It should not be confused with <em>implementation-defined</em> behavior, in which the behavior is allowed to vary from platform to platform but must remain documented and predictable.</p>
+<p>In C and C++, the list of potential UB is numerous <span class="citation" data-cites="C11">(“ISO International Standard Iso/Iec 9899:2011 – Programming Languages c” 2011, Annex J.2, p. 557 - 571)</span>. To name a few:</p>
+<ul>
+<li><em>buffer overflow</em>: use of memory beyond the range that was allocated;</li>
+<li><em>null pointer dereference</em>: attempting to dereference an invalid (<em>null</em>) pointer;</li>
+<li><em>use after free</em>: use of memory that has already been deallocated;</li>
+<li><em>use of uninitialized data</em>: attempting to read uninitialized variables or arrays</li>
+<li><em>data races</em>: use of the same memory location from multiple threads without proper synchronization, in which at least one of the them is performing a write; and</li>
+<li><em>signed arithmetic overflow</em>: when the result of an arithmetic operation is too large or too negative to fit in the signed integer type.</li>
+</ul>
+<p>In software infrastructure, UB can be a bountiful source for security vulnerabilties. In high-performance computing (HPC), the concern of UB lies less so in security, but more in the risk of incorrect computations with possibly subtle and/or non-deterministic effects. This is especially pernicious as many optimizing compilers for C, C++, and Fortran <em>take for granted that UB never occur</em>, leading to miscompilations when they do inevitably occur as a result of programmer error. The following C program gives an example of miscompilation due to UB:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">{</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="cf">if</span> (argc == <span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">        <span class="dt">int</span> *p;</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">        <span class="cf">return</span> *p;</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">    }</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="cf">return</span> <span class="dv">42</span>;</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">}</a></code></pre></div>
+<p>If the program is executed with no arguments, then <code>argc</code> is 1.<a href="implementation.html#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> In that scenario, the program has UB: one is not permitted to dereference an uninitialized pointer <code>p</code>. Naively, one would expect an uninitialized variable to contain a random memory address, which is highly likely to be unallocated. Therefore, one would expect the program to crash with a segmentation fault (memory access violation) with high probability. Indeed this is what typically happens if the program is compiled without optimizations (the so-called <code>-O0</code> compiler flag).</p>
+<p>However, when compiled <em>with</em> optimizations at level 1 (<code>-O1</code>) or higher under Clang or GNU C Compiler (GCC),<a href="implementation.html#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> the program would simply exit silently with <code>42</code>, despite <code>argc</code> being 1. It is as if the compiler had entirely excised the <code>if</code> block from the code, treating <code>argc == 1</code> to be an unfulfillable condition because <code>return *p</code> has undefined behavior, which the compiler assumes is not supposed to ever happen.</p>
+<p>In most languages, the programmer may reduce the risk of undefined behavior through appropriate discipline, defensive checks at run time, or the use of safer abstractions. A large fraction of these errors are avoided entirely through automatic memory management.</p>
+<h3 id="sec:uniqueness-and-borrowing"><span class="header-section-number">16.1.2</span> Uniqueness and borrowing</h3>
+<p>Rust tackles UB from a different angle than most languages: it tries to prevent such mistakes from happening through static analysis of the code (the type system, in particular). This is achieved through two unconventional features adapted from its predecessor Cyclone <span class="citation" data-cites="Jim2002CycloneAS">(Jim et al. 2002)</span>.</p>
+<p>The first idea is that of <strong>uniqueness</strong>. Some forms of data are designated as unique, which means once they are consumed or given away they cannot be used again – the compiler assures this. With the guarantee that a piece of data is unique, one effectively has exclusive control over it. Specifically:</p>
+<ul>
+<li>We can modify its contents without the possibility that another agent might accidentally observe the changes. In particular, if we destroy the object, no-one – not us nor anyone else – can use it again, preventing use-after-free bugs.</li>
+<li>We can be certain that its contents will stay the same unless we change it or relinquish control to another part of the program. This is extremely beneficial for not only optimization purposes, but also for readability.</li>
+<li>No other thread has this data, so there is no possibility of data races.</li>
+</ul>
+<p>Uniqueness is a powerful guarantee, but it can also be very limiting. To overcome this Rust offers a complementary feature called <strong>borrowing</strong>, where a unique data is temporarily yielded to another agent for a limited amount of time. This duration of time is known as the <strong>lifetime</strong> of the borrow. Borrowing is classified into two kinds:</p>
+<ul>
+<li><p>When data is <em>mutably borrowed</em>, the borrower will be granted temporary but exclusive control over the data. The borrower is free to do anything it pleases with the data, but it must guarantee that under all circumstances the data remains valid when the lifetime ends.<a href="implementation.html#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a> During the lifetime of the borrow, the lender is denied all access to the data and cannot lend it again until the end of the lifetime.</p></li>
+<li><p>Alternatively, one can grant a <em>shared borrow</em> of a data, which yields restricted access of the data to the borrower, which typically means the data becomes read-only. During the lifetime of the borrow, the lender can continue granting shared borrows of the data, or access the data directly under the same restrictions.</p></li>
+</ul>
+<p>This leads to a general programming principle referred to as <em>aliasing XOR mutability</em>: data should be modified only if it has exclusive control over the data. While this principle is not a hard and fast rule, it can aid both readability and compiler optimizations. With the idea of <em>exclusive control</em> encoded within the type system, Rust makes this principle enforceable by the compiler.</p>
+<p>The downside of this approach lies in the complications that uniqueness and borrowing introduce to the language and data abstractions. Programming with uniqueness types and borrowing remains fairly novel and under-explored in practice.</p>
+<h2 id="structure-of-the-program"><span class="header-section-number">16.2</span> Structure of the program</h2>
+<p>Calculations in our many-body program follows a linear pipeline:</p>
+<ol type="1">
+<li>Basis: Set up data structures needed to organize matrix elements.</li>
+<li>Input: Read and/or compute Hamiltonian matrix elements.</li>
+<li>HF: Compute coefficient matrix and HF-transformed Hamiltonian.</li>
+<li>Normal ordering: Obtain Hamiltonian relative to Fermi vacuum.</li>
+<li>IM-SRG: Evolve Hamiltonian using IM-SRG.</li>
+<li>QDPT: Compute perturbative corrections to addition and removal energies.</li>
+</ol>
+<p>The first two steps are highly dependent on the quantum system involved, whereas the remaining steps are designed to be independent of the details of any particular system.</p>
+<p>We emphasize that the design of the program grew out of the needs of the program rather than some idealistic vision. From our experience, attempting to dictate an “intuitive” structure to programs generally leads to leaky abstractions and lackluster performance. It is more preferable to allow the program to evolve organically to meet its own computational demands, and develop abstractions and models around the natural flow of data to aid human comprehension.</p>
+<h2 id="external-libraries"><span class="header-section-number">16.3</span> External libraries</h2>
+<p>We utilize several external libraries in our program. Noteworthy ones include:</p>
+<ul>
+<li>BLAS (Basic Linear Algebra Subprograms <span class="citation" data-cites="Lawson:1979:BLA:355841.355847">(Lawson et al. 1979)</span>) is used for its vector and matrix operations, especially the GEMM (General Matrix-Matrix Multiplication) routine. Note that we do not use the <em>reference</em> implementation of BLAS from Netlib. We instead use highly optimized implementations such as OpenBLAS <span class="citation" data-cites="OpenBLAS Goto:2008:AHM:1356052.1356053 Wang:2013:AAG:2503210.2503219">(Xianyi, Qian, and Saar 2017; Goto and Geijn 2008; Wang et al. 2013)</span>.</li>
+<li>LAPACK (Linear Algebra Package, <span class="citation" data-cites="laug">(Anderson et al. 1999)</span>) is used for solving the eigenvalue problem in the Hartree–Fock method.</li>
+<li>The Shampine–Gordon ODE solver <span class="citation" data-cites="shampine1975computer odesolver sgode">(Shampine and Gordon 1975; L. Shampine and Gordon, n.d.; L. Shampine, Gordon, and Yuan, n.d.)</span> is used for solving the IM-SRG flow equation.</li>
+<li>The <code>wigner-symbols</code> library <span class="citation" data-cites="WEI1999222 doi:10.1063/1.168745 WSR">(Wei 1999, 1998; “Wigner-Symbols” 2017)</span> is used to calculate of angular momentum (re)coupling coefficients needed for J-scheme.</li>
+<li>The non-cryptographic Fowler–Noll–Vo (FNV) <span class="citation" data-cites="FNV">(Fowler et al. 2017)</span> hash algorithm is used for hash tables. Rust’s default choice is more secure, but slower.</li>
+</ul>
+<h2 id="basis-and-data-layout"><span class="header-section-number">16.4</span> Basis and data layout</h2>
+<p>A critical question in computational many-body theory is how one should store the matrix elements, which can be numerous. Generally speaking, while there is no one-size-fits-all solution, there are a few distinct storage layouts that are of use to our three many-body methods. We must also be wary of introducing too many storage layouts, which would introduce bloat and redundancies to our code, reducing compilation speed, and hindering comprehension and maintenance.</p>
+<p>One of the first choices lies in the scheme: M-scheme or J-scheme? Since we wish to study nuclei and similar systems, using J-scheme is necessary as the performance of M-scheme code is noticeably worse even for something as small as helium. The divergence in performance will only worsen as one adds more particles and/or shells. But there is also a trade-off: J-scheme code can be more difficult to understand and more difficult to verify. In fact, an easy way to verify J-scheme code would be to perform computations using both J- and M-scheme and compare their results.</p>
+<p>One might be tempted to write code that performs both, but fortunately this is mostly unnecessary. J-scheme code can be used to perform <em>pseudo-M-scheme</em> calculations by associating each particle with a fictitious <code>j</code> quantum number that is always zero, which must not be confused with the physical <span class="math inline">\(j\)</span> quantum number. There are certain optimizations that can be done when <code>j</code> is always zero, but this suffices for verifying the correctness of the code.</p>
+<p>For codes up to two-body interactions with real matrix elements, we use four separate kinds of operators:</p>
+<ul>
+<li>zero-body operator</li>
+<li>standard-coupled one-body operator</li>
+<li>standard-coupled two-body operator</li>
+<li>Pandya-coupled two-body operator</li>
+</ul>
+<p>Zero-body operators are simply floating-point numbers. All other operators are stored as block-diagonal matrices to exploit the sparsity of the matrix. Specifically, because of conservation laws such as <span class="math display">\[[\hat{H}, \hat{J}_3] = 0\]</span> our Hamiltonian matrices are guaranteed to have a certain block diagonal form: <span class="math display">\[m_{\mathrm{j}} \ne m_{\mathrm{j}}&#39; \implies \bra{m_{\mathrm{j}} \alpha} \hat{H} \ket{m_{\mathrm{j}}&#39; \beta} = 0\]</span></p>
+<h3 id="matrix-types"><span class="header-section-number">16.4.1</span> Matrix types</h3>
+<p>The most basic data type is that of a matrix. A (dense) matrix containing entries of type <code>T</code>, denoted <code>Mat&lt;T&gt;</code>, is a combination of three items,<a href="implementation.html#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">struct</span> Mat&lt;T&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">    ptr: *<span class="kw">mut</span> T          <span class="co">// data pointer</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">    num_rows: <span class="dt">usize</span>,     <span class="co">// number of rows</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    num_cols: <span class="dt">usize</span>,     <span class="co">// number of columns</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="op">}</span></a></code></pre></div>
+<ul>
+<li><p>Here, <code>ptr</code> is declared to have type <code>*mut T</code>, namely a mutable pointer to <code>T</code>.<a href="implementation.html#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a> This is conventional but also somewhat deceptive, because we are actually storing a whole <em>array</em> of <code>T</code> objects at the location. The pointer simply provides the address to the first entry in this array, assuming the array is at least one element long.</p></li>
+<li><p>The dimensions are declared to have type <code>usize</code>,<a href="implementation.html#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a> which is the pointer-sized unsigned integer type conventionally used to store lengths of data in memory.</p></li>
+</ul>
+<p>We use zero-based indices throughout the discussion.</p>
+<p>There are two common matrix layout conventions: <strong>row-major</strong> (colloquially known as <strong>C order</strong>), where the matrix is laid out row by row, or <strong>col-major</strong> (<strong>Fortran order</strong>), where the matrix is laid out column by column. In both cases, the index <span class="math inline">\(f(i, j)\)</span> of an element within the array at <code>ptr</code> is given by the equation <span id="eq:mat-index"><span class="math display">\[f(i, j) = i n + j\qquad(67)\]</span></span> What differs is the interpretation of the variables:</p>
+<ul>
+<li><p>In the row-major convention, <span class="math inline">\(i\)</span> is the row index, <span class="math inline">\(n\)</span> is the number of columns, and <span class="math inline">\(j\)</span> is the column index.</p></li>
+<li><p>In the column-major convention, <span class="math inline">\(i\)</span> is the column index, <span class="math inline">\(n\)</span> is the number of rows, and <span class="math inline">\(j\)</span> is the row index.</p></li>
+</ul>
+<p>In our code, we adhere to the row-major convention.</p>
+<p>We use the <code>Mat&lt;T&gt;</code> data type to represent an <em>owning</em> matrix: it has exclusive ownership of its contents. When a <code>Mat&lt;T&gt;</code> object is destroyed, its associated memory is automatically deallocated by the destructor we implemented.</p>
+<p>To share the matrix or submatrices of it, we introduce two separate types <code>MatRef&lt;'a, T&gt;</code> (shared matrix reference) and <code>MatMut&lt;'a, T&gt;</code> (mutable matrix reference). The reference types both have a <strong>lifetime parameter</strong> <code>'a</code> that determines the lifetime of the borrow. Unlike <code>Mat&lt;T&gt;</code>, we introduce an additional field to the contents of <code>MatRef&lt;T&gt;</code> and <code>MatMut&lt;T&gt;</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">struct</span> MatRef&lt;T&gt; <span class="op">{</span>       <span class="co">// or MatMut&lt;T&gt;</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    ptr: *<span class="kw">const</span> T        <span class="co">// data pointer</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    num_rows: <span class="dt">usize</span>,     <span class="co">// number of rows</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    num_cols: <span class="dt">usize</span>,     <span class="co">// number of columns</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    stride: <span class="dt">usize</span>,       <span class="co">// gap between each row</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="op">}</span></a></code></pre></div>
+<p>The <code>stride</code> parameter allows us to extract references of submatrices (incomplete matrices). This is useful because in many situations we only want to operate on, say, the hole states but not the particle states, or vice versa. In this case, the indexing formula in Eq. <a href="implementation.html#eq:mat-index">67</a> is interpretedly differently: <span class="math inline">\(n\)</span> is now the <em>stride</em> of the matrix.</p>
+<p>We also use a triangular matrix data type <code>TriMat&lt;T&gt;</code>, which can represent not just triangular matrices but also <span class="math inline">\(\pm\)</span>-symmetric and <span class="math inline">\(\pm\)</span>-Hermitian matrices. In a (non-strict) triangular matrix data type, we store the diagonal and all elements above it, or the diagonal and all elements below it. Because we chose row-major matrices, the latter convention turns out to be more convenient, as we can write the indexing formula as: <span class="math display">\[g(i, j) = \binom{i + 1}{2} + \binom{j}{1} = \frac{(i + 1) i}{2} + j\]</span> which is independent of the matrix’s dimensions. This formula readily generalizes to higher-rank simplex-shaped tensors.</p>
+<p>A block-diagonal matrix is conceptually a matrix composed to square matrices arranged along the diagonal. In terms of data, a block-diagonal matrix is simply an array of matrices. In Rust, this can be represented by the nested type <code>Vec&lt;Mat&lt;T&gt;&gt;</code>, where <code>Vec&lt;M&gt;</code> denotes a growable array<a href="implementation.html#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a> of objects of type <code>M</code>.</p>
+<p>Each block (or <strong>channel</strong> as we often call them in code) is indexed by <span class="math inline">\(l\)</span> (<strong>channel index</strong>) and each element is indexed by a triplet <span class="math inline">\((l, u, v)\)</span>, with <span class="math inline">\(u\)</span> being the row index within the block and <span class="math inline">\(v\)</span> being the column index within the block. The indices <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are known as <strong>auxiliary indices</strong>. The size of blocks may vary within the matrix. Programmatically, block-diagonal matrices are represented by an array of matrices. In Rust, this would be <code>Vec&lt;Mat&lt;f64&gt;&gt;</code> where <code>Mat&lt;T&gt;</code> denotes our own custom matrix data type with entries of type <code>T</code>.</p>
+<p>Effectively, all operations on block-diagonal matrices are performed block-wise. For example, matrix multiplication between two block matrices <span class="math inline">\(A^l_{u v}\)</span> and <span class="math inline">\(B^l_{u v}\)</span> can be written as: <span class="math display">\[C^l_{u w} = \sum_v A^l_{u v} B^l_{v w}\]</span> which is equivalent to <span class="math display">\[\bm{C}^l = \sum_v \bm{A}^l \bm{B}^l\]</span> This is a very convenient computational property. It provides an avenue for the parallelization of block-diagonal matrix multiplication, since the block operations are independent of each other.</p>
+<p>We can generalize block-diagonal matrices such that the blocks are no longer required to be square nor do they have to lie on the diagonal. Instead, they simply need to be arranged so as to touch each other at their top-left/bottom-right corners. Implementation of operations on these generalized block-diagonal matrices remains identical.</p>
+<p>There are additional optimizations one can apply to the layout of block-diagonal matrices. One can, for example, pack the contents of all matrices into a single contiguous array and store the matrix dimensions in a separate array along with offsets to each of these blocks. The array of offsets <span class="math inline">\(h(l)\)</span>, which we call <strong>block offsets</strong>, is given by the formula <span class="math display">\[h(l) = \sum_{l&#39; = 0}^{l - 1} e(l&#39;)\]</span> where <span class="math inline">\(e(l)\)</span> is the extent of the <span class="math inline">\(l\)</span>-th block, which for an ordinary rectangular block with dimensions <span class="math inline">\(m(l) \times n(l)\)</span> is simply <span class="math inline">\(e(l) = m(l) n(l)\)</span>. For convenience, we allow the indices of <span class="math inline">\(h(l)\)</span> to range from <span class="math inline">\(0\)</span> to <span class="math inline">\(l\)</span> rather than <span class="math inline">\(0\)</span> to <span class="math inline">\(l - 1\)</span> as would be typical with zero-based indexing. The value of <span class="math inline">\(h_l\)</span> is simply the length of the entire array. To save memory, the block offsets can be shared between matrices that have precisely the same layout of blocks.</p>
+<h3 id="basis-charts"><span class="header-section-number">16.4.2</span> Basis charts</h3>
+<p>A row index pair <span class="math inline">\((l, u)\)</span> can be considered an abstract label for a left basis vector in this matrix, whereas a column index pair <span class="math inline">\((l, v)\)</span> can be considered a label for a right basis vector.</p>
+<p>For a one-body operators, each index pair corresponds to a one-particle state in J-scheme, <span class="math display">\[\ket{j \kappa \mu}\]</span> with <span class="math inline">\(j\)</span> being the angular momentum magnitude, <span class="math inline">\(\kappa\)</span> representing all remaining conserved quantum numbers, and <span class="math inline">\(\mu\)</span> representing all remaining non-conserved quantum numbers. Since J-scheme states are reduced states, the angular momentum projection <span class="math inline">\(m\)</span> is absent entirely. The combination of <span class="math inline">\((j, \kappa)\)</span> is conserved, thus we have the bijection <span class="math display">\[l \simeq (j, \kappa)\]</span> in the one-particle basis. In code, we can store this bijection using a special bidirectional lookup table that we call a <strong>chart</strong>, which is a pair of two data structures:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">struct</span> Chart&lt;T&gt; <span class="op">{</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">    encoder: HashMap&lt;T, <span class="dt">usize</span>&gt;,</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">    decoder: <span class="dt">Vec</span>&lt;T&gt;,</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="op">}</span></a></code></pre></div>
+<p>The encoder is a hash table that maps from a <code>T</code> object into an index, whereas the decoder is a vector that maps from an index to a <code>T</code> object. Here, <code>T</code> can be any hashable object with an equality relation. In this case, we choose <code>T = (Half&lt;i32&gt;, K)</code>, where <code>Half&lt;i32&gt;</code> is our custom data type for representing half-integers like <span class="math inline">\(j\)</span>, and <code>K</code> is the type of <span class="math inline">\(\kappa\)</span>.</p>
+<p>In our code, we do not store <span class="math inline">\(\kappa\)</span> directly, but represent <span class="math inline">\(\kappa\)</span> using another abstract index <span class="math inline">\(k\)</span> isomorphic to <span class="math inline">\(\kappa\)</span>. This design allows the type of the <span class="math inline">\(l \simeq (j, k)\)</span> chart to be completely independent of the type of <span class="math inline">\(\kappa\)</span>, avoiding code bloat due to monomorphization. The rationale for this is that most operations in many-body theory only require knowledge of the total angular momentum magnitude <span class="math inline">\(j\)</span> and not of <span class="math inline">\(\kappa\)</span>.</p>
+<p>There is also a bijection between <span class="math inline">\(\mu\)</span> and <span class="math inline">\(u\)</span> but it is <span class="math inline">\(l\)</span>-dependent, <span class="math display">\[(l, u) \simeq (l, \mu)\]</span> This bijection is needed to recover the non-conserved quantum numbers and is needed to interpret matrix elements (e.g. reading input matrix elements, displaying output), but is irrelevant within the core of the many-body methods.</p>
+<p>For two-body operators, each index pair corresponds to an unnormalized two-particle state in J-scheme, <span class="math display">\[\ket{j_{1 2} \kappa_{1 2} j_1 \kappa_1 \mu_1 j_2 \kappa_2 \mu_2}\]</span> Since <span class="math inline">\(j_{1 2} \kappa_{1 2}\)</span> is conserved, we have the bijection, <span class="math display">\[l_{1 2} \simeq (j_{1 2}, \kappa_{1 2})\]</span> akin to one-particle states.</p>
+<p>Notice that the two-particle state can be compressed to <span class="math display">\[\ket{j_{1 2} p_1 p_2}\]</span> where <span class="math inline">\(p\)</span> is some index isomorphic to <span class="math inline">\((j, \kappa, \mu)\)</span> that we call the <strong>orbital index</strong>, <span class="math display">\[p \simeq (j, \kappa, \mu)\]</span> The <span class="math inline">\(\kappa_{1 2}\)</span> disappears because it is determined uniquely by the relation <span id="eq:abelian-kappa"><span class="math display">\[\kappa_{1 2} = \begin{cases}
+  \kappa_1 \dot{+} \kappa_2 &amp; \text{if operator standard-coupled} \\
+  \kappa_1 \dot{-} \kappa_2 &amp; \text{if operator is Pandya-coupled} \\
+\end{cases}\qquad(68)\]</span></span> where the dotted plus sign <span class="math inline">\((\dot{+})\)</span> denotes the Abelian operation used to combine the conserved quantum numbers and the dotted minus sign <span class="math inline">\((\dot{-})\)</span> denotes its inverse. Usually, this is simply addition, but for certain multiplicative quantum numbers like parity this would translate to multiplication.</p>
+<p>We thus have the bijection <span class="math display">\[(l_{1 2}, u_{1 2}) \simeq (j_{1 2}, p_1, p_2)\]</span> which allows us to relate two-particle states to one-particle states (<em>orbitals</em>) entirely independent of the concrete quantum numbers. It is not necessary to relate the two-particle index pairs <span class="math inline">\((l_{1 2}, u_{1 2})\)</span> to the concrete quantum numbers directly.</p>
+<p>For convenience, we use a specific choice of orbital index, defined as <span class="math display">\[p(l, u) = M(l) + u\]</span> where <span class="math inline">\(M(l)\)</span> is an array of <strong>channel offsets</strong>, defined as <span id="eq:channel-offset"><span class="math display">\[M(l) = \sum_{l&#39; = 0}^{l - 1} m(l&#39;)\qquad(69)\]</span></span> where <span class="math inline">\(m(l&#39;)\)</span> is the number of one-particle states in the one-particle channel <span class="math inline">\(l&#39;\)</span>.</p>
+<p>For standard-coupled two-body operators, we impose an additional constraint to save memory: <span class="math display">\[p_1 \ge p_2\]</span> The antisymmetry of the states allows us to easily invert the order if this constraint is violated: <span class="math display">\[\ket{j_{1 2} p_2 p_1} = (-)^{j_1 + j_2 - j_{1 2}} \ket{j_{1 2} p_1 p_2}\]</span></p>
+<p>In overall, we classify the bijections into two broad categories:</p>
+<ul>
+<li>Bijections that are dependent on the concrete quantum numbers <span class="math inline">\(\kappa\)</span> and <span class="math inline">\(\mu\)</span> are stored in a generic<a href="implementation.html#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a> data structure that we call the <strong>atlas</strong>, which necessarily depend on the types of <span class="math inline">\(\kappa\)</span> and <span class="math inline">\(\mu\)</span>.</li>
+<li>Bijections that are independent of the concrete quantum numbers, as well as <strong>layout</strong> information (dimensions and offsets, as in Eqns. <a href="implementation.html#eq:channel-offset">69</a>, <a href="implementation.html#eq:part-offset">70</a>) are stored in a non-generic data structure that we call the <strong>scheme</strong>.</li>
+</ul>
+<p>The scheme is stored within the atlas for convenience, but most many-body methods do not require the atlas at all; they only need the scheme. The atlas is typically only needed during the input stage where matrix elements are read in, for conversion between J-scheme and pseudo-M-scheme, or for identification of basis states in debugging/display.</p>
+<h3 id="access-of-matrix-elements"><span class="header-section-number">16.4.3</span> Access of matrix elements</h3>
+<p>Within each block, we partition the states into several contiguous parts, indexed by a part label <span class="math inline">\(\chi\)</span>.</p>
+<ul>
+<li>For the one-body operator, states are divided into hole (<span class="math inline">\(\chi = 0\)</span>) and particle (<span class="math inline">\(\chi = 1\)</span>) parts.</li>
+<li>For the standard-coupled two-body operator, states are divided into hole-hole (<span class="math inline">\(\chi = 0\)</span>), hole-particle/particle-hole (<span class="math inline">\(\chi = 1\)</span>), and particle-particle (<span class="math inline">\(\chi = 2\)</span>) parts.</li>
+<li>For the Pandya-coupled two-body operator, states are divided into hole-hole (<span class="math inline">\(\chi = (0, 0)\)</span>), hole-particle (<span class="math inline">\(\chi = (0, 1)\)</span>), particle-hole (<span class="math inline">\(\chi = (1, 0)\)</span>), and particle-particle (<span class="math inline">\(\chi = (1, 1)\)</span>) parts.</li>
+</ul>
+<p>This partitioning scheme makes it possible to avoid unnecessary iteration over states that do not contribute to a many-body diagram.</p>
+<p>Implementing this requires subdividing the channels according to <span class="math inline">\(\chi\)</span>, thus we will need analogous quantities to those in Eq. <a href="implementation.html#eq:channel-offset">69</a>, such as: <span id="eq:part-offset"><span class="math display">\[M(l, \chi) = \sum_{l&#39; = 0}^{l - 1} \sum_{\chi&#39; = 0}^{\chi - 1} m(l&#39;, \chi&#39;)\qquad(70)\]</span></span> which we call the <strong>part offset</strong>. Here, <span class="math inline">\(m(l&#39;, \chi&#39;)\)</span> is the number of one-particle states in the one-particle channel <span class="math inline">\(l&#39;\)</span> within part <span class="math inline">\(\chi&#39;\)</span>.</p>
+<p>While the implicit antisymmetrization of standard-coupled two-particle states saves a significant amount of memory, they do complicate the translation of many-body equations into code. To reduce this cognitive load, we introduce an <strong>augmented</strong> two-particle state index triplet <span class="math inline">\((t_{1 2}, l_{1 2}, u_{1 2})\)</span> that includes an extra permutation parameter <span class="math inline">\(t_{1 2}\)</span>. The permutation <span class="math inline">\(t_{1 2}\)</span> can be either 0 or 1 if <span class="math inline">\(p_1 \ne p_2\)</span>, or it can only be 0 if <span class="math inline">\(p_1 = p_2\)</span>.</p>
+<ul>
+<li>If <span class="math inline">\(t_{1 2} = 0\)</span>, then we interpret <span class="math inline">\((t_{1 2}, l_{1 2}, u_{1 2})\)</span> as the usual state <span class="math inline">\(\ket{j_{1 2}; p_1 p_2}\)</span>.</li>
+<li>However, if <span class="math inline">\(t_{1 2} = 1\)</span>, then we interpret <span class="math inline">\((t_{1 2}, l_{1 2}, u_{1 2})\)</span> as the permuted state <span class="math inline">\(\ket{j_{1 2}; p_2 p_1} = (-)^{j_1 + j_2 - j_{1 2}} \ket{j_{1 2}; p_1 p_2}\)</span>.</li>
+</ul>
+<p>The augmented state <span class="math inline">\((t_{1 2}, l_{1 2}, u_{1 2})\)</span> has the advantage of being in a one-to-one correspondence to our intuitive notion of a two-particle state on paper. Thus it offers a useful abstraction that hides the internal complications of implicit antisymmetrization.</p>
+<p>When a matrix element is accessed using an augmented state index, we must perform a phase adjustment depending on the value of <span class="math inline">\(t\)</span>, <span class="math display">\[\begin{align*}
+&amp;\mathbf{function}\ \mathrm{get}(V, (t_{1 2}, l_{1 2}, u_{1 2}), (t_{3 4}, l_{3 4}, u_{3 4})) \\
+&amp;\quad \mathbf{if}\ l_{1 2} \ne l_{3 4} \\
+&amp;\quad\quad 0 \\
+&amp;\quad \mathbf{else} \\
+&amp;\quad\quad \phi_{1 2} \phi_{3 4} V^{l_{1 2}}_{u_{1 2} u_{3 4}}
+\end{align*}\]</span> where <span class="math display">\[\phi_{a b} = \begin{cases}
+  0 &amp; \text{if } t_{a b} = 0 \\
+  -(-1)^{j_a + j_b - j_{a b}} &amp; \text{if } t_{a b} = 1 \\
+\end{cases}\]</span> When a matrix element is <em>set</em> using an augmented state index, we perform the same phase adjustment to the value being set, <span class="math display">\[\begin{align*}
+&amp;\mathbf{function}\ \mathrm{set}(V, (t_{1 2}, l_{1 2}, u_{1 2}), (t_{3 4}, l_{3 4}, u_{3 4}), x) \\
+&amp;\quad \mathrm{assert}(l_{1 2} = l_{3 4}) \\
+&amp;\quad V^{l_{1 2}}_{u_{1 2} u_{3 4}} \leftarrow \phi_{1 2} \phi_{3 4} x
+\end{align*}\]</span> where the left arrow <span class="math inline">\((\leftarrow)\)</span> denotes array element assignment. If <span class="math inline">\(l_{1 2} \ne l_{3 4}\)</span>, the operation aborts with an error. However, this setter is a rather leaky abstraction. Suppose we attempt to, say, increment every matrix element by one, <span class="math display">\[V_{p q r s} \leftarrow V_{p q r s} + 1\]</span> using the naive algorithm <span class="math display">\[\begin{align*}
+&amp;\mathbf{for}\ \mathrm{pq}\ \mathbf{in}\ \mathrm{all\_augmented\_states} \\
+&amp;\quad \mathbf{for}\ \mathrm{rs}\ \mathbf{in}\ \mathrm{all\_augmented\_states} \\
+&amp;\quad\quad \mathrm{set}(V, \mathrm{pq}, \mathrm{rs}, \mathrm{get}(V, \mathrm{pq}, \mathrm{rs}) + 1)
+\end{align*}\]</span> As it turns out, this will cause many of the matrix elements to be incremented <em>twice</em> instead of just once. This is because multiple augmented states map to the same unaugmented state. To remedy this, we introduce a separate abstraction for the addition-assignment operation defined as <span class="math display">\[\begin{align*}
+&amp;\mathbf{function}\ \mathrm{add}(V, (t_{1 2}, l_{1 2}, u_{1 2}), (t_{3 4}, l_{3 4}, u_{3 4}), x) \\
+&amp;\quad \mathrm{assert}(l_{1 2} = l_{3 4}) \\
+&amp;\quad V^{l_{1 2}}_{u_{1 2} u_{3 4}} \leftarrow V^{l_{1 2}}_{u_{1 2} u_{3 4}} + \frac{\phi_{1 2} \phi_{3 4}}{N_{1 2} N_{3 4}} x
+\end{align*}\]</span> where <span class="math inline">\(N_{a b}\)</span> is the normalization factor in Eq. <a href="angular-momentum-coupling.html#eq:two-particle-j-normalization-factor">36</a>, which simplifies to <span class="math inline">\(N_{a b} = 2 - \delta_{p_a p_b}\)</span> if non-existent states are excluded. The denominator helps compensate for the overcounting.</p>
+<h3 id="initialization-of-the-basis"><span class="header-section-number">16.4.4</span> Initialization of the basis</h3>
+<h4 id="sec:input-single-particle-basis"><span class="header-section-number">16.4.4.1</span> Input single-particle basis</h4>
+<p>To set up all the necessary basis structures for many-body theory, we require the following data, all of which are specific to each quantum system:</p>
+<ul>
+<li><p>We need a list of all single-particle states (“orbitals”) in the quantum system.</p></li>
+<li><p>For every single-particle state, we need to know its part label <span class="math inline">\(\chi\)</span>, which tells us whether it is a hole (occupied) state or a particle (unoccupied) state relative to the Fermi vacuum Slater determinant.</p></li>
+<li><p>For every single-particle state, we need to know to its <span class="math inline">\(j\)</span>, <span class="math inline">\(\kappa\)</span>, and <span class="math inline">\(\mu\)</span> quantum numbers. We allow both <span class="math inline">\(\kappa\)</span> and <span class="math inline">\(\mu\)</span> to be of practically any type and leave them as generic type parameters.</p></li>
+<li><p>We require <span class="math inline">\(\kappa\)</span>-type values (1) to be cloneable, (2) to have a total equality relation, (3) to be hashable, and (4) to form an abelian group (i.e. to support the <span class="math inline">\(\dot{+}\)</span> and <span class="math inline">\(\dot{-}\)</span> operations in Eq. <a href="implementation.html#eq:abelian-kappa">68</a>). The first three conditions are needed to set up efficient mappings between arbitrary <span class="math inline">\(\kappa\)</span> values and <span class="math inline">\(k\)</span> indices using hash tables.<a href="implementation.html#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> The last condition is needed to compute conserved quantum numbers for multi-particle states.</p></li>
+<li><p>We require <span class="math inline">\(\mu\)</span>-type values (1) to be cloneable, (2) to have a total equality relation, and (3) to be hashable. These conditions are needed to set up efficient mappings between arbitrary <span class="math inline">\(\mu\)</span> values and <span class="math inline">\(u\)</span> indices.</p></li>
+</ul>
+<p>Once we have this information, we can construct both the atlas and the scheme data structures for the system.</p>
+<h4 id="sec:channelized-atlas-initialization"><span class="header-section-number">16.4.4.2</span> Channelized atlas initialization</h4>
+<p>The general process for setting up any channelized basis is straightforward. The input is a sequence of <span class="math inline">\((\lambda, \chi, \mu)\)</span> states, where</p>
+<ul>
+<li><span class="math inline">\(\lambda\)</span> is the channel,</li>
+<li><span class="math inline">\(\chi\)</span> is the part, and</li>
+<li><span class="math inline">\(\mu\)</span> is any auxiliary information needed to uniquely identify it within all states of the same <span class="math inline">\(\lambda\)</span>.</li>
+</ul>
+<p>The output are various charts, including <span class="math inline">\(l \simeq \lambda\)</span> and <span class="math inline">\((l, u) \simeq (l, \mu)\)</span>, and layout information (arrays of dimensions and offsets, such as <span class="math inline">\(M(l)\)</span> in Eq. <a href="implementation.html#eq:channel-offset">69</a>). The process goes as follows:</p>
+<ol type="1">
+<li>Iterate over each state <span class="math inline">\((\lambda, \chi, \mu)\)</span> and incrementally build the single-particle chart for <span class="math inline">\(l \simeq \lambda\)</span>. Store each <span class="math inline">\((l, \chi, \mu)\)</span> to a temporary array.</li>
+<li>Sort the temporary array in lexicographical order, grouping the states by <span class="math inline">\(l\)</span> and then by <span class="math inline">\(\chi\)</span>.</li>
+<li>Iterate over the sorted array to derive the charts <span class="math inline">\(p \simeq (l, u) \simeq (l, \mu)\)</span> and layout information (see Eqns. <a href="implementation.html#eq:channel-offset">69</a>, <a href="implementation.html#eq:part-offset">70</a>).</li>
+</ol>
+<h4 id="many-body-atlas-initialization"><span class="header-section-number">16.4.4.3</span> Many-body atlas initialization</h4>
+<p>The channelized atlas initialization procedure is then applied to one-particle, standard-coupled two-particle, and Pandya-coupled two-particle bases:</p>
+<ol type="1">
+<li><p>To build the one-particle basis for the one-body operator, iterate over the input single-particle basis (Sec. <a href="implementation.html#sec:input-single-particle-basis">16.4.4.1</a>) states <span class="math inline">\((\chi, j, \kappa, \mu)\)</span> and incrementally update the single-particle channel chart <span class="math inline">\(k \simeq \kappa\)</span>. The states <span class="math inline">\((\lambda = (j, k), \chi, \mu)\)</span> are then passed to the channelized atlas initialization procedure (Sec. <a href="implementation.html#sec:channelized-atlas-initialization">16.4.4.2</a>) to obtain the necessary charts and layouts.</p></li>
+<li><p>To build the two-particle basis for the standard-coupled two-body operator, iterate over the Cartesian product of the single-particle states with itself, yielding <span class="math inline">\((l_1, u_1, l_2, u_2)\)</span> per iteration:</p>
+<ol type="a">
+<li>Use the single-particle chart to recover <span class="math inline">\(p_1\)</span>, <span class="math inline">\(p_2\)</span>, <span class="math inline">\(j_1\)</span>, <span class="math inline">\(j_2\)</span>, <span class="math inline">\(\kappa_1\)</span>, <span class="math inline">\(\kappa_2\)</span>, <span class="math inline">\(\chi_1\)</span>, and <span class="math inline">\(\chi_2\)</span>.</li>
+<li>Skip the iteration if <span class="math inline">\(p_1 &lt; p_2\)</span>.</li>
+<li>Compute <span class="math inline">\(\kappa_{12} = \kappa_1 \dot{+} \kappa_2\)</span> and <span class="math inline">\(\chi_{12} = \chi_1 + \chi_2\)</span> (<span class="math inline">\(\chi_1, \chi_2 \in \{0, 1\}\)</span> and <span class="math inline">\(\chi_{12} \in \{0, 1, 2\}\)</span>).</li>
+<li>Update the two-particle channel chart <span class="math inline">\(k_{12} \simeq \kappa_{12}\)</span>.</li>
+<li>For each <span class="math inline">\(j_{12}\)</span> compatible with <span class="math inline">\(\tridelta{j_1}{j_2}{j_{12}}\)</span>, push the state <span class="math inline">\((\lambda = (j_{12}, k_{12}), \chi = \chi_{12}, \mu = (p_1, p_2))\)</span> into a temporary array.</li>
+</ol>
+<p>Finally, pass the temporary array of states to the channelized atlas initialization procedure (Sec. <a href="implementation.html#sec:channelized-atlas-initialization">16.4.4.2</a>) to obtain the necessary charts and layouts.<a href="implementation.html#fn29" class="footnote-ref" id="fnref29"><sup>29</sup></a></p></li>
+<li><p>To build the two-particle basis for the Pandya-coupled two-body operator, iterate over the Cartesian product of the single-particle states with itself, yielding <span class="math inline">\((l_1, u_1, l_4, u_4)\)</span> per iteration:</p>
+<ol type="a">
+<li>Use the single-particle chart to recover <span class="math inline">\(p_1\)</span>, <span class="math inline">\(p_4\)</span>, <span class="math inline">\(j_1\)</span>, <span class="math inline">\(j_4\)</span>, <span class="math inline">\(\kappa_1\)</span>, <span class="math inline">\(\kappa_4\)</span>, <span class="math inline">\(\chi_1\)</span>, and <span class="math inline">\(\chi_4\)</span>.</li>
+<li>Compute <span class="math inline">\(\kappa_{14} = \kappa_1 \dot{-} \kappa_4\)</span> and <span class="math inline">\(\chi_{14} = \chi_1 + 2 \chi_4\)</span> (<span class="math inline">\(\chi_1, \chi_4 \in \{0, 1\}\)</span> and <span class="math inline">\(\chi_{14} \in \{0, 1, 2, 3\}\)</span>).</li>
+<li>Update the two-particle channel chart <span class="math inline">\(k_{14} \simeq \kappa_{14}\)</span>.</li>
+<li>For each <span class="math inline">\(j_{14}\)</span> compatible with <span class="math inline">\(\tridelta{j_1}{j_4}{j_{14}}\)</span>, push the state <span class="math inline">\((\lambda = (j_{14}, k_{14}), \chi = \chi_{14}, \mu = (p_1, p_4))\)</span> into a temporary array.</li>
+</ol>
+<p>Finally, pass the temporary array of states to the channelized atlas initialization procedure (Sec. <a href="implementation.html#sec:channelized-atlas-initialization">16.4.4.2</a>) to obtain the necessary charts and layouts.</p></li>
+</ol>
+<p>Note that step 2 and 3 differ in only two aspects: the abelian operation used for <span class="math inline">\(\kappa\)</span> (addition vs subtraction), and the presence or absence of the implicit antisymmetrization constraint <span class="math inline">\(p_1 \ge p_2\)</span>.</p>
+<h4 id="basis-initialization-for-quantum-dots"><span class="header-section-number">16.4.4.4</span> Basis initialization for quantum dots</h4>
+<p>The Fock–Darwin basis is used for quantum dot calculations.</p>
+<p>In our implementation of the quantum dot system, <span class="math inline">\(j\)</span> is not used, so we can simply set it to zero throughout. The set of conserved quantum numbers are <span class="math inline">\(\kappa = (m_\ell, m_s)\)</span>, the projections of orbital angular momentum and spin. This leaves us with <span class="math inline">\(\mu = n\)</span>, the principal quantum number.</p>
+<p>The abelian group on <span class="math inline">\(\kappa = (m_\ell, m_s)\)</span> is defined in a straightforward manner: <span class="math display">\[\begin{gather*}
+  \dot{0} = (0, 0) \\
+  (m_\ell, m_s) \dot{+} (m_\ell&#39;, m_s&#39;) = (m_\ell + m_\ell&#39;, m_s + m_s&#39;) \\
+  (m_\ell, m_s) \dot{-} (m_\ell&#39;, m_s&#39;) = (m_\ell - m_\ell&#39;, m_s - m_s&#39;)
+\end{gather*}\]</span></p>
+<p>The occupied states for quantum dots are always selected in complete shells – a shell consists of all states that share the same single-particle energy in Eq. <a href="quantum-dots.html#eq:energysingleparticlestate">59</a>. Moreover, systems we study always contain complete shells filled from the bottom. These are the <span class="math inline">\(N\)</span>-particle electron configurations we use:</p>
+<ul>
+<li><span class="math inline">\(N = 2\)</span>: <span class="math inline">\(0\mathrm{s}^2\)</span></li>
+<li><span class="math inline">\(N = 6\)</span>: <span class="math inline">\(0\mathrm{s}^2 0\mathrm{p}^4\)</span></li>
+<li><span class="math inline">\(N = 12\)</span>: <span class="math inline">\(0\mathrm{s}^2 0\mathrm{p}^4 1\mathrm{s}^2 0\mathrm{d}^4\)</span></li>
+<li><span class="math inline">\(N = 20\)</span>: <span class="math inline">\(0\mathrm{s}^2 0\mathrm{p}^4 1\mathrm{s}^2 0\mathrm{d}^4 1\mathrm{p}^4 0\mathrm{f}^4\)</span></li>
+<li>etc.</li>
+</ul>
+<p>Here, the notation <span class="math inline">\(n \ell^i\)</span> means there are <span class="math inline">\(i\)</span> particles in states with <span class="math inline">\(n\)</span> and <span class="math inline">\(|m_\ell| = \ell\)</span> and <span class="math inline">\(\mathrm{s} \leftrightarrow 0\)</span>, <span class="math inline">\(\mathrm{p} \leftrightarrow 1\)</span>, <span class="math inline">\(\mathrm{d} \leftrightarrow 2\)</span>, <span class="math inline">\(\mathrm{f} \leftrightarrow 3\)</span>, as usual for spectroscopic notation.</p>
+<h4 id="basis-initialization-for-nuclei"><span class="header-section-number">16.4.4.5</span> Basis initialization for nuclei</h4>
+<p>The 3D harmonic oscillator basis is used for nuclei calculations.</p>
+<p>In J-scheme nuclear calculations, the input <span class="math inline">\(j\)</span> quantum number is simply the total angular momentum magnitude <span class="math inline">\(j\)</span>. The set of conserved quantum numbers are <span class="math inline">\(\kappa = (\pi, m_t)\)</span>, parity and isospin projection. This leaves us with <span class="math inline">\(\mu = n\)</span>, the principal quantum number.</p>
+<p>The abelian group on <span class="math inline">\(\kappa = (\pi, m_t)\)</span> is defined as: <span class="math display">\[\begin{gather*}
+  \dot{0} = (+, 0) \\
+  (\pi, m_t) \dot{+} (\pi&#39;, m_t&#39;) = (\pi \pi&#39;, m_t + m_t&#39;) \\
+  (\pi, m_t) \dot{-} (\pi&#39;, m_t&#39;) = (\pi \pi&#39;, m_t - m_t&#39;) \\
+\end{gather*}\]</span></p>
+<p>In pseudo-M-scheme nuclear calculations, which we use mainly for testing purposes, the input <span class="math inline">\(j\)</span> quantum number<a href="implementation.html#fn30" class="footnote-ref" id="fnref30"><sup>30</sup></a> is artificially set to zero. The set of conserved quantum numbers are <span class="math inline">\(\kappa = (\pi, m_j, m_t)\)</span>, parity and the projections of total angular momentum and isospin. This leaves us with <span class="math inline">\(\mu = (n, j)\)</span>, the principal quantum number and total angular momentum magnitude. Note that <span class="math inline">\(j\)</span> cannot be put into <span class="math inline">\(\kappa\)</span> because we are using uncoupled two-particle states.</p>
+<p>The abelian group on <span class="math inline">\(\kappa = (\pi, m_j, m_t)\)</span> is defined as: <span class="math display">\[\begin{gather*}
+  \dot{0} = (+, 0, 0) \\
+  (\pi, m_j, m_t) \dot{+} (\pi&#39;, m_j&#39;, m_t&#39;) = (\pi \pi&#39;, m_j + m_j&#39;, m_t + m_t&#39;) \\
+  (\pi, m_j, m_t) \dot{-} (\pi&#39;, m_j&#39;, m_t&#39;) = (\pi \pi&#39;, m_j - m_j&#39;, m_t - m_t&#39;) \\
+\end{gather*}\]</span></p>
+<h2 id="input-matrix-elements"><span class="header-section-number">16.5</span> Input matrix elements</h2>
+<p>The procurement of input matrix elements varies wildly from system to system and there is not much code that can be shared among them outside of I/O utilities.</p>
+<h3 id="inputs-for-quantum-dots"><span class="header-section-number">16.5.1</span> Inputs for quantum dots</h3>
+<p>The one-body matrix for quantum dots is diagonal and can be computed using Eq. <a href="quantum-dots.html#eq:energysingleparticlestate">59</a>.</p>
+<p>Two-body matrix elements are more difficult to compute. We outsource the bulk of the work to the OpenFCI package <span class="citation" data-cites="2008arXiv0810.2644K">(Kvaal 2008)</span> and precompute the non-antisymmetrized matrix elements of Eq. <a href="quantum-dots.html#eq:qdots-integral">61</a> with the frequency-dependence factored out: <span class="math display">\[\frac{\bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4}}{\sqrt{\hbar \omega E_{\mathrm{h}}}}\]</span> (Recall that <span class="math inline">\(m\)</span> is a shorthand for <span class="math inline">\(m_\ell\)</span> for quantum dots.)</p>
+<p>The elements are stored in a simple binary file format. In this format, the file is contiguous array of 16-byte entries, where the first 8 bytes of each entry contains the quantum numbers <span class="math inline">\(n_1, m_1, n_2, m_2, n_3, m_3, n_4, m_4\)</span> in that order. Each <span class="math inline">\(n\)</span> is an 8-bit unsigned integer and each <span class="math inline">\(m\)</span> is a 8-bit signed integer. The remaining 8 bytes contain the value of the matrix element as a little-endian 64-bit IEEE 754 double-precision floating-point number. Schematically, we can depict an entry as the following structure:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">struct</span> Entry <span class="op">{</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">    n1:    <span class="dt">u8</span>,</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    m1:    <span class="dt">i8</span>,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    n2:    <span class="dt">u8</span>,</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">    m2:    <span class="dt">i8</span>,</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">    n3:    <span class="dt">u8</span>,</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">    m3:    <span class="dt">i8</span>,</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">    n4:    <span class="dt">u8</span>,</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">    m4:    <span class="dt">i8</span>,</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">    value: <span class="dt">f64</span>,</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="op">}</span></a></code></pre></div>
+<p>To save space, not all matrix elements are stored. We restrict matrix elements to those that satisfy both of the following canonicalization conditions: <span class="math display">\[\begin{align*}
+  (p_1, p_2) &amp;\le \operatorname{sort}(p_3, p_4) &amp;
+  (p_1, p_3) &amp;\le (p_2, p_4)
+\end{align*}\]</span> where <span class="math display">\[\begin{gather*}
+  \operatorname{sort}(p_3, p_4) = \begin{cases}
+    (p_3, p_4) &amp; \text{if } p_3 \le p_4 \\
+    (p_4, p_3) &amp; \text{otherwise} \\
+  \end{cases} \\
+  p_i = \frac{k_i (k_i + 2) + m_i}{2} \\
+  k_i = 2 n_i + |m_i|
+\end{gather*}\]</span> Note that comparisons such as <span class="math inline">\((a, b) \le (c, d)\)</span> use lexicographical ordering.</p>
+<h3 id="inputs-for-nuclei"><span class="header-section-number">16.5.2</span> Inputs for nuclei</h3>
+<p>The one-body matrix for nuclei is the kinetic energy operator, which is not diagonal but can still be easily computed using Eq. <a href="nuclei.html#eq:ho3d-kinetic-energy">66</a>. Note that the equation does <em>not</em> include the <span class="math inline">\((1 - 1/A)\)</span> factor that arises from the center-of-mass kinetic energy subtraction.</p>
+<p>The two-body matrix elements consists of two parts. Firstly, there is a two-body component arising from the center-of-mass kinetic energy subtraction: <span class="math display">\[\bra{p q} \left(-\frac{\hat{\bm{p}}_1 \cdot \hat{\bm{p}}_2}{m A}\right) \ket{p q}\]</span> This quantity can be computed easily in the center-of-mass frame. The Talmi–Brody–Moshinsky transformation brackets <span class="citation" data-cites="Talmi1952 brody1967tables MOSHINSKY1959104">(Talmi 1952; Brody and Moshinsky 1967; Moshinsky 1959)</span> can be used to convert the result back into lab frame.</p>
+<p>The second part is the actual nuclear interaction. There are many possible choices here, and they are often available precomputed in a variety of tabular formats.</p>
+<p>A common format that used for nuclear matrix elements is the <strong>Darmstadt ME2J format</strong> <span class="citation" data-cites="tuprints3946 tuprints4069 tuprints3945">(Binder 2014; Calci 2014; Langhammer 2014)</span>. The chiral-EFT interactions, including <span class="citation" data-cites="PhysRevC.68.041001">(Entem and Machleidt 2003)</span>, are often distributed in this format. In this format, all matrix elements are stored in a predefined order without explicitly writing out the quantum numbers. The iteration order is parametrized by <span class="math inline">\((e_{\mathrm{max}}, n_{\mathrm{max}}, \ell_{\mathrm{max}}, E_{\mathrm{max}})\)</span> as defined in Eqns. <a href="nuclei.html#eq:emax">63</a>-<a href="nuclei.html#eq:eemax">65</a>. The first three parameters constrain the single-particle basis, which is constructed by the following algorithm: <span class="math display">\[\begin{gather*}
+  \mathbf{for}\ e\ \mathbf{in}\ 0, \ldots, e_{\mathrm{max}} \\
+  \quad \mathbf{for}\ \lambda\ \mathbf{in}\ 0, \ldots, \left\lfloor\frac{e}{2}\right\rfloor \\
+  \quad \quad \mathbf{let}\ \ell = 2 \lambda + (e \bmod 2) \\
+  \quad \quad \mathbf{let}\ n = \frac{e - \ell}{2} \\
+  \quad \quad \mathbf{if}\ \ell &gt; \ell_{\mathrm{max}} \\
+  \quad \quad \quad \mathbf{break} \\
+  \quad \quad \mathbf{if}\ n &gt; n_{\mathrm{max}} \\
+  \quad \quad \quad \mathbf{continue} \\
+  \quad \quad \mathbf{for}\ \delta\ \mathbf{in}\ \left|\ell - \frac{1}{2}\right| - \frac{1}{2}, \ldots, \ell \\
+  \quad \quad \quad \mathbf{let}\ j = \delta + \frac{1}{2} \\
+  \quad \quad \quad \mathbf{yield}\ (e, n, \ell, j)
+\end{gather*}\]</span> The algorithm establishes an <em>ordering</em> on the single-particle states, which we denote <span class="math display">\[(e_1, n_1, \ell_1, j_1), (e_2, n_2, \ell_2, j_2), \ldots, (e_{n_{\mathrm{b}}}, n_{n_{\mathrm{b}}}, \ell_{n_{\mathrm{b}}}, j_{n_{\mathrm{b}}})\]</span> where <span class="math inline">\(n_{\mathrm{b}}\)</span> is the number of single-particle states. Then, we must iterate over the two-body matrix elements in the following order, constrained by <span class="math inline">\(E_{\mathrm{max}}\)</span>: <span class="math display">\[\begin{gather*}
+  \mathbf{for}\ p\ \mathbf{in}\ 1, \ldots, n_{\mathrm{b}} \\
+  \quad \mathbf{for}\ q\ \mathbf{in}\ 1, \ldots, p \\
+  \quad \quad \mathbf{if}\ e_p + e_q &gt; E_{\mathrm{max}} \\
+  \quad \quad \quad \mathbf{break} \\
+  \quad \quad \mathbf{for}\ r\ \mathbf{in}\ 1, \ldots, p \\
+  \quad \quad \quad \mathbf{for}\ s\ \mathbf{in}\ 1, \ldots, (\mathbf{if}\ r &lt; p \ \mathbf{then}\ r\ \mathbf{else}\ q) \\
+  \quad \quad \quad \quad \mathbf{if}\ e_r + e_s &gt; E_{\mathrm{max}} \\
+  \quad \quad \quad \quad \quad \mathbf{break} \\
+  \quad \quad \quad \quad \mathbf{if}\ (\ell_1 + \ell_2 + \ell_3 + \ell_4) \bmod 2 \ne 0 \\
+  \quad \quad \quad \quad \quad \mathbf{continue} \\
+  \quad \quad \quad \quad \mathbf{for}\ J\ \mathbf{in}\ \max\{|j_p - j_q|, |j_r - j_s|\}, \ldots, \min\{j_p + j_q, j_r + j_s\} \\
+  \quad \quad \quad \quad \quad \mathbf{for}\ T\ \mathbf{in}\ 0, 1 \\
+  \quad \quad \quad \quad \quad \quad \mathbf{for}\ M_T\ \mathbf{in}\ {-T}, \ldots, T \\
+  \quad \quad \quad \quad \quad \quad \quad \mathbf{yield}\ (n_p, \ell_p, j_p, n_q, \ell_q, j_q, n_r, \ell_r, j_r, n_s, \ell_s, j_s, J, T, M_T)
+\end{gather*}\]</span> Note that in ME2J, the particle physics convention is used for isospin, so <span class="math inline">\(m_t = -\frac{1}{2}\)</span> is for neutrons and <span class="math inline">\(m_t = +\frac{1}{2}\)</span> is for protons.</p>
+<h2 id="implementation-of-hf"><span class="header-section-number">16.6</span> Implementation of HF</h2>
+<p>The overall structure of our HF program is as follows:</p>
+<ol type="1">
+<li><p>Begin with the initial coefficient matrix <span class="math inline">\(\bm{C}^{(0)}\)</span> set to the identity matrix.</p></li>
+<li><p>Now we loop over <span class="math inline">\(i\)</span> from 1 and terminate at some high cut-off (e.g. 1024):</p>
+<ol type="a">
+<li><p>Compute the Fock matrix <span class="math inline">\(\bm{F}^{(\mathrm{new})}\)</span> using <span class="math inline">\(\bm{C}^{(i - 1)}\)</span>.</p></li>
+<li><p>Mix <span class="math inline">\(\bm{F}^{(i - 1)}\)</span> and <span class="math inline">\(\bm{F}^{(\mathrm{new})}\)</span> to obtain <span class="math inline">\(\bm{F}^{(i)}\)</span> using Eq. <a href="implementation.html#eq:hf-mixing">72</a>.</p></li>
+<li><p>Solve the Hartree–Fock equation as a Hermitian eigenvalue problem on <span class="math inline">\(\bm{F}^{(i)}\)</span>. This results in a new set of coefficients <span class="math inline">\(\bm{C}^{(i)}\)</span> and a vector of eigenvalues (orbital energies) <span class="math inline">\(\bm{\varepsilon}^{(i)}\)</span>. We use <code>heevr</code> from LAPACK for this, applied separately to every block of the matrix.</p></li>
+<li><p>Compute the sum of orbital energies <span class="math inline">\(S^{(i)} = \sum_p \jweight{j}_p^2 \varepsilon_p^{(i)}\)</span> as a diagnostic for convergence.</p></li>
+<li><p>Adjust the linear mixing factor using Eq. <a href="implementation.html#eq:hf-mixing-adjustment">73</a>.</p></li>
+<li><p>Test how much <span class="math inline">\(S^{(i)}\)</span> has changed compared to <span class="math inline">\(S^{(i - 1)}\)</span>. If this is within the desired tolerance, break the loop.</p></li>
+</ol></li>
+<li><p>Report whether the HF calculation has reached convergence (i.e. whether the loop was broken because the tolerance has met). Usually, the program will abort if this fails.</p></li>
+<li><p>Transform the Hamiltonian using the final coefficient matrix.</p></li>
+</ol>
+<h3 id="calculation-of-the-fock-matrix"><span class="header-section-number">16.6.1</span> Calculation of the Fock matrix</h3>
+<p>From <span class="math inline">\(\bm{C}\)</span>, we compute an auxiliary matrix <span class="math inline">\(\bm{Q}\)</span> defined as <span class="math display">\[Q_{r s} = \sum_{i \backslash} C_{r i&#39;}^* C_{s i&#39;}\]</span> This summation may be readily computed using GEMM.</p>
+<p>Using <span class="math inline">\(\bm{Q}\)</span>, we can reduce the cost of computing the Fock matrix, which is now described by this equation in J-scheme: <span id="eq:fock-q"><span class="math display">\[F_{p q} = \bra{p} \hat{H}_1 \ket{q} + \sum_{j_{p r} r s} \frac{\jweight{j}_{p r}^2}{\jweight{j}_p^2} Q_{r s} \bra{p r} \hat{H}_2 \ket{q s}\qquad(71)\]</span></span> Compared with Eq. <a href="hartree-fock.html#eq:fock-j">43</a>, which has a triply-nested sum, this equation only has a doubly-nested sum.</p>
+<p>As a demonstration of our J-scheme framework, we include the code used to calculate the two-body contribution to the Fock matrix below.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">pub</span> <span class="kw">fn</span> fock2(</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    h2: &amp;OpJ200&lt;<span class="dt">f64</span>&gt;,</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    q1: &amp;OpJ100&lt;<span class="dt">f64</span>&gt;,</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">    f1: &amp;<span class="kw">mut</span> OpJ100&lt;<span class="dt">f64</span>&gt;,</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="op">{</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">    <span class="kw">let</span> scheme = h2.scheme();</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">    <span class="kw">for</span> pr <span class="kw">in</span> scheme.states_20(&amp;occ::ALL2) <span class="op">{</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">        <span class="kw">let</span> (p, r) = pr.split_to_10_10();</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">        <span class="kw">for</span> q <span class="kw">in</span> p.costates_10(&amp;occ::ALL1) <span class="op">{</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">            <span class="kw">for</span> s <span class="kw">in</span> r.costates_10(&amp;occ::ALL1) <span class="op">{</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">                <span class="kw">for</span> qs <span class="kw">in</span> q.combine_with_10(s, pr.j()) <span class="op">{</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13">                    f1.add(p, q,</a>
+<a class="sourceLine" id="cb8-14" data-line-number="14">                           pr.jweight(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb8-15" data-line-number="15">                           / p.jweight(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb8-16" data-line-number="16">                           * q1.at(r, s)</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">                           * h2.at(pr, qs));</a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">                <span class="op">}</span></a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">            <span class="op">}</span></a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">        <span class="op">}</span></a>
+<a class="sourceLine" id="cb8-21" data-line-number="21">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb8-22" data-line-number="22"><span class="op">}</span></a></code></pre></div>
+<p>The inputs to this function are the three operator matrices <code>h2</code> (<span class="math inline">\(\bm{H}_2\)</span>, the two-body Hamiltonian), <code>q1</code> (<span class="math inline">\(\bm{Q}\)</span>), and <code>f1</code> (<span class="math inline">\(\bm{F}\)</span>). The output is <code>f1</code> (<span class="math inline">\(\bm{F}\)</span> is mutated in-place).</p>
+<p>The function begins by binding a reference of the scheme of <code>h2</code> to the <code>scheme</code> variable. This is done out of convenience. One could just as well have chosen <code>q1.scheme()</code>, or <code>f1.scheme()</code>, since all three operators are expected to have the same scheme as a pre-condition.</p>
+<p>The outermost loop over iterates over all standard-coupled two-particle states <span class="math inline">\(\ket{j_{p r}; p r}\)</span>. Keep in mind that although in storage we deduplicate states related by antisymmetry, the high-level interface here takes great pains to avoid exposing this internal detail.</p>
+<p>The two-particle state <span class="math inline">\(\ket{j_{p r}; p r}\)</span> is then split into two single-particle states <span class="math inline">\(\ket{p}\)</span> and <span class="math inline">\(\ket{r}\)</span>. Note that this is a many-to-one process: multiple two-particle state can split into the same pair of single-particle states.</p>
+<p>The next loop iterates over all <span class="math inline">\(\ket{q}\)</span> that are also <strong>co-states</strong> of <span class="math inline">\(\ket{p}\)</span>: these are all states that share the same channel as <span class="math inline">\(\ket{p}\)</span>. These states have the same <span class="math inline">\(l \simeq (j, \kappa)\)</span> and thus reside within the same one-body matrix block, allowing us to avoid wasting time on matrix elements that are trivially zero. Another loop iterates over all <span class="math inline">\(\ket{s}\)</span> that are co-states of <span class="math inline">\(\ket{r}\)</span>.</p>
+<p>In the innermost loop, we combine <span class="math inline">\(\ket{q}\)</span>, <span class="math inline">\(\ket{s}\)</span>, and <span class="math inline">\(j_{p r}\)</span> to form the state <span class="math inline">\(\ket{j_{p r}; q s}\)</span>. This loop is somewhat unusual in that it iterates <em>at most once</em>. If for some reason the state <span class="math inline">\(\ket{j_{p r}; q s}\)</span> is forbidden, the innermost loop would do nothing. Otherwise, there can only be one state <span class="math inline">\(\ket{j_{p r}; q s}\)</span> that satisfies the requirements.</p>
+<p>Lastly, we add the appropriate contributions to <code>f1</code> using the usual formula. The <code>add</code> function and <code>at</code> (getter) automatically handle the antisymmetrization phases behind the scenes. Note that the <code>p.jweight(n)</code> function computes <span class="math inline">\(\jweight{j}_p^n\)</span>.</p>
+<p>This code is written in a rather naive way and utilizes the <em>high-level</em> interface of our J-scheme framework. It is certainly not the most efficient way of calculating the Fock matrix, but we consider its simplicity to be an advantage. Compared to other parts of the calculation, this sum is far from being the bottleneck, thus optimizing this code is not a high priority.</p>
+<h3 id="ad-hoc-linear-mixing"><span class="header-section-number">16.6.2</span> <em>Ad hoc</em> linear mixing</h3>
+<p>In some systems, the convergence of Hartree–Fock calculations can sometimes be very slow. This is usually the result of a highly oscillatory convergence. Several methods exist to mitigate this problem, including direct inversion of the iterative subspace (DIIS) <span class="citation" data-cites="PULAY1980393 JCC:JCC540030413">(Pulay 1980, 1982)</span> and Broyden’s method <span class="citation" data-cites="broyden1965class">(Broyden 1965)</span>.</p>
+<p>In our code, we implement a very simple <em>ad hoc</em> linear mixing strategy that, in practice, can aid convergence in many cases. The general idea is that if the sum of energies <span class="math inline">\(S\)</span> is changing sign, then we attempt to dampen the oscillations by mixing in some portion of the old Fock matrix. If this converging is not oscillatory, then we try to keep most of the new Fock matrix.</p>
+<p>The mixing is determined by a factor <span class="math inline">\(c^{(i)}\)</span> that is updated from iteration to iteration. The next Fock matrix to be used <span class="math inline">\(\bm{F}^{(i)}\)</span> is computed as: <span id="eq:hf-mixing"><span class="math display">\[\bm{F}^{(i)} = c^{(i)} \bm{F}^{(i - 1)} + (1 - c^{(i)}) \bm{F}^{(\mathrm{new})}\qquad(72)\]</span></span> where <span class="math inline">\(\bm{F}^{(\mathrm{new})}\)</span> is the Fock matrix as computed via Eq. <a href="implementation.html#eq:fock-q">71</a>.</p>
+<p>At each step, we update the mixing factor <span class="math inline">\(c^{(i)}\)</span> via the logic: <span id="eq:hf-mixing-adjustment"><span class="math display">\[c^{(i)} = \begin{cases}
+  \min\{\frac{1}{2}, b c^{(i - 1)}\} &amp; \text{if } (S^{(i)} - S^{(i - 1)}) (S^{(i - 1)} - S^{(i - 2)}) &lt; 0 \\
+  \frac{c^{(i - 1)}}{b} &amp; \text{otherwise} \\
+\end{cases}\qquad(73)\]</span></span> where <span class="math inline">\(b &gt; 1\)</span> is some arbitrary constant that controls how rapid <span class="math inline">\(c\)</span> should respond to the presence or absence of oscillations. We usually choose <span class="math inline">\(b = 2\)</span>. The <span class="math inline">\(\min\{\frac{1}{2}, \ldots\}\)</span> prevents the calculation from stalling because too much of the old matrix is being retained.</p>
+<h3 id="hf-transformation-of-the-hamiltonian"><span class="header-section-number">16.6.3</span> HF transformation of the Hamiltonian</h3>
+<p>The HF transformation is describe by Eq. <a href="hartree-fock.html#eq:hftransform">39</a>, which we reproduce here in J-scheme (not that there is any difference): <span class="math display">\[\begin{gather*}
+  H&#39;_{p&#39; q&#39;} = \sum_{p q} C_{p p&#39;}^* H_{p q} C_{q q&#39;} \\
+  H&#39;_{p&#39; q&#39; r&#39; s&#39;} = \sum_{p q r s} C_{p p&#39;}^* C_{q q&#39;}^* H_{p q r s} C_{r r&#39;} C_{s s&#39;}
+\end{gather*}\]</span> The one-body term is very cheap and can be written in a naive way like the Fock matrix calculation.</p>
+<p>The two-body term can be fairly expensive. Naive implementation of the equation would result in an 8-th power scaling, which is unbearably slow. Fortunately, the calculation can be broken down into two 6-th power steps at the cost of a temporary two-body matrix <span class="math inline">\(\bm{T}\)</span>, <span id="eq:hf-transform-2-fast"><span class="math display">\[\begin{gathered}
+  T_{p&#39; q&#39; r s} = \sum_{p q} C_{p p&#39;}^* C_{q q&#39;}^* H_{p q r s} \\
+  H&#39;_{p&#39; q&#39; r&#39; s&#39;} = \sum_{r s} T_{p&#39; q&#39; r s} C_{r r&#39;} C_{s s&#39;}
+\end{gathered}\qquad(74)\]</span></span> This could be broken down even further into four 5-th power steps, but we generally find this an unnecessary complication – in particular, it would involve a temporary non-antisymmetrized two-body matrix, which would require introducing yet another matrix data type.</p>
+<p>Eq. <a href="implementation.html#eq:hf-transform-2-fast">74</a> can be programmed naively, which results in a slow but tolerable transformation. Alternatively, one could perform the transformation using GEMM. Our benchmarks indicate that the use of GEMM can provide a two-orders-of-magnitude improvement in speed. Unfortunately, it causes the internal details of implicit antisymmetrization to leak, complicating the phase factor.</p>
+<p>In any case, the technique is as follows. Define the following two-body antisymmetrized coefficient matrix <span class="math inline">\(\bm{G}\)</span>: <span class="math display">\[G_{r s r&#39; s&#39;} = N_{r s} \symm^{(1 + j_r + j_s - j_{r s})}_{r s} \symm^{(1 + j_{r&#39;} + j_{s&#39;} - j_{r s})}_{r&#39; s&#39;} C_{r r&#39;} C_{s s&#39;}\]</span> where <span class="math inline">\(N_{r s}\)</span> is the normalization factor in Eq. <a href="angular-momentum-coupling.html#eq:two-particle-j-normalization-factor">36</a> and <span class="math inline">\(\symm^{(i)}\)</span> is the <span class="math inline">\((-)^i\)</span>-symmetrization symbol of Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>. Then we can compute the transformation using GEMM: <span class="math display">\[\begin{gathered}
+  T_{p&#39; q&#39; r s} = \sum_{p \ge q} G_{p q p&#39; q&#39;}^* H_{p q r s} \\
+  H&#39;_{p&#39; q&#39; r&#39; s&#39;} = \sum_{r \ge s} T_{p&#39; q&#39; r s} G_{r s r&#39; s&#39;}
+\end{gathered}\]</span></p>
+<h2 id="implementation-of-normal-ordering"><span class="header-section-number">16.7</span> Implementation of normal ordering</h2>
+<p>Before performing IM-SRG(2), it is necessary to obtain matrix elements of <span class="math inline">\(\hat{H}\)</span> relative to the Fermi vacuum. This step is often referred to as the <em>normal ordering</em> of <span class="math inline">\(\hat{H}\)</span> (the terminology is somewhat overloaded). As part of this step, we also obtain the Hartree–Fock energy.</p>
+<p>In the case of two-body operators, there are only two interesting operations here. One is the calculation of the zero-body component (HF energy) using Eq. <a href="hartree-fock.html#eq:hfenergy">38</a> or Eq. <a href="many-body-theory.html#eq:normord-ph">4</a>, which we reproduce here in J-scheme: <span class="math display">\[E_\Phi = E_\varnothing + \sum_{i \backslash} \jweight{j}_{i}^2 H^\varnothing_{i i} + \frac{1}{2} \sum_{j_{i j}} \sum_{i j \backslash} \jweight{j}_{i j}^2 H^\varnothing_{i j i j}\]</span> We have omitted the primes because at this point normal ordering itself can be applied independent of HF. This calculation can be done naively as it is very cheap.</p>
+<p>The other part is the folding of the two-body component into the one-body component as shown in Eq. <a href="many-body-theory.html#eq:normord-ph">4</a> and reproduced here in J-scheme: <span class="math display">\[H^\Phi_{p q} = H^\varnothing_{p q} + \sum_{j_{p i}} \sum_{i \backslash} \frac{\jweight{j}_{p i}^2}{\jweight{j}_p^2} H^\varnothing_{p i q i}\]</span> This calculation can also be done naively as it is still very cheap.</p>
+<h2 id="im-srg2-implementation"><span class="header-section-number">16.8</span> IM-SRG(2) implementation</h2>
+<p>The overall structure of the IM-SRG implementation is centered around an ODE loop with tests for convergence, much like HF. The inputs to IM-SRG are the normal-ordered, zero-, one-, and two-body operator matrices in their standard-coupled forms.</p>
+<ol type="1">
+<li><p>Pack all three standard-coupled Hamiltonian components into a single array <span class="math inline">\(\bm{y}\)</span> for the ODE solver to consume. In doing so, deduplicate elements that are related by hermitivity.</p></li>
+<li><p>Initialize and maintain a cache of 6-j symbols, needed for the Pandya transformations.</p></li>
+<li><p>Initialize the Shampine–Gordon ODE solver.</p></li>
+<li><p>Now enter the main IM-SRG loop, starting with the flow parameter <span class="math inline">\(s\)</span> set to zero. If the loop exceeds some predefined limit on <span class="math inline">\(s\)</span>, abort.</p>
+<ol type="a">
+<li><p>Request the solver to proceed to <span class="math inline">\(s + \Delta s\)</span>, for some <span class="math inline">\(\Delta s\)</span> specified by the user. Provide the derivative function <span class="math inline">\(\dot{\bm{y}} = \bm{f}(s, \bm{y})\)</span> to the solver. While the solver is stepping, it will attempt to evaluate our function <span class="math inline">\(\bm{f}\)</span>:</p>
+<ul>
+<li>Unpack <span class="math inline">\(\bm{y}\)</span> back into the standard-coupled operator matrices <span class="math inline">\(\bm{H}\)</span>.</li>
+<li>Compute the generator <span class="math inline">\(\bm{\eta}\)</span> from <span class="math inline">\(\bm{H}\)</span>.</li>
+<li>Compute the comutator <span class="math inline">\(\bm{D} = [\bm{\eta}, \bm{H}]\)</span>, making use of the 6-j cache.</li>
+<li>Pack the comutator <span class="math inline">\(\bm{D}\)</span> into the derivative array <span class="math inline">\(\dot{\bm{y}}\)</span>.</li>
+</ul></li>
+<li><p>If the stepping failed, abort.</p></li>
+<li><p>Get the ground state energy <span class="math inline">\(E_\Phi\)</span>, which in our packing convention is simply the first element of <span class="math inline">\(\bm{y}\)</span>.</p></li>
+<li><p>Check how much the ground state energy has changed since the previous iteration. If it is less the user-specified tolerance, break the loop with success.</p></li>
+</ol></li>
+</ol>
+<p>We use the White generator for our IM-SRG calculations, as described in Eq. <a href="imsrg.html#eq:white-generator">51</a>. Our implementation supports both Møller–Plesset and Epstein–Nesbet denominators, using monopole matrix elements in the latter case.</p>
+<h3 id="calculation-of-the-im-srg2-commutator"><span class="header-section-number">16.8.1</span> Calculation of the IM-SRG(2) commutator</h3>
+<p>The bulk of the implementation complexity and computational cost lies in the calculation of the commutator <span class="math inline">\(\bm{D} = [\bm{\eta}, \bm{H}]\)</span>. At the moment, we implement this as by calculating the linked products of <span class="math inline">\(\hat{\eta} \hat{H}\)</span> and subtracting the linked products of <span class="math inline">\(\hat{H} \hat{\eta}\)</span>. This allows us to reuse the linked product code. However, in the future, we may disrupt this symmetry for optimization reasons – to take advantage of <span class="math inline">\(\hat{\eta}\)</span>’s higher sparsity as compared to <span class="math inline">\(\hat{H}\)</span>.</p>
+<p>Since the linked product corresponds to the <span class="math inline">\(\hat{C}\)</span> operator in Secs. <a href="imsrg.html#sec:imsrg-eqs">11.4</a>, <a href="imsrg.html#sec:imsrg-j-eqs">11.5</a>, we will discuss the various terms using the naming convention in that chapter. We will not attempt to discuss all of the terms but instead focus on a few interesting ones.</p>
+<h4 id="optimization-of-terms-2220-and-2222"><span class="header-section-number">16.8.1.1</span> Optimization of terms 2220 and 2222</h4>
+<p>These are one of the most costly terms in the commutator, but also one the easiest to optimize: <span class="math display">\[\begin{gather*}
+  C^{2220}_{p q r s} = \frac{1}{2} \sum_{i j \backslash} A_{i j r s} B_{p q i j} \\
+  C^{2222}_{p q r s} = \frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s}
+\end{gather*}\]</span> Calculating these terms using GEMM is quite straightforward and offers orders of magnitude in improvement.</p>
+<p>However, a subtlety arises due to the implicit antisymmetrization, which we also encountered earlier in the HF transformation optimization: we must not double-count the <span class="math inline">\(i = j\)</span> (or <span class="math inline">\(a = b\)</span>) states. With this taken into account, the equations become <span class="math display">\[\begin{gather*}
+  C^{2220}_{p q r s} = \frac{1}{2} \sum_{i \ge j \backslash} N_{i j} A_{i j r s} B_{p q i j} \\
+  C^{2222}_{p q r s} = \frac{1}{2} \sum_{\backslash a \ge b} N_{a b} A_{p q a b} B_{a b r s}
+\end{gather*}\]</span> where <span class="math inline">\(N_{a b}\)</span> denotes the normalization factor in Eq. <a href="angular-momentum-coupling.html#eq:two-particle-j-normalization-factor">36</a>. This is an unfortunate consequence of using unnormalized matrix elements; had we used normalized ones, the spurious <span class="math inline">\(N_{a b}\)</span> factor would not appear.</p>
+<p>Note that the above two equations are extremely similar and can be implemented as just one function. The difference between the two is the that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> have been swapped, and that the parts of states being summed over are different.</p>
+<h4 id="optimization-of-terms-2221"><span class="header-section-number">16.8.1.2</span> Optimization of terms 2221</h4>
+<p>The 2221 term is one of the most interesting and costly terms. It is actually described by a three-step process. First, use the Pandya transformation to convert the standard-coupled operators into Pandya coupling (Sec. <a href="angular-momentum-coupling.html#sec:pandya">8.12.2</a>): <span class="math display">\[\tilde{A}_{p s r q} =
+  -\sum_{j_{p q}}
+  (-)^{2 j_{p q}}
+  \jweight{j}_{p q}^2
+  \begin{Bmatrix}
+    j_p &amp; j_q &amp; j_{p q} \\
+    j_r &amp; j_s &amp; j_{p s} \\
+  \end{Bmatrix}
+  A_{p q r s}
+\]</span> Then, use GEMM to compute the product using Pandya-coupled matrices: <span class="math display">\[\tilde{C}^{2221}_{p s r q} = +4 \sum_{i \backslash a} \tilde{A}_{i a r q} \tilde{B}_{p s i a}\]</span> Finally, convert back into standard coupling using the antisymmetrizing inverse Pandya transformation.</p>
+<p>The GEMM part is probably the most straightforward. Unlike 2220 or 2221, there are no unusual phase factors because we do not use implicit antisymmetrization here.</p>
+<p>Our benchmarks show that a very significant amount of time is spent on the Pandya transformation, thus it is worthwhile to optimize that operation despite being a roughly 5-th power operation.</p>
+<p>One technique is to rewrite the Pandya transformation itself as a GEMM-compatible product: <span class="math display">\[\tilde{A}^{j_p j_q j_r j_s}_{j_{p s}; \alpha_p \alpha_q \alpha_r \alpha_s} =
+  -\sum_{j_{p q}}
+  W^{j_p j_q j_r j_s}_{j_{p s}; j_{p q}}
+  A^{j_p j_q j_r j_s}_{j_{p q}; \alpha_p \alpha_q \alpha_r \alpha_s}
+\]</span> where <span class="math display">\[W^{j_p j_q j_r j_s}_{j_{p s}; j_{p q}} =
+  (-)^{2 j_{p q}}
+  \jweight{j}_{p q}^2
+  \begin{Bmatrix}
+    j_p &amp; j_q &amp; j_{p q} \\
+    j_r &amp; j_s &amp; j_{p s} \\
+  \end{Bmatrix}\]</span> In this “four-j” matrix layout, each diagonal block of <span class="math inline">\(A\)</span> or <span class="math inline">\(\tilde{A}\)</span> is indexed not by the usual channels, but by <span class="math inline">\((j_p, j_q, j_r, j_s)\)</span>. The right axis of both matrices is labeled by <span class="math inline">\((\alpha_p, \alpha_q, \alpha_r, \alpha_s)\)</span>, where <span class="math inline">\(\alpha_p\)</span> denotes all the non-<span class="math inline">\(j\)</span> quantum numbers of <span class="math inline">\(p\)</span>. The use of this layout, in conjunction with a GEMM-powered Pandya transformation, saves about 40% time.<a href="implementation.html#fn31" class="footnote-ref" id="fnref31"><sup>31</sup></a> The gains are not as dramatic as in the case of 2220 or 2222 because the matrix-matrix multiplication is only over <span class="math inline">\(j_{p s}\)</span> whose dimensions are usually not very big.</p>
+<p>The dominant work is now pushed onto the conversion from the standard- or Pandya-coupled matrices into this four-j layout. This can be expensive due to the large number of hash table lookups for translation between two-particle states and pairs of single-particle states. To mitigate this we cache the translated indices within a separate four-j-layout matrix, bypassing the need for expensive hash table lookups. This saves another 50% time at the cost of extra memory usage.<a href="implementation.html#fn32" class="footnote-ref" id="fnref32"><sup>32</sup></a></p>
+<h2 id="qdpt3-implementation"><span class="header-section-number">16.9</span> QDPT3 implementation</h2>
+<p>The QDPT3 implementation is fairly tedious as it involves coding about 20 or so terms from Sec. <a href="qdpt.html#sec:qdpt-eqs">12.1</a>. It is also quite error-prone, much like the IM-SRG commutator, therefore extensive testing is necessary.</p>
+<p>Fortunately, all terms up to third order are fairly inexpensive, therefore writing them out naively using the high-level J-scheme interface would suffice as the cost of IM-SRG dwarfs the cost of QDPT.</p>
+<p>Additionally, a large number of QDPT terms share similar topologies: there is one unique topology at second order (type A), and only three unique topologies at third order (types B, C, and D). Thus, they can reuse with the same code simply by tweaking a the state parts that are being summed over and customizing the denominator. As an example, consider the type B QDPT term: <span class="math display">\[W^{(\mathrm{B})}_{p q}(\chi_r, \chi_{s t}, \chi_{u v}, D)
+= \frac{1}{4} \sum_{r \in \chi_r} \sum_{s t \in \chi_{s t}} \sum_{u v \in \chi_{u v}} \frac{\jweight{j}_{r p}^2}{\jweight{j}_p^2} \frac{H_{r p s t} H_{s t u v} H_{u v r q}}{D(r, s, t, u, v)}
+\]</span> All of the first six terms/diagrams at third-order, shown in the equations of Sec. <a href="qdpt.html#sec:qdpt-eqs">12.1</a>, have this type B topology. The arguments <span class="math inline">\(\chi_r\)</span>, <span class="math inline">\(\chi_{s t}\)</span>, and <span class="math inline">\(\chi_{u v}\)</span> indicate which parts of the states should be summed (i.e. hole or particle) for <span class="math inline">\(\ket{r}\)</span>, <span class="math inline">\(\ket{s t}\)</span>, and <span class="math inline">\(\ket{u v}\)</span> respectively.</p>
+<p>The code to compute type B terms is shown below:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">pub</span> <span class="kw">fn</span> qdpt_term_b&lt;F&gt;(</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">    h1: &amp;OpJ100&lt;<span class="dt">f64</span>&gt;,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    h2: &amp;OpJ200&lt;<span class="dt">f64</span>&gt;,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">    p: StateJ10,</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">    q: StateJ10,</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">    <span class="co">// these are denoted &quot;chi&quot; in the equations</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">    r_occ: Occ,</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">    st_occ: <span class="op">[</span>Occ; <span class="dv">2</span><span class="op">]</span>,</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">    uv_occ: <span class="op">[</span>Occ; <span class="dv">2</span><span class="op">]</span>,</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">    <span class="co">// the denominator (closure / function object)</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">    denom: F,</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">) -&gt; <span class="dt">f64</span> <span class="kw">where</span></a>
+<a class="sourceLine" id="cb9-16" data-line-number="16">    F: <span class="bu">Fn</span>(StateJ10, StateJ10, StateJ10,</a>
+<a class="sourceLine" id="cb9-17" data-line-number="17">          StateJ10, StateJ10) -&gt; <span class="dt">f64</span>,</a>
+<a class="sourceLine" id="cb9-18" data-line-number="18"><span class="op">{</span></a>
+<a class="sourceLine" id="cb9-19" data-line-number="19">    <span class="co">// make sure p and q are within the same block</span></a>
+<a class="sourceLine" id="cb9-20" data-line-number="20">    <span class="co">// (i.e. have the same conserved quantum numbers)</span></a>
+<a class="sourceLine" id="cb9-21" data-line-number="21">    <span class="pp">assert_eq!</span>(p.lu().l, q.lu().l);</a>
+<a class="sourceLine" id="cb9-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb9-23" data-line-number="23">    <span class="kw">let</span> scheme = h1.scheme();</a>
+<a class="sourceLine" id="cb9-24" data-line-number="24">    <span class="kw">let</span> <span class="kw">mut</span> result = <span class="dv">0.0</span>;</a>
+<a class="sourceLine" id="cb9-25" data-line-number="25">    <span class="kw">for</span> r <span class="kw">in</span> scheme.states_10(&amp;<span class="op">[</span>r_occ<span class="op">]</span>) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-26" data-line-number="26">        <span class="kw">for</span> jrp <span class="kw">in</span> Half::tri_range(r.j(), p.j()) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-27" data-line-number="27">            <span class="co">// combining states can fail,</span></a>
+<a class="sourceLine" id="cb9-28" data-line-number="28">            <span class="co">// in which case we just continue</span></a>
+<a class="sourceLine" id="cb9-29" data-line-number="29">            <span class="kw">let</span> rp = <span class="kw">match</span> r.combine_with_10(p, jrp) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-30" data-line-number="30">                <span class="cn">None</span> =&gt; <span class="kw">continue</span>,</a>
+<a class="sourceLine" id="cb9-31" data-line-number="31">                <span class="cn">Some</span>(x) =&gt; x,</a>
+<a class="sourceLine" id="cb9-32" data-line-number="32">            <span class="op">}</span>;</a>
+<a class="sourceLine" id="cb9-33" data-line-number="33">            <span class="kw">let</span> rq = <span class="kw">match</span> r.combine_with_10(q, jrp) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-34" data-line-number="34">                <span class="cn">None</span> =&gt; <span class="kw">continue</span>,</a>
+<a class="sourceLine" id="cb9-35" data-line-number="35">                <span class="cn">Some</span>(x) =&gt; x,</a>
+<a class="sourceLine" id="cb9-36" data-line-number="36">            <span class="op">}</span>;</a>
+<a class="sourceLine" id="cb9-37" data-line-number="37">            <span class="kw">for</span> st <span class="kw">in</span> rp.costates_20(&amp;<span class="op">[</span>st_occ<span class="op">]</span>) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-38" data-line-number="38">                <span class="kw">let</span> (s, t) = st.split_to_10_10();</a>
+<a class="sourceLine" id="cb9-39" data-line-number="39">                <span class="kw">for</span> uv <span class="kw">in</span> rp.costates_20(&amp;<span class="op">[</span>uv_occ<span class="op">]</span>) <span class="op">{</span></a>
+<a class="sourceLine" id="cb9-40" data-line-number="40">                    <span class="kw">let</span> (u, v) = uv.split_to_10_10();</a>
+<a class="sourceLine" id="cb9-41" data-line-number="41">                    result += <span class="dv">1.0</span> / <span class="dv">4.0</span></a>
+<a class="sourceLine" id="cb9-42" data-line-number="42">                        * rp.jweight(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb9-43" data-line-number="43">                        / p.jweight(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb9-44" data-line-number="44">                        * h2.at(rp, st)</a>
+<a class="sourceLine" id="cb9-45" data-line-number="45">                        * h2.at(st, uv)</a>
+<a class="sourceLine" id="cb9-46" data-line-number="46">                        * h2.at(uv, rq)</a>
+<a class="sourceLine" id="cb9-47" data-line-number="47">                        / denom(r, s, t, u, v);</a>
+<a class="sourceLine" id="cb9-48" data-line-number="48">                <span class="op">}</span></a>
+<a class="sourceLine" id="cb9-49" data-line-number="49">            <span class="op">}</span></a>
+<a class="sourceLine" id="cb9-50" data-line-number="50">        <span class="op">}</span></a>
+<a class="sourceLine" id="cb9-51" data-line-number="51">    <span class="op">}</span></a>
+<a class="sourceLine" id="cb9-52" data-line-number="52">    <span class="co">// in Rust syntax, the last expression of a function is</span></a>
+<a class="sourceLine" id="cb9-53" data-line-number="53">    <span class="co">// implicitly returned if not terminated by semicolon</span></a>
+<a class="sourceLine" id="cb9-54" data-line-number="54">    result</a>
+<a class="sourceLine" id="cb9-55" data-line-number="55"><span class="op">}</span></a></code></pre></div>
+<p>Observe that we allow the denominator argument <code>denom</code> to be a closure of any type <code>F</code>, allowing it to be easily inlined by the compiler for efficiency. This permits the use of anonymously-typed closures, each with a distinct type, making it trivial for the compiler to tell different closures apart. As long as the type of the closure is not erased, the compiler is guaranteed to create distinct copies of the <code>qdpt_term_b</code> function for each closure type <code>F</code>, greatly improving optimizability. This is an inherent feature of monomorphization in both Rust and C++.</p>
+<p>Here is a snippet of code that demonstrates the use of <code>qdpt_term_b</code> to compute the first third-order term shown in the equations of Sec. <a href="qdpt.html#sec:qdpt-eqs">12.1</a>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb10-1" data-line-number="1">qdpt_term_b(</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    h1, h2, p, q,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="co">// notation: I = hole state, A = particle state</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    occ::I, occ::AA, occ::AA,</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="co">// we define the denominator using a lambda function;</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">    |i, a, b, c, d| <span class="op">{</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">        <span class="co">// the &quot;hd&quot; function extracts the diagonal part</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">        <span class="co">// of the one-body Hamiltonian</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">        (hd(i) + hd(q) - hd(a) - hd(b))</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">            * (hd(i) + hd(q) - hd(c) - hd(d))</a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">    <span class="op">}</span>,</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">)</a></code></pre></div>
+<h2 id="sec:testing"><span class="header-section-number">16.10</span> Testing and benchmarking</h2>
+<p>The first line of defense for ensuring correct code is through properly designed abstractions and data types. By categorizing values into distinct types one can avoid accidental confusion of quantities.</p>
+<p>For example, we have introduced a special data type called <code>Half</code> to represent half-integers. Since no native machine type exists for half-integers, the usual workaround is to represent half-integers with twice its effective value. For example, the half-integer <span class="math inline">\(m = 3/2\)</span> would be represented as <code>m = 3</code> on a computer.</p>
+<p>This leaves room for human error, if one say, adds a half-integer <span class="math inline">\(m = 3/2\)</span> to a normal integer <span class="math inline">\(n = 1\)</span>. The result would be <code>3 + 1 = 4</code>, which is incorrect. The <code>Half</code> data type, defined below, prevents this problem,</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">pub</span> <span class="kw">struct</span> Half(<span class="kw">pub</span> <span class="dt">i32</span>);</a></code></pre></div>
+<p>It is not possible to add <code>Half</code> to an <code>i32</code>, because no such operator is defined. Thus the human error becomes a compile error, preventing the incorrect program from compiling.</p>
+<p>As another example, we have distinct types for standard-coupled and Pandya-coupled two-body matrices, which prevents us from accidentally using a Pandya-coupled state to look up a standard-coupled matrix.</p>
+<p>Types cannot catch all bugs, but with judicious use they certainly catch a lot of the obvious ones. We use tests to catch bugs that cannot be detected at compile time, either because the solution would be too complex, too awkward to use, or downright impossible. Not only do tests ensure that the code is correct <em>right now</em>, they also guard against future mistakes as the code evolves. Several kinds of testing strategies are used in Lutario.</p>
+<p>The most basic ones are <strong>unit tests</strong>, which are short tests intended to verify basic functionality. These are often suitable for small functions that require little to no setup. For example, we have the following test for our implementation of Euclidean division and modulo:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="at">#[</span>test<span class="at">]</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">fn</span> test_euclid_div_mod() <span class="op">{</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">    <span class="pp">assert_eq!</span>(euclid_div(<span class="dv">10</span>, <span class="dv">5</span>), <span class="dv">10</span> / <span class="dv">5</span>);</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">    <span class="pp">assert_eq!</span>(euclid_mod(<span class="dv">10</span>, <span class="dv">5</span>), <span class="dv">10</span> % <span class="dv">5</span>);</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">    <span class="pp">assert_eq!</span>(euclid_div(-<span class="dv">10</span>, <span class="dv">5</span>), -<span class="dv">10</span> / <span class="dv">5</span>);</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">    <span class="pp">assert_eq!</span>(euclid_mod(-<span class="dv">10</span>, <span class="dv">5</span>), -<span class="dv">10</span> % <span class="dv">5</span>);</a>
+<a class="sourceLine" id="cb12-7" data-line-number="7">    <span class="pp">assert_eq!</span>(euclid_div(<span class="dv">10</span>, -<span class="dv">5</span>), <span class="dv">10</span> / -<span class="dv">5</span>);</a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">    <span class="pp">assert_eq!</span>(euclid_mod(<span class="dv">10</span>, -<span class="dv">5</span>), <span class="dv">10</span> % -<span class="dv">5</span>);</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9">    <span class="co">/* etc ... */</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="op">}</span></a></code></pre></div>
+<p>The function attribute <code>#[test]</code> informs the Rust compiler that this function is part of the test suite. The test explores all the potential sign errors that could happen in an implementation of Euclidean division and modulo.</p>
+<p>It is generally impossible to check programs over all possible inputs as the input space is usually far too large. One way to ensure that the <em>interesting</em> cases are tested is through <strong>code coverage</strong> tools. These tools can track which lines of the source code are executed during the tests. If there are certain lines that are never executed because an if-condition is never true during the tests, then those lines effectively untested. Full code coverage is not a guarantee that the test is exhaustive, however.</p>
+<p>When the input space is too large to explore, one could also consider <strong>randomized testing</strong>, in which inputs <span class="math inline">\(y\)</span> are generated randomly and then the test is responsible for verifying the results <span class="math inline">\(y = f(x)\)</span> in some way. One could either (1) compare the results using another function <span class="math inline">\(f&#39;\)</span> that reproduces the result, or (2) check whether certain properties <span class="math inline">\(P(x, y)\)</span> hold (<strong>property testing</strong>). We offer a more concrete example in Sec. <a href="implementation.html#sec:testing-numerical">16.10.1</a>.</p>
+<p>While it is generally difficult to prove that testing has exhaustively covered all cases, it is nevertheless better to have at lesat one test case than none. These are often called <em>smoke tests</em> and they are still remarkably useful in practice.</p>
+<p>Larger tests, where multiple components of the program are tested together, are known as <strong>integration tests</strong>. These are used to test the many-body methods, as they are fairly complicated and require several components working together to achieve a result. We have numerical results for, e.g. ground state energy, from other implementations of the same many-body methods that we can test against.</p>
+<p>From time to time, bugs will inevitably slip past the existing tests. Whenever such a bug is discovered, it is important to add additional tests to ensure the bug will not go undetected again in the future – these are known as <strong>regression tests</strong>.</p>
+<p>Tests are only useful if they are being run. Unfortunately, tests may require a substantial amount of time to run, which discourages the programmer from running such tests. Frequent runs of tests are important: they ensure that code remains valid at all times, and they allow problems to be discovered at the earliest opportunity.</p>
+<p>In Lutario, we have configured a <strong>continuous integration</strong> (CI) system that automatically runs tests on every commit pushed to the repository and notifies failures by email. It ensures that problems are always discovered quickly. Furthermore, it allows us to keep the build process streamlined and reproducible as otherwise the automated testing script, which runs in a clean environment, would fail. It helps prevent environmental problems where the code functions correctly only on the developer’s machines, but not on the users’.</p>
+<h3 id="sec:testing-numerical"><span class="header-section-number">16.10.1</span> Randomized testing of numerical code</h3>
+<p>The sheer number and tedious nature of the IM-SRG commutator terms and QDPT terms offers a ripe environment for human errors. To mitigate against this, we use tests to verify that the commutators are performing the calculations we expect.</p>
+<p>There is a chicken-or-egg problem regarding numerical computations: we generally do not know the answers <em>a priori</em> without running a program to calculate it – manual calculations are usually impractical – yet we do not know if the program is calculating the formula we intended. To break this loop, we have to trust at least one program to compute the result – to “bootstrap” our test suite.</p>
+<p>We assign the most trust to the simplest and most naively implementation of the program. Even if it is very slow, it is often sufficient to test just a few small nontrivial cases. This would serve as our <em>reference</em> program.</p>
+<p>With a reference program in hand, we need some input (matrix elements) to test against. We could use actual matrix elements from physical systems, but it suffices to use a randomly generated set of matrix elements, provided that these matrices satisfy the necessary symmetries and conservation laws for the formula to remain valid. This has the added advantage that as long as the random number generator is deterministic, we only need to store the seed to recover the entire suite of test matrices.</p>
+<p>In the predecessor to Lutario, we have generated a set of random test matrices in the quantum dot basis for testing the commutator. They were verified by comparing against an extremely naive implementation that does not take advantage of the sparsity of the matrix. These input matrices, along with the expected output, have now been inherited by Lutario’s test suite. They ensure that the new J-scheme implementation remains correct for <span class="math inline">\(j = 0\)</span> (i.e. pseudo-M-scheme).</p>
+<p>To test cases where <span class="math inline">\(j \ne 0\)</span> (proper J-scheme), we construct random matrix elements in the nuclei basis in J-scheme and compute the commutator in two different ways:</p>
+<ul>
+<li>We perform the commutator in J-scheme (operation <span class="math inline">\(C_{\mathrm{J}}\)</span>), and then convert the resulting matrices to pseudo-M-scheme (operation <span class="math inline">\(\varphi\)</span>).</li>
+<li>We convert the matrices to pseudo-M-scheme (operation <span class="math inline">\(\varphi\)</span>), and then perform the commutator in pseudo-M-scheme (operation <span class="math inline">\(C_{\mathrm{M}}\)</span>).</li>
+</ul>
+<p>We expect the results to be identical in both cases. This is mathematically described by the commutative square: <span class="math display">\[\varphi \circ C_{\mathrm{J}} = C_{\mathrm{M}} \circ \varphi\]</span></p>
+<p>This is a general approach of testing J-scheme equations that does not require us to know what the correct answers are, as long as the pseudo-M-scheme code is correct.</p>
+<h3 id="linting-static-analysis-and-dynamic-sanitization"><span class="header-section-number">16.10.2</span> Linting, static analysis, and dynamic sanitization</h3>
+<p>Several kinds of automated tools exist to aid the detection of bugs.</p>
+<p><strong>Static analyzers</strong> read the source code of a program and attempt to look for bugs without actually running it. Due to the halting problem, it is impossible for a static analyzer to avoid false negatives in any Turing-complete language.</p>
+<p>Linting tools are a subtype of static analyzers designed to find not only bugs, but also suspicious constructs, non-idiomatic code, and, in some cases, code that does not conform to a particular stylistic convention.</p>
+<p>Modern compilers are also capable of giving useful warnings for potentially buggy code. C and C++ compilers by default are very conservative about warnings, but it is possible to request more comprehensive diagnostics using a flag similar to <code>-Wall</code>. This alone can catch many common mistakes.</p>
+<p>In contrast, the Rust compiler by default issues all warnings. Our code is always written to avoid such warnings, even if the warning is of low priority or not justified. This ensures that if an important warning appears later on, it is not drown out by the deluge of low-priority warnings that had been intentionally ignored. If a warning is a false positive, we can either find a workaround or, failing that, silence the warning at that particular location using an attribute such as <code>#[allow(...)]</code> in Rust.</p>
+<p><strong>Dynamic sanitizers</strong> are designed to detect errors during the execution of a program. Dynamic sanitizers are naturally better at detecting problems, but aside from the need to actually execute the program, they also introduce some performance overhead. Examples of such tools include Valgrind <span class="citation" data-cites="Valgrind">(Valgrind Developers 2017)</span>, as well as various Clang and GCC sanitizer flags (<code>-fsanitize=...</code>) .</p>
+<p>Sanitizers can be extremely helpful at finding the cause of bugs when there is suspicion of memory errors in a given program. In our experience, Valgrind has been particularly effective at detecting memory errors in our C and C++ projects. The tools can even be used pre-emptively, run routinely as part of the test suite, to reduce the risk of memory errors being introduced as the codebase evolves.</p>
+<h3 id="benchmarks-and-profiling"><span class="header-section-number">16.10.3</span> Benchmarks and profiling</h3>
+<p>For benchmarking, we make use of Rust’s official (but unstable) <code>test</code> library, which offers a very simple interface:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="at">#![</span>feature<span class="at">(</span>test<span class="at">)]</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">extern</span> <span class="kw">crate</span> test; <span class="co">// import the test library</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="at">#[</span>bench<span class="at">]</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="kw">fn</span> my_bench(b: &amp;<span class="kw">mut</span> Bencher) <span class="op">{</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">    b.iter(|| <span class="op">{</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">        <span class="co">// code goes here</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">    <span class="op">}</span>);</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="op">}</span></a></code></pre></div>
+<p>The code within the closure <code>|| { ... }</code> is executed several times by the benchmark runner to obtain an accurate timing along with an estimated uncertainty. This means the code being benchmarked must avoid irreversibly changing the environment, or else the timing will not be accurate.</p>
+<p>It is important to write the benchmarked code in a way such that the compiler cannot delete the code entirely. Consider this example, where one is attempting to benchmark the addition of two integers:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode rust"><code class="sourceCode rust"><a class="sourceLine" id="cb14-1" data-line-number="1">b.iter(|| <span class="op">{</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">    <span class="kw">let</span> x = <span class="dv">1</span> + <span class="dv">2</span>;</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="op">}</span>);</a></code></pre></div>
+<p>There are several reasons why this naive benchmark would not yield any meaningful results:</p>
+<ul>
+<li><p>The compiler can easily precompute the result “3” without any effort. This means the input must <em>not</em> be predictable to the compiler. To mitigate this, one could either read the input from a file, randomize the input, or use a special <code>black_box</code> function to obscure the input from the optimizer, e.g. <code>black_box(1) + 2</code>.</p></li>
+<li><p>Even if the compiler does not know the inputs, it does know that addition is a pure operation with no side-effects. Thus it would safe to hoist the statement outside the loop (<code>b.iter(...)</code> is really a loop in disguise). One could insert <code>black_box(x)</code> within the loop to prevent this.</p></li>
+<li><p>Moreover, the compiler can easily see that the output variable <code>x</code> is not being used. This means the compiler will likely delete the entire calculation through dead-code elimination (DCE). To mitigate this, one could either print the output, or again use a <code>black_box</code>.</p></li>
+<li><p>Lastly, addition of integers is such a fast operation that the overhead from the benchmark runner as well as environmental noise will heavily skew the results.</p></li>
+</ul>
+<p>We use the nuclei system for benchmarks, but with randomized matrix elements. We split the commutator into groups of terms that are benchmarked separately so that we can analyze the individual terms separately without the expensive ones drowning out the cheap ones.</p>
+<p>To analyze the performance costs of given implementation, we make use of profilers. We generally avoid profilers that instrument code, because the instrumentation itself can easily add a substantial amount of overhead that can completely distort the results. For this reason, we use Perf <span class="citation" data-cites="Perf">(“Perf: Linux Profiling with Performance Counters,” n.d.)</span>, a sampling profiler for Linux that captures stack traces of the program periodically. Similar tools exist other platforms. Perf pairs quite well with flame graphs <span class="citation" data-cites="Gregg:2016:FG:2942427.2909476">(Gregg 2016)</span> for visualization, allowing easy identification of hotspots in the code.</p>
+<p>Perf can run an optimized program as-is, with no instrumentation. The only extra information needed for sensible output is debugging information (<code>-g</code> flag in most compilers), which is tracked separately and does not pessimize the program. Unfortunately, high levels of optimization usually renders the debugging information inaccurate, so it remains important to compare against the assembly code.</p>
+<h2 id="version-control-and-reproducibility"><span class="header-section-number">16.11</span> Version control and reproducibility</h2>
+<p>The codebase for Lutario is stored in a distributed version control system (DVCS) and can be viewed online <span class="citation" data-cites="Lutario">(Yuan, n.d.)</span>. We use the Git <span class="citation" data-cites="Git">(“Git” 2017)</span> as our DVCS but one could equally well have chosen other DVCSes such as Mercurial <span class="citation" data-cites="Hg">(“Mercurial” 2017)</span>.</p>
+<p>Version control systems (VCS) are tools designed to store the entire history of a codebase. At a rudimentary level, it may be considered a special kind of database tailored specifically for projects that are dominated by plain text files like code. By recording all changes that occur in a project, it becomes easy to track down the origin of both code and bugs.</p>
+<p>VCSes are also designed to support collaboration on projects. Collaborators may work independently on different parts of the project, accumulating their own history of changes. They can periodically synchronize and merge their changes together to form a unified timeline. The merge can be automated as long as the collaborators work on different parts of the project.</p>
+<p>Distributed VCSes are unique in that, unlike centralized VCSes, each repository – i.e. the directory managed by the VCS – maintains its own database of histories and is on equal footing as all other repositories. This means there is no centralized point of failure if any one of the repositories becomes inaccessible, allowing it act as a distributed backup system. The histories need not match either: a repository might store the main history of the project, but may also keep a private fork of this history, or of a new feature, or something entirely unrelated.</p>
+<p>VCSes are most useful when they store predominantly relevant, textual data. It is particularly important to avoid storing large files as they can rapidly grow the size of the database. It is also important to avoid storing files that could be easily regenerated, such as executable files, library files, or any non-essential or transient files. Ignore lists are useful for filtering out irrelevant files.</p>
+<p>Changes in a VCS are stored in the unit of a <em>commit</em>, which should generally perform a single task or add a single feature. Maintaining a clean commit history ensures that if problems appear later on, one can easily isolate the cause down to a single commit, with the aid of strategies such as bisection (e.g. <code>git-bisect</code>).</p>
+<p>The use of a version control aids in the reproducibility of results. One can accurately refer to a specific version of code within a version-controlled repository using commit identifiers or human-readable tags. In particular, Git and Hg use hashes as the commit identifier, thus knowing the hash one can verify whether the files of the commit are correct with a high degree of confidence, as it is very difficult to forge these hashes.<a href="implementation.html#fn33" class="footnote-ref" id="fnref33"><sup>33</sup></a></p>
+<p>Of course, knowing that one has the correct code alone does not guarantee that the results will be reproduced perfectly. One may also need to track the version numbers of all transitive dependencies of the program, the compiler, as well as the environmental conditions under which the program is run. Nondeterminism caused by environmental fluctuations (e.g. in parallel code) can further complicate reproducibility.</p>
+<h2 id="documentation"><span class="header-section-number">16.12</span> Documentation</h2>
+<p>There are two orthogonal ways to categorize documentation. On one axis, there is</p>
+<ul>
+<li>external documentation (for users), and</li>
+<li>internal documentation (for developers of the project).</li>
+</ul>
+<p>On another axis:</p>
+<ul>
+<li><p>There is reference documentation (manuals, technical documents, specifications, API<a href="implementation.html#fn34" class="footnote-ref" id="fnref34"><sup>34</sup></a> documentation), which aims to describe every detail of the program including corner cases. It is usually written to follow the structure of the program (modules, functions, data types). Their target audience are the advanced users who already know their way around the software.</p></li>
+<li><p>There is also review documentation (tutorials, guides, overviews), which are usually pedagogical in nature. They are used to teach the important parts of a program, without overwhelming the reader with details. They generally do not follow the structure of the program, but are structured more like a book intended for human consumption. The target audience are the new users who are not yet familiar with the software.</p></li>
+</ul>
+<p>At the moment, external documentation for Lutario is very sparse, given the recency of the project. As the project is still under heavily development, we expect the user-facing interfaces to change substantially. We will consider adding external documentation when a point of stability is reached.</p>
+<p>Internal documentation is primarily through this chapter – which may become out of date as the project progresses – as well as the source code comments. This chapter is intended to be an overview of the machinery in Lutario without focus on any one particular aspect. Source code comments may be categorized into two types:</p>
+<ul>
+<li><p>Documentation comments are designated by the <code>///</code> or <code>//!</code> prefix in Rust.<a href="implementation.html#fn35" class="footnote-ref" id="fnref35"><sup>35</sup></a> They are useful for documenting public interfaces (APIs). These special comments can be automatically exported by the Rustdoc documentation generator. The tool outputs a book in HTML format with the comments displayed against the corresponding module, function, data type, etc. Similar tools exist for other languages, including Sphinx <span class="citation" data-cites="Sphinx">(Brandl 2018)</span> for Python, Haddock <span class="citation" data-cites="Haddock">(Marlow 2017)</span> for Haskell, and Doxygen <span class="citation" data-cites="Doxygen">(Heesch 2017)</span> for C, C++, and Fortran.</p>
+<p>They can also be used to provide examples. These snippets of code are automatically tested by the Rust build system, ensuring that the example code does not fall out of date as the code evolves.</p></li>
+<li><p>Normal comments (<code>//</code> or <code>/* ... */</code> in Rust) are used to explain tricky aspects of the code for the developers. They are generally used sparingly, because such comments are meant to convey <em>important</em> information that is not evident from the code itself. Excessive use of comments can hinder the readability of code. Moreover, comments – which are not sanity-checked by the compiler – are always at risk of becoming out of sync with the actual code.</p></li>
+</ul>
+<p>Tests themselves can also serve as useful examples, if they are written cleanly. Such dual-purpose tests are extremely useful: they are automatically tested for validity, moreover a learning user can immediately read from the test code what the expected output of the program should be. We currently have three major integration</p>
+<h2 id="coding-style"><span class="header-section-number">16.13</span> Coding style</h2>
+<p>While source code is to be ultimately consumed by compilers and interpreters, it is equally important for it to be comprehensible to human readers. This reduces mistakes, encourages collaboration, and simplifies maintenance of the program over the long run.</p>
+<h3 id="formatting-of-code"><span class="header-section-number">16.13.1</span> Formatting of code</h3>
+<p>On a superficial level, code should be formatted neatly and, most importantly, <em>consistently</em>. One should adhere to the official style guide of the language (if any), or any prevailing style used by the language community, domain, project, and/or subproject. These style conventions help establish many aspects of formatting, including indentation, spacing, line length, wrapping, and naming conventions.</p>
+<p>Some languages such as Fortran, C, C++, or Haskell lack official style guides, but there may exist one or more <em>de facto</em> styles from which one can adopt. Others, like Go, Rust, Python have official style guides <span class="citation" data-cites="Gofmt FmtRFCs PEP8">(<em>Command Gofmt</em>, n.d.; “Rust Code Formatting Rfcs,” n.d.; Rossum, Warsaw, and Coghlan 2001)</span> with varying degrees of strictness, which improves collaboration and avoids unnecessary <em>bikeshedding</em> (trivial arguments) among the language community. In either case, various automatic reformatting tools are available to help maintain uniformity in coding style, such as <code>clang-format</code> for C and C++ <span class="citation" data-cites="ClFmt">(<em>ClangFormat</em> 2017)</span>, <code>gofmt</code> for Go <span class="citation" data-cites="Gofmt">(<em>Command Gofmt</em>, n.d.)</span>, and <code>rustfmt</code> for Rust <span class="citation" data-cites="Rustfmt">(“Rustfmt,” n.d.)</span>.</p>
+<h3 id="coupling-and-complexity"><span class="header-section-number">16.13.2</span> Coupling and complexity</h3>
+<p>A major source of complexity in programs arises from <em>coupling</em>: an interaction between different components of a system. It is analogous to coupling in physics. A system of non-interacting particles is generally easy to study. As the interactions become stronger and stronger, the system becomes increasingly difficult to understand.</p>
+<p>The same principle applies to programming. Coupling should generally be avoided where possible. But that is unlikely in any non-trivial program. When it is not avoidable, coupling should always be explicitly visible to the reader. This helps avoid “effect at a distance” where, say, a programmer attempts to fix a bug, only to break something else entirely unrelated.</p>
+<p>Many kinds of coupling exist. The most common one is <strong>aliasing</strong>: when different parts of a program have a shared reference or pointer to the same variable, and at least one them modifies it.</p>
+<p>As discussed in Sec. <a href="implementation.html#sec:uniqueness-and-borrowing">16.1.2</a>, if one has exclusive control over a piece of data, they can modify it without other components of the program observing the effects of the modification. If one has shared a piece of data with other components of the program and the data is never modified by anyone, then no-one will know the difference either. However, if the data is mutated, then problems can arise because the value of the variable may unexpectedly change. Thus, aliasing makes it difficult to reason about code.</p>
+<p>Without thread synchronization, aliasing generally breaks thread-safety. This is because modern CPUs like to cache data as much as possible. Without some sort of notification to the CPU that data has been modified by another thread, it will by default assume that it has exclusive control over it and continue using the cached value. The only way to ensure this is safe is through synchronization (e.g. memory fences, mutexes), which carries a performance penalty.</p>
+<p>Even without threads, there are other performance penalties that arise from aliasing. The compiler can make fewer assumptions about the behavior of an aliased variable, therefore code that involves aliasing may be less well optimized.</p>
+<p>Aliasing is not always avoidable. It is generally a good idea to document where aliasing occurs. Rust, in particular, takes a fairly draconian stance with regard to aliasing: all aliasing is forbidden except through one of the alias-enabling wrapper types (e.g. <code>Cell</code>, <code>RefCell</code>, <code>Mutex</code>, <code>RWLock</code>).</p>
+<p>C and C++ have a set of rules (type-based alias analysis / strict aliasing rule) that determine when aliasing is acceptable and when it is not (in which case aliasing becomes undefined behavior). In C, one may assert the <em>absence</em> of aliasing through the <code>restrict</code> keyword, but the compiler make no effort to verify that assertion.</p>
+<p>Global variables are a special case of aliasing, except more sinister because they are much less obvious, since whether a function accesses a global variable cannot be deduced from the function signature. The only way to tell whether a function uses a global variable is by inspecting the contents of the function and all its transitive dependencies.</p>
+<p>Aliasing may be considered a type of <strong>side effect</strong>. A function is said to have side effects if it modifies some kind of state that is externally visible. Aliased variables are examples of such state, but so are things like input/output (I/O), spawning/killing a process, sending/receiving data over network, etc.</p>
+<p>Side effects are a form of coupling as well, except the coupling may involve the external environment: other processes, other machines, or even other people. Like any coupling, it is always good idea to document side effects to aid reasoning of programs.</p>
+<p>To help manage side effects, one should keep them contained and isolated. In particular, code that has lots of side effects should be kept separate from code with no side effects (<strong>pure</strong> code). Complicated logic are best written without side effects, allowing it to be easily refactored without concern of temporal ordering. Furthermore, pure code is generally more reusable and composable, whereas code with side-effects are usually less flexible. Some languages such as Haskell or PureScript explicitly track side-effects through the type system, encouraging the programmer to manage side-effects in a principled manner.</p>
+<p>As an example, in our Lutario codebase, we generally refrain from performing any sort of I/O except in designated functions. In cases where it is not obvious, we name the function with a <code>do_</code> prefix to indicate that it does I/O.</p>
+<h3 id="trade-offs"><span class="header-section-number">16.13.3</span> Trade-offs</h3>
+<p>We advise against blind adherence to any particular paradigm, principle, or pattern in programming. After all, programming is best described as a form of engineering where one must constantly make compromises and trade-offs. There are no hard and fast rules in programming: it is normally a good idea to follow them, but it is even more important to understand their provenance, costs, and benefits so that the programmer can judge whether the pay-offs are worthwhile. Over-engineering can increase the size of the codebase, which can impede understanding just as much as unruly one does.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="nuclei.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="results.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="nuclei.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="results.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

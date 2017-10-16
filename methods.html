@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Many-body methods - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html" class="active"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="many-body-methods"><span class="header-section-number">9</span> Many-body methods</h1>
+<p>We now discuss the many-body methods that form the core of our many-body code. In Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>, we have noted that antisymmetrized states (Slater determinants) provide solutions for any non-interacting fermionic system. We have not yet discussed how to solve <em>interacting</em> systems however, which is the principal focus of many-body theory.</p>
+<p>In general, while solutions of the non-interacting Hamiltonian <span class="math inline">\(\hat{H}^\circ\)</span> are often not solutions of any interacting Hamiltonian <span class="math inline">\(\hat{H}\)</span>, they do nonetheless provide a useful basis for the Fock space. We expect from basic linear algebra that, if the degrees of freedom (including boundary conditions) are the same between <span class="math inline">\(\hat{H}^{\mathrm{NI}}\)</span> and <span class="math inline">\(\hat{H}\)</span>, then any exact <span class="math inline">\(N\)</span>-particle solution <span class="math inline">\(\ket{\Psi}\)</span> can be expanded as a linear combination of antisymmetrized states, <span class="math display">\[\ket{\Psi} = \frac{1}{N!} \sum_{p_1 \ldots p_N} \Psi_{p_1 \ldots p_N} \hat{a}_{p_1}^\dagger \cdots \hat{a}_{p_N}^\dagger \ket{\varnothing}\]</span> Solving a quantum system in this manner is the central theme of <strong>exact diagonalization</strong> methods, such as <strong>full configuration interaction</strong> (FCI) <span class="citation" data-cites="doi:10.1063/1.455063 KNOWLES1984315">(Olsen et al. 1988; Knowles and Handy 1984)</span> and <strong>no-core shell model</strong> (NCSM) <span class="citation" data-cites="PhysRevC.62.054311 0954-3899-36-8-083101">(Navrátil, Vary, and Barrett 2000; Navrátil et al. 2009)</span>.</p>
+<p>The key advantage of exact diagonalization is the ability to obtain exact numeric results within the basis (up to machine precision), capturing all the details of the quantum system. However, such methods are very costly as the number of <span class="math inline">\(N\)</span>-particle basis states <span class="math inline">\(n_{\mathrm{B}}\)</span> increases rapidly with the number of particles <span class="math inline">\(N\)</span> and the number of single-particle states <span class="math inline">\(n_{\mathrm{b}}\)</span>, specifically <span class="math display">\[n_{\mathrm{B}} = \binom{n_{\mathrm{b}}}{N}\]</span> where <span class="math inline">\(\binom{n}{k}\)</span> denotes the binomial coefficient. The combinatorial explosion quickly renders such methods unfeasible in systems with even a moderate number of particles, beyond the computational power that exists in the observable universe.</p>
+<p>Alternative many-body methods strive to avoid this problem by limiting the <span class="math inline">\(N\)</span>-particle Hilbert space under consideration. It can be particularly beneficial if the non-interacting Hamiltonian <span class="math inline">\(\hat{H}^\circ\)</span> that generates the basis states is to some extent similar to the interacting Hamiltonian <span class="math inline">\(\hat{H}\)</span>. That is, one decomposes <span class="math inline">\(\hat{H}\)</span> into <span class="math display">\[\hat{H} = \hat{H}^\circ + \hat{V}\]</span> where the contributions of the <strong>perturbation</strong> <span class="math inline">\(\hat{V}\)</span> are expected to be small in some sense. In this case, one or a few antisymmetrized states may serve as a good zeroth order approximation to the system.</p>
+<p>For now, we will only consider using a single antisymmetrized state as the initial approximation. This limits our consideration to closed-shell systems in which the number of particles coincides with a magic number. This distinguished antisymmetrized state will serve as our <em>reference state</em> (Fermi vacuum).</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="angular-momentum-coupling.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="hartree-fock.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="angular-momentum-coupling.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="hartree-fock.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

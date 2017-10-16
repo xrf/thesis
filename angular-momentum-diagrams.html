@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Angular momentum diagrams - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><ul class="section"><li><a href="angular-momentum-diagrams.html" class="active"><strong>3.1.</strong> Angular momentum diagrams</a></li></ul></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li><li><ul class="section"><li><a href="harmonic-oscillator.html"><strong>5.2.1.</strong> Harmonic oscillator</a></li></ul></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="conclusions.html"><strong>7.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="angular-momentum-diagrams"><span class="header-section-number">9</span> Angular momentum diagrams</h1>
+<p>Angular momentum diagrams, originally invented by Jucys, provide a graphical way to manipulate expressions involving coupling coefficients of angular momentum states. Like many-body diagrams, they are composed of nodes and lines, and internal lines are used for summations. However, unlike many-body diagrams, there is no “time” axis: the interpretation of the diagram is invariant with respect to rotations of the drawing, and in the flavor of angular momentum diagrams presented here, they are also invariant with respect to reflections.</p>
+<p>Our presentation of angular momentum diagrams here is differs somewhat from traditional ones in <span class="citation" data-cites="Yutsis1962 WORMER200659 BalcarLovesey2009">(Yutsis, Levinson, and Vanagas 1962; Wormer and Paldus 2006; Balcar and Lovesey 2009)</span>’s presentation, while also being heavily influenced by it. Aside from superficial changes, such as the use of rotating arrows in place of plus/minus signs, the key difference lies in the interpretation of arrows: instead of using the direction of lines to denote the variance, we treat the <em>arrowhead</em> itself as 1-jm symbol. This leads to a more mechanical interpretation and avoids the need of distinguishing between bras and kets. We also write phase factors and weights using graphical symbols rather than in text. Toward the end of the section, we will also describe how our flavor of diagrams may be related to those of Wormer and Paldus.</p>
+<p>Unlike <span class="citation" data-cites="BalcarLovesey2009">(Balcar and Lovesey 2009)</span>, we do not use graphical means to describe Kronecker deltas or <span class="math inline">\(\sqrt{2 j + 1}\)</span> factors. While their approach cleverly avoids the introduction of new but redundant elements by reusing 3-jm symbols, we find that for practical purposes it is more efficient to track them separately.</p>
+<h2 id="notation"><span class="header-section-number">9.1</span> Notation</h2>
+<p>The core object in angular momentum diagrams are Wigner 3-jm symbols, denoted by a node inscribed with a rotating arrow. These are always attached to exactly three lines. The rotating arrow signifies the direction in which one should parse the lines into the columns of the 3-jm symbol from left to right. Hence, it is important to maintain the cyclic order of lines around 3-jm nodes. [[Need diagram example]]</p>
+<p>A line with a label <span class="math inline">\(\lambda\)</span> represents a magnitude-projection pair <span class="math inline">\((j_\lambda, m_{\lambda i})\)</span>. Multiple lines can have the same label, in which case they share the same magnitude variable, but their projection variables remain distinct. A diagram with an internal line <span class="math inline">\((j_\lambda, m_{\lambda i})\)</span> is implicitly summed over <span class="math inline">\(m_{\lambda i}\)</span>, but not over <span class="math inline">\(j_\lambda\)</span>. When a summation over <span class="math inline">\(j_\lambda\)</span> is desired, the label <span class="math inline">\(\lambda\)</span> is parenthesized.<a href="angular-momentum-diagrams.html#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> [[Need diagram example]]</p>
+<p>An arrowhead is a node that represents the 1-jm symbol: [[Need diagram example]] <span class="math display">\[\begin{pmatrix}
+j \\
+m \quad m&#39; \\
+\end{pmatrix} = (-1)^{j - m&#39;} \delta_{m(-m&#39;)}\]</span> where <span class="math inline">\((j, m)\)</span> is the line on the tip side and <span class="math inline">\((j, m&#39;)\)</span> is the line on the tail side. Note that arrowheads always share the same magnitude variable on both sides.<a href="angular-momentum-diagrams.html#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> One typically omits the label for one of the lines for brevity.</p>
+<p>Additionally, the following elements are used in angular momentum diagrams:</p>
+<ul>
+<li>A cross terminates a line <span class="math inline">\((j, m)\)</span> and translates to <span class="math inline">\(\delta_{j 0} \delta_{m 0}\)</span>.</li>
+<li>A black diamond placed next to a line <span class="math inline">\(j\)</span> translates to a weight <span class="math inline">\(\sqrt{2 j + 1}\)</span>, whereas a white diamond translates to <span class="math inline">\(1 / \sqrt{2 j + 1}\)</span>.</li>
+<li>A dash placed parallel to a line <span class="math inline">\(j\)</span> indicates a phase factor <span class="math inline">\((-1)^{2 j}\)</span>.</li>
+</ul>
+<p>Some diagrams also have these “partial” symbols, which are rarely found in the final diagrams, but they may appear in intermediate steps.</p>
+<ul>
+<li>A bar cuts a line into two with opposite projection signs, much like an arrowhead but without the <span class="math inline">\((-1)^{j - m}\)</span> phase factor.</li>
+<li>A triangle on a line <span class="math inline">\((j, m)\)</span> represents the phase factor <span class="math inline">\((-1)^{j - m}\)</span>, the same phase factor from an arrowhead.</li>
+<li>A dot placed next to a line <span class="math inline">\(j\)</span> indicates a phase factor <span class="math inline">\((-1)^j\)</span>. (This is essentially the half a dash.)</li>
+</ul>
+<h2 id="phase-rules"><span class="header-section-number">9.2</span> Phase rules</h2>
+<p>For a given <span class="math inline">\((j, m)\)</span> pair, there are only 8 unique phases, whose exponents are shown in the table. [[Refer to table]]</p>
+<table>
+<caption>The 8 unique phase factors for any given <span class="math inline">\((j, m)\)</span> pair. The table has a toroidal topology: it wraps around both horizontally and vertically.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;"></th>
+<th style="text-align: right;"><span class="math inline">\(0j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(1j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(2j\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(3j\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><span class="math inline">\(0(j-m)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(+j\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(2j\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-j\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><span class="math inline">\(1(j-m)\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(j - m\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(+m\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(j + m\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(-m\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>This table suggests that it is useful to track phases as two separate components: <span class="math inline">\((-1)^{a j + b (j - m)}\)</span>, where <span class="math inline">\(a \in \mathbb{Z} / 4 \mathbb{Z}\)</span>, <span class="math inline">\(b \in \mathbb{Z} / 2 \mathbb{Z}\)</span>, and <span class="math inline">\(\mathbb{Z} / n \mathbb{Z}\)</span> denotes the ring of integers modulo <span class="math inline">\(n\)</span>.</p>
+<p>It is common to work with only real recoupling coefficients, thus it is rare for <span class="math inline">\((-1)^j\)</span> or <span class="math inline">\((-1)^{3 j}\)</span> to appear in isolation. They typically appear in groups, such as triplets <span class="math inline">\((-1)^{j_1 + j_2 + j_3}\)</span>.</p>
+<p>The <span class="math inline">\((-1)^{j - m}\)</span> and <span class="math inline">\((-1)^{j + m}\)</span> phases are the same phases that appear in the <strong>Herring–Wigner 1-jm symbol</strong>: <span class="math display">\[\begin{pmatrix}
+j \\
+m \quad m&#39; \\
+\end{pmatrix} \equiv \sqrt{2 j + 1} \begin{pmatrix}
+j &amp; 0 &amp; j \\
+m &amp; 0 &amp; m&#39; \\
+\end{pmatrix} = (-1)^{j - m&#39;} \delta_{m(-m&#39;)} = (-1)^{j + m} \delta_{m(-m&#39;)}\]</span> which acts like a metric tensor for SU(2), i.e. the quantity <span class="math display">\[\sum_{m m&#39;} \begin{pmatrix}
+j \\
+m \quad m&#39; \\
+\end{pmatrix} |j m\rangle |j m&#39;\rangle\]</span> is invariant (scalar) under SU(2).</p>
+<p>Diagramatically, 1-jm symbols are drawn as arrowheads, where <span class="math inline">\(m\)</span> is on the head side and <span class="math inline">\(m&#39;\)</span> is on the tail side.</p>
+<p>[[arrowheads: cancellation rule, reversal rule, and triad rule]]</p>
+<p>[[dashes: cancellation rule, triad rule]]</p>
+<p>[[cross: simplification rule]]</p>
+<p>[[diamond: cancellation rule]]</p>
+<h2 id="orthogonality-relation"><span class="header-section-number">9.3</span> Orthogonality relation</h2>
+<h2 id="clesbchgordan-coefficient"><span class="header-section-number">9.4</span> Clesbch–Gordan coefficient</h2>
+<h2 id="diagrammatic-wignereckart-theorem"><span class="header-section-number">9.5</span> Diagrammatic Wigner–Eckart theorem</h2>
+<p>To talk about Wigner–Eckart theorem on a diagramatic level, one needs to understand how the coefficients transform with respect to rotations. Fortunately, as Wormer and Paldus’ have noted, this is usually quite easy, as long as the diagram is “sensible”. Let us first define what that means.</p>
+<p>A diagram is said to be <strong>saturated</strong> if every line is attached to an arrowhead on exactly one end, or if it is equivalent to some saturated diagram. Examples:</p>
+<ul>
+<li>A line by itself is <em>not</em> saturated, because the line is not attached to any arrowheads.</li>
+<li>A 1-jm symbol (arrowhead) is saturated, because every line is attached to the arrowhead on one end.</li>
+<li>A bare loop is saturated, because it is equivalent to two black diamonds, which has no lines at all.</li>
+<li>A loop with one arrowhead is <em>not</em> saturated, because the line touches an arrowhead on both ends.</li>
+<li>A 3-jm symbol is saturated, because it is equivalent to a 3-jm symbol with 3 outgoing arrowheads.</li>
+<li>A 3-jm symbol where two of the ends form a bare loop is not saturated.</li>
+</ul>
+<p>In a saturated diagram, every internal line transforms covariantly with respect to one node and contravariantly to the other; the net effect is that they are invariant with respect to rotations. Thus, the transformation properties of saturated diagrams are entirely determined by the external lines. We now state the diagrammatic Wigner–Eckart theorem without proof:<a href="angular-momentum-diagrams.html#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></p>
+<p>[[diagram of WET]]</p>
+<p>In other words, if a diagram has only one external line <span class="math inline">\((j, m)\)</span>, then <span class="math inline">\(j\)</span> and <span class="math inline">\(m\)</span> can only be zero.</p>
+<p>To relate this to the traditional Wigner–Eckart theorem, we must derive the equivalent expression for two and three external lines.</p>
+<p>[[derive WET2 and WET3]]</p>
+<h2 id="relation-to-wormer-and-paldus-presentation"><span class="header-section-number">9.6</span> Relation to Wormer and Paldus’ presentation</h2>
+<p>The translation from Wormer and Paldus’ angular momentum diagrams is surprisingly straightforward, despite the difference in interpretation. The rules are as follows:</p>
+<ol type="1">
+<li>Use the standard rules to convert Clebsch–Gordan nodes to Wigner 3-jm nodes. No bra lines (with double arrows) should remain.</li>
+<li>Except for external lines that point toward the dangling end, reinterpret all directed lines as lines separated by a single arrowhead. (The same directed line must not have duplicate arrowheads.)</li>
+</ol>
+<p>To go back, the rules are slightly trickier:</p>
+<ol type="1">
+<li>Use equivalence rules to convert the diagram into one where every <em>internal</em> line is attached to an arrowhead on exactly one end.</li>
+<li>Reinterpret arrowheads as directed lines. External lines that do not have an arrowhead are directed toward the dangling end.</li>
+</ol>
+<p>By construction, Wormer and Paldus’ diagrams are always either saturated, or can be made saturated with the appropriate insertion of arrow heads on external lines. This is not true for our diagrams, which means there are unsaturated diagrams that are inadmissible in Wormer and Paldus’ diagrammatic language, such as <span class="math inline">\(\sum_m (-1)^{j - m} \delta_{m,-m}\)</span>. Fortunately, these diagrams are generally not useful.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="angular-momentum-coupling.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="methods.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="angular-momentum-coupling.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="methods.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

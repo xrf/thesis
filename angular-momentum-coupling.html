@@ -1,0 +1,774 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Angular momentum coupling - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html" class="active"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="angular-momentum-coupling"><span class="header-section-number">8</span> Angular momentum coupling</h1>
+<p>We shall first discuss the details of angular momentum coupling in general, and then more specifically in the context of many-body theory. The objective of this chapter is to lay out the formalism (J-scheme, Sec. <a href="angular-momentum-coupling.html#sec:j-scheme">8.11</a>) that one needs to derive the angular-momentum-coupled equations in many-body theory, which are essential for efficient computations in spherically symmetric systems such as nuclei. We also include a brief discussion of our graphical angular momentum software (Sec. <a href="angular-momentum-coupling.html#sec:jucys">8.10</a>) used for derivations of angular momentum quantities.</p>
+<h2 id="angular-momentum-and-isospin"><span class="header-section-number">8.1</span> Angular momentum and isospin</h2>
+<p>In classical physics, <strong>orbital angular momentum</strong> <span class="math inline">\(\bm{L}\)</span> is defined as <span class="math inline">\(\bm{L} = \bm{r} \times \bm{p}\)</span>, where <span class="math inline">\(\bm{r}\)</span> is position and <span class="math inline">\(\bm{p}\)</span> is linear momentum. This definition carries over to quantum mechanics with the appropriate replacement of each quantity by their corresponding operator: <span class="math display">\[\hat{\bm{L}} = \hat{\bm{r}} \times \hat{\bm{p}} = -\I \hbar \hat{\bm{r}} \times \hat{\bm{\nabla}}\]</span> In three-dimensional space, the standard eigenstates of orbital angular momentum are the spherical harmonics <span class="math display">\[\ket{\ell m_\ell} \leftrightarrow Y_{\ell m_\ell}(\theta, \varphi)\]</span> which are labeled by the orbital angular momentum magnitude <span class="math inline">\(\ell\)</span> and orbital angular momentum projection <span class="math inline">\(m_\ell\)</span> (also known as <em>magnetic quantum number</em> in chemistry), satisfying <span class="math display">\[\begin{align*}
+  \ell &amp;\in \mathbb{N} &amp;
+  m_\ell &amp;\in M_\ell
+\end{align*}\]</span> where <span class="math inline">\(\mathbb{N} = \{0, 1, 2, \ldots\}\)</span> is the set of nonnegative integers and <span class="math inline">\(M_\ell\)</span> denotes the set <span id="eq:mlset"><span class="math display">\[\{-\ell, -\ell + 1, -\ell + 2, \ldots, +\ell - 2, +\ell - 1, +\ell\}\qquad(10)\]</span></span> The quantum numbers are related to eigenvalues of <span class="math inline">\(\hat{\bm{L}}^2\)</span> and <span class="math inline">\(\hat{L}_3\)</span> (<span class="math inline">\(z\)</span>-component of <span class="math inline">\(\hat{\bm{L}}\)</span>): <span class="math display">\[\begin{gather*}
+  \hat{\bm{L}}^2 \ket{\ell m_\ell} = \hbar \ell (\ell + 1) \ket{\ell m_\ell} \\
+  \hat{L}_3 \ket{\ell m_\ell} = \hbar m_\ell \ket{\ell m_\ell}
+\end{gather*}\]</span> Notice that these are not eigenstates of <span class="math inline">\(\hat{L}_1\)</span> or <span class="math inline">\(\hat{L}_2\)</span>. It is impossible to find eigenstates of all three components, because <span class="math inline">\(\hat{L}_1\)</span>, <span class="math inline">\(\hat{L}_2\)</span>, and <span class="math inline">\(\hat{L}_3\)</span> do not commute with each other, as evidenced by the noncommuting nature of rotations in three-dimensional space. Instead, they satisfy the commutation relations, <span class="math display">\[[\hat{L}_i, \hat{L}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{L}_k\]</span> where <span class="math inline">\(\epsilon_{i j k}\)</span> is the Levi–Civita symbol.</p>
+<p>In quantum mechanics, there is the addition of <strong>spin</strong> <span class="math inline">\(\hat{\bm{S}}\)</span>, a kind of angular momentum intrinsic to each particle. There is an analogous set of standard eigenstates <span class="math inline">\(\ket{s m_s}\)</span> labeled by spin magnitude <span class="math inline">\(s\)</span> and spin projection <span class="math inline">\(m_s\)</span>, <span class="math display">\[\begin{gather*}
+  \hat{\bm{S}}^2 \ket{s m_s} = \hbar s (s + 1) \ket{s m_s} \\
+  \hat{S}_3 \ket{s m_s} = \hbar m_s \ket{s m_s}
+\end{gather*}\]</span> Again, note that these are not eigenstates of <span class="math inline">\(\hat{S}_1\)</span> nor <span class="math inline">\(\hat{S}_2\)</span>.</p>
+<p>Unlike orbital angular momentum, the quantum numbers of spin are not confined to integers, but could be <strong>half-integers</strong> <span class="math inline">\(\frac{1}{2} \mathbb{Z}\)</span>, given by <span id="eq:half-integer"><span class="math display">\[\frac{1}{2} \mathbb{Z} = \left\{\ldots, -\frac{3}{2}, -1, -\frac{1}{2}, 0, +\frac{1}{2}, +2, \frac{3}{2}, \ldots\right\}\qquad(11)\]</span></span> They are subject to the following conditions: <span class="math display">\[s \in \frac{1}{2}\mathbb{N} \qquad\qquad
+  m_s \in M_s\]</span> where <span class="math inline">\(\frac{1}{2}\mathbb{N}\)</span> denotes the set of nonnegative half-integers: <span id="eq:half-natural"><span class="math display">\[\frac{1}{2}\mathbb{N} = \left\{0, \frac{1}{2}, 1, \frac{3}{2}, \ldots\right\}\qquad(12)\]</span></span> and <span class="math inline">\(M_s\)</span> follows the same definition as Eq. <a href="angular-momentum-coupling.html#eq:mlset">10</a>, but with the argument <span class="math inline">\(s\)</span> extended to support nonnegative integers, <span id="eq:mset"><span class="math display">\[M_s = \{-s, -s + 1, -s + 2, \ldots, +s - 2, +s - 1, +s\}\qquad(13)\]</span></span> Note that if <span class="math inline">\(s\)</span> is a <em>half-odd</em> integer – a half-integer that is not also an integer – then <span class="math inline">\(M_s\)</span> does not contain <span class="math inline">\(0\)</span>.</p>
+<p>Spin states are not wave functions of position – they live within their own abstract Hilbert subspace. Most fermions studied in many-body theory, such as electrons or nucleons, are spin-<span class="math inline">\(\frac{1}{2}\)</span> particles, which means <span class="math inline">\(s\)</span> is always <span class="math inline">\(\frac{1}{2}\)</span> and the dimension of this subspace is two. Conventionally, the spin operator for a spin-<span class="math inline">\(\frac{1}{2}\)</span> particle may be represented by a vector of Pauli matrices <span class="math inline">\(\hat{\bm{\sigma}}\)</span>: <span class="math display">\[\hat{\bm{S}} = \frac{\hbar}{2} \hat{\bm{\sigma}}
+= \frac{\hbar}{2}
+\begin{bmatrix}
+  \hat{\sigma}_1 \\
+  \hat{\sigma}_2 \\
+  \hat{\sigma}_3 \\
+\end{bmatrix}\]</span> Each Pauli matrix <span class="math inline">\(\sigma_i\)</span> acts on the two-dimensional Hilbert subspace of spin.</p>
+<p>The spin operator satisfies commutation relations similar to the orbital angular momentum operator, <span class="math display">\[[\hat{S}_i, \hat{S}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{S}_k\]</span></p>
+<p>Spin can be combined with orbital angular momentum to form the <strong>total angular momentum</strong> of a particle, <span class="math display">\[\hat{\bm{J}} = \hat{\bm{L}} + \hat{\bm{S}}\]</span> Likewise, there is a standard set of total angular momentum eigenstates <span class="math inline">\(\ket{j m_j}\)</span>, labeled by total angular momentum magnitude <span class="math inline">\(j\)</span> and total angular momentum projection <span class="math inline">\(m_j\)</span>, with completely analogous relations, <span class="math display">\[\begin{gather*}
+  \hat{\bm{J}}^2 \ket{j m_j} = \hbar j (j + 1) \ket{j m_j} \\
+  \hat{J}_3 \ket{j m_j} = \hbar m_j \ket{j m_j} \\
+  [\hat{J}_i, \hat{J}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{J}_k
+\end{gather*}\]</span> The quantum numbers are subject to the same constraints as for spin, <span class="math display">\[
+  j \in \frac{1}{2} \mathbb{N} \qquad \qquad
+  m_j \in M_j
+\]</span></p>
+<p>Lastly, there is a mathematically similar quantity known as <strong>isospin</strong> <span class="math inline">\(\hat{\bm{I}}\)</span>, which arises in the physics of nucleons. However, unlike spin, it is not physically considered as an angular momentum despite the confusing name. The isospin eigenstates may be denoted <span class="math inline">\(\ket{t m_t}\)</span>, labeled by isospin magnitude <span class="math inline">\(t\)</span> and isospin projection <span class="math inline">\(m_t\)</span>, with relations just like angular momentum, <span class="math display">\[\begin{gather*}
+  \hat{\bm{I}}^2 \ket{t m_t} = t (t + 1) \ket{t m_t} \\
+  \hat{I}_3 \ket{t m_t} = m_t \ket{t m_t} \\
+  [\hat{I}_i, \hat{I}_j] = \I \sum_{k = 1}^3 \epsilon_{i j k} \hat{I}_k
+\end{gather*}\]</span> and analogous constraints on the quantum numbers as for spin or total angular momentum.</p>
+<p>Because isospin is not a kind of angular momentum, the three components of isospin are abstract and have no physical relation to the <span class="math inline">\(x\)</span>-, <span class="math inline">\(y\)</span>-, <span class="math inline">\(z\)</span>-axes of space. They do not transform under spatial rotations.</p>
+<p>For neutrons and protons, isospin is mathematically isomorphic to the spin of spin-<span class="math inline">\(\frac{1}{2}\)</span> particles, so <span class="math inline">\(\hat{\bm{I}}\)</span> too can be defined in terms of Pauli matrices. However, these <em>isospin</em> Pauli matrices act on a different subspace from the <em>spin</em> Pauli matrices, so they are conventionally denoted using <span class="math inline">\(\hat{\bm{\tau}}\)</span> instead of <span class="math inline">\(\hat{\bm{\sigma}}\)</span>: <span class="math display">\[\hat{\bm{I}} = \frac{1}{2} \hat{\bm{\tau}}
+= \frac{1}{2}
+\begin{bmatrix}
+  \hat{\tau}_1 \\
+  \hat{\tau}_2 \\
+  \hat{\tau}_3 \\
+\end{bmatrix}\]</span> Each Pauli matrix <span class="math inline">\(\hat{\tau}_i\)</span> acts on the two-dimensional Hilbert subspace of isospin. The two eigenstates of isospin <span class="math inline">\(\ket{t = \frac{1}{2}, m_t = \pm\frac{1}{2}}\)</span> correspond to neutrons and protons, with two possible conventions:</p>
+<ul>
+<li><span class="math inline">\(m_t = -\frac{1}{2}\)</span> corresponds to neutrons and <span class="math inline">\(m_t = +\frac{1}{2}\)</span> corresponds to protons (sometimes referred to as the <em>particle physics convention</em>)</li>
+<li><span class="math inline">\(m_t = +\frac{1}{2}\)</span> corresponds to neutrons and <span class="math inline">\(m_t = -\frac{1}{2}\)</span> corresponds to protons (sometimes referred to as the <em>nuclear physics convention</em>)</li>
+</ul>
+<p>Mathematically, the quantities <span class="math inline">\(\hat{\bm{L}}\)</span>, <span class="math inline">\(\hat{\bm{S}}\)</span>, <span class="math inline">\(\hat{\bm{J}}\)</span>, and <span class="math inline">\(\hat{\bm{I}}\)</span> are all very similar. Specifically, these operators are representations of the <span class="math inline">\(\mathfrak{su}(2)\)</span> Lie algebra, which are generators of the special unitary group of two-dimensional matrices, <span class="math inline">\(\mathrm{SU}(2)\)</span>. Elements of the Lie algebra are characterized by commutation relations of the form <span class="math display">\[\begin{gather*}
+  [\hat{J}_i, \hat{J}_j] \propto \sum_{k = 1}^3 \epsilon_{i j k} \hat{J}_k
+\end{gather*}\]</span> from which many of the familiar properties follow, including the structure of eigenstates and eigenvalues. The operator <span class="math inline">\(\hat{J}^2\)</span> is known as the <em>Casimir element</em> in this context, and commutes with each component <span class="math inline">\(\hat{J}_i\)</span>.</p>
+<p>Incidentally, the <span class="math inline">\(\mathrm{SU}(2)\)</span> group is <em>locally</em> similar to the special orthogonal group of 3-dimensional rotations, which means the corresponding <span class="math inline">\(\mathfrak{so}(3)\)</span> Lie algebra is completely isomorphic to <span class="math inline">\(\mathfrak{su}(2)\)</span>. This explains algebraic similarity between <span class="math inline">\(\hat{\bm{L}}\)</span> and <span class="math inline">\(\hat{\bm{S}}\)</span> despite <span class="math inline">\(\hat{\bm{L}}\)</span> being generators of three-dimensional rotations.</p>
+<h2 id="sec:clebschgordan"><span class="header-section-number">8.2</span> Clebsch–Gordan coefficients</h2>
+<p>There are many situations in which angular momentum is added. The total angular momentum <span class="math inline">\(\hat{\bm{J}} = \hat{\bm{L}} + \hat{\bm{S}}\)</span> is one example. Another situation occurs in many-body systems, where the <strong>composite angular momentum</strong> of two (or more) particles is of interest, <span class="math display">\[\hat{\bm{J}}^{(1, 2)} = \hat{\bm{J}}^{(1)} + \hat{\bm{J}}^{(2)}\]</span> where <span class="math inline">\(\hat{\bm{J}}^{(1)}\)</span> denotes the total angular momentum of particle 1, <span class="math inline">\(\hat{\bm{J}}^{(2)}\)</span> denotes the total angular momentum of particle 2, <span class="math inline">\(\hat{\bm{J}}^{(1, 2)}\)</span> denotes the total angular momentum of both particles together.</p>
+<p>Let us consider a general angular momentum-like quantity defined as <span class="math display">\[\hat{\bm{J}} = \hat{\bm{L}} + \hat{\bm{S}}\]</span> with <span class="math inline">\(\hat{\bm{L}}\)</span> and <span class="math inline">\(\hat{\bm{S}}\)</span> being angular momentum-like quantities as well. The discussion in this section is abstract: we do not assign physical interpretations to these quantities. They simply need to be representations of the <span class="math inline">\(\mathfrak{su}(2)\)</span> Lie algebra satisfying the usual commutation relations. (In particular, <span class="math inline">\(\hat{\bm{L}}\)</span> need not be restricted to orbital angular momentum.)</p>
+<p>Observe that <span class="math inline">\(\hat{\bm{J}}^2\)</span> commutes with <span class="math inline">\(\hat{\bm{L}}^2\)</span> and <span class="math inline">\(\hat{\bm{S}}^2\)</span>, but does not commute with <span class="math inline">\(\hat{L}_3\)</span> nor <span class="math inline">\(\hat{S}_3\)</span>, because <span class="math display">\[\hat{\bm{J}}^2 = \hat{\bm{L}}^2 + 2 \hat{\bm{L}} \cdot \hat{\bm{S}} + \hat{\bm{S}}^2\]</span> The term <span class="math inline">\(2 \hat{\bm{L}} \cdot \hat{\bm{S}}\)</span> does not commute with <span class="math inline">\(\hat{L}_3\)</span> nor <span class="math inline">\(\hat{S}_3\)</span>. This means we can choose the eigenstates of <span class="math inline">\((\hat{\bm{J}}^2, \hat{J}_3)\)</span> to be eigenstates of <span class="math inline">\(\hat{\bm{L}}^2\)</span> and <span class="math inline">\(\hat{\bm{S}}^2\)</span> as well, but they cannot not in general be eigenstates of <span class="math inline">\(\hat{J}_3\)</span> nor <span class="math inline">\(\hat{S}_3\)</span>. We may label such a state as <span class="math display">\[\ket{j m_j \ell s}\]</span> This is known in general as a <strong>coupled state</strong>, and if <span class="math inline">\(\hat{\bm{L}}\)</span> is orbital angular momentum and <span class="math inline">\(\hat{\bm{S}}\)</span> is spin, then this particular example would be referred to as <em>LS coupling</em>. Such states have the following eigenvalues, <span class="math display">\[\begin{gather*}
+  \hat{\bm{J}}^2 \ket{j m_j \ell s} = \hbar j (j + 1) \ket{j m_j \ell s} \\
+  \hat{J}_3 \ket{j m_j \ell s} = \hbar m_j \ket{j m_j \ell s} \\
+  \hat{\bm{L}}^2 \ket{j m_j \ell s} = \hbar \ell (\ell + 1) \ket{j m_j \ell s} \\
+  \hat{\bm{S}}^2 \ket{j m_j \ell s} = \hbar s (s + 1) \ket{j m_j \ell s}
+\end{gather*}\]</span></p>
+<p>In contrast, if we want an eigenstate of <span class="math inline">\((\hat{J}_3, \hat{\bm{L}}^2, \hat{L}_3, \hat{\bm{S}}^2, \hat{S}_3)\)</span>, then we can simply construct it as a tensor product of the standard eigenstates of <span class="math inline">\((\hat{\bm{L}}^2, \hat{L}_3)\)</span> and <span class="math inline">\((\hat{\bm{S}}^2, \hat{S}_3)\)</span>, denoted <span class="math display">\[\ket{\ell m_\ell s m_s} = \ket{\ell m_\ell} \otimes \ket{s m_s}\]</span> with eigenvalues <span class="math display">\[\begin{gather*}
+  \hat{J}_3 \ket{\ell m_\ell s m_s} = \hbar (m_\ell + m_s) \ket{\ell m_\ell s m_s} \\
+  \hat{\bm{L}}^2 \ket{\ell m_\ell s m_s} = \hbar \ell (\ell + 1) \ket{\ell m_\ell s m_s} \\
+  \hat{L}_3 \ket{\ell m_\ell s m_s} = \hbar m_\ell \ket{\ell m_\ell s m_s} \\
+  \hat{\bm{S}}^2 \ket{\ell m_\ell s m_s} = \hbar s (s + 1) \ket{\ell m_\ell s m_s} \\
+  \hat{S}_3 \ket{\ell m_\ell s m_s} = \hbar m_s \ket{\ell m_\ell s m_s}
+\end{gather*}\]</span> These are known as <strong>uncoupled</strong> states.</p>
+<p>The two sets of eigenstates are related by a linear transformation, <span id="eq:cgtransform"><span class="math display">\[\ket{j m_j \ell s} = \sum_{m_\ell \in M_\ell, m_s \in M_s} \ket{\ell m_\ell s m_s} \bkt{\ell m_\ell s m_s | j m_j}\qquad(14)\]</span></span> where <span class="math inline">\(\bkt{\ell m_\ell s m_s | j m_j}\)</span> denotes a set of coefficients known as the <strong>Clebsch–Gordan (CG) coefficients</strong>.</p>
+<p>The CG coefficients are subject to a set of constraints – <strong>selection rules</strong> – that we divide into two categories. First, there are the <strong>local selection rules</strong>: <span class="math display">\[\begin{align*}
+  &amp;\ell, s, j \in \frac{1}{2}\mathbb{N} &amp;
+  &amp;m_\ell \in M_\ell &amp;
+  &amp;m_s \in M_s &amp;
+  &amp;m_j \in M_j
+\end{align*}\]</span> These kinds of constraints are intrinsic to each <span class="math inline">\((j, m)\)</span>-pair and are omnipresent in angular momentum algebra. Thus, to avoid having to repeat ourselves, we will implicitly assume they are satisfied in all equations.</p>
+<p>The pairing between the magnitude (<span class="math inline">\(j\)</span>-like) and projection (<span class="math inline">\(m\)</span>-like) variables is established by a notational convention: the subscript on the <span class="math inline">\(m\)</span>-like variable is used to to link to the <span class="math inline">\(j\)</span>-like variable. For example, <span class="math inline">\(m_j\)</span> pairs with <span class="math inline">\(j\)</span>, and <span class="math inline">\(m_\ell\)</span> pairs with <span class="math inline">\(\ell\)</span>. If the <span class="math inline">\(j\)</span> variable itself also has a subscript, then we will typically use the subscript of <span class="math inline">\(j\)</span> directly as a subscript of <span class="math inline">\(m\)</span>, e.g. <span class="math inline">\(m_1\)</span> pairs with <span class="math inline">\(j_1\)</span>, <span class="math inline">\(m_p\)</span> pairs with <span class="math inline">\(j_p\)</span>, etc.</p>
+<p>The second category are the <strong>nonlocal selection rules</strong>, consisting of <span class="math display">\[m_j = m_\ell + m_s\]</span> which simply states the additive nature of projections, and <span class="math display">\[|\ell - s| \le j \le \ell + s\]</span> This latter constraint is called the <strong>triangle condition</strong> and is equivalent to the geometrical constraint that <span class="math inline">\(\ell\)</span>, <span class="math inline">\(s\)</span>, and <span class="math inline">\(j\)</span> are lengths of a triangle. It can alternatively be restated as the symmetric combination of constraints, <span class="math display">\[\begin{align*}
+  &amp;j \le \ell + s &amp;
+  &amp;\ell \le s + j &amp;
+  &amp;s \le j + \ell
+\end{align*}\]</span></p>
+<p>It is convenient to define the CG coefficients such that if any of the selection rules are violated, then the CG coefficient is zero. This allows us to omit the constraints on the summation of <span class="math inline">\(m_\ell\)</span> and <span class="math inline">\(m_s\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:cgtransform">14</a> and simply let the selection rule pick the terms that contribute.</p>
+<p>In principle, there can be several conventions for CG coefficients. The obvious choice is to limit ourselves to only <em>real</em> coefficients, but there remains an arbitrary choice in sign, which is then fixed by the Condon–Shortley phase convention.</p>
+<p>In this choice, the linear transformation of CG coefficients is completely symmetric, so we can use the same coefficients to undo the coupling: <span class="math display">\[\ket{\ell m_\ell s m_s} = \sum_{j m_j} \ket{j m_j \ell s} \bkt{\ell m_\ell s m_s | j m_j}\]</span> where summation over <span class="math inline">\(j\)</span> and <span class="math inline">\(m_j\)</span> is constrained by the selection rules of CG.</p>
+<p>Hence, the CG coefficients satisfy the orthogonality relations, <span class="math display">\[\begin{gather*}
+  \sum_{j m_j} \bkt{\ell m_\ell s m_s | j m_j} \bkt{\ell m_\ell&#39; s m_s&#39; | j m_j} = \delta_{m_\ell m_\ell} \delta_{m_s m_s&#39;} \\
+  \sum_{m_\ell m_s} \bkt{\ell m_\ell s m_s | j m_j} \bkt{\ell m_\ell s m_s | j&#39; m_j&#39;} = \delta_{j j&#39;} \delta_{m_j m_j&#39;} \tridelta{\ell}{s}{j}
+\end{gather*}\]</span> where <span class="math inline">\(\tridelta{\ell}{s}{j}\)</span> is the <strong>triangular delta</strong>, defined as <span id="eq:tridelta"><span class="math display">\[\tridelta{a}{b}{c} = \begin{cases}
+  1 &amp; \text{if $|a - b| \le c \le a + b$} \\
+  0 &amp; \text{otherwise} \\
+\end{cases}\qquad(15)\]</span></span> In other words, the triangular delta is the analog of Kronecker delta for the triangle condition.</p>
+<p>There are additional symmetry properties of CG coefficients, but it is more convenient to state them indirectly through a similar quantity known as the Wigner 3-jm symbol.</p>
+<h2 id="sec:3jm"><span class="header-section-number">8.3</span> Wigner 3-jm symbol</h2>
+<p>The <strong>Wigner 3-jm symbol</strong> is a function of six arguments used for coupling angular momenta with a high degree of symmetry, denoted<a href="angular-momentum-coupling.html#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> <span class="math display">\[\begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}\]</span> The <span class="math inline">\(j_i\)</span> arguments could be any nonnegative half-integer <span class="math inline">\(\frac{1}{2} \mathbb{N}\)</span> (Eq. <a href="angular-momentum-coupling.html#eq:half-natural">12</a>), including both integers and half-odd integers. The <span class="math inline">\(m_i\)</span> arguments are constrained to the <span class="math inline">\(M_{j_i}\)</span> set as defined in Eq. <a href="angular-momentum-coupling.html#eq:mset">13</a>. These form the local selection rules. The nonlocal selection rules are given by <span class="math display">\[
+  |j_1 - j_2| \le j_3 \le j_1 + j_2 \qquad \qquad
+  m_1 + m_2 + m_3 = 0
+\]</span></p>
+<p>The 3-jm symbol is related to the Clebsch–Gordan coefficient by the formula, <span id="eq:cgw3jm"><span class="math display">\[
+  \bkt{j_1 m_1 j_2 m_2 | j_{1 2} m_{1 2}} =
+  (-)^{2 j_2 + j_{1 2} - m_{1 2}} \jweight{j}_{1 2}
+  \begin{pmatrix}
+    j_1 &amp; j_{1 2} &amp; j_2 \\
+    m_1 &amp; -m_{1 2} &amp; m_2 \\
+  \end{pmatrix}
+\qquad(16)\]</span></span> where we introduce the shorthand <span id="eq:jweight"><span class="math display">\[\jweight{j} = \sqrt{2 j + 1}\qquad(17)\]</span></span> as the factor appears frequently in angular momentum algebra.</p>
+<p>When three angular momentum states are coupled using the 3-jm symbol, <span class="math display">\[\sum_{m_1 m_2 m_3} \begin{pmatrix}
+j_1 &amp; j_2 &amp; j_3 \\
+m_1 &amp; m_2 &amp; m_3 \\
+\end{pmatrix} \ket{j_1 m_1} \otimes \ket{j_2 m_2} \otimes \ket{j_3 m_3}\]</span> the result is invariant (a spherical scalar) under SU(2) transformations.</p>
+<p>The 3-jm symbol is given by the following symmetric formula <span class="citation" data-cites="Wigner1993">(Wigner 1993)</span> <span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix} =
+  \sqrt{\Delta(j_1\ j_2\ j_3)}
+  \sum_{k_1 k_2 k_3}
+    \prod_{i = 1}^3
+      \frac{(-)^{j_1 / 2 + k_i}
+      \sqrt{(j_i - m_i)! (j_i + m_i)!}
+          }{(J / 2 - j_i - k_i)! (J / 2 - j_i + k_i)!}
+\]</span> where:</p>
+<ul>
+<li><p><span class="math inline">\(J = j_1 + j_2 + j_3\)</span></p></li>
+<li><p>The summation is performed over all half-integers <span class="math inline">\(k_i\)</span> subject to the following constraints:</p>
+<ol type="1">
+<li><span class="math inline">\(m_1 + k_2 - k_3 = m_2 + k_3 - k_1 = m_3 + k_1 - k_2 = 0\)</span></li>
+<li>Argument of every factorial involving <span class="math inline">\(k_i\)</span> must be a nonnegative integer.</li>
+</ol></li>
+<li><p><span class="math inline">\(\Delta(j_1\ j_2\ j_3)\)</span> is the <strong>triangle coefficient</strong>:</p>
+<p><span class="math display">\[\Delta(j_1\ j_2\ j_3) = \frac{\prod_{i = 1}^3 (J - 2 j_i)!}{(J + 1)!}\]</span></p></li>
+</ul>
+<p>The summation over <span class="math inline">\(k_i\)</span> has only one effective degree of freedom. If we break the symmetry by choosing <span class="math display">\[k = \frac{J}{2} - j_3 - k_3\]</span> we obtain the more conventional form used by Racah <span class="citation" data-cites="PhysRev.62.438">(Racah 1942)</span> <span class="math display">\[\begin{align*}
+  &amp;\begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix} \\
+  &amp;= \delta_{m_1 + m_2 + m_3, 0} (-)^{j_1 - j_2 - m_3} \sqrt{\Delta(j_1\ j_2\ j_3) \prod_{i = 1}^3 (j_i + m_i)! (j_i - m_i)!} \sum_k \\
+&amp;\qquad \frac{(-1)^k}{k! (j_1 + j_2 - j_3 - k)! (j_1 - m_1 - k)! (j_2 + m_2 - k)!} \\
+&amp;\qquad \times \frac{1}{(j_3 - j_2 + m_1 + k)! (j_3 - j_1 - m_2 + k)!}
+\end{align*}\]</span> The summation is performed over all half-integers <span class="math inline">\(k\)</span> such that the argument of every factorial involving <span class="math inline">\(k\)</span> is a nonnegative integer.</p>
+<p>The 3-jm symbol is invariant under even permutations of its columns, <span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+    j_2 &amp; j_3 &amp; j_1 \\
+    m_2 &amp; m_3 &amp; m_1 \\
+  \end{pmatrix} =
+  \begin{pmatrix}
+    j_3 &amp; j_1 &amp; j_2 \\
+    m_3 &amp; m_1 &amp; m_2 \\
+  \end{pmatrix}
+\]</span> Odd permutations lead to a phase factor, <span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix} =
+  (-)^{j_1 + j_2 + j_3}
+  \begin{pmatrix}
+    j_3 &amp; j_2 &amp; j_1 \\
+    m_3 &amp; m_2 &amp; m_1 \\
+  \end{pmatrix}
+\]</span> The same phase factor arises from time reversal, <span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix} =
+  (-)^{j_1 + j_2 + j_3}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    -m_1 &amp; -m_2 &amp; -m_3 \\
+  \end{pmatrix}
+\]</span> The 3-jm symbol also has an additional set of symmetries called Regge symmetries <span class="citation" data-cites="Regge1958">(Regge 1958)</span>, but these are seldomly used in angular momentum algebra. They are, however, useful for storage and caching of 3-jm symbols in computations <span class="citation" data-cites="doi:10.1137/S1064827503422932">(Rasch and Yu 2004)</span>.</p>
+<p>The orthogonality relations of CG coefficients carry over to 3-jm symbols. The first orthogonality relation is given by <span id="eq:3jm-orthogonality"><span class="math display">\[\sum_{j_3 m_3}
+  \jweight{j}^2_3
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1&#39; &amp; m_2&#39; &amp; m_3 \\
+  \end{pmatrix}
+  = \delta_{m_1 m_1&#39;} \delta_{m_2 m_2&#39;}\qquad(18)\]</span></span> while the second orthogonality relation is <span id="eq:3jm-orthogonality-2"><span class="math display">\[\sum_{m_2 m_3}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_2 &amp; j_3 &amp; j_4 \\
+    m_2 &amp; m_3 &amp; m_4 \\
+  \end{pmatrix}
+  = \frac{\delta_{j_1 j_4} \delta_{m_1 m_4}}{\jweight{j}^2_1}
+    \tridelta{j_1}{j_2}{j_3}\qquad(19)\]</span></span></p>
+<p>In the case where one of the angular momenta is zero, the 3-jm symbol has a very simple formula: <span id="eq:3jm-zero"><span class="math display">\[(-)^{j_1 - m_1} \begin{pmatrix}
+    j_1 &amp; 0 &amp; j_2 \\
+    -m_1 &amp; 0 &amp; m_2 \\
+  \end{pmatrix} = \frac{\delta_{j_1 j_2} \delta_{m_1 m_2}}{\jweight{j}_1}\qquad(20)\]</span></span></p>
+<p>There is a special relation that converts a summation over a 3-jm symbol into Kronecker deltas, <span class="math display">\[\sum_{m_2} (-)^{j_2 - m_2}
+  \begin{pmatrix}
+    j_2 &amp; j_1 &amp; j_2 \\
+    -m_2 &amp; m_1 &amp; m_2 \\
+  \end{pmatrix} = \delta_{j_1 0} \delta_{m_1 0} \jweight{j}_2\]</span> Read in reverse, this means one can also represent Kronecker deltas with zeros as a 3-jm symbol.</p>
+<h2 id="angular-momentum-diagrams"><span class="header-section-number">8.4</span> Angular momentum diagrams</h2>
+<p>Angular momentum diagrams, originally introduced by Jucys (whose name is also translated as Yutsis) <span class="citation" data-cites="Yutsis1962">(Yutsis, Levinson, and Vanagas 1962)</span>, provide a graphical way to manipulate expressions of coupling coefficients of angular momentum states. Our presentation of diagrams differs from <span class="citation" data-cites="Yutsis1962 WORMER200659 BalcarLovesey2009">(Yutsis, Levinson, and Vanagas 1962; Wormer and Paldus 2006; Balcar and Lovesey 2009)</span> in the treatment of arrows.<a href="angular-momentum-coupling.html#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> In other literature, arrows are used to distinguish between covariant and contravariant angular momenta. However, we treat them mechanically as 1-jm symbols (see Sec. <a href="angular-momentum-coupling.html#sec:1jm">8.4.3</a>). Other differences in presentation are largely superficial. For practical reasons we do not use graphics to describe <span class="math inline">\(\sqrt{2 j + 1}\)</span> factors unlike <span class="citation" data-cites="BalcarLovesey2009">(Balcar and Lovesey 2009)</span>.</p>
+<h3 id="nodes"><span class="header-section-number">8.4.1</span> Nodes</h3>
+<figure>
+<img src="fig-3jm" alt="Figure 5: Diagram of the 3-jm symbol (1 2 3) in Eq. 21" id="fig:3jm" /><figcaption>Figure 5: Diagram of the 3-jm symbol <span class="math inline">\((1 2 3)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:3jm-node">21</a></figcaption>
+</figure>
+<p>The main ingredient of angular momentum algebra are 3-jm symbols. Since they are functions of six variables, one might be tempted to introduce a node with six lines emanating from it. However, this quickly becomes unwieldy. Instead, it is better to treat each <span class="math inline">\((j, m)\)</span>-pair as a combined entity.</p>
+<p>In Fig. <a href="angular-momentum-coupling.html#fig:3jm">5</a>, we introduce the diagram for the 3-jm symbol, <span id="eq:3jm-node"><span class="math display">\[(1 2 3) = \begin{pmatrix} j_1 &amp; j_2 &amp; j_3 \\ m_1 &amp; m_2 &amp; m_3 \\ \end{pmatrix}\qquad(21)\]</span></span> for which we have assigned the shorthand <span class="math inline">\((1 2 3)\)</span>. Note that 3-jm symbols are the only kind of primitive <strong>node</strong> (vertex) that appears in angular momentum diagrams. Hence, they are the basic building block of such diagrams.</p>
+<p>Because 3-jm symbols are invariant under <em>even</em> permutations only, it is necessary to assign a definite ordering to the lines. This is denoted by the circular arrow within the node. In other literature, circular arrows are usually replaced by a sign: <span class="math inline">\(+\)</span> for anticlockwise and <span class="math inline">\(-\)</span> for clockwise.</p>
+<h3 id="lines"><span class="header-section-number">8.4.2</span> Lines</h3>
+<p>The <strong>lines</strong> (edges) in angular momentum diagrams serve to link the <span class="math inline">\(m\)</span>-type arguments on both ends of the line. The domain <span class="math inline">\(M_j\)</span> over which the <span class="math inline">\(m\)</span> variable is valid is indicated by the label on the line.<a href="angular-momentum-coupling.html#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> For example, if a line is labeled “1”, this means the <span class="math inline">\(m\)</span> variable must lie within the domain <span class="math inline">\(M_{j_1}\)</span> of the <span class="math inline">\(j_1\)</span> variable.</p>
+<p>As a convenience (or perhaps a source of confusion), we introduce a special exception to this interpretation when the label is “0”. In this case, we instead interpret it to indicate that the domain is <span class="math inline">\(M_0 = \{ 0 \}\)</span>, i.e. <span class="math inline">\(m = j = 0\)</span>. To alert the reader of this special interpretation, the line is drawn in a faded grey color.</p>
+<figure>
+<img src="fig-lines" alt="Figure 6: Degenerate line diagrams: upper diagram: (0&#39; 0&#39;&#39;) in Eq. 23; middle diagram: (1 1&#39;) in Eq. 22; lower diagram: (\check{2} 2&#39;) in Eq. 24" id="fig:lines" /><figcaption>Figure 6: Degenerate line diagrams: upper diagram: <span class="math inline">\((0&#39; 0&#39;&#39;)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:zero-line">23</a>; middle diagram: <span class="math inline">\((1 1&#39;)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:mdelta-line">22</a>; lower diagram: <span class="math inline">\((\check{2} 2&#39;)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:arrow-diagram">24</a></figcaption>
+</figure>
+<p>Lines can appear in isolation, as shown in Fig. <a href="angular-momentum-coupling.html#fig:lines">6</a>. The middle diagram of Fig. <a href="angular-momentum-coupling.html#fig:lines">6</a> represents the Kronecker delta, <span id="eq:mdelta-line"><span class="math display">\[(1 1&#39;) = \delta_{m_1 m_1&#39;}\qquad(22)\]</span></span> The upper diagram is also a Kronecker delta, but with the extra constraint that <span class="math inline">\(m_0&#39; \in M_0\)</span>, hence <span id="eq:zero-line"><span class="math display">\[(0&#39; 0&#39;&#39;) = \delta_{m_0&#39; m_0&#39;&#39;} \delta_{m_0&#39; 0}\qquad(23)\]</span></span></p>
+<h3 id="sec:1jm"><span class="header-section-number">8.4.3</span> Herring–Wigner 1-jm symbol</h3>
+<p>In the lower diagram of Fig. <a href="angular-momentum-coupling.html#fig:lines">6</a>, we introduce the notion of an <strong>arrow</strong> on a line. Lines with arrows (<em>directed</em> lines) are associated with a <span class="math inline">\((-)^{j - m}\)</span> phase as well as a sign reversal in <span class="math inline">\(m\)</span>, i.e. the <strong>time-reversal</strong> of angular momentum. More precisely, the diagram represents the quantity: <span id="eq:arrow-diagram"><span class="math display">\[(\check{2} 2&#39;) = \delta_{m_2, -m_2&#39;} (-)^{j_2 - m_2&#39;}\qquad(24)\]</span></span> This is sometimes referred to as a <strong>Herring–Wigner 1-jm symbol</strong>, denoted by <span id="eq:arrow"><span class="math display">\[\begin{pmatrix}
+j \\
+m \quad m&#39;  \\
+\end{pmatrix} = \jweight{j} \begin{pmatrix}
+j &amp; 0 &amp; j \\
+m &amp; 0 &amp; m&#39;  \\
+\end{pmatrix} = \delta_{m, -m&#39;} (-)^{j - m&#39;}\qquad(25)\]</span></span> It acts like a metric tensor for SU(2), since the quantity <span class="math display">\[\sum_{m m&#39;} \begin{pmatrix}
+j \\
+m \quad m&#39; \\
+\end{pmatrix} |j m\rangle \otimes |j m&#39;\rangle\]</span> is invariant under SU(2) transformations.</p>
+<h3 id="terminals"><span class="header-section-number">8.4.4</span> Terminals</h3>
+<p>The <strong>terminals</strong> of lines, highlighted by the grey circles, represent the free <span class="math inline">\(m\)</span> variables (i.e. those that are not summed over). We label the terminals so as to provide a correspondence to the algebraic equations. For example, in Fig. <a href="angular-momentum-coupling.html#fig:3jm">5</a> we label the terminals “1”, “2”, and “3” to indicate their correspondence to <span class="math inline">\(m_1\)</span>, <span class="math inline">\(m_2\)</span>, and <span class="math inline">\(m_3\)</span>.</p>
+<figure>
+<img src="fig-3jm-zero" alt="Figure 7: 3-jm symbol when an argument is zero: (\check{1} 0 2) = (1 2) / \jweight{j}_1 in Eq. 20" id="fig:3jm-zero" /><figcaption>Figure 7: 3-jm symbol when an argument is zero: <span class="math inline">\((\check{1} 0 2) = (1 2) / \jweight{j}_1\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:3jm-zero">20</a></figcaption>
+</figure>
+<p>There is one exceptional situation where a terminal may be absent: when the line is zero. This occurs in, for example, the simplification of a 3-jm symbol when one of the angular momenta is zero in Eq. <a href="angular-momentum-coupling.html#eq:3jm-zero">20</a>. This is depicted diagrammatically in Fig. <a href="angular-momentum-coupling.html#fig:3jm-zero">7</a>, and shown here in shorthand notation: <span class="math display">\[(\check{1} 0 2) = \frac{(1 2)}{\jweight{j}_1}\]</span></p>
+<h3 id="closed-diagrams"><span class="header-section-number">8.4.5</span> Closed diagrams</h3>
+<figure>
+<img src="fig-3jm-orthogonality-2" alt="Figure 8: Second orthogonality relation for 3-jm symbols: (1 2 3) (2 3 4) = (1 4) (1&#39; 2 3) (1&#39; 2 3) in Eq. 19" id="fig:3jm-orthogonality-2" /><figcaption>Figure 8: Second orthogonality relation for 3-jm symbols: <span class="math inline">\((1 2 3) (2 3 4) = (1 4) (1&#39; 2 3) (1&#39; 2 3)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:3jm-orthogonality-2">19</a></figcaption>
+</figure>
+<p>In lines with no terminals – the <em>internal</em> lines – their <span class="math inline">\(m\)</span> variables are always summed over. This is exemplified in Fig. <a href="angular-momentum-coupling.html#fig:3jm-orthogonality-2">8</a>, which depicts the second orthogonality relation for 3-jm symbols in Eq. <a href="angular-momentum-coupling.html#eq:3jm-orthogonality-2">19</a> as <span class="math display">\[(1 2 3) (2 3 4) = (1 4) (1&#39; 2 3) (1&#39; 2 3) = (1 4) \{1&#39; 2 3\}\]</span> On the left-hand side, the <span class="math inline">\(m_2\)</span> and <span class="math inline">\(m_3\)</span> lines are both internal and therefore summed over. On the right-hand side, <span class="math inline">\(1 = 4\)</span> label indicates the presence of a <span class="math inline">\(j\)</span>-relating Kronecker delta <span class="math inline">\(\delta_{j_1 j_4}\)</span> in addition to the usual <span class="math inline">\(\delta_{m_1 m_4}\)</span>. In the upper right, there is a special subdiagram <span class="math inline">\((1&#39; 2 3) (1&#39; 2 3)\)</span>, which is in fact the triangular delta <span class="math inline">\(\tridelta{j_1}{j_2}{j_3}\)</span> as defined in Eq. <a href="angular-momentum-coupling.html#eq:tridelta">15</a>.</p>
+<figure>
+<img src="fig-tridelta" alt="Figure 9: Triangular delta: \{1 2 3\} = (1 2 3) (1 2 3) in Eq. 26" id="fig:tridelta" /><figcaption>Figure 9: Triangular delta: <span class="math inline">\(\{1 2 3\} = (1 2 3) (1 2 3)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:tridelta-diagram">26</a></figcaption>
+</figure>
+<p>In diagrammatic notation, the triangular delta is represented by the following sum as shown in Fig. <a href="angular-momentum-coupling.html#fig:tridelta">9</a>: <span id="eq:tridelta-diagram"><span class="math display">\[
+  \{1 2 3\} = (1 2 3) (1 2 3) = \sum_{m_1 m_2 m_3}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}^2 = \tridelta{j_1}{j_2}{j_3}
+\qquad(26)\]</span></span></p>
+<p>The triangular delta is the simplest <strong>irreducible closed diagram</strong>: it cannot be broken down into simpler components in a nontrivial way (<em>irreducible</em>), and there are no free <span class="math inline">\(m\)</span>-type variables (<em>closed</em>). Specifically, we say a diagram is irreducible if it cannot be factorized into subdiagrams without either (a) introducing a summation over a new <span class="math inline">\(j\)</span>-type variable, or (b) introducing another triangular delta. The (b) constraint comes from the fact that a triangular delta can be split (factorized) into a finite number of identical triangular deltas, which is not very interesting.</p>
+<p>The triangular delta is a rather degenerate case of an irreducible closed diagram. In Secs. <a href="angular-momentum-coupling.html#sec:6j">8.8.2</a>, <a href="angular-momentum-coupling.html#sec:9j">8.8.3</a>, we introduce more interesting cases: the 6-j and 9-j symbols. In graph theory, irreducible closed diagrams correspond to cubic graphs that are <em>cyclically 4-connected</em>, namely, 3-edge-connected graphs in which every split by the deletion of 3 edges yields at least one disconnected vertex. The triangular delta is unusual in that it is the only non-simple graph of this family.</p>
+<h3 id="sec:summed-lines"><span class="header-section-number">8.4.6</span> Summed lines</h3>
+<figure>
+<img src="fig-3jm-orthogonality" alt="Figure 10: First orthogonality relation for 3-jm symbols: \sum_{j_3} \jweight{j}_3^2 (1 2 3) (1&#39; 2&#39; 3) = (1 1&#39;) (2 2&#39;) in Eq. 18" id="fig:3jm-orthogonality" /><figcaption>Figure 10: First orthogonality relation for 3-jm symbols: <span class="math inline">\(\sum_{j_3} \jweight{j}_3^2 (1 2 3) (1&#39; 2&#39; 3) = (1 1&#39;) (2 2&#39;)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:3jm-orthogonality">18</a></figcaption>
+</figure>
+<p>There are a few occasions where the <span class="math inline">\(j\)</span>-type variables do need to be summed over. This occurs in the first orthogonality relation in Eq. <a href="angular-momentum-coupling.html#eq:3jm-orthogonality">18</a>, shown diagrammatically in Fig. <a href="angular-momentum-coupling.html#fig:3jm-orthogonality">10</a> as <span class="math display">\[\sum_{j_3} \jweight{j}_3^2 (1 2 3) (1&#39; 2&#39; 3) = (1 1&#39;) (2 2&#39;)\]</span> The doubling of the line serves as an additional reminder that <span class="math inline">\(j_3\)</span> is being summed over.</p>
+<h2 id="phase-rules"><span class="header-section-number">8.5</span> Phase rules</h2>
+<p>Let us begin by considering just one particular angular momentum pair <span class="math inline">\((j_i, m_i)\)</span> in isolation. In this case, we have the properties <span class="math display">\[\begin{align*}
+  (-)^{4 j_i} &amp;= 1 &amp;
+  (-)^{2 (j_i - m_i)} &amp;= 1
+\end{align*}\]</span> We may call this the <strong>local phase rules</strong>. Given an arbitrary phase <span class="math inline">\((-)^{a j_i + b m_i}\)</span> with <span class="math inline">\(a, b \in \mathbb{Z}\)</span>, one can always use local rules to <em>uniquely</em> decompose the phase as <span class="math display">\[(-)^{a j_i + b m_i} = (-)^{c j_i + d (j_i - m_i)}\]</span> where <span class="math inline">\(c \in \{0, 1, 2, 3\}\)</span> and <span class="math inline">\(d \in \{0, 1\}\)</span>. We will call this the <strong>locally canonical</strong> form of the phase. Hence, phases of a single angular momentum may be represented as a pair <span class="math inline">\((c, d)\)</span> where <span class="math inline">\(c\)</span> uses modulo-4 arithmetic and <span class="math inline">\(d\)</span> uses modulo-2 arithmetic. There are only 8 unique phases: <span class="math display">\[\begin{array}{r|rrrr}
+&amp; 0j &amp; 1j &amp; 2j &amp; 3j \\
+\hline
+0(j-m) &amp;     0 &amp; +j &amp;    2j &amp; -j \\
+1(j-m) &amp; j - m &amp; +m &amp; j + m &amp; -m \\
+\end{array}\]</span> The table has a toroidal topology: it wraps around both horizontally and vertically.</p>
+<p>Canonicalization provides a mechanical approach for deciding whether two phases are equivalent. Unfortunately, when non-local rules are involved, there is no longer an obvious way to canonicalize phases – the symmetries of the phases become entangled with the topology of the angular momentum diagram. Nonetheless, local canonicalization provides an easy way to eliminate one of the sources of redundancy.</p>
+<p>It is common to work with only real recoupling coefficients, thus it is unusual for <span class="math inline">\((-)^j\)</span> or <span class="math inline">\((-)^{3 j}\)</span> to appear in isolation. They typically appear in groups, such as triplets <span class="math inline">\((-)^{j_1 + j_2 + j_3}\)</span> or quadruplets.</p>
+<figure>
+<img src="fig-arrow-cancellation" alt="Figure 11: Upper diagram: arrow cancellation: (\check{1} \check{1}&#39;) = (1 1&#39;) in Eq. 27; lower diagram: arrow reversal: (\check{1} 1&#39;) = (-)^{2 j_1} (1 \check{1}) in Eq. 28" id="fig:arrow-cancellation" /><figcaption>Figure 11: Upper diagram: arrow cancellation: <span class="math inline">\((\check{1} \check{1}&#39;) = (1 1&#39;)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:arrow-cancellation">27</a>; lower diagram: arrow reversal: <span class="math inline">\((\check{1} 1&#39;) = (-)^{2 j_1} (1 \check{1})\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:arrow-reversal">28</a></figcaption>
+</figure>
+<p>Note that the <span class="math inline">\((-)^{j_i - m_i}\)</span> phase comes from the 1-jm symbol, which are arrows in diagrammatic notation (see Eq. <a href="angular-momentum-coupling.html#eq:arrow">25</a>). The algebraic properties of the 1-jm symbol can be encoded as two arrow rules in diagrammatic theory. The first rule is <strong>arrow cancellation</strong>: <span id="eq:arrow-cancellation"><span class="math display">\[\sum_{m_1&#39;&#39;} \begin{pmatrix}
+j \\
+m \quad m&#39;&#39;  \\
+\end{pmatrix} \begin{pmatrix}
+j \\
+m&#39; \quad m&#39;&#39;  \\
+\end{pmatrix} = \delta_{m, m&#39;}\qquad(27)\]</span></span> which is depicted in the upper diagram of Fig. <a href="angular-momentum-coupling.html#fig:arrow-cancellation">11</a>. In the lower diagram, we have the second rule of <strong>arrow reversal</strong>: <span id="eq:arrow-reversal"><span class="math display">\[\begin{pmatrix}
+j \\
+m \quad m&#39;  \\
+\end{pmatrix} = (-)^{2 j} \begin{pmatrix}
+j \\
+m&#39; \quad m  \\
+\end{pmatrix}\qquad(28)\]</span></span></p>
+<p>Now let us consider the <strong>nonlocal phase rules</strong>, which govern phase triplets related by 3-jm symbols. These arise from the properties of the 3-jm symbol and the selection rules.</p>
+<p>One of the nonlocal selection rules of the 3-jm symbol is <span class="math display">\[m_1 + m_2 + m_3 = 0\]</span> This implies that <span class="math inline">\(m_1\)</span>, <span class="math inline">\(m_2\)</span>, and <span class="math inline">\(m_3\)</span> are either all integers or one of them is an integer and the rest are half-odd integers. The <span class="math inline">\(j_1\)</span>, <span class="math inline">\(j_2\)</span>, and <span class="math inline">\(j_3\)</span> variables are constrained by this same condition as a consequence. Thus we have the <strong>sweeping rule</strong>: <span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+  =
+  (-)^{2 j_1 + 2 j_2 + 2 j_3}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+\]</span> This rule enables <span class="math inline">\((-)^{2 j}\)</span>-type phases to be introduced, eliminated, or migrated (“sweeped”) around the diagram. In contrast, <span class="math inline">\((-)^j\)</span>-type phases by themselves are generally immobile without the aid of Kronecker deltas.</p>
+<figure>
+<img src="fig-triple-arrow" alt="Figure 12: Triple arrow rule: (1 2 3) = (\check{1} \check{2} \check{3}) in Eq. 29" id="fig:triple-arrow" /><figcaption>Figure 12: Triple arrow rule: <span class="math inline">\((1 2 3) = (\check{1} \check{2} \check{3})\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:triple-arrow">29</a></figcaption>
+</figure>
+<p>The analog of the sweeping rule for arrows is the <strong>triple arrow rule</strong>, which allows three similar arrows to be introduced around any 3-jm node: <span id="eq:triple-arrow"><span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+  =
+  (-)^{j_1 - m_1 + j_2 - m_2 + j_3 - m_3}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    -m_1 &amp; -m_2 &amp; -m_3 \\
+  \end{pmatrix}
+\qquad(29)\]</span></span> Like the sweeping rule, these can be used introduce, eliminate, or migrate arrows around the diagram.</p>
+<figure>
+<img src="fig-node-reversal" alt="Figure 13: Node reversal rule: (1 2 3) = (-)^{j_1 + j_2 + j_3} (3 2 1) in Eq. 30" id="fig:node-reversal" /><figcaption>Figure 13: Node reversal rule: <span class="math inline">\((1 2 3) = (-)^{j_1 + j_2 + j_3} (3 2 1)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:node-reversal">30</a></figcaption>
+</figure>
+<p>Lastly, it is often necessary to reverse the order of arguments in a 3-jm symbol. This is handled by the <strong>node reversal rule</strong>, which allows the orientation of a 3-jm symbol to be reversed at the cost of three <span class="math inline">\((-)^j\)</span>-type phases: <span id="eq:node-reversal"><span class="math display">\[
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+  =
+  (-)^{j_1 + j_2 + j_3}
+  \begin{pmatrix}
+    j_3 &amp; j_2 &amp; j_1 \\
+    m_3 &amp; m_2 &amp; m_1 \\
+  \end{pmatrix}
+\qquad(30)\]</span></span></p>
+<h2 id="sec:wigner-eckart"><span class="header-section-number">8.6</span> Wigner–Eckart theorem</h2>
+<p>The Wigner–Eckart theorem allows matrix elements of a spherical tensor operator to be factorized into an operator-dependent, <span class="math inline">\(m\)</span>-independent component and an operator-independent, <span class="math inline">\(m\)</span>-dependent factor. The latter factor is composed of a 3-jm symbol (or equivalently a CG coefficient). The theorem is highly advantageous for numerical computations as summations over 3-jm symbols can often be simplified substantially.</p>
+<p>The usual statement of the theorem is as follows: if <span class="math inline">\(\hat{T}^{j_T}_{m_T}\)</span> is a rank-<span class="math inline">\(j_T\)</span> spherical tensor operator with components labeled by <span class="math inline">\(m_T\)</span>, then its matrix elements can be factorized in the following manner <span class="math display">\[\bra{j_1 m_1 \alpha_1} \hat{T}^{j_T}_{m_T} \ket{j_2 m_2 \alpha_2}
+  = (-)^{j_1 - m_1}
+  \begin{pmatrix}
+    j_1 &amp; j_T &amp;  j_2 \\
+    -m_1 &amp; m_T &amp; m_2
+  \end{pmatrix}
+  \bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}\]</span> where <span class="math inline">\(\bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}\)</span> is called the <strong>reduced matrix element under the 3-jm convention</strong>. This is the same convention as the one used in <span class="citation" data-cites="PhysRev.62.438">(Racah 1942)</span>.</p>
+<p>There are several other conventions. Some conventions differ by a factor of <span class="math inline">\((-)^{2 j_T}\)</span>: <span class="math display">\[\begin{align*}
+  \bra{j_1 m_1 \alpha_1} \hat{T}^{j_T}_{m_T} \ket{j_2 m_2 \alpha_2}
+  &amp;= (-)^{2 j_T + j_1 - m_1}
+  \begin{pmatrix}
+    j_1 &amp; j_T &amp;  j_2 \\
+    -m_1 &amp; m_T &amp; m_2
+  \end{pmatrix}
+  \bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}&#39; \\
+  &amp;= \frac{1}{\jweight{j}_1} \bkt{j_2 m_2 j_T m_T | j_1 m_1}
+  \bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}&#39;
+\end{align*}\]</span> This phase factor is often irrelevant as <span class="math inline">\(j_T\)</span> is commonly an integer. Another convention is to simply use the CG coefficient directly: <span class="math display">\[\bra{j_1 m_1 \alpha_1} \hat{T}^{j_T}_{m_T} \ket{j_2 m_2 \alpha_2}
+  = \bkt{j_2 m_2 j_T m_T | j_1 m_1}
+  \bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}&#39;&#39;\]</span> We call <span class="math inline">\(\bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}&#39;&#39;\)</span> the <strong>reduced matrix element under the CG convention</strong>. This convention is convenient for scalar operators where it simplifies to: <span class="math display">\[\bra{j_1 m_1 \alpha_1} \hat{T}^0_0 \ket{j_2 m_2 \alpha_2}
+  = \delta_{j_1 j_2} \delta_{m_1 m_2} \bkt{j_1 \alpha_1 \| \hat{T}^0 \| j_2 \alpha_2}&#39;&#39;\]</span></p>
+<p>An unusual way to state the Wigner–Eckart theorem is through the following inverse equation: <span class="math display">\[\bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}
+  = \sum_{m&#39;_1 m_T m&#39;_2}
+  (-)^{j_1 - m&#39;_1}
+  \begin{pmatrix}
+    j_1 &amp; j_T &amp; j_2 \\
+    -m&#39;_1 &amp; m_T &amp; m&#39;_2
+  \end{pmatrix}
+  \bra{j_1 m&#39;_1 \alpha_1} \hat{T}^{j_T}_{m_T} \ket{j_2 m&#39;_2 \alpha_2}\]</span> The advantage of this form is that it can be readily translated to diagrams. Of course, in practice the summation is unnecessary as one could simply compute: <span class="math display">\[\bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}
+  = \frac{(-)^{j_1} \bra{j_1 0 \alpha_1} \hat{T}^{j_T}_0 \ket{j_2 0 \alpha_2}}{\begin{pmatrix}
+    j_1 &amp; j_T &amp;  j_2 \\
+    0 &amp; 0 &amp; 0
+  \end{pmatrix}}\]</span></p>
+<h2 id="sec:cutting-rule"><span class="header-section-number">8.7</span> Separation rules</h2>
+<figure>
+<img src="fig-cutting-rule" alt="Figure 14: Separation rules: (a) single-line separation rule: f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0) in Eq. 31; (b) double-line separation rule; (c) triple-line separation rule." id="fig:cutting-rule" /><figcaption>Figure 14: Separation rules: (a) single-line separation rule: <span class="math inline">\(f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:cutting-rule">31</a>; (b) double-line separation rule; (c) triple-line separation rule.</figcaption>
+</figure>
+<p>There is a general diagrammatic rule that is closely related to the more specialized Wigner–Eckart theorem. Suppose we have an angular momentum diagram <span class="math inline">\(f(j_1, m_1)\)</span> composed of 3-jm nodes with exactly one external line and every one of its internal lines has an arrow. Then, we can partition the diagram into two pieces: <span id="eq:cutting-rule"><span class="math display">\[f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)\qquad(31)\]</span></span> In other words, <span class="math inline">\(f\)</span> must be invariant (a spherical scalar). We call this the <strong>single-line separation rule</strong> because it allows us to cut the lone external line to separate the diagram into two disconnected pieces. This rule is shown in Fig. <a href="angular-momentum-coupling.html#fig:cutting-rule">14</a> (a).</p>
+<figure>
+<img src="fig-cutting-rule-schematic-proof" alt="Figure 15: A schematic derivation of the separation rule for five lines. The topologies of the diagrams are shown but most details (such as phases or other factors) have been omitted. Double lines indicate summed lines as before (Sec. 8.4.6). The meaning of the yellow rectangles is the same as in Fig. 14." id="fig:cutting-rule-schematic-proof" /><figcaption>Figure 15: A schematic derivation of the separation rule for five lines. The topologies of the diagrams are shown but most details (such as phases or other factors) have been omitted. Double lines indicate summed lines as before (Sec. <a href="angular-momentum-coupling.html#sec:summed-lines">8.4.6</a>). The meaning of the yellow rectangles is the same as in Fig. <a href="angular-momentum-coupling.html#fig:cutting-rule">14</a>.</figcaption>
+</figure>
+<p>This seemingly simple rule can be used to separate arbitrarily complicated diagrams through a mechanical process (Fig. <a href="angular-momentum-coupling.html#fig:cutting-rule-schematic-proof">15</a>) in which lines are repeatedly pairwise combined using the first orthogonality relation (Fig. <a href="angular-momentum-coupling.html#fig:3jm-orthogonality">10</a>) until a single line remains, which can then be cut using Eq. <a href="angular-momentum-coupling.html#eq:cutting-rule">31</a>.</p>
+<p>Separation rules for the special cases of two and three lines are shown in Fig. <a href="angular-momentum-coupling.html#fig:cutting-rule">14</a> (b) and (c) respectively. Both can be derived using (a) and the first orthogonality relation. Analogous separation rules for four or more lines can be derived, but they always introduce new angular momentum variables to be summed over. With six or more lines, there can be multiple non-equivalent separation rules.</p>
+<p>Separation rules are used in the derivation of recoupling coefficients. They can also be used to <em>derive</em> the second orthogonality relation of 3-jm symbols.</p>
+<h2 id="recoupling-coefficients-and-3n-j-symbols"><span class="header-section-number">8.8</span> Recoupling coefficients and 3n-j symbols</h2>
+<h3 id="sec:tridelta"><span class="header-section-number">8.8.1</span> Triangular delta</h3>
+<p>Consider the usual CG coupling of <span class="math inline">\(\ket{j_1 m_1}\)</span> and <span class="math inline">\(\ket{j_2 m_2}\)</span> to form the coupled state <span class="math inline">\(\ket{(12) j_{1 2} m_{1 2} j_1 j_2}\)</span> as in Eq. <a href="angular-momentum-coupling.html#eq:cgtransform">14</a>, <span class="math display">\[\ket{(12) j_{1 2} m_{1 2} j_1 j_2} = \sum_{m_1 m_2} \ket{j_1 m_1 j_2 m_2} \bkt{1, 2 | 12}\]</span> Here, we introduce a shorthand for Clebsch–Gordan coefficients: <span class="math display">\[\bkt{a, b | c} = \bkt{j_a m_a j_b m_b | j_c m_c}\]</span> We call this coupling “(12)” because in the CG coefficient angular momentum 1 appears before angular momentum 2. We could have also coupled them in reverse: <span class="math display">\[\ket{(21) j_{1 2} m_{1 2} j_1 j_2} = \sum_{m_1 m_2} \ket{j_1 m_1 j_2 m_2} \bkt{2, 1 | 12}\]</span> This leads to a <em>different</em> set of coupled eigenstates, which we call (21). They are still eigenstates of <span class="math inline">\((\hat{\bm{J}}^{(12)})^2\)</span>, <span class="math inline">\(\hat{J}^{(12)}_3\)</span>, <span class="math inline">\(\hat{\bm{J}}^{(1)}\)</span>, and <span class="math inline">\(\hat{\bm{J}}^{(2)}\)</span>, just like the (12) states. Since the two states are bases of the same Hilbert space we expect there to exist a linear transformation between the two: <span class="math display">\[\ket{(21) j_{1 2} m_{1 2} j_1 j_2} = \sum_{j_{1 2}&#39; j_1&#39; j_2&#39;} \ket{(12) j_{1 2}&#39; m_{1 2} j_1&#39; j_2&#39;} \bkt{(12) j_{1 2}&#39; j_1&#39; j_2&#39; | (21) j_{1 2} j_2 j_1}\]</span> The quantity <span class="math inline">\(\bkt{(12) j_{1 2}&#39; j_1&#39; j_2&#39; | (21) j_{1 2} j_2 j_1}\)</span> denotes the <strong>recoupling</strong> coefficient from (12)-coupling to (21)-coupling, one of the simplest recoupling coefficients. From symmetry considerations alone (see Sec. <a href="angular-momentum-coupling.html#sec:cutting-rule">8.7</a>) we already deduced that the coefficient is both block diagonal in <span class="math inline">\(m_{1 2}\)</span> and does not depend on <span class="math inline">\(m_{1 2}\)</span>.</p>
+<p>Each recoupling coefficient has a set of selection rules that can be determined in a straightforward manner. In this case, we know that <span class="math inline">\(j_{1 2}&#39; = j_{1 2}\)</span>, <span class="math inline">\(j_1&#39; = j_1\)</span>, and <span class="math inline">\(j_2&#39; = j_2\)</span>, because they are eigenvalues of the same operators. Thus we find that <span class="math display">\[\bkt{(12) j_{1 2}&#39; j_1&#39; j_2&#39; | (21) j_{1 2} j_2 j_1} =
+\delta_{j_{1 2}&#39; j_{1 2}} \delta_{j_1&#39; j_1} \delta_{j_2&#39; j_2} \bkt{(12) j_{1 2} j_1 j_2 | (21) j_{1 2} j_2 j_1}\]</span> The remaining part of this particular recoupling coefficient has a very simple formula: <span id="eq:cg-flip-phase"><span class="math display">\[\begin{aligned} \bkt{(12) j_{1 2} j_1 j_2 | (21) j_{1 2} j_2 j_1} &amp;= \frac{1}{\jweight{j}_{1 2}^2}\sum_{m_1 m_2 m_{1 2}} \bkt{1, 2 | 12} \bkt{2, 1 | 12} \\ &amp;= (-)^{j_1 + j_2 - j_{1 2}} \tridelta{j_1}{j_2}{j_3} \end{aligned}\qquad(32)\]</span></span> We thus observe that the coupling of states is <em>not</em> commutative, even though the addition of angular momenta operators is.</p>
+<p>Notice that the recoupling coefficient contains a triangular delta <span class="math inline">\(\tridelta{j_1}{j_2}{j_3}\)</span>, which was previously defined in Eq. <a href="angular-momentum-coupling.html#eq:tridelta">15</a> and shown diagrammatically in Fig. <a href="angular-momentum-coupling.html#fig:tridelta">9</a>. As we have noted, the triangular delta is the simplest irreducible closed diagram. This is a general property of recoupling coefficients: every recoupling coefficient can be decomposed into a product of irreducible closed diagrams, times simple factor containing phases or <span class="math inline">\(\jweight{j}\)</span>-like quantities.</p>
+<p>As we will see in the next few sections, the irreducible closed diagrams are more commonly known as <strong>3n-j symbols</strong>, which contains both 6-j symbols and 9-j symbols. The triangular delta is part of this family too, thus it is fitting to give it the name of a <em>3-j symbol</em> by analogy <span class="citation" data-cites="WORMER200659">(Wormer and Paldus 2006)</span>. However, we do not use this terminology to avoid the inevitable confusion with <em>3-jm symbols</em>.</p>
+<h3 id="sec:6j"><span class="header-section-number">8.8.2</span> 6-j symbol</h3>
+<p>Now, consider another case where we have a sum of three angular momenta <span class="math display">\[\hat{\bm{J}}^{(123)} = \hat{\bm{J}}^{(1)} + \hat{\bm{J}}^{(2)} + \hat{\bm{J}}^{(3)}\]</span> and we want to find a set of coupled eigenstates for <span class="math inline">\((\hat{\bm{J}}^{(123)})^2\)</span> and <span class="math inline">\(\hat{J}^{(123)}_3\)</span>. One possibility is to first obtain eigenstates <span class="math inline">\(\ket{j_{1 2} m_{1 2} j_1 j_2}\)</span> of <span class="math inline">\((\hat{\bm{J}}^{(12)})^2\)</span> and <span class="math inline">\(\hat{J}^{(12)}_3\)</span>, where <span class="math inline">\(\hat{\bm{J}}^{(12)}\)</span> is defined as <span class="math display">\[\hat{\bm{J}}^{(12)} = \hat{\bm{J}}^{(1)} + \hat{\bm{J}}^{(2)}\]</span> and then couple these states with <span class="math inline">\(\ket{j_3 m_3}\)</span>, leading to states of the form <span class="math display">\[\ket{((1 2) 3) j_{1 2 3} m_{1 2 3} j_{1 2} j_1 j_2 j_3} = \sum_{m_1 m_2 m_{1 2} m_3} \ket{j_1 m_1 j_2 m_2 j_3 m_3} \bkt{1, 2 | 12} \bkt{12, 3 | 123}\]</span> which are eigenstates of <span class="math inline">\((\hat{\bm{J}}^{(123)})^2\)</span>, <span class="math inline">\(\hat{J}^{(123)}_3\)</span>, <span class="math inline">\((\hat{\bm{J}}^{(12)})^2\)</span>, <span class="math inline">\((\hat{\bm{J}}^{(1)})^2\)</span>, <span class="math inline">\((\hat{\bm{J}}^{(2)})^2\)</span>, and <span class="math inline">\((\hat{\bm{J}}^{(3)})^2\)</span>.</p>
+<p>It is clear that we have introduced a bias to the <span class="math inline">\(\hat{\bm{J}}^{(12)}\)</span> here. What if instead we couple <span class="math inline">\(\hat{\bm{J}}^{(2)}\)</span> to <span class="math inline">\(\hat{\bm{J}}^{(3)}\)</span>, and then couple <span class="math inline">\(\hat{\bm{J}}^{(1)}\)</span> to that? Then we would obtain the states <span class="math display">\[\ket{(1 (2 3)) j_{1 2 3} m_{1 2 3} j_{2 3} j_1 j_2 j_3} = \sum_{m_1 m_2 m_3 m_{2 3}} \ket{j_1 m_1 j_2 m_2 j_3 m_3} \bkt{2, 3 | 23} \bkt{1, 23 | 123}\]</span> Or we also couple <span class="math inline">\(\hat{\bm{J}}^{(1)}\)</span> to <span class="math inline">\(\hat{\bm{J}}^{(3)}\)</span>, and then to <span class="math inline">\(\hat{\bm{J}}^{(2)}\)</span>, leading to the states <span class="math display">\[\ket{((1 3) 2) j_{1 2 3} m_{1 2 3} j_{1 3} j_1 j_2 j_3} = \sum_{m_1 m_3 m_{1 3} m_2} \ket{j_1 m_1 j_2 m_2 j_3 m_3} \bkt{1, 3 | 13} \bkt{13, 2 | 123}\]</span> These choices lead to very different sets of eigenstates that are related by nontrivial coefficients. There are also several other ways to couple, such as ((21)3), (1(32)), (2(13)), etc, but they are equivalent to one of the above three up to a phase factor akin to Eq. <a href="angular-momentum-coupling.html#eq:cg-flip-phase">32</a>.</p>
+<p>To convert from, say, ((12)3) to (1(23)), we would require the following <span class="math inline">\(m\)</span>-independent recoupling coefficient: <span class="math display">\[\bkt{((12)3) j_{1 2 3}&#39; j_{1 2} j_1&#39; j_2&#39; j_3&#39; | (1(23)) j_{1 2 3} j_{2 3} j_1 j_2 j_3}\]</span> The selection rules tell us that the primed quantities have to match the unprimed quantities. So the only nontrivial elements are: <span class="math display">\[\begin{gather*}
+  \bkt{((12)3) j_{1 2 3} j_{1 2} j_1 j_2 j_3 | (1(23)) j_{1 2 3} j_{2 3} j_1 j_2 j_3} \\
+  = \frac{1}{\jweight{j}_{1 2 3}^2} \sum_{m_1 m_2 m_3 m_{1 2} m_{2 3} m_{1 2 3}} \bkt{12, 3 | 123} \bkt{1, 2 | 12} \bkt{2, 3 | 23} \bkt{1, 23 | 123}
+\end{gather*}\]</span> Hence, the coupling of states is also not associative, even though the addition of angular momenta operators is.</p>
+<figure>
+<img src="fig-6j" alt="Figure 16: 6-j symbol: \{1 2 3 4 5 6\} = (1 2 3) (1 \check{5} 6) (2 \check{6} 4) (3 \check{4} 5) in Eq. 33" id="fig:6j" /><figcaption>Figure 16: 6-j symbol: <span class="math inline">\(\{1 2 3 4 5 6\} = (1 2 3) (1 \check{5} 6) (2 \check{6} 4) (3 \check{4} 5)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:6j">33</a></figcaption>
+</figure>
+<p>The recoupling coefficient <span class="math inline">\(\bkt{((12)3) j_{1 2 3} j_{1 2} j_1 j_2 j_3 | (1(23)) j_{1 2 3} j_{2 3} j_1 j_2 j_3}\)</span> can be expressed in terms of a quantity called the <strong>6-j symbol</strong>, defined as <span id="eq:6j"><span class="math display">\[\begin{aligned}
+  \begin{Bmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    j_4 &amp; j_5 &amp; j_6 \\
+  \end{Bmatrix}
+  &amp;= \sum_{m_1 m_2 m_3 m_4 m_5 m_6}
+  (-)^{j_4 - m_4 + j_5 - m_5 + j_6 - m_6}
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix} \\
+  &amp;\quad
+  \begin{pmatrix}
+    j_1 &amp; j_5 &amp; j_6 \\
+    m_1 &amp; -m_5 &amp; m_6 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_2 &amp; j_6 &amp; j_4 \\
+    m_2 &amp; -m_6 &amp; m_4 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_3 &amp; j_4 &amp; j_5 \\
+    m_3 &amp; -m_4 &amp; m_5 \\
+  \end{pmatrix}
+\end{aligned}\qquad(33)\]</span></span> Fig. <a href="angular-momentum-coupling.html#fig:6j">16</a> shows the diagram for a 6-j symbol, which corresponds to the following diagrammatic shorthand: <span class="math display">\[\{1 2 3 4 5 6\} = (1 2 3) (1 \check{5} 6) (2 \check{6} 4) (3 \check{4} 5)\]</span></p>
+<p>We may now write the aforementioned recoupling coefficient as: <span class="math display">\[\begin{gather*}
+  \bkt{((12)3) j_{1 2 3} j_{1 2} j_1 j_2 j_3 | (1(23)) j_{1 2 3} j_{2 3} j_1 j_2 j_3}
+  = (-)^{j_1 + j_2 + j_3 + j_{1 2 3}} \jweight{j}_{1 2} \jweight{j}_{2 3} \begin{Bmatrix}
+    j_1 &amp; j_2 &amp; j_{1 2} \\
+    j_3 &amp; j_{1 2 3} &amp; j_{2 3} \\
+  \end{Bmatrix}
+\end{gather*}\]</span></p>
+<p>The 6-j symbol has the nonlocal selection rules corresponding to those of its 3-jm nodes, which are simply the following triangle conditions: <span class="math display">\[\begin{align*}
+  &amp;\tridelta{j_1}{j_2}{j_3} &amp;
+  &amp;\tridelta{j_1}{j_5}{j_6} &amp;
+  &amp;\tridelta{j_2}{j_6}{j_4} &amp;
+  &amp;\tridelta{j_3}{j_4}{j_5} &amp;
+\end{align*}\]</span></p>
+<p>Note that Fig. <a href="angular-momentum-coupling.html#fig:6j">16</a> is only one out of several ways to draw a 6-j symbol. It has in fact several interesting symmetries that are not immediately obvious. For example, the columns of the 6-j symbol can be permuted <em>arbitrarily</em> (both odd and even permutations): <span class="math display">\[\begin{align*}
+  \begin{Bmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    j_4 &amp; j_5 &amp; j_6 \\
+  \end{Bmatrix}
+  =
+  \begin{Bmatrix}
+    j_2 &amp; j_1 &amp; j_3 \\
+    j_5 &amp; j_4 &amp; j_6 \\
+  \end{Bmatrix}
+  =
+  \begin{Bmatrix}
+    j_2 &amp; j_3 &amp; j_1 \\
+    j_5 &amp; j_6 &amp; j_4 \\
+  \end{Bmatrix}
+  = \cdots
+\end{align*}\]</span> It also has the following tetrahedral symmetries: <span class="math display">\[\begin{align*}
+  \begin{Bmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    j_4 &amp; j_5 &amp; j_6 \\
+  \end{Bmatrix}
+  =
+  \begin{Bmatrix}
+    j_4 &amp; j_5 &amp; j_3 \\
+    j_1 &amp; j_2 &amp; j_6 \\
+  \end{Bmatrix}
+  =
+  \begin{Bmatrix}
+    j_4 &amp; j_2 &amp; j_6 \\
+    j_1 &amp; j_5 &amp; j_3 \\
+  \end{Bmatrix}
+  =
+  \begin{Bmatrix}
+    j_1 &amp; j_5 &amp; j_6 \\
+    j_4 &amp; j_2 &amp; j_3 \\
+  \end{Bmatrix}
+\end{align*}\]</span></p>
+<h3 id="sec:9j"><span class="header-section-number">8.8.3</span> 9-j symbol</h3>
+<figure>
+<img src="fig-9j" alt="Figure 17: 9-j symbol: \{1 2 3 4 5 6 7 8 9\} = (1 2 3) (4 5 6) (7 8 9) (1 4 7) (2 5 8) (3 6 9) in Eq. 34" id="fig:9j" /><figcaption>Figure 17: 9-j symbol: <span class="math inline">\(\{1 2 3 4 5 6 7 8 9\} = (1 2 3) (4 5 6) (7 8 9) (1 4 7) (2 5 8) (3 6 9)\)</span> in Eq. <a href="angular-momentum-coupling.html#eq:9j">34</a></figcaption>
+</figure>
+<p>Certain recouplings four or more angular momenta can lead to another type of irreducible diagram known as the <strong>9-j symbol</strong>, defined as: <span id="eq:9j"><span class="math display">\[\begin{aligned}
+  \begin{Bmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    j_4 &amp; j_5 &amp; j_6 \\
+    j_7 &amp; j_8 &amp; j_9 \\
+  \end{Bmatrix}
+  &amp;= \sum_{m_1 m_2 m_3 m_4 m_5 m_6 m_7 m_8 m_9} \\
+  &amp;\quad
+  \begin{pmatrix}
+    j_1 &amp; j_2 &amp; j_3 \\
+    m_1 &amp; m_2 &amp; m_3 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_4 &amp; j_5 &amp; j_6 \\
+    m_4 &amp; m_5 &amp; m_6 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_7 &amp; j_8 &amp; j_9 \\
+    m_7 &amp; m_8 &amp; m_9 \\
+  \end{pmatrix} \\
+  &amp;\quad
+  \begin{pmatrix}
+    j_1 &amp; j_4 &amp; j_7 \\
+    m_1 &amp; m_4 &amp; m_7 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_2 &amp; j_5 &amp; j_8 \\
+    m_2 &amp; m_5 &amp; m_8 \\
+  \end{pmatrix}
+  \begin{pmatrix}
+    j_3 &amp; j_6 &amp; j_9 \\
+    m_3 &amp; m_6 &amp; m_9 \\
+  \end{pmatrix}
+\end{aligned}\qquad(34)\]</span></span> This is shown diagrammatically in Fig. <a href="angular-momentum-coupling.html#fig:9j">17</a>, which can be expressed as the following shorthand: <span class="math display">\[\{1 2 3 4 5 6 7 8 9\} = (1 2 3) (4 5 6) (7 8 9) (1 4 7) (2 5 8) (3 6 9)\]</span></p>
+<p>The nonlocal selection rules of 9-j symbols are simply triangle conditions on all row and column triplets. They are invariant under reflections about either diagonal, and also invariant under even permutations of rows or columns. An odd permutation would introduce a phase factor of <span class="math inline">\((-)^{\sum_{i = 0}^9 j_i}\)</span>.</p>
+<h2 id="calculation-of-angular-momentum-coefficients"><span class="header-section-number">8.9</span> Calculation of angular momentum coefficients</h2>
+<p>Numerical values of the coupling and recoupling coefficients (i.e. 3-jm, 6-j, and 9-j symbols) can be calculated readily using the formulas as given in this chapter. Due to the presence of large alternating sums, use of arbitrary-precision arithmetic is highly recommended to avoid catastrophic loss of precision.</p>
+<p>Optimized variants of the formulas for 3-jm, 6-j, and 9-j symbols have been described in detail in <span class="citation" data-cites="WEI1999222 doi:10.1063/1.168745">(Wei 1999, 1998)</span>. These have been implemented in the <code>wigner-symbols</code> software packages in Rust <span class="citation" data-cites="WSR">(“Wigner-Symbols” 2017)</span> and Haskell <span class="citation" data-cites="WSH">(“Wigner-Symbols” 2015)</span>, which leverage the GNU Multi Precision (GMP) Arithmetic Library <span class="citation" data-cites="Granlund12">(Granlund and the GMP development team 2016)</span> for its highly optimized arbitrary-precision integer and rational arithmetic.</p>
+<p>Even with the fastest algorithms, it is often more performant to reuse (re)coupling coefficients that have been previously computed and cached in memory than to recompute them again. For this, the storage scheme devised in <span class="citation" data-cites="doi:10.1137/S1064827503422932">(Rasch and Yu 2004)</span> based on Regge symmetries can help reduce the total memory usage. The storage scheme consists of two main parts:</p>
+<ul>
+<li>A canonicalization scheme that uses the symmetries of the coupling coefficients to link ones that differ by a trivial phase factor.</li>
+<li>An indexing scheme that translates canonicalized angular momenta into an array index, allowing rapid lookup of elements.</li>
+</ul>
+<p>In practice, we found the canonicalization scheme most useful for calculations as it provides a guaranteed 1-2 orders of magnitude reduction in memory usage. In contrast, the indexing scheme is not substantially faster than a plain hash-table lookup and comes with the disadvantage of requiring all coefficients to be precomputed up to some limit. This makes it somewhat difficult to use in practice and can result in wasted memory if the limit is overestimated.</p>
+<h2 id="sec:jucys"><span class="header-section-number">8.10</span> Graphical tool for angular momentum diagrams</h2>
+<p>We have developed a graphical tool <span class="citation" data-cites="Jucys">(“Jucys,” n.d.)</span> that can be used to perform graphical manipulation of angular momentum coefficients with the diagrammatic technique explained in this chapter, with a few slight modifications. Specifically, non-diagrammatic objects such as phases, <span class="math inline">\(\jweight{j}\)</span>-like factors, Kronecker deltas, or summations over <span class="math inline">\(j\)</span>-type variables are all tracked separately in a <strong>tableau</strong> that is displayed beside the diagram.</p>
+<p>The primary motivation of the tool is to eliminate human errors that commonly occur in angular momentum algebra and improve the speed of such derivations. To achieve this, the diagram offers a special <em>reduction mode</em> that, when activated, <em>ensures that all of the user’s diagrammatic manipulations preserve equality</em>. The user modifies the diagram through various gestures and clicks of the mouse cursor. The program is responsible for enforcing the diagrammatic rules, including orthogonal relations, separation rules, various phase rules, etc.</p>
+<p>The program comes with a separate <em>input tool</em> for writing angular momentum expressions, without which the user would have to manually draw angular momentum diagrams node by node – a tedious and error-prone process. The input tool provides fast means of describing coupling coefficients in text, reducing the room for human error. As an example, the Pandya transformation coefficient for spherical scalars is described by the following input:</p>
+<pre><code>rel (p + q) (r + s)
+rec (p - s) (r - q)</code></pre>
+<p>Here, <code>rel</code> equates the two angular momenta <code>p + q</code> and <code>r + s</code>. The <code>rec</code> equates the two angular momenta <code>p - s</code> and <code>r - q</code> but also includes an extra <span class="math inline">\(1 / \jweight{j}_{p s}^2\)</span> factor. The plus sign in <code>p + q</code> denotes the usual CG coupling <span class="math display">\[\bkt{p, q | pq} = \bkt{j_p m_p j_q m_q | j_{pq} m_{pq}}\]</span> whereas the minus sign in <code>p - s</code> denotes coupling with the second angular momentum time-reversed: <span id="eq:time-reversed-clebschgordan"><span class="math display">\[\bkt{p, \check{s} | ps} = (-)^{j_s - m_s} \bkt{j_p, m_p, j_s, -m_s | j_{ps}, m_{ps}}\qquad(35)\]</span></span> After providing this input to the tool, the corresponding 6-j diagram can be rapidly derived along with the associated phases and factors.</p>
+<p>As another example, the Pandya transformation coefficient for a spherical tensor <span class="math inline">\(\hat{A}^{j_A}_{m_A}\)</span> is described by</p>
+<pre><code>wet (p + q) A (r + s)
+wet (p - s) A (r - q)</code></pre>
+<p>Here, <code>wet</code> denotes the use of the Wigner–Eckart coupling and the central <code>A</code> variable is the rank <span class="math inline">\(j_A\)</span> of the spherical tensor. After providing this input, one can quickly derive the corresponding 9-j diagram with the associated phases and factors.</p>
+<p>The tool is a web application written in a combination of JavaScript, HTML, and CSS. It can therefore run in any modern Internet browser and is accessible to users on most desktop platforms. An online version is available for immediate use, but the user can also run the application on their own machine with the appropriate setup. It utilizes SVG technology to display diagrams, making it straightforward to export diagrams as vector images, suitable for use in literature as we have done in this work.</p>
+<p>We will not attempt to explain the usage of the program here, as that information will very likely become out of date as the program evolves. Interested users are advised to read the official documentation for usage information.</p>
+<h2 id="sec:j-scheme"><span class="header-section-number">8.11</span> Fermionic states in J-scheme</h2>
+<p><strong>J-scheme</strong> is a many-body formalism that takes advantage of angular momentum conservation to reduce the dimensionality of the problem (i.e. the computational cost and size of matrices). In this context, the usual formalism where we do not take advantage of angular momentum symmetries is dubbed <strong>M-scheme</strong> for contrast.</p>
+<p>We use <span class="math inline">\(a, b, c, \ldots\)</span> to label single-particle states in this section. We assume each state has some definite angular-momentum-like quantum numbers: magnitude <span class="math inline">\(j\)</span> and projection <span class="math inline">\(m\)</span>, along with some other quantum number(s) <span class="math inline">\(\alpha\)</span> that are not relevant here.</p>
+<h3 id="two-particle-states"><span class="header-section-number">8.11.1</span> Two-particle states</h3>
+<p>A two-particle J-coupled product state is defined as <span class="math display">\[\begin{align*}
+  \ket{\alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b}}
+  &amp;= \sum_{m_a m_b} \ket{a \otimes b} \bkt{a, b | a b} \\
+  &amp;= \sum_{m_a m_b} \ket{\alpha_a j_a m_a \otimes \alpha_b j_b m_b} \bkt{j_a m_a j_b m_b | j_{a b} m_{a b}}
+\end{align*}\]</span> where <span class="math inline">\(\bkt{a, b | a b} = \bkt{j_a m_a j_b m_b | j_{a b} m_{a b}}\)</span> is the Clebsch–Gordan coefficient (Sec. <a href="angular-momentum-coupling.html#sec:clebschgordan">8.2</a>) and <span class="math inline">\(\ket{a \otimes b} = \ket{\alpha_a j_a m_a \otimes \alpha_b j_b m_b}\)</span> denotes the (non-antisymmetrized) tensor product state (Sec. <a href="many-body-theory.html#sec:prod-state">6.1.1</a>) in M-scheme. To keep things concise, we will use the following shorthand for coupled product states: <span class="math display">\[\ket{(12) a \otimes b} = \ket{\alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b}}\]</span> Keep in mind that unlike M-scheme, the states in J-scheme do <em>not</em> depend on the individual projections <span class="math inline">\(m_a\)</span> and <span class="math inline">\(m_b\)</span>, only total <span class="math inline">\(m_{a b}\)</span>.</p>
+<p>The coupled product states are eigenstates of the total <span class="math inline">\(\hat{J}^2\)</span> of all particles, <span class="math display">\[\hat{J}^2 |(12) a \otimes b \rangle = j_{a b} (j_{a b} + 1) |(12) a \otimes b \rangle\]</span> In contrast, uncoupled states are not eigenstates of <span class="math inline">\(\hat{J}^2\)</span>.</p>
+<p>For fermionic problems, we can form an antisymmetrized state for J-scheme. The most straightforward way to do this is by coupling the antisymmetrized state, <span class="math display">\[| \alpha_a j_a \alpha_b j_b; j_{a b} m_{a b} \rangle = \frac{1}{\sqrt{N_{a b}}} \sum_{m_a m_b} | a b \rangle \langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle\]</span> where the normalization factor is given by <span id="eq:two-particle-j-normalization-factor"><span class="math display">\[N_{a b} = 1 - (-)^{2 j_a + j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}\qquad(36)\]</span></span> If the normalization factor is zero, then the antisymmetrized state does not exist.</p>
+<p>Note that <span class="math inline">\(N_{a b}\)</span> depends on only the non-<span class="math inline">\(m\)</span> parts of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. If <span class="math inline">\(j_a\)</span> and <span class="math inline">\(j_b\)</span> are always half-odd, then the normalization factor can be further simplified to <span class="math inline">\(N_{a b} = 1 + (-)^{j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}\)</span>, which means if <span class="math inline">\(\alpha_a = \alpha_b\)</span> and <span class="math inline">\(j_a = j_b\)</span>, then states with odd <span class="math inline">\(j_{a b}\)</span> do not exist.</p>
+<p>As before, we will also introduce a shorthand for the antisymmetrized states, <span class="math display">\[\ket{(12) a b} = \ket{\alpha_a j_a \alpha_b j_b; j_{a b} m_{a b}}\]</span> which depends on neither <span class="math inline">\(m_a\)</span> nor <span class="math inline">\(m_b\)</span>.</p>
+<p>Alternatively, one can also obtain the same state from a J-coupled product state: <span class="math display">\[\begin{align*}
+  \ket{(12) a b}
+  &amp;= \sqrt{\frac{2}{N_{a b}}} \symm^{(1 + j_a + j_b - j_{a b})} \ket{(12) a \otimes b} \\
+  &amp;= \frac{1}{\sqrt{2 N_{a b}}} \left(\ket{(12) a \otimes b} - (-)^{j_a + j_b - j_{a b}} \ket{(12) b \otimes a}\right)
+\end{align*}\]</span> where <span class="math inline">\(\symm^{(1 + j_a + j_b - j_{a b})}\)</span> is the <span class="math inline">\(\pm\)</span>-symmetrization symbol introduced in Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>, <span class="math display">\[\symm^{(1 + j_a + j_b - j_{a b})} X_{a b} = \frac{1}{2} \left(X_{a b} + (-)^{1 + j_a + j_b - j_{a b}} X_{b a}\right)\]</span></p>
+<p>Note that the antisymmetrizer <span class="math inline">\(\hat{S}^-\)</span> (Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>) operates differently in J-scheme compared to in M-scheme: matrix elements of the antisymmetrizer <span class="math inline">\(\hat{S}^-\)</span> are not always antisymmetric with respect to <span class="math inline">\((j, \alpha)\)</span> in J-scheme; instead they depend on the parity of <span class="math inline">\(j_a + j_b - j_{a b}\)</span>. This becomes even more complex for 3 or more particles as the matrix elements of the antisymmetrizer may contain 6-j or higher symbols.</p>
+<p>Under particle exchange, the J-scheme antisymmetrized state has the following property: <span class="math display">\[|(12) a b \rangle = -(-)^{j_a + j_b - j_{a b}} |(12) b a \rangle\]</span></p>
+<p>In J-scheme, the two-body antisymmetrized matrix elements are related to the product matrix elements by <span class="math display">\[\begin{align*}
+  &amp;\bra{(12) a b} \hat{V} \ket{(12) c d} \\
+  &amp;= \sqrt{\frac{2}{N_{a b}}} \bra{(12) a \otimes b} \hat{V} \ket{(12) c d} \\
+  &amp;= \frac{1}{\sqrt{N_{a b} N_{c d}}} \left(\bra{(12) a \otimes b} \hat{V} \ket{(12) c \otimes d} - (-)^{j_c + j_d - j_{c d}} \bra{(12) a \otimes b} \hat{V} \ket{(12) d \otimes c}\right)
+\end{align*}\]</span></p>
+<h3 id="three-particle-states"><span class="header-section-number">8.11.2</span> Three-particle states</h3>
+<p>Three-particle states have 3 nontrivially distinct ways of coupling. We will stick to the convention of coupling the first two, then the third, which we call the <strong>standard coupling order</strong>. In this case, the product state in J-scheme is given by <span class="math display">\[|((12)3) a \otimes b \otimes c \rangle = \sum_{m_a m_b m_c} | a \otimes b \otimes c \rangle \bkt{a, b | ab} \bkt{ab, c | abc}\]</span> As usual, the J-scheme antisymmetrized state is formed by coupling the M-scheme antisymmetrized state, <span class="math display">\[|((12)3) a b c \rangle
+= \frac{1}{\sqrt{N_{(a b) c}}} \sum_{m_a m_b m_c}| a b c \rangle \bkt{a, b | ab} \bkt{ab, c | abc}\]</span> where the normalization constant <span class="math inline">\(N_{(a b) c}\)</span> is given by <span class="math display">\[\begin{align*}
+  N_{(a b) c} &amp;= 1 - (-)^{2 j_a + j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}
+  \\ &amp;\quad
+  - (-)^{2 j_{a b c}} \jweight{j}_{a b} \begin{Bmatrix}
+    j_a &amp; j_b &amp; j_{a b} \\
+    j_{a b c} &amp; j_b &amp; j_{a b} \\
+  \end{Bmatrix} \delta_{\alpha_b \alpha_c} \delta_{j_b j_c}
+  \\ &amp;\quad
+  - (-)^{2 j_{a b c}} \jweight{j}_{a b} \begin{Bmatrix}
+    j_b &amp; j_a &amp; j_{a b} \\
+    j_{a b c} &amp; j_a &amp; j_{a b} \\
+  \end{Bmatrix} \delta_{\alpha_a \alpha_c} \delta_{j_a j_c}
+  \\ &amp;\quad
+  + 2 (-)^{j_{a b}} \jweight{j}_{a b} \begin{Bmatrix}
+    j_a &amp; j_a &amp; j_{a b} \\
+    j_{a b c} &amp; j_a &amp; j_{a b} \\
+  \end{Bmatrix} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b} \delta_{\alpha_a \alpha_c} \delta_{j_a j_c}
+\end{align*}\]</span></p>
+<h2 id="matrix-elements-in-j-scheme"><span class="header-section-number">8.12</span> Matrix elements in J-scheme</h2>
+<p>In this work, we do not use normalized J-scheme states: equations tend to be simpler if we use <strong>unnormalized matrix elements</strong> in which the <span class="math inline">\(1 / \sqrt{N}\)</span> factor (see Eq. <a href="angular-momentum-coupling.html#eq:two-particle-j-normalization-factor">36</a>) is omitted. This convention is used throughout.</p>
+<h3 id="standard-coupled-matrix-elements"><span class="header-section-number">8.12.1</span> Standard-coupled matrix elements</h3>
+<p>Given an M-scheme two-body matrix <span class="math inline">\(A^{m_p m_q m_r m_s}_{p q r s}\)</span>, we can couple <span class="math inline">\(p\)</span> to <span class="math inline">\(q\)</span> and <span class="math inline">\(r\)</span> to <span class="math inline">\(s\)</span>, <span class="math display">\[A^{j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s} = \sum_{m_p m_q m_r m_s} \bkt{p, q | pq} \bkt{r, s | rs} A^{m_p m_q m_r m_s}_{p q r s}\]</span> where <span class="math inline">\(\bkt{p, q | pq} = \bkt{j_p m_p j_q m_q | j_{p q} m_{p q}}\)</span> is the CG coefficient (Sec. <a href="angular-momentum-coupling.html#sec:clebschgordan">8.2</a>). We call this the <strong>standard coupling</strong> for two-body matrix elements and denote it by schematically as <span class="math inline">\(1 2; 3 4\)</span>. We will often omit the <span class="math inline">\((1 2; 3 4)\)</span> superscript as we consider this the default coupling scheme.</p>
+<p>If the matrix is a spherical scalar, then thanks to the Wigner–Eckart theorem we can omit many of the superscripts: <span class="math display">\[A^{j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s} = \delta_{j_{p q} j_{r s}} \delta_{m_{p q} m_{r s}} A^{j_{p q} (1 2; 3 4)}_{p q r s}\]</span> where <span class="math inline">\(A^{j_{p q} (1 2; 3 4)}_{p q r s}\)</span> denotes the reduced matrix element in the CG convention (Sec. <a href="angular-momentum-coupling.html#sec:wigner-eckart">8.6</a>). Like any reduced matrix element, it is entirely independent of <span class="math inline">\(m\)</span>.</p>
+<p>If <span class="math inline">\(\hat{A}\)</span> is a spherical tensor of rank <span class="math inline">\(j_A\)</span> and projection <span class="math inline">\(m_A\)</span>, then it is more convenient to use the reduced matrix element in the 3-jm convention <span class="math display">\[A^{j_A m_A j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s}
+  = (-)^{j_{p q} - m_{p q}}
+  \begin{pmatrix}
+    j_{p s} &amp; j_A &amp; j_{r q} \\
+    -m_{p s} &amp; m_A &amp; m_{r q}
+  \end{pmatrix}
+  A^{j_A j_{p q} j_{r s} (1 2; 3 4)}_{p q r s}\]</span></p>
+<p>The standard coupling can be extended for higher-body operators: one simply couples the bra and ket indices in the order as written. For example, a three-body matrix in standard coupling would be <span class="math display">\[\begin{gather*}
+  A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} \\
+  = \sum_{m_p m_q m_r m_s m_t m_u} \bkt{p, q | pq} \bkt{pq, r | pqr} \bkt{s, t | st} \bkt{st, u | stu} A^{m_p m_q m_r m_s m_t m_u}_{p q r s t u}
+\end{gather*}\]</span> This is denoted schematically by <span class="math inline">\((1 2) 3; (4 5) 6\)</span>. In the case of spherical scalars, we have the following reduced matrix elements in the CG convention: <span class="math display">\[A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} = \delta_{j_{p q r} j_{s t u}} \delta_{m_{p q r} m_{s t u}} A^{j_{p q r} j_{p q} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u}\]</span></p>
+<h3 id="sec:pandya"><span class="header-section-number">8.12.2</span> Pandya-coupled matrix elements</h3>
+<p>Besides the standard coupling, two-body operators can be coupled in several other ways. Some are equivalent to <span class="math inline">\(1 2; 3 4\)</span> up to a phase factor. A nontrivial combination is the <strong>Pandya coupling</strong> <span class="citation" data-cites="PhysRev.103.956 Suhonen2007">(Pandya 1956; Suhonen 2007)</span> <span class="math inline">\(1 \check{4}; 3 \check{2}\)</span>: <span class="math display">\[A^{j_{p s} m_{p s} j_{r q} m_{r q} (1 \check{4}; 3 \check{2})}_{p s r q} = -\sum_{m_p m_s m_r m_q} \bkt{p, \check{s} | ps} \bkt{r, \check{q} | rq} A^{m_p m_q m_r m_s}_{p q r s}\]</span> where the <span class="math inline">\(\bkt{p, \check{s} | ps}\)</span> uses the time-reversed CG notation introduced in Eq. <a href="angular-momentum-coupling.html#eq:time-reversed-clebschgordan">35</a>.</p>
+<p>The extraneous minus sign in front of the summation is conventional: if we treat this a recoupling of field operators, we would obtain a minus sign due to antisymmetry since the permutation <span class="math inline">\(1 2 3 4 \to 1 4 3 2\)</span> is odd. If instead we omit the extraneous minus sign, the coupling is often referred to as <strong>cross-coupling</strong> <span class="citation" data-cites="KUO1981237">(Kuo et al. 1981)</span> rather than Pandya-coupling.</p>
+<p>For spherical scalars, we have the following reduced matrix elements in the CG convention. <span class="math display">\[A^{j_{p s} m_{p s} j_{r q} m_{r q} (1 \check{4}; 3 \check{2})}_{p s r q} = \delta_{j_{p s} j_{r q}} \delta_{m_{p s} m_{r q}} A^{j_{p s} (1 \check{4}; 3 \check{2})}_{p s r q}\]</span> They are related to the standard-coupled reduced matrix elements the <strong>Pandya transformation</strong>: <span class="math display">\[A^{j_{p s} (1 \check{4}; 3 \check{2})}_{p s r q} =
+  -\sum_{j_{p q}}
+  (-)^{2 j_{p q}}
+  \jweight{j}_{p q}^2
+  \begin{Bmatrix}
+    j_p &amp; j_q &amp; j_{p q} \\
+    j_r &amp; j_s &amp; j_{p s} \\
+  \end{Bmatrix}
+  A^{j_{p q} (1 2; 3 4)}_{p q r s}
+\]</span></p>
+<p>The inverse Pandya transformation is nearly the same: <span class="math display">\[A^{j_{p s} (1 2; 3 4)}_{p q r s} =
+  -(-)^{2 j_{p q}}
+  \sum_{j_{p s}}
+  \jweight{j}_{p s}^2
+  \begin{Bmatrix}
+    j_p &amp; j_q &amp; j_{p q} \\
+    j_r &amp; j_s &amp; j_{p s} \\
+  \end{Bmatrix}
+  A^{j_{p s} (1 \check{4}; 3 \check{2})}_{p s r q}
+\]</span></p>
+<p>However, typically when Pandya-coupled matrices are involved, the fermionic antisymmetry is temporarily broken. As a result, in our implementation, Pandya-coupled matrices are not antisymmetrized even though standard-coupled matrices are. To restore the antisymmetry when performing the inverse transformation, we must perform an explicit antisymmetrization during the inverse transformation: <span class="math display">\[A_{p q r s}^{1 2; 3 4} =
+  -(-)^{2 j_{p q}}
+  \symm^{(1 + j_p + j_q - j_{p q})}_{p q}
+  \symm^{(1 + j_r + j_s - j_{r s})}_{r s}
+  \sum_{j_{p s}}
+  \jweight{j}_{p s}^2
+  \begin{Bmatrix}
+    j_p &amp; j_q &amp; j_{p q} \\
+    j_r &amp; j_s &amp; j_{p s} \\
+  \end{Bmatrix}
+  \tilde{A}^{1 \check{4}; 3 \check{2}}_{p s r q}\]</span> where the tilde symbol (<span class="math inline">\(\tilde{A}\)</span>) indicates that the matrix element is not antisymmetrized and <span class="math inline">\(\symm^{(i)}\)</span> is the <span class="math inline">\((-)^i\)</span>-symmetrization symbol in Sec. <a href="many-body-theory.html#sec:symmetrization">6.1.2</a>.</p>
+<p>For completeness, we also include the Pandya transformation for spherical tensor operators, <span class="math display">\[A^{j_A j_{p s} j_{r q} (1 \check{4}; 3 \check{2})}_{p s r q} =
+-\sum_{j_{p q} j_{r s}}
+\jweight{j}_{p q}
+\jweight{j}_{r s}
+\jweight{j}_{p s}
+\jweight{j}_{r q}
+(-)^{j_q + j_s - j_{r s} + j_{r q}}
+\begin{Bmatrix}
+j_p &amp; j_q &amp; j_{p q} \\
+j_s &amp; j_r &amp; j_{r s} \\
+j_{p s} &amp; j_{r q} &amp; j_A
+\end{Bmatrix}
+A^{j_A j_{p q} j_{r s} (1 2; 3 4)}_{p q r s}\]</span> where we use reduced matrix elements in the 3-jm convention, <span class="math display">\[A^{j_A m_A j_{p s} m_{p s} j_{r q} m_{r q} (1 \check{4}; 3 \check{2})}_{p s r q}
+  = (-)^{j_{p s} - m_{p s}}
+  \begin{pmatrix}
+    j_{p s} &amp; j_A &amp; j_{r q} \\
+    -m_{p s} &amp; m_A &amp; m_{r q}
+  \end{pmatrix}
+  A^{j_A j_{p s} j_{r q} (1 \check{4}; 3 \check{2})}_{p s r q}\]</span> The inverse transformation is identical except the summation is over <span class="math inline">\(j_{p s}\)</span> and <span class="math inline">\(j_{r q}\)</span>.</p>
+<h3 id="sec:implicit-j"><span class="header-section-number">8.12.3</span> Implicit-J convention</h3>
+<p>To keep J-scheme of scalar operators concise, we will omit explicit mention of composite angular momenta within the matrix elements: <span class="math display">\[A^{j_{p q}}_{p q r s} \rightsquigarrow A_{p q r s}\]</span> <span class="math display">\[A^{j_{p q r} j_{p q} j_{r s}}_{p q r s t u} \rightsquigarrow A_{p q r s t u}\]</span> We will also omit mentions of Kronecker deltas between angular momenta as well as triangular deltas. We call this the <strong>implicit-J convention</strong>.</p>
+<p>As an example, consider the following scalar equation written in our implicit-J convention: <span class="math display">\[C_{p q} = \frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A_{i p a b} B_{a b i q} \]</span> To decode this, we follow these steps:</p>
+<ol type="1">
+<li><p>We first determine the set of <em>composite</em> angular momentum variables. This comes from a combination of (a) the composite angular momenta from the left-hand side (there are none, since <span class="math inline">\(C_{p q}\)</span> is only one-body), (b) the composite angular momenta that are being explicitly summed over (namely <span class="math inline">\(j_{i p}\)</span>). <span class="math display">\[C_{p q} = \frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A^{j_{i p}}_{i p a b} B^?_{a b i q}\]</span></p></li>
+<li><p>Next, we fill in the remaining slots for composite angular momenta using conservation laws. Since <span class="math inline">\(j_{i p} = j_{a b}\)</span>, the missing angular momentum on <span class="math inline">\(B\)</span> is simply <span class="math inline">\(j_{i p}\)</span>: <span class="math display">\[C_{p q} = \frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A^{j_{i p}}_{i p a b} B^{j_{i p}}_{a b i q}\]</span></p></li>
+<li><p>We may use the conservation laws to determine the Kronecker deltas for the <em>elementary</em> angular momenta: <span class="math display">\[C_{p q} = \frac{1}{2} \delta_{j_p j_q} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A^{j_{i p}}_{i p a b} B^{j_{i p}}_{a b i q}\]</span></p></li>
+<li><p>Finally, we use selection rules to restrict the composite angular momenta via triangular deltas: <span class="math display">\[C_{p q} = \frac{1}{2} \delta_{j_p j_q} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} \tridelta{j_i}{j_p}{j_{i p}} \tridelta{j_a}{j_b}{j_{i p}} A^{j_{i p}}_{i p a b} B^{j_{i p}}_{a b i q}\]</span></p></li>
+</ol>
+<p>This can be generalized to spherical tensors by omitting the tensor ranks: <span class="math display">\[A^{j_A j_{p q} j_{r s}}_{p q r s} \rightsquigarrow A_{p q r s}\]</span> <span class="math display">\[A^{j_A j_{p q r} j_{p q} j_{r s t} j_{r s}}_{p q r s t u} \rightsquigarrow A_{p q r s t u}\]</span> The procedure to decode these is analogous: tensor ranks should be treated like composite angular momenta.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="diagrams.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="methods.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="diagrams.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="methods.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

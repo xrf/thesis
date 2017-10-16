@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Many-body diagrams - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html" class="active"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="many-body-diagrams"><span class="header-section-number">7</span> Many-body diagrams</h1>
+<p>Many-body diagrams <span class="citation" data-cites="Goldstone267 HUGENHOLTZ1957481">(Goldstone 1957; Hugenholtz 1957)</span> provide a graphical way to apply Wick’s theorem in the Fermi vacuum and express summations of matrix elements. They are analogous to Feymann diagrams <span class="citation" data-cites="PhysRev.76.7496">(Feynman 1949)</span> but with single-particle states in lieu of fundamental particles. We will provide an overview of many-body diagrams, but as it is a fairly substantial topic, we refer interested readers to <span class="citation" data-cites="shavitt2009many">(Shavitt and Bartlett 2009)</span> for a more in-depth explanation.</p>
+<p>A diagram is composed of a set of <strong>nodes</strong> (vertices) and a set of possibly directed <strong>lines</strong> (edges), arranged in a layout similar to graphs. However, diagrams do have a few differences that distinguish them from graphs in the conventional sense:</p>
+<ul>
+<li>Nodes may not be point-like entities. They may be drawn in various shapes, and the particular arrangement of lines around a given node can be semantically meaningful.</li>
+<li>The ends of a line do not have to be attached to any node. Such lines, where at least one of the ends is dangling, are called <strong>external lines</strong>, whereas lines that are attached to nodes on both ends are called <strong>internal lines</strong>.</li>
+<li>In Feynmann-like diagrams, including many-body diagrams, one of the axes is defined to be the so-called <strong>time axis</strong> and thus the orientation of the diagram can be semantically meaningful. Either the vertical (upward) or horizontal (leftward) axis may be chosen as the time axis depending on convention. We will use the vertical axis as the time axis. Particles that are created later in time will appear higher in the diagram.</li>
+</ul>
+<p>In many-body diagrams, nodes represent operators. Specifically, a node representing a <span class="math inline">\(k\)</span>-body operator has <span class="math inline">\(k\)</span> outgoing (creation) lines and <span class="math inline">\(k\)</span> incoming (annihilation) lines, corresponding to a normal-ordered operator of the form <span class="math display">\[\begin{gather*}
+  \frac{1}{k!^2} \sum_{p_1 \ldots p_k q_1 \ldots q_k} X_{p_1 \ldots p_k q_1 \ldots q_k} \normord{(\hat{a}_{p_1}^\dagger \hat{a}_{q_1}) \ldots (\hat{a}_{p_k}^\dagger \hat{a}_{q_k})}
+\end{gather*}\]</span> There are two varieties of many-body diagrams, which render operators differently:</p>
+<ul>
+<li><p>In the <strong>Brandow diagrams</strong> (or <strong>antisymmetrized Goldstone diagrams</strong>) <span class="citation" data-cites="RevModPhys.39.771">(Brandow 1967)</span>, nodes are represented by <span class="math inline">\(k\)</span> dots connected by dashed lines. Each dot has exactly one outgoing and one incoming line, thus a dot corresponds to a single creation-annihilation pair <span class="math inline">\(\hat{a}_p^\dagger \hat{a}_q\)</span>. The ordering of the dots among themselves is insignificant as creation-annihilation pairs commute with each other within a normal-ordered product.</p></li>
+<li><p>In the <strong>Hugenholtz diagrams</strong> <span class="citation" data-cites="HUGENHOLTZ1957481">(Hugenholtz 1957)</span>, nodes are collapsed to a single dot with <span class="math inline">\(k\)</span> outgoing and <span class="math inline">\(k\)</span> incoming lines. Since it is no longer feasible to track the pairing between the outgoing and incoming lines, the sign of Hugenholtz diagrams is ambiguous. To transcribe Hugenholtz diagrams into equations with a definite sign, it is necessary to expand Hugenholtz diagrams to Brandow diagrams by pairing up the creation and annihilation operators in an arbitrary manner.</p></li>
+</ul>
+<p>Lines represent variables that label single-particle states. The direction of a line tells us which end has the creation operator (tail) and which end has the annihilation operator (head). There are three kinds of lines:</p>
+<ul>
+<li><p>Internal lines (neither end is dangling): these represent Wick contractions and are always directed (have arrows). The orientation of their arrows with respect to the time axis is significant:</p>
+<ul>
+<li><p>If the direction of the arrow goes <em>along</em> the time axis (in our convention, if the arrow points up), then it represents a <em>particle state</em> <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, … since its creation occurs before its annihilation.</p></li>
+<li><p>If the direction of the arrow goes <em>against</em> the time axis (in our convention, if the arrow points down), then it represents a <em>hole state</em> <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span>, … since its creation occurs after its annihilation.</p></li>
+</ul></li>
+<li><p>External lines where one of the ends is dangling: these represent the variables <span class="math inline">\(p\)</span>, <span class="math inline">\(q\)</span>, <span class="math inline">\(r\)</span>, … of uncontracted field operators and their orientation with respect to the time axis is irrelevant. Outgoing lines (lines that leave the node) represent creation operators, and ingoing lines (lines that enter the node) represent annihilation operators. If all operators conserve particle number, then one can often elide the directions of external lines and have them inferred from context.</p></li>
+<li><p>External lines where both ends are dangling: this is a degenerate case. Such a line represents a Kronecker delta <span class="math inline">\(\delta_{p q}\)</span>, where <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> are the variables on each end of the line. The presence or absence of an arrow is irrelevant.</p></li>
+</ul>
+<p>To illustrate the various parts of a diagram, consider this normal-ordered, partially contracted product <span class="math inline">\(\hat{R}\)</span>, <span id="eq:example-diagram"><span class="math display">\[\hat{R} = \frac{1}{8} \sum_{\substack{p q r s \\ i \backslash a b c}} W_{i p q a b c} F_{a i} \Gamma_{b c r s} \normord{
+  (\lcontr{2}{\hat{a}}_i^\dagger \lcontr{1}{\hat{a}}_a \hat{a}_p^\dagger \lcontr{3}{\hat{a}}_b \hat{a}_q^\dagger \lcontr{4}{\hat{a}}_c)
+  (\rcontr{1}{\hat{a}}_a^\dagger \rcontr{2}{\hat{a}}_i)
+  (\rcontr{3}{\hat{a}}_b^\dagger \hat{a}_r \rcontr{4}{\hat{a}}_c^\dagger \hat{a}_s)
+}\qquad(9)\]</span></span> where <span class="math inline">\(\hat{W}\)</span> is a three-body operator, <span class="math inline">\(\hat{F}\)</span> is a one-body operator, and <span class="math inline">\(\hat{\Gamma}\)</span> is a two-body operator, all defined relative to the Fermi vacuum. The diagrammatic representation of this expression is shown in Fig. <a href="diagrams.html#fig:example-diagram">2</a>.</p>
+<figure>
+<img src="fig-example-diagram" alt="Figure 2: An example of a Brandow diagram representing to Eq. 9. We have intentionally labeled many parts of this diagram to provide a clear correspondence to the algebraic expression. To emphasize the distinction between internal and external lines, we have drawn the arrows of external lines with a different shape than those of internal lines." id="fig:example-diagram" /><figcaption>Figure 2: An example of a Brandow diagram representing to Eq. <a href="diagrams.html#eq:example-diagram">9</a>. We have intentionally labeled many parts of this diagram to provide a clear correspondence to the algebraic expression. To emphasize the distinction between internal and external lines, we have drawn the arrows of external lines with a different shape than those of internal lines.</figcaption>
+</figure>
+<p>The factor of <span class="math inline">\(1/8\)</span> is the <strong>weight</strong> of the diagram. To obtain this number, we examine the symmetries in the Hugenholtz diagram, shown in Fig. <a href="diagrams.html#fig:example-diagram-hugenholtz">3</a>. Observe that <span class="math inline">\(\{p, q\}\)</span> are topologically equivalent, and so are <span class="math inline">\(\{b, c\}\)</span> and <span class="math inline">\(\{r, s\}\)</span>. Thus, the factor should be <span class="math inline">\(1 / (2! \times 2! \times 2!) = 1/8\)</span>.</p>
+<p>The Brandow diagram makes it simple to compute the resultant <em>sign</em> (phase) of the expression in Eq. <a href="diagrams.html#eq:example-diagram">9</a>:</p>
+<ol type="1">
+<li><p>Pair up each outgoing external line with each incoming external line and connect them with a dotted line. The assignment is arbitrary, but once the choice is made, it fixes the ordering of the operators of the resultant expression.</p>
+<p>For example, if we pick <span class="math inline">\((p, r)\)</span> and <span class="math inline">\((q, s)\)</span> in Fig. <a href="diagrams.html#fig:example-diagram">2</a>, then the resultant expression will have the ordering <span class="math inline">\(\normord{\hat{a}_p^\dagger \hat{a}_r \hat{a}_q^\dagger \hat{a}_s}\)</span>.</p></li>
+<li><p>Count (a) number of dotted lines <span class="math inline">\(d\)</span>, (b) the number of internal hole lines <span class="math inline">\(h\)</span>, and (c) the number of loops <span class="math inline">\(\ell\)</span>, including those that are completed by dotted lines. The sign is equal to <span class="math display">\[(-)^{d + h + \ell}\]</span></p>
+<p>In the previous example, we have introduced two dotted lines connecting <span class="math inline">\(p\)</span> to <span class="math inline">\(r\)</span> and <span class="math inline">\(q\)</span> to <span class="math inline">\(s\)</span>. There is one hole line, and a total three loops (two of which contain dotted lines). The sign is therefore positive.</p></li>
+</ol>
+<p>This leads to the final result: <span class="math display">\[\hat{R} = + \frac{1}{8} \sum_{\substack{p q r s \\ i \backslash a b c}} W_{i p q a b c} F_{a i} \Gamma_{b c r s} \normord{\hat{a}_p^\dagger \hat{a}_r \hat{a}_q^\dagger \hat{a}_s}\]</span></p>
+<figure>
+<img src="fig-example-diagram-hugenholtz" alt="Figure 3: A Hugenholtz diagram representing to Eq. 9. This diagram is useful for determining the weight." id="fig:example-diagram-hugenholtz" /><figcaption>Figure 3: A Hugenholtz diagram representing to Eq. <a href="diagrams.html#eq:example-diagram">9</a>. This diagram is useful for determining the weight.</figcaption>
+</figure>
+<h2 id="sec:perturbative-diagrams"><span class="header-section-number">7.1</span> Perturbative diagrams</h2>
+<figure>
+<img src="fig-example-qdpt-diagram" alt="Figure 4: Interpretation of a perturbative Goldstone diagram" id="fig:example-qdpt-diagram" /><figcaption>Figure 4: Interpretation of a perturbative Goldstone diagram</figcaption>
+</figure>
+<p>A variant of many-body diagrams is used in perturbation theory, which introduces an unusual kind of node called <strong>resolvents</strong> or <strong>energy denominators</strong>, drawn as a horizontal line that cuts across the diagram.</p>
+<p>An example of such a diagram is shown on the right-hand side of Fig. <a href="diagrams.html#fig:example-qdpt-diagram">4</a>. Note that to interpret such a diagram correctly, all incoming external lines must be <strong>folded</strong> upward, as shown on the right-hand side. For every denominator line, one divides the summation by the following Møller–Plesset denominator (see also Eq. <a href="hartree-fock.html#eq:moellerplessetdenominator">45</a>): <span class="math display">\[\Delta_{q_1 \ldots q_k p_1 \ldots p_k} = \sum_{i = 1}^k (\varepsilon_{q_i} - \varepsilon_{p_i})\]</span> where <span class="math inline">\(q_1 \ldots q_k\)</span> are all downward lines that cut across the denominator line (including ingoing external lines), <span class="math inline">\(p_1 \ldots p_k\)</span> are all upward lines that cut across the denominator line (including outgoing external lines), and <span class="math inline">\(\varepsilon_p\)</span> denotes the energy of the single-particle state <span class="math inline">\(p\)</span>.</p>
+<p>In the example, the upper denominator is given by <span class="math display">\[\Delta_{i j q a b p} = \varepsilon_i + \varepsilon_j + \varepsilon_q - \varepsilon_a - \varepsilon_b - \varepsilon_p\]</span> whereas the lower denominator is given by <span class="math display">\[\Delta_{i j c p} = \varepsilon_i + \varepsilon_j - \varepsilon_c - \varepsilon_p\]</span></p>
+<p>For presentation purposes, it is common to omit the denominator lines and to unfold a diagram back into the usual non-perturbative layout, as shown on the left-hand side of Fig. <a href="diagrams.html#fig:example-qdpt-diagram">4</a>. To interpret this diagram perturbatively, simply refold the diagram and reinsert denominators between every pair of the <span class="math inline">\(\hat{V}\)</span> interaction nodes.</p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="many-body-theory.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="angular-momentum-coupling.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="many-body-theory.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="angular-momentum-coupling.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>

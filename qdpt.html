@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Quasidegenerate perturbation theory - Addition and removal energies via the in-medium similarity renormalization group method</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+
+        <!-- MathJax -->
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Fetch JQuery from CDN but have a local fallback -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            if (typeof jQuery == 'undefined') {
+                document.write(unescape("%3Cscript src='jquery.js'%3E%3C/script%3E"));
+            }
+        </script>
+    </head>
+    <body class="light">
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = localStorage.getItem('theme');
+            if (theme == null) { theme = 'light'; }
+            $('body').removeClass().addClass(theme);
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = localStorage.getItem('sidebar');
+            if (sidebar === "hidden") { $("html").addClass("sidebar-hidden") }
+            else if (sidebar === "visible") { $("html").addClass("sidebar-visible") }
+        </script>
+
+        <div id="sidebar" class="sidebar">
+            <ul class="chapter"><li class="affix"><a href="abstract.html">Abstract</a></li><li class="affix"><a href="dedication.html">Dedication</a></li><li class="affix"><a href="acknowledgments.html">Acknowledgments</a></li><li class="affix"><a href="key-to-symbols.html">Key to Symbols</a></li><li><a href="introduction.html"><strong>1.</strong> Introduction</a></li><li><a href="many-body-theory.html"><strong>2.</strong> Many-body formalism</a></li><li><ul class="section"><li><a href="diagrams.html"><strong>2.1.</strong> Many-body diagrams</a></li></ul></li><li><a href="angular-momentum-coupling.html"><strong>3.</strong> Angular momentum coupling</a></li><li><a href="methods.html"><strong>4.</strong> Many-body methods</a></li><li><ul class="section"><li><a href="hartree-fock.html"><strong>4.1.</strong> Hartree–Fock method</a></li><li><a href="imsrg.html"><strong>4.2.</strong> In-medium similarity renormalization group method</a></li><li><a href="qdpt.html" class="active"><strong>4.3.</strong> Quasidegenerate perturbation theory</a></li></ul></li><li><a href="systems.html"><strong>5.</strong> Application to quantum systems</a></li><li><ul class="section"><li><a href="quantum-dots.html"><strong>5.1.</strong> Quantum dots</a></li><li><a href="nuclei.html"><strong>5.2.</strong> Nuclei</a></li></ul></li><li><a href="implementation.html"><strong>6.</strong> Implementation</a></li><li><a href="results.html"><strong>7.</strong> Results and analysis</a></li><li><a href="conclusions.html"><strong>8.</strong> Conclusions</a></li><li class="affix"><a href="bibliography.html">References,heading=bibintoc</a></li></ul>
+        </div>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <i id="sidebar-toggle" class="fa fa-bars"></i>
+                        <i id="theme-toggle" class="fa fa-paint-brush"></i>
+                    </div>
+
+                    <h1 class="menu-title">Addition and removal energies via the in-medium similarity renormalization group method</h1>
+
+                    <div class="right-buttons">
+                        <i id="print-button" class="fa fa-print" title="Print this book"></i>
+                    </div>
+                </div>
+
+                <div id="content" class="content">
+                    <h1 id="quasidegenerate-perturbation-theory"><span class="header-section-number">12</span> Quasidegenerate perturbation theory</h1>
+<p>The IM-SRG method provides a means to calculate the ground state energy of any system that is reasonably approximated by a single Slater determinant. This works well for closed-shell systems, but it does not provide a direct means to obtain the ground state energy of open-shell systems. While there exist more complicated multi-reference approaches to IM-SRG that seek to tackle the general problem <span class="citation" data-cites="Hergert2016165">(Hergert et al. 2016)</span>, we opted to use a perturbative approach, which is simple, inexpensive, and as we shall see from the results, quite effective for many problems.</p>
+<p>Quasidegenerate perturbation theory (QDPT) <span class="citation" data-cites="0022-3700-7-18-010 Kvasnicka1974">(Lindgren 1974; Kvasnička 1974)</span> is an extension to the usual perturbation theory framework to support multiple reference states instead of just one. This is useful for solving <em>open-shell</em> systems in which there are multiple reference states sharing similar (quasidegenerate) or equal (degenerate) energies. It is particularly useful if the open-shell system is only a few particles away from a closed-shell system. We will focus primarily on states that are one particle different from a closed-shell system. Specifically, we wish to calculate <strong>addition energies</strong> <span class="math inline">\(\varepsilon_a\)</span> and <strong>removal energies</strong> <span class="math inline">\(\varepsilon_i\)</span> of such systems, defined as <span class="math display">\[\begin{align*}
+  \varepsilon_a &amp;= E_{\Phi_a} - E_{\Phi} &amp;
+  \varepsilon_i &amp;= E_{\Phi} - E_{\Phi_i}
+\end{align*}\]</span> respectively.</p>
+<p>As usual in perturbation theory, we start by splitting the Hamiltonian <span class="math inline">\(\hat{H}\)</span> into two components, <span class="math display">\[\hat{H} = \hat{H}^\circ + \hat{V}\]</span> Here <span class="math inline">\(\hat{H}^\circ\)</span> is the zeroth-order <strong>model Hamiltonian</strong> that is easy to solve (typically a non-interacting Hamiltonian) and <span class="math inline">\(\hat{V}\)</span> is the perturbation that makes the problem difficult. We choose <em>a few</em> of the eigenstates of the model Hamiltonian as our set of model states <span class="math inline">\(\ket{u^{\prime\circ}}\)</span>, <span class="math display">\[\hat{H}^\circ \ket{u^{\prime\circ}} = E^\circ_{u&#39;} \ket{u^{\prime\circ}}\]</span> and we want to solve for the corresponding unknown eigenstates <span class="math inline">\(\ket{u}\)</span> of the full Hamiltonian, <span class="math display">\[\hat{H} \ket{u} = E_u \ket{u}\]</span></p>
+<p>We define a <strong>wave operator</strong> <span class="math inline">\(\hat{\Omega}\)</span> that projects some set of states <span class="math inline">\(\ket{u^\circ}\)</span> from the model space to the true ground state <span class="math inline">\(\ket{u}\)</span> (i.e. of the full Hamiltonian): <span id="eq:omega-condition1"><span class="math display">\[\ket{u} = \hat{\Omega} \ket{u^\circ}\qquad(52)\]</span></span> where <span class="math inline">\(\ket{u^\circ}\)</span> is taken to be a linear combination of our selection of model states <span class="math inline">\(\ket{u^{\prime\circ}}\)</span>, <span class="math display">\[\ket{u^\circ} = \sum_{u&#39;} \ket{u^{\prime\circ}} C_{u&#39; u}\]</span> with <span class="math inline">\(C_{u&#39; u}\)</span> being some coefficient matrix.</p>
+<p>There is some freedom in the choice of the wave operator <span class="math inline">\(\hat{\Omega}\)</span>. We assume it has the following form: <span id="eq:omega-condition2"><span class="math display">\[\hat{\Omega} = \hat{P} + \hat{Q} \hat{\Omega} \hat{P}\qquad(53)\]</span></span> where</p>
+<ul>
+<li><span class="math inline">\(\hat{P}\)</span> is a projection operator for the model space, <span class="math display">\[\hat{P} = \sum_u \hat{P}_u\]</span></li>
+<li><span class="math inline">\(\hat{P}_u\)</span> is the projection operator for <span class="math inline">\(\ket{u^\circ}\)</span>, <span class="math display">\[\hat{P}_u = \ket{u^\circ} \bra{u^\circ}\]</span></li>
+<li><span class="math inline">\(\hat{Q}\)</span> is the complement of <span class="math inline">\(\hat{P}\)</span>, <span class="math display">\[\hat{Q} = 1 - \hat{P}\]</span></li>
+</ul>
+<p>This definition of <span class="math inline">\(\hat{\Omega}\)</span> entails that the exact states <span class="math inline">\(\ket{u}\)</span> are no longer normalized but instead satisfy the so-called <strong>intermediate normalization</strong>, <span class="math display">\[\bkt{u | u^\circ} = 1\]</span></p>
+<p>From Eqns. <a href="qdpt.html#eq:omega-condition1">52</a>, <a href="qdpt.html#eq:omega-condition2">53</a> we observe that <span class="math display">\[\hat{\Omega} \hat{H}^\circ = \hat{\Omega} \hat{P} \hat{H}^\circ \hat{P} \hat{\Omega} = \hat{\Omega} \hat{H}^\circ \hat{\Omega}\]</span> <span class="math display">\[\hat{H} \hat{\Omega} = \sum_u \hat{\Omega} E_u \hat{\Omega} \hat{P}_u = \hat{\Omega} \hat{H} \hat{\Omega}\]</span> These equations can be used to simplify the commutator <span class="math inline">\([\hat{\Omega}, \hat{H}^\circ]\)</span>, leading to the <strong>generalized Bloch equation</strong> <span class="citation" data-cites="LindgrenMorrison1986">(Lindgren and Morrison 1986)</span> that defines QDPT: <span class="math display">\[[\hat{\Omega}, \hat{H}^\circ] = (1 - \hat{\Omega}) \hat{V} \hat{\Omega}\]</span> The commutator on the left may be “inverted” using the resolvent approach <span class="citation" data-cites="shavitt2009many">(Shavitt and Bartlett 2009, 50)</span>, resulting in the relation: <span class="math display">\[\hat{Q} \hat{\Omega} \hat{P}_u = \hat{R}_u (1 - \hat{\Omega}) \hat{V} \hat{\Omega} \hat{P}_u\]</span> where <span class="math inline">\(\hat{R}_u\)</span> is the resolvent,<a href="qdpt.html#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a> <span class="math display">\[\hat{R}_u = \hat{Q} (E^\circ_u - \hat{Q} \hat{H}^\circ \hat{Q})^{-1} \hat{Q}\]</span> Now define <span class="math inline">\(\hat{\Omega}\)</span> as a series of terms of increasing order, quantified by the exponent (degree) of the perturbation <span class="math inline">\(\hat{V}\)</span>, <span class="math display">\[\hat{\Omega} = \sum_{n = 0}^\infty \hat{\Omega}^{(n)}\]</span> We can then derive a recursion relation that allows <span class="math inline">\(\hat{\Omega}\)</span> to be calculated to any order <span class="math display">\[\hat{\Omega}^{(n)} = \begin{cases}
+  \hat{P} &amp; \text{if } n = 0 \\
+  \sum_u \hat{R}_u \left(\hat{V} \hat{\Omega}^{(n - 1)} + \sum_{k = 1}^{n - 1} \hat{\Omega}^{(k)} \hat{V} \hat{\Omega}^{(n - k - 1)}\right) \hat{P}_u &amp; \text{if } n &gt; 0 \\
+\end{cases}\]</span> Up to third order, we have <span class="math display">\[\begin{align*}
+  \hat{\Omega}^{(1)} \hat{P}_u &amp;= \hat{R}_u \hat{V} \hat{P}_u \\
+  \hat{\Omega}^{(2)} \hat{P}_u &amp;=
+    \hat{R}_u \biggl(
+    \hat{V} \hat{R}_u
+    - \sum_v \hat{R}_v \hat{V} \hat{P}_v
+    \biggr) \hat{V} \hat{P}_u \\
+  \hat \Omega^{(3)} \hat{P}_u &amp;=
+    \hat{R}_u \biggl(
+    \hat{V} \hat{R}_u \hat{V} \hat{R}_u
+    - \hat{V} \hat{R}_u \sum_v \hat{R}_v \hat{V} \hat{P}_v
+    - \sum_v \hat{R}_v \hat{V} \hat{P}_v \hat{V} \hat{R}_u \\
+  &amp;\qquad
+    - \sum_v \hat{R}_v \hat{V} \hat{R}_v \hat{V} \hat{P}_v
+    + \sum_v \hat{R}_v \sum_w \hat{R}_w \hat{V} \hat{P}_w \hat{V} \hat{P}_v
+    \biggr) \hat{V} \hat{P}_u
+\end{align*}\]</span></p>
+<p>We can define an <strong>effective Hamiltonian</strong> <span class="math display">\[\hat{H}^{\mathrm{eff}} = \hat{P} \hat{H} \hat{\Omega}\]</span> which acts only in the model space but yields the correct eigenvalues of the full space, <span class="math display">\[\hat{H}^{\mathrm{eff}} \ket{u^\circ} = E_u \ket{u^\circ}\]</span> Thus, the energy corrections are given by: <span class="math display">\[E_u^{(n)} = \begin{cases}
+  \bra{u^\circ} \hat{H}^\circ \ket{u^\circ} &amp; \text{if } n = 0 \\
+  \bra{u^\circ} \hat{V} \hat{\Omega}^{(n - 1)} \ket{u^\circ} &amp; \text{if } n &gt; 0
+\end{cases}\]</span> The coefficients <span class="math inline">\(C_{u&#39; u}\)</span> are obtained by diagonalizing the effective Hamiltonian through the eigenvalue problem, <span id="eq:qdpt-diagonalization"><span class="math display">\[\sum_{v&#39;} \bra{u^{\prime\circ}} \hat{H}^{\mathrm{eff}} \ket{v^{\prime\circ}} C_{v&#39; u} = C_{u&#39; u} E_u\qquad(54)\]</span></span></p>
+<h2 id="sec:qdpt-eqs"><span class="header-section-number">12.1</span> QDPT equations</h2>
+<p>We now consider the application of QDPT to the treatment of addition and removal energies via the particle-hole formalism. Take each reference state to be a Slater determinant constructed by adding or removing a single particle <span class="math inline">\(u\)</span> to an existing closed-shell Fermi vacuum <span class="math inline">\(\ket{\Phi}\)</span>, <span class="math display">\[\ket{u^\circ} = \ket{\Phi_u}\]</span> Take note that in QDPT <em>Fermi vacuum</em> and <em>reference state</em> are no longer synonymous.</p>
+<p>We choose <span class="math inline">\(u\)</span> to be close to the Fermi level: it should be a single-particle state within an adjacent shell (<strong>valence shell</strong>). Therefore, the number of reference states in the model space of QDPT is equal to the number of particles in either the lowest unoccupied shell or the highest occupied shell of <span class="math inline">\(\ket{\Phi}\)</span>, depending on whether we are considering addition or removal energies, respectively.</p>
+<p>We can then express the perturbation expansion in terms of summations over matrix elements as we did for the IM-SRG flow equation. We will restrict ourselves to the case where the perturbation <span class="math inline">\(\hat{V}\)</span> is a two-body operator.</p>
+<p>The second-order QDPT corrections of the <strong>left-shift operator</strong> (or <strong>reaction operator</strong>) <span class="math inline">\(\hat{W} = \hat{H}^{\mathrm{eff}} - \hat{H}^\circ\)</span> are: <span class="math display">\[
+  W^{(2)}_{p q} =+ \frac{1}{2} \sum_{i \backslash a b} \frac{V_{i p a b} V_{a b i q}}{\Delta_{i q a b}} - \frac{1}{2} \sum_{i j \backslash a} \frac{V_{i j a q} V_{a p i j}}{\Delta_{i j a p}}
+\]</span> Here, <span class="math inline">\(V_{a b i q}\)</span> are matrix elements of the two-body operator <span class="math inline">\(\hat{V}\)</span> and <span class="math inline">\(\Delta\)</span> denotes Møller–Plesset denominators as defined in Eq. <a href="hartree-fock.html#eq:moellerplessetdenominator">45</a>. These second-order corrections are depicted as perturbative diagrams (Sec. <a href="diagrams.html#sec:perturbative-diagrams">7.1</a>) in Fig. <a href="qdpt.html#fig:diagrams-sfe">19</a>.</p>
+<p>Third-order QDPT corrections are: <span class="math display">\[\begin{aligned}
+  &amp;W^{(3)}_{p q} =
+  \\ &amp;\quad
+  + \frac{1}{4} \sum_{i \backslash a b c d} \frac{V_{i p a b} V_{a b c d} V_{c d i q}}{\Delta_{i q a b} \Delta_{i q c d}}
+  - \frac{1}{4} \sum_{i j \backslash a b c} \frac{V_{i j a q} V_{a p b c} V_{b c i j}}{\Delta_{i j a p} \Delta_{i j b c}}
+  - \frac{1}{4} \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{a b c q} V_{c p i j}}{\Delta_{i j q a b p} \Delta_{i j c p}}
+  \\ &amp;\quad
+  - \frac{1}{4} \sum_{i j k l \backslash a} \frac{V_{i j a q} V_{k l i j} V_{a p k l}}{\Delta_{i j a p} \Delta_{k l a p}}
+  + \frac{1}{4} \sum_{i j k \backslash a b} \frac{V_{i p a b} V_{j k i q} V_{a b j k}}{\Delta_{i q a b} \Delta_{j k a b}}
+  + \frac{1}{4} \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{k p i j} V_{a b k q}}{\Delta_{i j q a b p} \Delta_{k q a b}}
+  \\ &amp;\quad
+  - \frac{1}{2} \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{k p j q} V_{a b i k}}{\Delta_{i j q a b p} \Delta_{i k a b}}
+  + \frac{1}{2} \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{b p c q} V_{a c i j}}{\Delta_{i j q a b p} \Delta_{i j a c}}
+  + \frac{1}{2} \sum_{i j \backslash a b c} \frac{V_{i p a q} V_{a j b c} V_{b c i j}}{\Delta_{i a} \Delta_{i j b c}}
+  \\ &amp;\quad
+  + \frac{1}{2} \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{a b i c} V_{c p j q}}{\Delta_{i j q a b p} \Delta_{j q c p}}
+  - \frac{1}{2} \sum_{i j k \backslash a b} \frac{V_{i p a q} V_{j k i b} V_{a b j k}}{\Delta_{i a} \Delta_{j k a b}}
+  - \frac{1}{2} \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{a k i j} V_{b p k q}}{\Delta_{i j q a b p} \Delta_{k q b p}}
+  \\ &amp;\quad
+  + \sum_{i j \backslash a b c} \frac{V_{i p a c} V_{j c b q} V_{a b i j}}{\Delta_{i q a c} \Delta_{i j a b}}
+  + \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{b p j c} V_{a c i q}}{\Delta_{i j q a b p} \Delta_{i q a c}}
+  + \sum_{i j \backslash a b c} \frac{V_{i p a c} V_{j a b i} V_{b c j q}}{\Delta_{i q a c} \Delta_{j q b c}}
+  \\ &amp;\quad
+  - \sum_{i j k \backslash a b} \frac{V_{i k a q} V_{a j i b} V_{b p j k}}{\Delta_{i k a p} \Delta_{j k b p}}
+  - \sum_{i j k \backslash a b} \frac{V_{i k a q} V_{j p b k} V_{a b i j}}{\Delta_{i k a p} \Delta_{i j a b}}
+  - \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{b k j q} V_{a p i k}}{\Delta_{i j q a b p} \Delta_{i k a p}}
+\end{aligned}\]</span> Perturbative diagrams (Sec. <a href="diagrams.html#sec:perturbative-diagrams">7.1</a>) of third-order corrections are also shown in Fig. <a href="qdpt.html#fig:diagrams-sfe">19</a>.</p>
+<figure>
+<img src="fig-diagrams-sfe" alt="Figure 19: Perturbative Hugenholtz diagrams (Sec. 7.1) of the second- and third-order QDPT corrections. Denominator lines have been elided. When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish. The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red." id="fig:diagrams-sfe" /><figcaption>Figure 19: Perturbative Hugenholtz diagrams (Sec. <a href="qdpt.html#sec:perturbative-diagrams">7.1</a>) of the second- and third-order QDPT corrections. Denominator lines have been elided. When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish. The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.</figcaption>
+</figure>
+<p>One of the benefits of applying QDPT to an IM-SRG-evolved Hamiltonian is that many of the QDPT terms vanish. In IM-SRG, a generator that decouples the ground state energy is required to drive certain classes of matrix elements to zero. Consider for example the White generator, which eliminates matrix elements of the form: <span class="math display">\[V_{i j a b} = V_{a b i j} = 0\]</span> This means certain kinds of vertices in the diagrams become forbidden, reducing the number of nonzero diagrams at third order from 18 to only four. Out of these four, two of them contribute only to the correction of hole states (removal energies), while the other two contribute only to the correction of the particle states (addition energies).</p>
+<p>Note that the final step of diagonalizing the effective Hamiltonian (Eq. <a href="qdpt.html#eq:qdpt-diagonalization">54</a>) is usually not needed for the calculation of single-particle energies with one valence shell as the matrix is often already diagonal due to conservation laws of the quantum system.</p>
+<p>In J-scheme, the second-order corrections are: <span class="math display">\[
+  W^{(2)}_{p q} =
+    \frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b}
+    \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2}
+    \frac{V_{i p a b} V_{a b i q}}{\Delta_{i q a b}}
+  - \frac{1}{2} \sum_{j_{a p}} \sum_{i j \backslash a}
+    \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2}
+    \frac{V_{i j a q} V_{a p i j}}{\Delta_{i j a p}}
+\]</span> As usual, these equations use the implicit-J convention (Sec. <a href="angular-momentum-coupling.html#sec:implicit-j">8.12.3</a>).</p>
+<p>For efficiency, the third-order corrections in J-scheme make use of the non-antisymmetrized Pandya-transformed matrix elements of <span class="math inline">\(\hat{V}\)</span>, which are denoted <span class="math inline">\(\tilde{V}_{p s r q}\)</span> (Sec. <a href="angular-momentum-coupling.html#sec:pandya">8.12.2</a>). Using these matrix elements, we may write the third-order terms as: <span class="math display">\[\begin{aligned}
+  &amp;W^{(3)}_{p q} =
+  \\ &amp;\quad
+  + \frac{1}{4} \sum_{j_{i p}} \sum_{i \backslash a b c d} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} \frac{V_{i p a b} V_{a b c d} V_{c d i q}}{\Delta_{i q a b} \Delta_{i q c d}}
+  - \frac{1}{4} \sum_{j_{a p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} \frac{V_{i j a q} V_{a p b c} V_{b c i j}}{\Delta_{i j a p} \Delta_{i j b c}}
+  \\ &amp;\quad
+  - \frac{1}{4} \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{V_{i j a b} V_{a b c q} V_{c p i j}}{\Delta_{i j q a b p} \Delta_{i j c p}}
+  - \frac{1}{4} \sum_{j_{a p}} \sum_{i j k l \backslash a} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} \frac{V_{i j a q} V_{k l i j} V_{a p k l}}{\Delta_{i j a p} \Delta_{k l a p}}
+  \\ &amp;\quad
+  + \frac{1}{4} \sum_{j_{i p}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} \frac{V_{i p a b} V_{j k i q} V_{a b j k}}{\Delta_{i q a b} \Delta_{j k a b}}
+  + \frac{1}{4} \sum_{j_{k p}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{k p}^2}{\jweight{j}_p^2} \frac{V_{i j a b} V_{k p i j} V_{a b k q}}{\Delta_{i j q a b p} \Delta_{k q a b}}
+  \\ &amp;\quad
+  - \frac{1}{2} \sum_{j_{k p} j_{i j}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{k p}^2 \jweight{j}_{i j}^2}{\jweight{j}_p^2 \jweight{j}_j^2} \frac{V_{i j a b} V_{k p j q} V_{a b i k}}{\Delta_{i j q a b p} \Delta_{i k a b}}
+  + \frac{1}{2} \sum_{j_{b p} j_{a b}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{b p}^2 \jweight{j}_{a b}^2}{\jweight{j}_p^2 \jweight{j}_b^2} \frac{V_{i j a b} V_{b p c q} V_{a c i j}}{\Delta_{i j q a b p} \Delta_{i j a c}}
+  \\ &amp;\quad
+  + \frac{1}{2} \sum_{j_{i p} j_{i j}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{i p}^2 \jweight{j}_{i j}^2}{\jweight{j}_p^2 \jweight{j}_i^2} \frac{V_{i p a q} V_{a j b c} V_{b c i j}}{\Delta_{i a} \Delta_{i j b c}}
+  + \frac{1}{2} \sum_{j_{c p} j_{i j}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2 \jweight{j}_{i j}^2}{\jweight{j}_p^2 \jweight{j}_j^2} \frac{V_{i j a b} V_{a b i c} V_{c p j q}}{\Delta_{i j q a b p} \Delta_{j q c p}}
+  \\ &amp;\quad
+  - \frac{1}{2} \sum_{j_{i p} j_{a b}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{i p}^2 \jweight{j}_{a b}^2}{\jweight{j}_p^2 \jweight{j}_a^2} \frac{V_{i p a q} V_{j k i b} V_{a b j k}}{\Delta_{i a} \Delta_{j k a b}}
+  - \frac{1}{2} \sum_{j_{b p} j_{a b}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{b p}^2 \jweight{j}_{a b}^2}{\jweight{j}_p^2 \jweight{j}_b^2} \frac{V_{i j a b} V_{a k i j} V_{b p k q}}{\Delta_{i j q a b p} \Delta_{k q b p}}
+  \\ &amp;\quad
+  + \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a c p} \tilde{V}_{c q b j} \tilde{V}_{b j i a}}{\Delta_{i q a c} \Delta_{i j a b}}
+  + \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a b j} \tilde{V}_{b j c p} \tilde{V}_{c q i a}}{\Delta_{i j q a b p} \Delta_{i q a c}}
+  \\ &amp;\quad
+  + \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a c p} \tilde{V}_{j b i a} \tilde{V}_{c q j b}}{\Delta_{i q a c} \Delta_{j q b c}}
+  - \sum_{j_{p k}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{p k}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a q k} \tilde{V}_{j b i a} \tilde{V}_{p k j b}}{\Delta_{i k a p} \Delta_{j k b p}}
+  \\ &amp;\quad
+  - \sum_{j_{p k}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{p k}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a q k} \tilde{V}_{p k b j} \tilde{V}_{b j i a}}{\Delta_{i k a p} \Delta_{i j a b}}
+  - \sum_{j_{p k}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{p k}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a b j} \tilde{V}_{b j q k} \tilde{V}_{p k i a}}{\Delta_{i j q a b p} \Delta_{i k a p}}
+\end{aligned}\]</span></p>
+
+                </div>
+
+                <!-- Mobile navigation buttons -->
+                
+                    <a href="imsrg.html" class="mobile-nav-chapters previous">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="systems.html" class="mobile-nav-chapters next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+
+            </div>
+
+            
+                <a href="imsrg.html" class="nav-chapters previous" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+            
+
+            
+                <a href="systems.html" class="nav-chapters next" title="You can navigate through the chapters using the arrow keys">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if ($(".fa").css("font-family") !== "FontAwesome") {
+                $('<link rel="stylesheet" type="text/css" href="_FontAwesome/css/font-awesome.css">').prependTo('head');
+            }
+        </script>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+    </body>
+</html>
