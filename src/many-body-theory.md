@@ -1,24 +1,7 @@
-[[
-
-Outline:
-
-- 2nd quantization
-
-- normal ordering
-
-- Wick's theorem
-
-- Many-body diagrams
-
-]]
-
-# Single-particle states
-
+## Single-particle states
 [[todo]]
 
 We use $x$ to denote generalized coordinates of a single particle.  It could be, for example, some combination of spatial position $\boldsymbol{r}$, perhaps with spin projection $m_s$ and/or isospin projection $m_t$, or something more exotic such as momentum space $\boldsymbol{k}$.  In any case, the details do not matter to the following discussion of many-body states.
-
-# Many-body states
 
 ## Product states
 
@@ -48,29 +31,65 @@ $$\begin{aligned}
 \end{aligned}$$
 where $|\varnothing\rangle$ denotes the vacuum state, i.e. the state with no particles at all.  This is can be written more abstractly as
 $$\mathbb{H}_{\mathrm{M}} = \mathbb{H}_0 \oplus \mathbb{H} \oplus (\mathbb{H} \otimes \mathbb{H}) \oplus (\mathbb{H} \otimes \mathbb{H} \otimes \mathbb{H}) \oplus \cdots$$
-where by abuse of notation $\mathbb{V} \otimes \mathbb{W}$ denotes the tensor product *space* of $\mathbb{V}$ and $\mathbb{W}$, $\mathbb{V} \oplus \mathbb{W}$ denotes the direct sum *space* of $\mathbb{V}$ and $\mathbb{W}$, and $\mathbb{H}_0 = \operatorname{span}\{|\varnothing\rangle\}$ is the 0-particle space, isomorphic to the set of complex numbers $\mathbb{C}$.
+where:
 
-## Antisymmetrized states
+- by abuse of notation $\mathbb{V} \otimes \mathbb{W}$ denotes the tensor product *space* of $\mathbb{V}$ and $\mathbb{W}$,
+- $\mathbb{V} \oplus \mathbb{W}$ denotes the direct sum *space* of $\mathbb{V}$ and $\mathbb{W}$, and
+- $\mathbb{H}_0 = \operatorname{span}\{|\varnothing\rangle\}$ is the 0-particle space, isomorphic to the set of complex numbers $\mathbb{C}$.
+
+## Antisymmetrization
 
 For systems of fermions, the many-body space $\mathbb{H}_{\mathrm{M}}$ spanned by product states contains states that violate the Pauli exclusion principle, which demands a sign reversal of the wave function whenever any two particles are exchanged.  To filter out these invalid states, we must antisymmetrize the states.
 
-We define antisymmetrizer $\mathcal{A}$ as
-
+We first define the **syntactic antisymmetrizer** $\mathcal{A}$ by
 $$\begin{aligned}
-\mathcal{A}^a_{a'} X_{a'} &= X_a \\
-\mathcal{A}^{a b}_{a' b'} X_{a' b'} &= \frac{1}{2} (X_{a b} - X_{b a}) \\
-\mathcal{A}^{a b c}_{a' b' c'} X_{a' b' c'} &= \frac{1}{6} (X_{a b c} - X_{b a c} + X_{b c a} - X_{c b a} + X_{c a b} - X_{a c b}) \\
-\mathcal{A}^{a_1 \ldots a_n}_{a'_1 \ldots a'_n} X_{a'_1 \ldots a'_n} &= \frac{1}{n!} \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) X_{a_{\sigma_1} \ldots a_{\sigma_n}}
+\mathcal{A}_a X_a &= X_a \\
+\mathcal{A}_{a b} X_{a b} &= \frac{1}{2} (X_{a b} - X_{b a}) \\
+\mathcal{A}_{a b c} X_{a b c} &= \frac{1}{6} (X_{a b c} - X_{b a c} + X_{b c a} - X_{c b a} + X_{c a b} - X_{a c b}) \\
+\mathcal{A}_{a_1 \ldots a_n} X_{a_1 \ldots a_n} &\equiv \frac{1}{n!} \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) X_{a_{\sigma_1} \ldots a_{\sigma_n}}
 \end{aligned}$$
-where $S_n$ is the set of all possible permutations of the tuple $(1, \ldots, n)$ (i.e. symmetric group) and $\sigma_i$ denotes the image of the $i$ under the permutation $\sigma$.  Note that the antisymmetrizer binds the variables in its subscript.
+where
+
+- $X_{a_1 \ldots a_n}$ is an arbitrary formula with free variables $a_1, \ldots, a_n$,
+- $S_n$ is the symmetric group, the set of all possible permutations of the tuple $(1, \ldots, n)$, and
+- $\sigma_i$ is the image of the $i$ under the permutation $\sigma$.
+
+The syntactic antisymmetrizer operates directly on the mathematical symbols.  It is not a quantum operator, but more of a shorthand.
+
+From here, we can then define the **$n$-particle antisymmetrization operator** $\hat{A}^{(n)}$ in terms of the syntactic antisymmetrizer:
+$$\begin{aligned}
+\hat{A}^{(0)} &= \hat{1} \\
+\hat{A}^{(1)} &= \sum_a | a \rangle \langle a | = \hat{1} \\
+\hat{A}^{(2)} &= \sum_{a b} | a \otimes b \rangle \frac{\langle a \otimes b | - \langle b \otimes a |}{2} \\
+\hat{A}^{(3)} &= \sum_{a b c} | a \otimes b \otimes c \rangle \frac{\langle a \otimes b \otimes c | - \langle b \otimes a \otimes c | + \langle b \otimes c \otimes a | - \cdots}{6} \\
+\hat{A}^{(n)} &\equiv \sum_{a_1 \ldots a_n} | a_1 \otimes \cdots \otimes a_n \rangle \mathcal{A}_{a_1 \ldots a_n} \langle a_1 \otimes \cdots \otimes a_n |
+\end{aligned}$$
+
+In the product-state basis, the matrix elements of the antisymmetrization operator are:
+$$\langle a_1 \otimes \cdots \otimes a_n | \hat{A}^{(n)} | a'_1 \otimes \cdots \otimes a'_n \rangle = \frac{1}{n!} \delta_{a'_1 \ldots a'_n}^{a_1 \ldots a_n} $$
+where $\delta_{a'_1 \ldots a'_n}^{a_1 \ldots a_n}$ is the generalized Kronecker delta, defined as:
+$$\delta_{a'_1 \ldots a'_n}^{a_1 \ldots a_n} \equiv \begin{cases}
++1 & \text{if $(a_1, \ldots, a_n)$ are all distinct and } \\
+   & \text{is an even permutation of $(a'_1, \ldots, a'_2)$} \\
+-1 & \text{if $(a_1, \ldots, a_n)$ are all distinct and } \\
+   & \text{is an odd permutation of $(a'_1, \ldots, a'_2)$} \\
+0 & \text{otherwise}
+\end{cases}$$
+Although $\hat{A}^{(n)}$ is defined with respect to a specific single-particle basis $|a\rangle$, the operator itself is actually independent of this choice.  The operator $\hat{A}^{(n)}$ is also idempotent, and hence a projection operator.
+
+Finally, one can define the **many-body antisymmetrization operator** that acts on the whole space with arbitrary numbers of particles:
+$$\hat{A} \equiv \sum_{n = 0}^\infty \hat{A}^{(n)}$$
+This too is a projection operator.
+
+## Antisymmetrized states
 
 We can now define **antisymmetrized states** in terms of product states
 $$\begin{aligned}
-| a b \rangle &= \sqrt{2} \mathcal{A}^{a b}_{a' b'} | a' \otimes b' \rangle = \frac{1}{\sqrt{2}} \left(| a \otimes b \rangle - | b \otimes a \rangle\right) \\
-| ab c \rangle &= \sqrt{6} \mathcal{A}^{a b c}_{a' b' c'} | a \otimes b' \otimes c' \rangle \\
-|a_1 \ldots a_n \rangle &= \sqrt{n!} \mathcal{A}^{a_1 \ldots a_n}_{a'_1 \ldots a'_n} |a'_1 \otimes \cdots \otimes a'_n \rangle
+| a b \rangle &= \sqrt{2} \hat{A} | a \otimes b \rangle = \frac{1}{\sqrt{2}} \left(| a \otimes b \rangle - | b \otimes a \rangle\right) \\
+| ab c \rangle &= \sqrt{6} \hat{A} | a \otimes b \otimes c \rangle \\
+|a_1 \ldots a_n \rangle &= \sqrt{n!} \hat{A} |a_1 \otimes \cdots \otimes a_n \rangle
 \end{aligned}$$
-Note that antisymmetrized states are distinguished from product states by the lack of the $\otimes$ symbol that separates the quantum numbers for each particle.
+Notationally, antisymmetrized states are distinguished from product states by the lack of the $\otimes$ symbol that separates the quantum numbers for each particle.
 
 Unlike product states, antisymmetrized states is guaranteed to satisfy the Pauli exclusion principle.  For example, with two-particles we have
 $$| a b \rangle = - | b a \rangle$$
@@ -127,11 +146,11 @@ V_{a b c d} &= \langle a b | \hat{V} | c d \rangle \\
 W_{a b c d e f} &= \langle a b c | \hat{W} | d e f \rangle \\
 X_{a_1 \ldots a_n b_1 \ldots b_n} &= \langle a_1 \ldots a_n | \hat{X} | b_1 \ldots b_n \rangle
 \end{aligned}$$
-These two kinds of matrix elements can be related via the antisymmetrizer:
+These two kinds of matrix elements can be related via the syntactic antisymmetrizer:
 $$\begin{aligned}
-V_{a b c d} &= 2 \mathcal{A}^{c d}_{c' d'} V^\otimes_{a b c' d'} \\
-W_{a b c d e f} &= 6 \mathcal{A}^{d e f}_{d' e' f'}  W^\otimes_{a b c d' e' f'} \\
-X_{a_1 \ldots a_n b_1 \ldots b_n} &= n! \mathcal{A}^{b_1 \ldots b_n}_{b'_1 \ldots b'_n}  X^\otimes_{a_1 \ldots a_n b_1 \ldots b_n}
+V_{a b c d} &= 2 \mathcal{A}_{c d} V^\otimes_{a b c d} \\
+W_{a b c d e f} &= 6 \mathcal{A}_{d e f}  W^\otimes_{a b c d e f} \\
+X_{a_1 \ldots a_n b_1 \ldots b_n} &= n! \mathcal{A}_{b_1 \ldots b_n}  X^\otimes_{a_1 \ldots a_n b_1 \ldots b_n}
 \end{aligned}$$
 
 Since many-body operators do not distinguish between particles, we have the following particle-exchange symmetry:
@@ -146,3 +165,12 @@ V_{a b c d} &= -V_{b a c d}  = V_{b a d c} = -V_{a b d c} \\
 W_{a b c d e f} &= -W_{b a c d e f} = W_{b a c d f e} = -W_{b c a d f e} = \cdots \\
 X_{a_{\sigma_1} \ldots a_{\sigma_n} b_{\sigma'_1} \ldots b_{\sigma'_n}} &= \operatorname{sgn}(\sigma) \operatorname{sgn}(\sigma') X_{a_1 \ldots a_n b_1 \ldots b_n}
 \end{aligned}$$
+
+## Second quantization
+[[todo]]
+
+## Normal ordering
+[[todo]]
+
+## Wick's theorem
+[[todo]]

@@ -1,3 +1,17 @@
 \usepackage{bm}
+\usepackage{subdepth}
+\usepackage[T1]{fontenc}
+\renewcommand*\oldstylenums[1]{\textosf{#1}}
+
+\providecommand{\overparen}[1]{[[fixme:overparen]]#1}
+
+\providecommand{\wideparen}[1]{\overparen{#1}}
+\newcommand{\doubleplus}{{+\mkern-7mu+}}
+\newcommand{\jdelta}[2]{\begin{Bmatrix} #1 \\ #2 \end{Bmatrix}}
+\newcommand{\jweight}[1]{\wideparen{#1}}
+\newcommand{\couple}[2]{\mathcal{C}^{#1}_{#2}}
+\newcommand{\uncouple}[2]{\bar{\mathcal{C}}^{#1}_{#2}}
+\newcommand{\recoupling}[2]{\left\lceil\begin{matrix} #1 \\ #2 \end{matrix}\right\rfloor}
+\newcommand{\tridelta}[3]{\begin{Bmatrix} #1 & #2 & #3 \end{Bmatrix}}
 
 \def\thedegreeprogram{Physics---Doctor of Philosophy}
