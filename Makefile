@@ -6,12 +6,12 @@ pandoc_args=--mathjax --number-sections --natbib \
             -M biblio-title=References \
             -M colorlinks \
             -M date=2017 \
-            -M documentclass=msudissertation \
             -M link-citations=true \
             -M lof \
             -M lot \
             -M toc
 
+latex_documentclass=msudissertation
 latex_pandoc_deps=head.tex
 latex_pandoc_args=-H $(1)
 latex_pandoc_args:=$(call latex_pandoc_args,$(latex_pandoc_deps))
