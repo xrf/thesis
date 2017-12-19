@@ -3,6 +3,7 @@ metadata=-M title="Addition and removal energies via the in-medium similarity re
 
 pandoc_args=--mathjax --number-sections --natbib \
             -M bibliography=book.bib \
+            -M biblio-style=alpha \
             -M biblio-title=References \
             -M colorlinks \
             -M date=2017 \
