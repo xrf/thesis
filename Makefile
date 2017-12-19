@@ -1,10 +1,11 @@
 metadata=-M title="Addition and removal energies via the in-medium similarity renormalization group method" \
          -M author="Fei Yuan"
 
-pandoc_args=--mathjax --number-sections --natbib \
+pandoc_args=--mathjax --number-sections --biblatex \
+            -M biblatexoptions=maxbibnames=99 \
             -M bibliography=book.bib \
-            -M biblio-style=alpha \
-            -M biblio-title=References \
+            -M biblio-style=alphabetic \
+            -M biblio-title=References,heading=bibintoc \
             -M colorlinks \
             -M date=2017 \
             -M link-citations=true \
