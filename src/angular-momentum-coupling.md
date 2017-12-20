@@ -1,3 +1,5 @@
+[[motivations]]
+
 Angular momentum plays a fundamental role in quantum systems with spherical symmetry, both theoretically and computationally.
 
 ## Angular momentum and isospin
@@ -22,25 +24,23 @@ Notice that these are not eigenstates of $\hat{L}_1$ or $\hat{L}_2$.  It is impo
 $$[\hat{L}_i, \hat{L}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{L}_k$$
 where $\epsilon_{i j k}$ is the Levi–Civita symbol.
 
-In quantum mechanics, there is the addition of **spin** $\hat{\bm{S}}$, a kind of angular momentum intrinsic to each particle.  Tere is an analogous set of standard eigenstates $\ket{s m_s}$ labeled by spin magnitude $s$ and spin projection $m_s$,
+In quantum mechanics, there is the addition of **spin** $\hat{\bm{S}}$, a kind of angular momentum intrinsic to each particle.  There is an analogous set of standard eigenstates $\ket{s m_s}$ labeled by spin magnitude $s$ and spin projection $m_s$,
 \begin{gather*}
   \hat{\bm{S}}^2 \ket{s m_s} = \hbar s (s + 1) \ket{s m_s} \\
   \hat{S}_3 \ket{s m_s} = \hbar m_s \ket{s m_s}
 \end{gather*}
 Again, note that these are not eigenstates of $\hat{S}_1$ nor $\hat{S}_2$.
 
-Unlike orbital angular momentum, the labels are not confined to integers, but could be half-integers,
-$$\left\{\ldots, -\frac{3}{2}, -1, -\frac{1}{2}, 0, +\frac{1}{2}, +2, \frac{3}{2}, \ldots\right\}$$
-They are subject to the following conditions,
-\begin{align*}
-  s &\in \frac{1}{2}\mathbb{N} &
-  m_s &\in M_s
-\end{align*}
-where we denote the set of nonnegative half-integers by
-$$\frac{1}{2}\mathbb{N} = \left\{0, \frac{1}{2}, 1, \frac{3}{2}, \ldots\right\}$$
+Unlike orbital angular momentum, the quantum numbers of spin are not confined to integers, but could be **half-integers** $\frac{1}{2} \mathbb{Z}$, given by
+$$\frac{1}{2} \mathbb{Z} = \left\{\ldots, -\frac{3}{2}, -1, -\frac{1}{2}, 0, +\frac{1}{2}, +2, \frac{3}{2}, \ldots\right\}$$ {#eq:half-integer}
+They are subject to the following conditions:
+$$s \in \frac{1}{2}\mathbb{N} \qquad\qquad
+  m_s \in M_s$$
+where $\frac{1}{2}\mathbb{N}$ denotes the set of nonnegative half-integers:
+$$\frac{1}{2}\mathbb{N} = \left\{0, \frac{1}{2}, 1, \frac{3}{2}, \ldots\right\}$$ {#eq:half-natural}
 and $M_s$ follows the same definition as [@Eq:mlset], but with the argument $s$ extended to support nonnegative integers,
 $$M_s = \{-s, -s + 1, -s + 2, \ldots, +s - 2, +s - 1, +s\}$$ {#eq:mset}
-Note that for half-integers, $M_s$ does not contain $0$.
+Note that if $s$ is a *half-odd* integer – a half-integer that is not also an integer – then $M_s$ does not contain $0$.
 
 Spin states are not wave functions of position – they live within their own abstract Hilbert subspace.  Most fermions studied in many-body theory, such as electrons or nucleons, are spin-$\frac{1}{2}$ particles, which means $s$ is always $\frac{1}{2}$ and the dimension of this subspace is two.  Conventionally, the spin operator for a spin-$\frac{1}{2}$ particle may be represented by a vector of Pauli matrices $\hat{\bm{\sigma}}$:
 $$\hat{\bm{S}} = \frac{\hbar}{2} \hat{\bm{\sigma}}
@@ -49,23 +49,8 @@ $$\hat{\bm{S}} = \frac{\hbar}{2} \hat{\bm{\sigma}}
   \hat{\sigma}_1 \\
   \hat{\sigma}_2 \\
   \hat{\sigma}_3 \\
-\end{bmatrix}
-= \frac{\hbar}{2}
-\begin{bmatrix}
-  \begin{pmatrix}
-    0 & 1 \\
-    1 & 0 \\
-  \end{pmatrix}_\sigma \\
-  \begin{pmatrix}
-    0 & -\I \\
-    \I & 0 \\
-  \end{pmatrix}_\sigma \\
-  \begin{pmatrix}
-    1 & 0 \\
-    0 & -1 \\
-  \end{pmatrix}_\sigma \\
 \end{bmatrix}$$
-The ${}_\sigma$ subscript indicates that these matrices act on the two-dimensional Hilbert subspace of spin.
+Each Pauli matrix $\sigma_i$ act on the two-dimensional Hilbert subspace of spin.
 
 The spin operator satisfies commutation relations similar to the orbital angular momentum operator,
 $$[\hat{S}_i, \hat{S}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{S}_k$$
@@ -79,10 +64,10 @@ Likewise, there is a standard set of total angular momentum eigenstates $\ket{j 
   [\hat{J}_i, \hat{J}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{J}_k
 \end{gather*}
 The quantum numbers are subject to the same constraints as for spin,
-\begin{align*}
-  j &\in \frac{1}{2} \mathbb{N} &
-  m_j &\in M_j
-\end{align*}
+$$
+  j \in \frac{1}{2} \mathbb{N} \qquad \qquad
+  m_j \in M_j
+$$
 
 Lastly, there is a mathematically similar quantity known as **isospin** $\hat{\bm{I}}$, which arises in the physics of nucleons.   However, unlike spin, it is not physically considered angular momentum despite the confusing name.  The isospin eigenstates may be denoted $\ket{t m_t}$, labeled by isospin magnitude $t$ and isospin projection $m_t$, with relations just like angular momentum,
 \begin{gather*}
@@ -101,23 +86,8 @@ $$\hat{\bm{I}} = \frac{1}{2} \hat{\bm{\tau}}
   \hat{\tau}_1 \\
   \hat{\tau}_2 \\
   \hat{\tau}_3 \\
-\end{bmatrix}
-= \frac{1}{2}
-\begin{bmatrix}
-  \begin{pmatrix}
-    0 & 1 \\
-    1 & 0 \\
-  \end{pmatrix}_\tau \\
-  \begin{pmatrix}
-    0 & -\I \\
-    \I & 0 \\
-  \end{pmatrix}_\tau \\
-  \begin{pmatrix}
-    1 & 0 \\
-    0 & -1 \\
-  \end{pmatrix}_\tau \\
 \end{bmatrix}$$
-The ${}_\tau$ subscript indicates that these matrices act on the two-dimensional Hilbert subspace of isospin.  The two eigenstates of isospin $\ket{t = \frac{1}{2}, m_t = \pm\frac{1}{2}}$ correspond to neutrons and protons, with two possible conventions:
+Each Pauli matrix $\hat{\tau}_i$ act on the two-dimensional Hilbert subspace of isospin.  The two eigenstates of isospin $\ket{t = \frac{1}{2}, m_t = \pm\frac{1}{2}}$ correspond to neutrons and protons, with two possible conventions:
 
   - $m_t = -\frac{1}{2}$ corresponds to neutrons and $m_t = +\frac{1}{2}$ corresponds to protons (sometimes referred to as the *particle physics convention*)
   - $m_t = +\frac{1}{2}$ corresponds to neutrons and $m_t = -\frac{1}{2}$ corresponds to protons (sometimes referred to as the *nuclear physics convention*)
@@ -181,9 +151,9 @@ The pairing between the magnitude ($j$-like) and projection ($m$-like) variables
 
 The second category are the **nonlocal selection rules**, consisting of
 $$m_j = m_\ell + m_s$$
-which simply states additive nature of projections, and
+which simply states the additive nature of projections, and
 $$|\ell - s| \le j \le \ell + s$$
-This latter constraint is called the **triangle condition** and is equivalent to the geometrical constraint that $\ell$, $s$, and $j$ are lengths of a triangle.  It can alternatively restated as the symmetric combination of constraints,
+This latter constraint is called the **triangle condition** and is equivalent to the geometrical constraint that $\ell$, $s$, and $j$ are lengths of a triangle.  It can alternatively be restated as the symmetric combination of constraints,
 \begin{align*}
   &j \le \ell + s &
   &\ell \le s + j &
@@ -210,16 +180,22 @@ $$\tridelta{a}{b}{c} = \begin{cases}
 \end{cases}$$ {#eq:tridelta}
 In other words, the triangular delta is the analog of Kronecker delta for the triangle condition.
 
-There are additional symmetry properties of CG coefficients, but it is more convenient to state them indirectly using a similar quantity known as the Wigner 3-jm symbol.
+There are additional symmetry properties of CG coefficients, but it is more convenient to state them indirectly through a similar quantity known as the Wigner 3-jm symbol.
 
 ## Wigner 3-jm symbol {#sec:3jm}
 
-The **Wigner 3-jm symbol** is a function of six half-integer arguments used for coupling angular momenta with a high degree of symmetry.  The function is denoted^[Unfortunately this shares the same notation as $2 \times 3$ matrices.]
+The **Wigner 3-jm symbol** is a function of six arguments used for coupling angular momenta with a high degree of symmetry, denoted^[Unfortunately this shares the same notation as $2 \times 3$ matrices.]
 $$\begin{pmatrix}
     j_1 & j_2 & j_3 \\
     m_1 & m_2 & m_3 \\
   \end{pmatrix}$$
-and is related to the Clebsch–Gordan coefficient by the formula,
+The $j_i$ arguments could be any nonnegative half-integer $\frac{1}{2} \mathbb{N}$ ([@Eq:half-natural]), including both integers and half-odd integers.  The $m_i$ arguments are constrained to the $M_{j_i}$ set as defined in [@Eq:mset].  These form the local selection rules.  The nonlocal selection rules are given by
+$$
+  |j_1 - j_2| \le j_3 \le j_1 + j_2 \qquad \qquad
+  m_1 + m_2 + m_3 = 0
+$$
+
+The 3-jm symbol is related to the Clebsch–Gordan coefficient by the formula,
 $$
   \bkt{j_1 m_1 j_2 m_2 | j_{1 2} m_{1 2}} =
   (-)^{2 j_2 + j_{1 2} - m_{1 2}} \jweight{j}_{1 2}
@@ -276,19 +252,6 @@ we obtain the more conventional form used by Racah [@PhysRev.62.438]
   &= \delta_{m_1 + m_2 + m_3, 0} (-)^{j_1 - j_2 - m_3} \sqrt{\Delta(j_1\ j_2\ j_3) \prod_{i = 1}^3 (j_i + m_i)! (j_i - m_i)!} \sum_k \\
 &\qquad \frac{(-1)^k}{k! (j_1 + j_2 - j_3 - k)! (j_1 - m_1 - k)! (j_2 + m_2 - k)!} \\
 &\qquad \times \frac{1}{(j_3 - j_2 + m_1 + k)! (j_3 - j_1 - m_2 + k)!}
-\end{align*}
-
-The 3-jm symbol is subject to selection rules similar to CG coefficients.  The local ones are:
-\begin{align*}
-  &j_1, j_2, j_3 \in \frac{1}{2}\mathbb{N} &
-  &m_1 \in M_{j_1} &
-  &m_2 \in M_{j_2} &
-  &m_3 \in M_{j_3}
-\end{align*}
-and the nonlocal ones are:
-\begin{align*}
-  &|j_1 - j_2| \le j_3 \le j_1 + j_2 &
-  &m_1 + m_2 + m_3 = 0
 \end{align*}
 
 The 3-jm symbol is invariant under even permutations of its columns,
@@ -373,11 +336,11 @@ Read in reverse, this means one can also represent Kronecker deltas with zeros a
 
 ## Angular momentum diagrams
 
-Angular momentum diagrams, originally introduced by Jucys (whose name is also translated as Yutsis) [@Yutsis1962], provide a graphical way to manipulate expressions of coupling coefficients of angular momentum states.  Our presentation  of diagrams differs from [@Yutsis1962; @WORMER200659; @BalcarLovesey2009] in the treatment of arrows.  Whereas in other literature, arrows as understood as variance, we treat them mechanically as 1-jm symbols.^[Conversion from our presentation to the traditional presentation in, say, [@WORMER200659] done by a two-step process:  (1) use diagrammatic rules to ensure that every internal line has an arrow and that every arrow on external lines (if any) point *away* from the terminal; (2) on any remaining external lines with no arrows, draw an arrow pointing toward the terminal.  Now the diagram can be interpreted in the traditional manner.  To convert back, simply revert step (2): delete all arrows on external lines that point toward the terminal.]  Other differences in presentation are largely superficial.  For practical reasons we do not use graphics to describe $\sqrt{2 j + 1}$ factors unlike [@BalcarLovesey2009].
+Angular momentum diagrams, originally introduced by Jucys (whose name is also translated as Yutsis) [@Yutsis1962], provide a graphical way to manipulate expressions of coupling coefficients of angular momentum states.  Our presentation  of diagrams differs from [@Yutsis1962; @WORMER200659; @BalcarLovesey2009] in the treatment of arrows.  In other literature, arrows are used to distinguish between covariant and contravariant angular momenta.  However, we treat them mechanically as 1-jm symbols.^[Conversion from our presentation to the traditional presentation in, say, [@WORMER200659] done by a two-step process:  (1) use diagrammatic rules to ensure that every internal line has an arrow and that every arrow on external lines (if any) point *away* from the terminal; (2) on any remaining external lines with no arrows, draw an arrow pointing toward the terminal.  Now the diagram can be interpreted in the traditional manner.  To convert back, simply revert step (2): delete all arrows on external lines that point toward the terminal.]  Other differences in presentation are largely superficial.  For practical reasons we do not use graphics to describe $\sqrt{2 j + 1}$ factors unlike [@BalcarLovesey2009].
 
 ![Diagram of the 3-jm symbol $(1 2 3)$ in [@Eq:3jm-node]](fig-3jm){#fig:3jm}
 
-The main ingredient of angular momentum algebra are 3-jm symbols.  Since they are functions of 6 variables, one might be tempted to introduce a node with 6 lines emanating from it.  However, this quickly becomes unwieldy.  Instead, it is better to treat each $(j, m)$-pair as a combined entity.
+The main ingredient of angular momentum algebra are 3-jm symbols.  Since they are functions of six variables, one might be tempted to introduce a node with six lines emanating from it.  However, this quickly becomes unwieldy.  Instead, it is better to treat each $(j, m)$-pair as a combined entity.
 
 In [@Fig:3jm], we introduce the diagram for the 3-jm symbol,
 $$(1 2 3) = \begin{pmatrix} j_1 & j_2 & j_3 \\ m_1 & m_2 & m_3 \\ \end{pmatrix}$$ {#eq:3jm-node}
@@ -796,23 +759,29 @@ We have developed a graphical tool [@Jucys] that can be used to perform graphica
 
 The primary motivation of the tool is to eliminate human errors that commonly occur in angular momentum algebra and improve the speed of such derivations.  To achieve this, the diagram offers a special *reduction mode* that, when activated, *ensures that all of the user’s diagrammatic manipulations preserve equality*.  The user modifies the diagram through various gestures and clicks of the mouse cursor.  The program is responsible for enforcing the diagrammatic rules, including orthogonal relations, cutting rule, various phase rules, etc.
 
-The program comes with a separate *input tool* for writing angular momentum expressions, without which the user would have to manually draw angular momentum diagrams node by node – a tedious and error-prone process.  The input tool provides fast means of describing coupling coefficients in text, reducing the room for human error.  As an example, the scalar Pandya transformation coefficient is described by the following input:
+The program comes with a separate *input tool* for writing angular momentum expressions, without which the user would have to manually draw angular momentum diagrams node by node – a tedious and error-prone process.  The input tool provides fast means of describing coupling coefficients in text, reducing the room for human error.  As an example, the Pandya transformation coefficient for spherical scalars is described by the following input:
 
 ```
 rel (p + q) (r + s)
 rec (p - s) (r - q)
 ```
 
-Here, `rel` is used to *relate* two angular momenta, whereas `rec` does the same but also includes a $1 / \jweight{j}^2$ factor.  In contrast, the spherical Pandya transformation coefficient is described by
+Here, `rel` equates the two angular momenta `p + q` and `r + s`.  The `rec` equates the two angular momenta `p - s` and `r - q` but also includes an extra $1 / \jweight{j}_{p s}^2$ factor.  The plus sign in `p + q` denotes the usual CG coupling
+$$\langle p, q | pq \rangle = \langle j_p m_p j_q m_q | j_{pq} m_{pq} \rangle$$
+whereas the minus sign in `p - s` denotes coupling with the second angular momentum time-reversed:
+$$\langle p, \check{s} | ps \rangle = (-)^{j_s - m_s} \langle j_p, m_p, j_s, -m_s | j_{ps}, m_{ps} \rangle$$
+After providing this input to the tool, the corresponding 6-j diagram can be rapidly derived along with the associated phases and factors.
+
+As another example, the Pandya transformation coefficient for a spherical tensor $\hat{A}^{j_A}_{m_A}$ is described by
 
 ```
 wet (p + q) A (r + s)
 wet (p - s) A (r - q)
 ```
 
-Here, `wet` denotes the use of the Wigner–Eckart coupling.  After inputting either of these, the respective 6-j or 9-j diagrams can be rapidly derived along with the associated phases and factors.
+Here, `wet` denotes the use of the Wigner–Eckart coupling and the central `A` variable is the rank $j_A$ of the spherical tensor.  After providing this input, one can quickly derive the corresponding 9-j diagram with the associated phases and factors.
 
-The tool is written in a mixture of JavaScript, HTML, and CSS and can therefore run in any modern Internet browser, accessible to any desktop platform.  An online version is provided, but the user may equally well run the code on their own machine with the appropriate setup.  It utilizes SVG technology to display diagrams, which makes it straightforward to export diagrams as editable vector images.  These images are suitable for use in literature, as we have done in this work.
+The tool is a web application written in a combination of JavaScript, HTML, and CSS.  It can therefore run in any modern Internet browser and is accessible to users on most desktop platforms.  An online version is available for immediate use, but the user can also run the application on their own machine with the appropriate setup.  It utilizes SVG technology to display diagrams, making it straightforward to export diagrams as vector images, suitable for use in literature as we have done in this work.
 
 We will not attempt to explain the usage of the program here, as that information will very likely become out of date as the program evolves.  Interested users are advised to read the official documentation for usage information.
 

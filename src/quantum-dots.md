@@ -61,20 +61,16 @@ $$\begin{aligned}
 The states are labeled by two quantum numbers: the principal quantum number $n \in \{0, 1, 2, \ldots\}$ and orbital angular momentum projection $m_\ell \in \mathbb \{\ldots, -2, -1, 0, +1, +2, \ldots\}$.  For a wave function, $n$ indicates the degree of the Laguerre polynomial, whereas $m_\ell$ is the eigenvalue of $\hat{L}_3$.
 
 Since electrons are spin-$\frac{1}{2}$ fermions, they can occupy either of the two possible spin states $\chi_{-\frac{1}{2}}$ or $\chi_{+\frac{1}{2}}$.  Thus, every single-particle basis state $|n m_\ell m_{\mathrm{s}}\rangle$ contains both a spatial component \eqref{eq:fockdarwin} and a spin component,
-\begin{align} \label{eq:singleparticlestate}
-  \langle r \varphi m_{\mathrm{s}}' |n m_\ell m_{\mathrm{s}}\rangle = F_{n m_\ell}(r, \varphi) \delta_{m_{\mathrm{s}}^{} m_{\mathrm{s}}'}.
-\end{align}
+$$\langle r \varphi m_{\mathrm{s}}' |n m_\ell m_{\mathrm{s}}\rangle = F_{n m_\ell}(r, \varphi) \delta_{m_{\mathrm{s}}^{} m_{\mathrm{s}}'}$$ {#eq:singleparticlestate}
 Here we have introduced spin projection $m_{\mathrm{s}} \in \bigl\{-\frac{1}{2}, +\frac{1}{2}\bigr\}$ as the third quantum number, which is the eigenvalue of the spin projection operator $\hat{S}_3$.
 
 ![The 42 lowest single-particle states (the first 5 shells) in the 2D harmonic oscillator basis.  Each box represents a single-particle state arranged by $m_\ell$, $m_{\mathrm{s}}$, and energy, and the up/down arrows indicate the spin of the states.  Within each column, the principal quantum number $n$ increases as one traverses upward.](fig-shell-structure){#fig:shell-structure}
 
 The energy of the single-particle state $|n m_\ell m_{\mathrm{s}}\rangle$ is given by
-\begin{align} \label{eq:energysingleparticlestate}
-  \varepsilon_{n m_\ell m_{\mathrm{s}}} = (2 n + |m_\ell| + 1) \hbar \omega
-\end{align}
+$$\varepsilon_{n m_\ell m_{\mathrm{s}}} = (2 n + |m_\ell| + 1) \hbar \omega$$ {#eq:energysingleparticlestate}
 in ordinary units.  These energies are degenerate with respect to the spin projection $m_{\mathrm{s}}$ as our Hamiltonian $\hat{h}$ does not distinguish between them.  Additionally, they are degenerate with respect to the number of quanta $k$, defined as
-$$k = 2 n + |m_\ell|$${#eq:shell_index}
-We also call $k$ the **shell index** as this nonnegative integer labels each shell starting from zero.  The shells are equidistant with an energy spacing of $\hbar \omega$.  This is depicted graphically in @Fig:shell-structure.
+$$k = 2 n + |m_\ell|$$ {#eq:shell_index}
+We also call $k$ the **shell index** as this nonnegative integer labels each shell starting from zero.  The shells are equidistant with an energy spacing of $\hbar \omega$.  This is depicted graphically in [@Fig:shell-structure].
 
 When the number of particles $N$ satisfies $N = K_{\mathrm{F}} (K_{\mathrm{F}} + 1)$ for some nonnegative integer $K_{\mathrm{F}}$, there would be just enough particles to form a closed-shell Slater determinant, leading to a unique, well-isolated ground state.  These specific values of $N$ form the **magic numbers** of this system.  We call $K_{\mathrm{F}}$ the **number of filled shells** (or “Fermi level”).  In particular, a single-particle state is occupied in the ground state Slater determinant if and only if $k < K_{\mathrm{F}}$, where $k$ is the shell index of the single-particle state as defined in @Eq:shell_index.
 
@@ -90,8 +86,8 @@ where for brevity we have relabeled the quantum numbers with $m = m_\ell$ and $s
 $$\begin{aligned}
   &\bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4} \\
   &= \frac{e^2}{4 \PI \epsilon} \iint \frac{F_{(n m)_1}(\bm{r}) F_{(n m)_2}(\bm{r}') F_{(n m)_3}(\bm{r}) F_{(n m)_4}(\bm{r}')}{|\bm{r} - \bm{r}'|} \D^2 r \D^2 r'
-\end{aligned}$$
-denotes the non-antisymmetrized matrix element in ordinary units, and $F_{n m}(\bm{r})$ denotes a Fock–Darwin wave function.
+\end{aligned}$$ {#eq:qdots-integral}
+denotes the *non-antisymmetrized* matrix element in ordinary units, and $F_{n m}(\bm{r})$ denotes a Fock–Darwin wave function.
 
 Analytically, the integral may be evaluated [@0953-8984-10-3-013] as
 $$\begin{aligned}
@@ -109,6 +105,6 @@ $$\begin{aligned}
 
 However, the analytic approach is rather inefficient: it has effectively 7 nested summations, which means the computational cost of *each* matrix element grows as $\bigo(k^7)$ where $k$ is the number of shells.  It is also prone to precision losses due to the highly oscillatory terms.
 
-A more effective way to compute the integral is through the technique described in [@2008arXiv0810.2644K] as implemented in the `OpenFCI` software.  By transforming product states $\ket{(n m)_1 \otimes (n m)_2}$ into their center-of-mass frame, one arrives at a radial integral
+A more effective way to compute the integral is through the technique described in [@2008arXiv0810.2644K] as implemented in the OpenFCI package.  By transforming product states $\ket{(n m)_1 \otimes (n m)_2}$ into their center-of-mass frame, one arrives at a radial integral
 $$C^\mu_{n n'} = 2 (-)^{n + n'} \int_0^\infty R^{2 \mu} \bar{L}^\mu_n(R^2) \bar{L}^\mu_{n'}(R^2) v(\sqrt{2} R) \E^{-R^2} R \D R $$
-where $\bar{L}^\alpha_n(x)$ is the normalized associated Laguerre polynomial defined in @Eq:laguerre-polynomials and $v(R)$ is our central interaction, although this technique generalizes to many kinds of central interactions.  The radial integral may be calculated *exactly* using Gauss–Hermite quadrature of sufficiently high order.  The results are then be transformed back into the laboratory frame.
+where $\bar{L}^\alpha_n(x)$ is the normalized associated Laguerre polynomial defined in @Eq:laguerre-polynomials and $v(R)$ is our central interaction, although this technique generalizes to many kinds of central interactions.  The radial integral may be calculated *exactly* using Gauss–Hermite quadrature of sufficiently high order.  The results are transformed back into the laboratory frame using Talmi–Brody–Moshinsky transformation brackets [@Talmi1952; @brody1967tables; @MOSHINSKY1959104].

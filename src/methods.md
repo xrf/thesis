@@ -1,4 +1,4 @@
-# Many-body methods
+[[motivation]]
 
 In @Sec:symmetrization, we have noted that antisymmetrized states (Slater determinants) provide solutions for any non-interacting fermionic system.  We have not yet discussed how to solve *interacting* systems however, which is the principal focus of many-body theory.
 

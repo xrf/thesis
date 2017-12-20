@@ -81,7 +81,7 @@ $$E_u^{(n)} = \begin{cases}
 The coefficients $C_{u' u}$ are obtained by diagonalizing the effective Hamiltonian through the eigenvalue problem,
 $$\sum_{v'} \bra{u^{\prime\circ}} \hat{H}^{\mathrm{eff}} \ket{v^{\prime\circ}} C_{v' u} = C_{u' u} E_u$$
 
-## QDPT equations
+## QDPT equations {#sec:qdpt-eqs}
 
 We now consider the application of QDPT to the treatment of addition and removal energies via the particle-hole formalism.  Take each reference state to be a Slater determinant constructed by adding or removing a single particle $u$ to an existing closed-shell Fermi vacuum $\ket{\Phi}$,
 $$\ket{u^\circ} = \ket{\Phi_u}$$

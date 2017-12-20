@@ -44,7 +44,7 @@ This is comparable to coupled cluster singles-and-doubles (CCSD), which also sca
 
 The commutator in the flow equations [@Eq:imsrgode] ensures that the evolved state $\hat U(s) \ket{\Phi}$ consists of *linked diagrams* only [@shavitt2009many].  This indicates that IM-SRG is a size-extensive [@ISI:A1981MN73700014] method by construction, even if the operators are truncated.
 
-An accurate and robust solver is required to solve ordinary differential equation (ODE) in [@Eq:imsrgode].  In particular, the solver must be capable of handling the stiffness that often arises in such problems.  For our numerical experiments, we used a high-order ODE solver algorithm by L. F. Shampine and M. K. Gordon [@shampine1975computer], which is a multistep method based on the implicit Adams predictor-corrector formulas.  Its source code is freely available [@odesolver].
+An accurate and robust solver is required to solve ordinary differential equation (ODE) in [@Eq:imsrgode].  In particular, the solver must be capable of handling the stiffness that often arises in such problems.  For our numerical experiments, we used a high-order ODE solver algorithm by L. F. Shampine and M. K. Gordon [@shampine1975computer], which is a multistep method based on the implicit Adams predictor-corrector formulas.  Its source code is freely available [@odesolver; @sgode].
 
 ## IM-SRG generators
 
@@ -61,7 +61,7 @@ There exist several other generators in literature.  One choice, proposed by Whi
 The **White generator** takes an alternative approach, which is well suited for problems where one is mainly interested in the ground state of a system.  Firstly, instead of driving all off-diagonal elements of the Hamiltonian to zero, the generator focuses exclusively on those that are coupled to the reference state $\ket{\Phi}$ so as to decouple the reference state from the remaining Hamiltonian.  This reduces the amount of change done to the Hamiltonian, reducing the accuracy lost from the operator truncation.  Secondly, the rate of decay in Hamiltonian matrix elements are approximately normalized by dividing the generator matrix elements by an appropriate factor.  This ensures that the affected elements decay at approximately the same rate, reducing the stiffness of the flow equations.
 
 The White generator is explicitly constructed in the following way [@PhysRevLett.106.222502; @White:cond-mat0201346]:
-$$\hat{\eta}^{\text{Wh}} = \hat{\eta}' - \hat{\eta}'{}^\dagger$$
+$$\hat{\eta}^{\text{Wh}} = \hat{\eta}' - \hat{\eta}'{}^\dagger$$ {#eq:white-generator}
 where $\hat{\eta}'$ is defined as
 $$\hat{\eta}' = \sum_{i \backslash a} \frac{H_{a i}}{\tilde{\Delta}_{a i}} \normord{\hat{a}^\dagger_a \hat{a}_i} + \frac{1}{4} \sum_{i j \backslash a b} \frac{H_{a b i j}}{\tilde{\Delta}_{a b i j}} \normord{\hat{a}^\dagger_a \hat{a}^\dagger_b \hat{a}_j \hat{a}_i} + \cdots$$
 The symbol $\tilde{\Delta}$ denotes the **Epstein–Nesbet energy denominators** [@shavitt2009many], defined as
@@ -78,7 +78,7 @@ White generators can also use Møller–Plesset energy denominators directly in 
 
 Compared to the Wegner generator, where the derivatives of the final flow equations contain cubes of the Hamiltonian matrix elements (i.e. each term contains a product of 3 one-body and/or two-body matrix elements), the elements in White generators contribute only linearly.  This reduces the stiffness in the differential equation, providing a net increase in computational efficiency as stiff ODE solvers tend to be slower and consume more memory.
 
-## IM-SRG(2) equations
+## IM-SRG(2) equations {#sec:imsrg-eqs}
 
 In the 2-body operator truncation scheme, the generator $\hat{\eta}$ can be written as a generic 2-body operator:
 $$\hat{\eta} = \sum_{p q} \eta_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} + \frac{1}{4} \sum_{p q r s} \eta_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r}$$
@@ -138,7 +138,7 @@ Finally, we write out the diagrams as,
 
 ![Hugenholtz diagrams representing the terms of linked product $\hat{C}(\circ, \bullet)$ in the flow IM-SRG equation, with open circles representing $\hat{A}$ and filled circles representing $\hat{B}$.  We omit diagrams that are related by permutations among the external bra lines or among the external ket lines.](fig-diagrams-imsrg){#fig:diagrams-imsrg}
 
-## IM-SRG(2) equations in J-scheme
+## IM-SRG(2) equations in J-scheme {#sec:imsrg-j-eqs}
 
 Using the implicit-J convention (@Sec:implicit-j), we can write the IM-SRG(2) equations as
 \begin{align*}
@@ -155,8 +155,18 @@ Using the implicit-J convention (@Sec:implicit-j), we can write the IM-SRG(2) eq
   C^{2210}_{p q r s} &= -2 \mathcal{A}_{p q} \sum_{i \backslash} A_{i q r s} B_{p i} &
   C^{2211}_{p q r s} &= +2 \mathcal{A}_{r s} \sum_{\backslash a} A_{p q a s} B_{a r} \\
   C^{2220}_{p q r s} &= +\frac{1}{2} \sum_{i j \backslash} A_{i j r s} B_{p q i j} &
-%  C^{2221}_{p q r s} &= -4 \mathcal{A}_{p q} \mathcal{A}_{r s} \sum_{i \backslash a} A_{i q a r} B_{a p i s}
   \tilde{C}^{2221}_{p s r q} &= +4 \sum_{i \backslash a} \tilde{A}_{i a r q} \tilde{B}_{p s i a} \\
   C^{2222}_{p q r s} &= +\frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s}
 \end{align*}
-where the tilde symbol ($\tilde{C}$) denotes non-antisymmetrized Pandya-coupled matrix elements (@Sec:pandya).
+where the tilde symbol ($\tilde{C}$) denotes non-antisymmetrized Pandya-coupled matrix elements ([@Sec:pandya]).
+
+The Epstein–Nesbet energy denominators that arise in White generators contain two-body terms that cannot be expressed in J-scheme.  As a practical workaround, one could replace occurrences of $H_{p q r s}$ in the denominator with the monopole matrix element
+$$H_{p q r s}^{\mathrm{mono}} = \frac{\sum_{j_{p q}} \jweight{j}_{p q}^2 H_{p q r s}}{\sum_{j_{p q}} \jweight{j}_{p q}^2 \tridelta{j_p}{j_q}{j_{p q}}}$$
+Unlike the usual matrix element $H_{p q r s}$, the monopole matrix element $H_{p q r s}^{\mathrm{mono}}$ does not depend on $j_{p q}$.
+
+The replacement by monopole matrix elements leads to the following Epstein–Nesbet energy denominators:
+\begin{align*}
+  \tilde{\Delta}_{a i}^{\mathrm{mono}} &= \Delta_{a i} - H_{a i a i}^{\mathrm{mono}} \\
+  \tilde{\Delta}_{a b i j}^{\mathrm{mono}} &= \Delta_{a b i j} + H_{a b a b}^{\mathrm{mono}} - H_{a i a i}^{\mathrm{mono}} - H_{b i b i}^{\mathrm{mono}} + H_{i j i j}^{\mathrm{mono}} - H_{a j a j}^{\mathrm{mono}} - H_{b j b j}^{\mathrm{mono}}
+\end{align*}
+These do result in a different White generator, however.  The generator in M-scheme is no longer equivalent to that in J-scheme if monopole matrix elements are used.

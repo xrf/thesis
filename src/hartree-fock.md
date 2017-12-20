@@ -19,7 +19,7 @@ These conditions are more strict than needed, but they greatly simplify the calc
 Consider a Hamiltonian $\hat{H}$ that can be decomposed into a set of $(1, 2, 3)$-body operators relative to the physical vacuum,
 $$\hat{H} = \hat{H}^\varnothing_1 + \hat{H}^\varnothing_2 + \hat{H}^\varnothing_3$$
 where $\hat{H}^\varnothing_k$ is its $k$-body component relative to the physical vacuum.  (We will omit the $\varnothing$ suffix in this section.)  The goal is to find the coefficients $\bm{C}$ that minimize the Hartree–Fock energy $E_\Phi$,
-$$E_\Phi = \sum_{i' \backslash} \bra{i'} \hat{H}_1 \ket{i'} + \sum_{i' j' \backslash} \bra{i' j'} \hat{H}_2 \ket{i' j'}$$ {#eq:hfenergy}
+$$E_\Phi = \sum_{i' \backslash} \bra{i'} \hat{H}_1 \ket{i'} + \frac{1}{2} \sum_{i' j' \backslash} \bra{i' j'} \hat{H}_2 \ket{i' j'}$$ {#eq:hfenergy}
 where
 $$\begin{aligned}
   &\bra{p'} \hat{H}_1 \ket{q'} = \sum_{p q} C_{p p'}^* \bra{p} \hat{H}_1 \ket{q} C_{q q'} \\

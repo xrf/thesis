@@ -24,7 +24,7 @@ Lines represent variables that label single-particle states.  The direction of a
 
       - If the direction of the arrow goes *against* the time axis (in our convention, if the arrow points down), then it represents a *hole state* $i$, $j$, $k$, … since its creation occurs after its annihilation.
 
-  - External lines where one of the ends is dangling: these represent the variables $p$, $q$, $r$, … of uncontracted field operators and their orientation with respect to the time axis is irrelevant.  Outgoing lines (lines that leave the node) represent creation operators, and ingoing lines (lines that enter the node) represent annihilation operators.  If all operators conserve particle number, then one can often elide the directiosn of external lines and have them inferred from context.
+  - External lines where one of the ends is dangling: these represent the variables $p$, $q$, $r$, … of uncontracted field operators and their orientation with respect to the time axis is irrelevant.  Outgoing lines (lines that leave the node) represent creation operators, and ingoing lines (lines that enter the node) represent annihilation operators.  If all operators conserve particle number, then one can often elide the directions of external lines and have them inferred from context.
 
   - External lines where both ends are dangling: this is a degenerate case.  Such a line represents a Kronecker delta $\delta_{p q}$, where $p$ and $q$ are the variables on each end of the line.  The presence or absence of an arrow is irrelevant.
 

@@ -1,3 +1,5 @@
+[[motivate]]
+
 ## Many-particle states
 
 In single-particle time-independent quantum mechanics, the Schrödinger equation takes the following form in Dirac notation,
@@ -102,7 +104,7 @@ Note that the $\pm$-symmetrization symbol $\mathcal{S}^\pm$ is merely a notation
   \hat{S}^\pm_3 \ket{p_1 \otimes p_2 \otimes p_3} = \frac{\ket{p_1 \otimes p_2 \otimes p_3} \pm \ket{p_2 \otimes p_1 \otimes p_3} + \ket{p_2 \otimes p_3 \otimes p_1} \pm \cdots}{6} \\
   \hat{S}^\pm_N \ket{p_1 \otimes \cdots \otimes p_N} = \mathcal{S}^\pm_{p_1 \ldots p_N} \ket{p_1 \otimes \cdots \otimes p_N}
 \end{gather*}
-Despite the involvement of specific single-particle basis $\ket{p}$ in the definition of $\hat{S}^\pm_N$, one can show that the operator is actually basis-independent.
+Despite the involvement of a specific single-particle basis $\ket{p}$ in the definition of $\hat{S}^\pm_N$, one can show that the operator is actually independent of the basis choice.
 
 The $\hat{S}^\pm_N$ operator is idempotent and therefore a projection operator.  It projects the $N$-particle Hilbert space $\mathbb{H}^N$ to the $\pm$-symmetric subspace of $\mathbb{H}^N$.  By abuse of notation, we will denote this subspace $\hat{S}^\pm_N(\mathbb{H}^N)$.
 
@@ -193,7 +195,7 @@ $$T_{p q} = \bra{p} \hat{T} \ket{q} = \int \varphi_p^*(x) \hat{t} \varphi_q(x) \
 One-body operators have two notable properties:
 
   - Their expectation value is zero in the vacuum state.
-  - They do not contribute if the bra and ket states differ by more than one particle.
+  - They do not contribute if the bra and ket states differ in more than one single-particle state.
 
 ### Two-body operators
 
@@ -214,7 +216,7 @@ In other words, $V^\otimes_{p q r s} = V^\otimes_{q p s r}$.
 Two-body operators have two notable properties:
 
   - Their expectation value is zero in the vacuum state or one-particle state.
-  - They do not contribute if the bra and ket states differ by more than two particles.
+  - They do not contribute if the bra and ket states differ in more than two single-particle states.
 
 ### Three-body operators and beyond
 
@@ -248,7 +250,7 @@ and symmetries
 $k$-body operators have two notable properties:
 
   - Their expectation value is zero in the any state with $k$ or fewer particles.
-  - They do not contribute if the bra and ket states differ by more than $k$ particles.
+  - They do not contribute if the bra and ket states differ in more than $k$ single-particle states.
 
 ## Particle-hole formalism {#sec:ph-formalism}
 

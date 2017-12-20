@@ -148,7 +148,7 @@ Hence, the matrix elements of potential energy are
 &\quad \frac{\delta_{\ell' \ell} \delta_{m_\ell' m_\ell} \hbar \omega}{2} \left(\left(2 n + \ell + \frac{3}{2}\right) \delta_{n' n} - \sqrt{\eta \left(\eta + \ell + \frac{1}{2}\right)} \delta_{|n' - n| 1}\right)
 \end{align*}
 where $\eta = \max\{n', n\}$ is the larger of the two.  From here it is straightforward to compute the matrix elements of kinetic energy,
-\begin{align*}
+$$\begin{aligned}
 &\langle n' \ell' m_\ell' | \frac{\hat{\bm{p}}^2}{2 m} | n \ell m_\ell \rangle = \\
 &\quad \frac{\delta_{\ell' \ell} \delta_{m_\ell' m_\ell} \hbar \omega}{2} \left(\left(2 n + \ell + \frac{3}{2}\right) \delta_{n' n} + \sqrt{\eta \left(\eta + \ell + \frac{1}{2}\right)} \delta_{|n' - n| 1}\right)
-\end{align*}
+\end{aligned}$$ {#eq:ho3d-kinetic-energy}
