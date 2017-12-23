@@ -14,21 +14,27 @@ $\bm{a}^\dagger, \hat{a}^\dagger \quad$ A superscript dagger denotes the conjuga
 
 $(a, b, c, \ldots, z) \quad$ Comma-separated items enclosed within parentheses denote a tuple.
 
-$\bigl[\hat{A}, \hat{B}\bigr] \quad$ commutator of $A$ and $B$.
+$\{a, b, c, \ldots, z\} \quad$ Comma-separated items enclosed within curly braces denote a set.
 
-$\bigl\{\hat{A}, \hat{B}\bigr\} \quad$ anticommutator of $A$ and $B$.
+$\comm{\hat{A}, \hat{B}} \quad$ Commutator of $A$ and $B$.
 
-$| a \rangle \quad$ a (ket) vector in Dirac notation, where $a$ is a label.
+$\anticomm{\hat{A}, \hat{B}} \quad$ Anticommutator of $A$ and $B$
 
-$\langle a | \quad$ a dual (bra) vector in Dirac notation, where $a$ is a label.
+$\comm{\hat{A}, \hat{B}}_\pm \quad$ If $+$ then anticommutator; if $-$ then commutator.
 
-$\langle a | b \rangle \quad$ the inner product between $| a \rangle$ and $| b \rangle$.
+$| a \rangle \quad$ A (ket) vector in Dirac notation, where $a$ is a label.
 
-$\langle a | \hat{C} | b \rangle \quad$ the inner product between $| a \rangle$ and $\hat{C} | b \rangle$.
+$\langle a | \quad$ A dual (bra) vector in Dirac notation, where $a$ is a label.
 
-$| a \otimes b \otimes \cdots \rangle \quad$ product state formed from the tensor product of $| a \rangle, | b \rangle, \ldots$
+$\langle a | b \rangle \quad$ Inner product of $| a \rangle$ and $| b \rangle$.
+
+$\langle a | \hat{C} | b \rangle \quad$ Inner product of $| a \rangle$ and $\hat{C} | b \rangle$.
+
+$| a \otimes b \otimes \cdots \rangle \quad$ Product state formed from the tensor product of $| a \rangle, | b \rangle, \ldots$
 
 $| a b \ldots \rangle \quad$ In this context of many-body theory, this denotes a normalized, antisymmetrized state formed from $| a \rangle, | b \rangle, \ldots$
+
+$\lfloor x \rfloor \quad$ The floor of $x$, i.e. the greatest integer that does not exceed $x$.
 
 <!-- symbols -->
 
@@ -38,19 +44,19 @@ $\mathcal{A}_{a, b, c, \ldots} f(a, b, c, \ldots)\quad$ antisymmetrization of $f
 
 $\delta_{a'_1 \ldots a'_n}^{a_1 \ldots a_n}$ generalized Kronecker delta.  [[See section on antisymmetrization]]
 
-$\mathbb{N} \quad$ the set of all nonnegative integers.
+$\mathbb{N} \quad$ Set of all nonnegative integers.
 
-$\mathbb{Z} \quad$ the set of all integers.
+$\mathbb{Z} \quad$ Set of all integers.
 
-$\mathbb{R} \quad$ the set of all real numbers.
+$\mathbb{R} \quad$ Set of all real numbers.
 
-$\mathbb{C} \quad$ the set of all complex numbers.
+$\mathbb{C} \quad$ Set of all complex numbers.
 
-$\bm{1} \quad$ identity matrix.
+$\bm{1} \quad$ Identity matrix.
 
-$\hat{1} \quad$ identity operator.
+$\hat{1} \quad$ Identity operator.
 
-$\operatorname{sgn}(\sigma) \quad$ sign of a permutation $\sigma$.
+$\operatorname{sgn}(\sigma) \quad$ Sign of a permutation $\sigma$.
 
 ## Notation for angular momentum theory {-}
 

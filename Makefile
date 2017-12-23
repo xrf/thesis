@@ -6,8 +6,11 @@ pandoc_args=--mathjax --number-sections --biblatex \
             -M bibliography=book.bib \
             -M biblio-style=alphabetic \
             -M biblio-title=References,heading=bibintoc \
+            -M citecolor=OliveGreen \
+            -M classoption=fleqn \
             -M colorlinks \
             -M date=2017 \
+            -M indent \
             -M link-citations=true \
             -M lof \
             -M lot \
@@ -20,5 +23,10 @@ latex_pandoc_args:=$(call latex_pandoc_args,$(latex_pandoc_deps))
 
 latex_merge_args=--front-in-body=key-to-symbols.md
 
+assets=$(patsubst %.svg,%.pdf,$(wildcard src/*.svg))
+
 tool_dir=.local/src/book-mk
 include $(tool_dir)/book.mk
+
+.svg.pdf:
+	inkscape --without-gui --export-pdf=$@ $<

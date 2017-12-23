@@ -1,19 +1,96 @@
+\usepackage{libertine}
+\usepackage{libertinust1math}
+\renewcommand*\ttdefault{txtt}
 \usepackage{bm}
-\usepackage{fouriernc}
+\usepackage{isomath}
 \usepackage{subdepth}
+\usepackage{tikz}
+\usetikzlibrary{calc, shapes}
 \usepackage[T1]{fontenc}
+
 \renewcommand*\oldstylenums[1]{\textosf{#1}}
 \AtBeginDocument{\renewbibmacro{in:}{}}
 
-\providecommand{\overparen}[1]{[[fixme:overparen]]#1}
-
-\providecommand{\wideparen}[1]{\overparen{#1}}
+\providecommand{\otherDelta}{\Delta}
+\providecommand{\otherpi}{\pi}
+\providecommand{\upDelta}{\otherDelta}
+\providecommand{\uppi}{\otherpi}
+\newcommand{\D}{\operatorname{d\!}\mathord{}}
+\newcommand{\E}{\mathrm{e}}
+\newcommand{\I}{\mathrm{i}}
+\newcommand{\PI}{\uppi}
+\newcommand{\bigo}{\mathcal{O}}
+\newcommand{\symm}{\mathcal{S}}
+\newcommand{\antisymm}{\mathcal{A}}
 \newcommand{\doubleplus}{{+\mkern-7mu+}}
+\newcommand{\comm}[1]{\left[ #1 \right]}
+\newcommand{\anticomm}[1]{\left\{ #1 \right\}}
+\newcommand{\normord}[1]{\mathpunct{}\mathopen: #1 \mathclose:\mathpunct{}}
+\newcommand{\vnormord}[1]{\mathpunct{}\mathopen{\vdots} #1 \mathclose{\vdots}\mathpunct{}}
+\newcommand{\bra}[1]{\langle #1 \mathclose|}
+\newcommand{\ket}[1]{\mathopen| #1 \rangle}
+\newcommand{\bkt}[1]{\langle #1 \rangle}
+\newcommand{\braket}[2]{\bkt{#1 | #2}}
 \newcommand{\jdelta}[2]{\begin{Bmatrix} #1 \\ #2 \end{Bmatrix}}
-\newcommand{\jweight}[1]{\wideparen{#1}}
+\newcommand{\jweight}[1]{\breve{\ifx#1j\jmath\else#1\fi}}
 \newcommand{\couple}[2]{\mathcal{C}^{#1}_{#2}}
 \newcommand{\uncouple}[2]{\bar{\mathcal{C}}^{#1}_{#2}}
 \newcommand{\recoupling}[2]{\left\lceil\begin{matrix} #1 \\ #2 \end{matrix}\right\rfloor}
 \newcommand{\tridelta}[3]{\begin{Bmatrix} #1 & #2 & #3 \end{Bmatrix}}
+\newcommand{\pandya}{(1 4, 3 2)}
+
+\let\originalleft\left
+\let\originalright\right
+\def\left#1{\mathopen{}\originalleft#1}
+\def\right#1{\originalright#1\mathclose{}}
 
 \def\thedegreeprogram{Physics---Doctor of Philosophy}
+
+% ----------------------------------------------------------------------------
+%
+% TikZ macros
+% ===========
+
+% The \lcontr and \rcontr commands are used to display Wick contractions (the
+% left and right parts, respectively).  The syntax is given by:
+%
+%     \lcontr{INDEX}{OPERATOR}
+%     \rcontr[GAP]{INDEX}{OPERATOR}
+%
+% where:
+%
+% * INDEX is a unique number used to both identify and specify the height of
+%   the contraction.  The number only needs to be unique within the same
+%   product.  For best display, use natural numbers starting from one.
+%
+% * OPERATOR is the operator, e.g. \hat{a}.
+%
+% * GAP is the small gap between the operator and the end of the line.
+%   Default value is 0.03.
+%
+% Note that this will require two TeX passes to be displayed properly.
+%
+\providecommand{\lcontr}[2]{
+  \tikz[baseline = (contraction-#1-left.base), remember picture]
+  \node[inner sep = 0] (contraction-#1-left) {\ensuremath{#2}};
+}
+\providecommand{\rcontr}[3][.03]{
+  \tikz[baseline = (contraction-#2-right.base), remember picture]
+  \node[inner sep = 0] (contraction-#2-right) {\ensuremath{#3}};
+  \pgfmathsetmacro{\contractiondirection}{#2 > 0 ? "north" : "south"}
+  \pgfmathsetmacro{\contractiongap}{.03}
+  \pgfmathsetmacro{\contractionoffset}{
+    #2 > 0 ? \contractiongap : -\contractiongap - .1
+  }
+  \pgfmathsetmacro{\contractionheight}{
+    #2 > 0 ? #2 * .08 + .45 : #2 * .08 - .22
+  }
+  \begin{tikzpicture}[overlay, remember picture, thick]
+    \draw let \p1 = (contraction-#2-left.\contractiondirection) in
+             ($ (contraction-#2-left.\contractiondirection)
+                + (0, \contractionoffset) $)
+          -- ($ (\x1, \contractionheight) $)
+          -| ($ (contraction-#2-right.\contractiondirection)
+                + (0, \contractionoffset) $);
+  \end{tikzpicture}
+}
