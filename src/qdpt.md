@@ -79,7 +79,7 @@ $$E_u^{(n)} = \begin{cases}
   \bra{u^\circ} \hat{V} \hat{\Omega}^{(n - 1)} \ket{u^\circ} & \text{if } n > 0
 \end{cases}$$
 The coefficients $C_{u' u}$ are obtained by diagonalizing the effective Hamiltonian through the eigenvalue problem,
-$$\sum_{v'} \bra{u^{\prime\circ}} \hat{H}^{\mathrm{eff}} \ket{\Psi^\circ_{v'}} C_{v' u} = C_{u' u} E_u$$
+$$\sum_{v'} \bra{u^{\prime\circ}} \hat{H}^{\mathrm{eff}} \ket{v^{\prime\circ}} C_{v' u} = C_{u' u} E_u$$
 
 ## QDPT equations
 
@@ -89,31 +89,89 @@ Take note that in QDPT *Fermi vacuum* and *reference state* are no longer synony
 
 We choose $u$ to be close to the Fermi level: it should be a single-particle state within an adjacent shell.  Therefore, the number of reference states in the model space of QDPT is equal to the number of particles in either the lowest unoccupied shell or the highest occupied shell of $\ket{\Phi}$, depending on whether we are considering addition or removal energies, respectively.
 
-We can then express the perturbation expansion in terms of summations over matrix elements as we did for the IM-SRG flow equation.
+We can then express the perturbation expansion in terms of summations over matrix elements as we did for the IM-SRG flow equation.  We will restrict ourselves to the case where the perturbation $\hat{V}$ is a two-body operator.
 
-![Perturbative Hugenholtz diagrams of the second- and third-order QDPT corrections.  When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish.  The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.](fig-diagrams-sfe){#fig:diagrams-sfe}
+![Perturbative Hugenholtz diagrams of the second- and third-order QDPT corrections.  Denominator lines have been elided.  When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish.  The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.](fig-diagrams-sfe){#fig:diagrams-sfe}
 
-The second-order QDPT corrections are:
+The second-order QDPT corrections of the **left-shift operator** (or **reaction operator**) $\hat{W} = \hat{H}^{\mathrm{eff}} - \hat{H}^\circ$ are:
 $$
-  \varepsilon_p^{(2)} =
-    \frac{1}{2} \sum_{i \backslash a b}
-    \frac{\left|H_{p i a b}\right|^2}{\Delta_{p i a b}}
-    - \frac{1}{2} \sum_{i j \backslash a}
-    \frac{\left|H_{i j p a}\right|^2}{\Delta_{i j p a}}
+  W^{(2)}_{p q} =+ \frac{1}{2} \sum_{i \backslash a b} \frac{V_{i p a b} V_{a b i q}}{\Delta_{i q a b}} - \frac{1}{2} \sum_{i j \backslash a} \frac{V_{i j a q} V_{a p i j}}{\Delta_{i j a p}}
 $$
-Here, $\Delta$ denotes Møller–Plesset denominators as defined in [@Eq:moellerplessetdenominator].  Second-order corrections are depicted diagrammatically in [@Fig:diagrams-sfe], along with third-order corrections.
+Here, $V_{a b i q}$ are matrix elements of the two-body operator $\hat{V}$ and $\Delta$ denotes Møller–Plesset denominators as defined in [@Eq:moellerplessetdenominator].  These second-order corrections are depicted diagrammatically in [@Fig:diagrams-sfe].
 
-There is some degree of synergy between IM-SRG and QDPT: a generator that decouples the ground state energy will necessarily drive certain classes of matrix elements to zero.  This means certain kinds of vertices in the diagrams become forbidden, reducing the number of nonzero diagrams at third order from 18 to only four.
+Third-order QDPT corrections are:
+$$\begin{aligned}
+  &W^{(3)}_{p q} =
+  \\ &\quad
+  + \frac{1}{4} \sum_{i \backslash a b c d} \frac{V_{i p a b} V_{a b c d} V_{c d i q}}{\Delta_{i q a b} \Delta_{i q c d}}
+  - \frac{1}{4} \sum_{i j \backslash a b c} \frac{V_{i j a q} V_{a p b c} V_{b c i j}}{\Delta_{i j a p} \Delta_{i j b c}}
+  - \frac{1}{4} \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{a b c q} V_{c p i j}}{\Delta_{i j q a b p} \Delta_{i j c p}}
+  \\ &\quad
+  - \frac{1}{4} \sum_{i j k l \backslash a} \frac{V_{i j a q} V_{k l i j} V_{a p k l}}{\Delta_{i j a p} \Delta_{k l a p}}
+  + \frac{1}{4} \sum_{i j k \backslash a b} \frac{V_{i p a b} V_{j k i q} V_{a b j k}}{\Delta_{i q a b} \Delta_{j k a b}}
+  + \frac{1}{4} \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{k p i j} V_{a b k q}}{\Delta_{i j q a b p} \Delta_{k q a b}}
+  \\ &\quad
+  - \frac{1}{2} \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{k p j q} V_{a b i k}}{\Delta_{i j q a b p} \Delta_{i k a b}}
+  + \frac{1}{2} \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{b p c q} V_{a c i j}}{\Delta_{i j q a b p} \Delta_{i j a c}}
+  + \frac{1}{2} \sum_{i j \backslash a b c} \frac{V_{i p a q} V_{a j b c} V_{b c i j}}{\Delta_{i a} \Delta_{i j b c}}
+  \\ &\quad
+  + \frac{1}{2} \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{a b i c} V_{c p j q}}{\Delta_{i j q a b p} \Delta_{j q c p}}
+  - \frac{1}{2} \sum_{i j k \backslash a b} \frac{V_{i p a q} V_{j k i b} V_{a b j k}}{\Delta_{i a} \Delta_{j k a b}}
+  - \frac{1}{2} \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{a k i j} V_{b p k q}}{\Delta_{i j q a b p} \Delta_{k q b p}}
+  \\ &\quad
+  + \sum_{i j \backslash a b c} \frac{V_{i p a c} V_{j c b q} V_{a b i j}}{\Delta_{i q a c} \Delta_{i j a b}}
+  + \sum_{i j \backslash a b c} \frac{V_{i j a b} V_{b p j c} V_{a c i q}}{\Delta_{i j q a b p} \Delta_{i q a c}}
+  + \sum_{i j \backslash a b c} \frac{V_{i p a c} V_{j a b i} V_{b c j q}}{\Delta_{i q a c} \Delta_{j q b c}}
+  \\ &\quad
+  - \sum_{i j k \backslash a b} \frac{V_{i k a q} V_{a j i b} V_{b p j k}}{\Delta_{i k a p} \Delta_{j k b p}}
+  - \sum_{i j k \backslash a b} \frac{V_{i k a q} V_{j p b k} V_{a b i j}}{\Delta_{i k a p} \Delta_{i j a b}}
+  - \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{b k j q} V_{a p i k}}{\Delta_{i j q a b p} \Delta_{i k a p}}
+\end{aligned}$$
+Diagrams of third-order corrections are also shown in [@Fig:diagrams-sfe].
 
-In a J-scheme basis, the second-order corrections are:
+There is some degree of synergy between IM-SRG and QDPT: a generator that decouples the ground state energy will necessarily drive certain classes of matrix elements to zero.  Consider for example the White generator, which eliminates matrix elements of the form:
+$$V_{i j a b} = V_{a b i j} = 0$$
+This means certain kinds of vertices in the diagrams become forbidden, reducing the number of nonzero diagrams at third order from 18 to only four.  Out of these four, two of them contribute only to the correction of hole states (removal energies), while the other two contribute only to the correction of the particle states (addition energies).
+
+In J-scheme, the second-order corrections are:
 $$
-  \varepsilon_p^{(2)} =
-    \frac{1}{2} \sum_{j_{pi}} \sum_{i \backslash a b}
-    \frac{\jweight{j}_{pi}^2}{\jweight{j}_p^2}
-    \frac{\left|H_{p i a b}\right|^2}{\Delta_{p i a b}}
-  - \frac{1}{2} \sum_{j_{ij}} \sum_{i j \backslash a}
-    \frac{\jweight{j}_{ij}^2}{\jweight{j}_p^2}
-    \frac{\left|H_{i j p a}\right|^2}{\Delta_{i j p a}}
+  W^{(2)}_{p q} =
+    \frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b}
+    \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2}
+    \frac{V_{i p a b} V_{a b i q}}{\Delta_{i q a b}}
+  - \frac{1}{2} \sum_{j_{a p}} \sum_{i j \backslash a}
+    \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2}
+    \frac{V_{i j a q} V_{a p i j}}{\Delta_{i j a p}}
 $$
 
-[[TODO: J-Scheme third-order]]
+With Pandya-transformed matrix elements $\tilde{V}_{p s r q}$ ([@Sec:pandya]), the third-order QDPT corrections in J-scheme are given by:
+$$\begin{aligned}
+  &W^{(3)}_{p q} =
+  \\ &\quad
+  + \frac{1}{4} \sum_{j_{i p}} \sum_{i \backslash a b c d} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} \frac{V_{i p a b} V_{a b c d} V_{c d i q}}{\Delta_{i q a b} \Delta_{i q c d}}
+  - \frac{1}{4} \sum_{j_{a p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} \frac{V_{i j a q} V_{a p b c} V_{b c i j}}{\Delta_{i j a p} \Delta_{i j b c}}
+  \\ &\quad
+  - \frac{1}{4} \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{V_{i j a b} V_{a b c q} V_{c p i j}}{\Delta_{i j q a b p} \Delta_{i j c p}}
+  - \frac{1}{4} \sum_{j_{a p}} \sum_{i j k l \backslash a} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} \frac{V_{i j a q} V_{k l i j} V_{a p k l}}{\Delta_{i j a p} \Delta_{k l a p}}
+  \\ &\quad
+  + \frac{1}{4} \sum_{j_{i p}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} \frac{V_{i p a b} V_{j k i q} V_{a b j k}}{\Delta_{i q a b} \Delta_{j k a b}}
+  + \frac{1}{4} \sum_{j_{k p}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{k p}^2}{\jweight{j}_p^2} \frac{V_{i j a b} V_{k p i j} V_{a b k q}}{\Delta_{i j q a b p} \Delta_{k q a b}}
+  \\ &\quad
+  - \frac{1}{2} \sum_{j_{k p} j_{i j}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{k p}^2 \jweight{j}_{i j}^2}{\jweight{j}_p^2 \jweight{j}_j^2} \frac{V_{i j a b} V_{k p j q} V_{a b i k}}{\Delta_{i j q a b p} \Delta_{i k a b}}
+  + \frac{1}{2} \sum_{j_{b p} j_{a b}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{b p}^2 \jweight{j}_{a b}^2}{\jweight{j}_p^2 \jweight{j}_b^2} \frac{V_{i j a b} V_{b p c q} V_{a c i j}}{\Delta_{i j q a b p} \Delta_{i j a c}}
+  \\ &\quad
+  + \frac{1}{2} \sum_{j_{i p} j_{i j}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{i p}^2 \jweight{j}_{i j}^2}{\jweight{j}_p^2 \jweight{j}_i^2} \frac{V_{i p a q} V_{a j b c} V_{b c i j}}{\Delta_{i a} \Delta_{i j b c}}
+  + \frac{1}{2} \sum_{j_{c p} j_{i j}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2 \jweight{j}_{i j}^2}{\jweight{j}_p^2 \jweight{j}_j^2} \frac{V_{i j a b} V_{a b i c} V_{c p j q}}{\Delta_{i j q a b p} \Delta_{j q c p}}
+  \\ &\quad
+  - \frac{1}{2} \sum_{j_{i p} j_{a b}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{i p}^2 \jweight{j}_{a b}^2}{\jweight{j}_p^2 \jweight{j}_a^2} \frac{V_{i p a q} V_{j k i b} V_{a b j k}}{\Delta_{i a} \Delta_{j k a b}}
+  - \frac{1}{2} \sum_{j_{b p} j_{a b}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{b p}^2 \jweight{j}_{a b}^2}{\jweight{j}_p^2 \jweight{j}_b^2} \frac{V_{i j a b} V_{a k i j} V_{b p k q}}{\Delta_{i j q a b p} \Delta_{k q b p}}
+  \\ &\quad
+  + \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a c p} \tilde{V}_{c q b j} \tilde{V}_{b j i a}}{\Delta_{i q a c} \Delta_{i j a b}}
+  + \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a b j} \tilde{V}_{b j c p} \tilde{V}_{c q i a}}{\Delta_{i j q a b p} \Delta_{i q a c}}
+  \\ &\quad
+  + \sum_{j_{c p}} \sum_{i j \backslash a b c} \frac{\jweight{j}_{c p}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a c p} \tilde{V}_{j b i a} \tilde{V}_{c q j b}}{\Delta_{i q a c} \Delta_{j q b c}}
+  - \sum_{j_{p k}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{p k}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a q k} \tilde{V}_{j b i a} \tilde{V}_{p k j b}}{\Delta_{i k a p} \Delta_{j k b p}}
+  \\ &\quad
+  - \sum_{j_{p k}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{p k}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a q k} \tilde{V}_{p k b j} \tilde{V}_{b j i a}}{\Delta_{i k a p} \Delta_{i j a b}}
+  - \sum_{j_{p k}} \sum_{i j k \backslash a b} \frac{\jweight{j}_{p k}^2}{\jweight{j}_p^2} \frac{\tilde{V}_{i a b j} \tilde{V}_{b j q k} \tilde{V}_{p k i a}}{\Delta_{i j q a b p} \Delta_{i k a p}}
+\end{aligned}$$
