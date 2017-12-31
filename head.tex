@@ -1,6 +1,8 @@
 \usepackage{libertine}
 \usepackage{libertinust1math}
 \renewcommand*\ttdefault{txtt}
+\newcommand{\vnormord}[1]{\mathpunct{}\,\mathopen\vdots\,#1\,\mathclose\vdots\,\mathpunct{}}
+
 \usepackage{bm}
 \usepackage{isomath}
 \usepackage{subdepth}
@@ -25,8 +27,8 @@
 \newcommand{\doubleplus}{{+\mkern-7mu+}}
 \newcommand{\comm}[1]{\left[ #1 \right]}
 \newcommand{\anticomm}[1]{\left\{ #1 \right\}}
-\newcommand{\normord}[1]{\mathpunct{}\mathopen: #1 \mathclose:\mathpunct{}}
-\newcommand{\vnormord}[1]{\mathpunct{}\mathopen{\vdots} #1 \mathclose{\vdots}\mathpunct{}}
+\providecommand{\normord}[1]{\mathpunct{}\mathopen: #1 \mathclose:\mathpunct{}}
+\providecommand{\vnormord}[1]{\mathpunct{}\mathopen\vdots #1 \mathclose\vdots\mathpunct{}}
 \newcommand{\bra}[1]{\langle #1 \mathclose|}
 \newcommand{\ket}[1]{\mathopen| #1 \rangle}
 \newcommand{\bkt}[1]{\langle #1 \rangle}
