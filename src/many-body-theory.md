@@ -25,7 +25,7 @@ With more than one particle, the Schrödinger equation remains conceptually the 
 $$\hat{H} \ket{\Psi} = E \ket{\Psi}$$
 but there are many more degrees of freedom and thus more variables.  Here, $\hat{H}$ is the $N$-particle Hamiltonian operator and $E$ is the energy of the $N$-particle state.
 
-### Product states
+### Product states {#sec:prod-state}
 
 The simplest multi-particle system that can be solved is that of a non-interacting Hamiltonian of $N$ homogeneous particles,
 $$\hat{H}_N^\circ = \sum_{\alpha = 1}^N \hat{h}(\hat{x}_\alpha, \hat{k}_\alpha)$$
@@ -250,7 +250,7 @@ $k$-body operators have two notable properties:
   - Their expectation value is zero in the any state with $k$ or fewer particles.
   - They do not contribute if the bra and ket states differ by more than $k$ particles.
 
-## Particle-hole formalism
+## Particle-hole formalism {#sec:ph-formalism}
 
 Any state in Fock space can be described by a chain of creation operators applied to the vacuum state.  In many-body systems, the number of particles can be quite large, leading to long chains of creation operators.
 
@@ -276,16 +276,16 @@ The quasiparticle operators have an algebra analogous to the original field oper
 \end{align*}
 The quasiparticle field operators treat $\ket{\Phi}$ as their “vacuum” state, similar to how original field operators treat $\ket{\varnothing}$ as their vacuum state.  For this reason, the reference state $\ket{\Phi}$ is also known as a **Fermi vacuum**.
 
-So far, we have used the letters $p$, $q$, $r$, … to label single-particle states, which contain both hole and particle states relative to the Fermi vacuum.  We will continue to use this convention.  It is often convenient to sum over only hole states, or only particle states.  To this end, we introduce a convention where $i$, $j$, $k$, … are used to label hole states and $a$, $b$, $c$, … label particle states.  We also introduce a special summation notation with a backslash,
+So far, we have used the letters $p$, $q$, $r$, … to label single-particle states, which contain both hole and particle states relative to the Fermi vacuum.  We will continue to use this convention.  It is often convenient to sum over only hole states, or only particle states.  To this end, we introduce a convention where $i$, $j$, $k$, … are used to label hole states and $a$, $b$, $c$, … label particle states.  We also introduce a special notation for **summation over holes and particles**:
 $$\sum_{i j k \ldots \backslash a b c \ldots} \cdots$$
-which serves as an additional reminder that $i$, $j$, $k$, … should be summed over hole states only, and $a$, $b$, $c$, … should be summed over particle states only.
+The backslash serves as an additional reminder that $i$, $j$, $k$, … should be summed over hole states only, and $a$, $b$, $c$, … should be summed over particle states only.
 
 In this formalism, we use the following concise notation to denote states near the reference state,
 $$\ket{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} = \hat{b}_{a_1}^\dagger \ldots \hat{b}_{a_k}^\dagger \hat{b}_{i_k}^\dagger \ldots \hat{b}_{i_1}^\dagger \ket{\Phi} = \hat{a}_{a_1}^\dagger \ldots \hat{a}_{a_k}^\dagger \hat{a}_{i_k} \ldots \hat{a}_{i_1} \ket{\Phi}$$
 Note that although this state has $2 k$ quasi-particles, it still has exactly $N$ physical particles, because the particles and holes cancel out exactly.  We also introduce a shorthand for its energy,
 $$E_{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} = \bra{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} \hat{H} \ket{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}}$$
 
-## Normal ordering
+## Normal ordering {#sec:normord}
 
 We say a product of field operators is in **normal order** if all creation operators appear before all annihilation operators.
 

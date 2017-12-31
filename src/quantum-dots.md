@@ -49,13 +49,13 @@ $$\hat{L}_3 = -\mathrm{i} \frac{\hat{\partial}}{\partial \varphi}$$
 The Fock–Darwin wave functions can be decomposed into radial and angular components,[@lohne2010coupled]
 $$\begin{aligned}
   &F_{n m_\ell}(r, \varphi) = \sqrt{\frac{m \omega}{\hbar}} R_{n |m_\ell|}\left(\sqrt{\frac{m \omega}{\hbar}} r\right) A_{m_\ell}(\varphi) \\
-  &R_{n \mu}(\rho) = \sqrt{2} \mathrm{e}^{-\rho^2 / 2} \rho^\mu \bar{L}_n^{(\mu)}(\varrho^2) \\
+  &R_{n \mu}(\rho) = \sqrt{2} \mathrm{e}^{-\rho^2 / 2} \rho^\mu \bar{L}_n^\mu(\varrho^2) \\
   &A_{m_\ell}(\varphi) = \frac{1}{\sqrt{2 \pi}} \mathrm{e}^{\mathrm{i} m_\ell \varphi}
 \end{aligned}$$ {#eq:fockdarwin}
-in ordinary units.  Here, $\sqrt{\hbar / m \omega}$ is the characteristic length of the harmonic oscillator, $\Gamma(x)$ is the gamma function, $L_n^{(\alpha)}(x)$ is the generalized Laguerre polynomial of degree $n$, and parameter $\alpha$ [@DLMF], and $\bar{L}_n^{(\alpha)}(x)$ is its normalized version:
+in ordinary units.  Here, $\sqrt{\hbar / m \omega}$ is the characteristic length of the harmonic oscillator, $\Gamma(x)$ is the gamma function, $L_n^\alpha(x)$ is the associated Laguerre polynomial of degree $n$ and parameter $\alpha$ [@DLMF], and $\bar{L}_n^\alpha(x)$ is its normalized version:
 $$\begin{aligned}
-  &\bar{L}^{(\alpha)}_n(x) = \sqrt{\frac{n!}{\Gamma(n + \alpha + 1)}} L^{(\alpha)}_n(x) \\
-  &L_n^{(\alpha)}(x) = \frac{1}{n!} x^{-\alpha} \mathrm{e}^x \frac{\mathrm{d}^n}{\mathrm{d} x^n} (\mathrm{e}^{-x} x^{\alpha + n})
+  &\bar{L}^\alpha_n(x) = \sqrt{\frac{n!}{\Gamma(n + \alpha + 1)}} L^\alpha_n(x) \\
+  &L_n^\alpha(x) = \frac{1}{n!} x^{-\alpha} \mathrm{e}^x \frac{\mathrm{d}^n}{\mathrm{d} x^n} (\mathrm{e}^{-x} x^{\alpha + n})
 \end{aligned}$$ {#eq:laguerre-polynomials}
 
 The states are labeled by two quantum numbers: the principal quantum number $n \in \{0, 1, 2, \ldots\}$ and orbital angular momentum projection $m_\ell \in \mathbb \{\ldots, -2, -1, 0, +1, +2, \ldots\}$.  For a wave function, $n$ indicates the degree of the Laguerre polynomial, whereas $m_\ell$ is the eigenvalue of $\hat{L}_3$.
@@ -110,5 +110,5 @@ $$\begin{aligned}
 However, the analytic approach is rather inefficient: it has effectively 7 nested summations, which means the computational cost of *each* matrix element grows as $\bigo(k^7)$ where $k$ is the number of shells.  It is also prone to precision losses due to the highly oscillatory terms.
 
 A more effective way to compute the integral is through the technique described in [@2008arXiv0810.2644K] as implemented in the `OpenFCI` software.  By transforming product states $\ket{(n m)_1 \otimes (n m)_2}$ into their center-of-mass frame, one arrives at a radial integral
-$$C^\mu_{n n'} = 2 (-)^{n + n'} \int_0^\infty R^{2 \mu} \bar{L}^{(\mu)}_n(R^2) \bar{L}^{(\mu)}_{n'}(R^2) v(\sqrt{2} R) \E^{-R^2} R \D R $$
-where $\bar{L}^{(\alpha)}_n(x)$ is the normalized Laguerre polynomial defined in @Eq:laguerre-polynomials and $v(R)$ is our central interaction, although this technique generalizes to many kinds of central interactions.  The radial integral may be calculated *exactly* using Gauss–Hermite quadrature of sufficiently high order.  The results are then be transformed back into the laboratory frame.
+$$C^\mu_{n n'} = 2 (-)^{n + n'} \int_0^\infty R^{2 \mu} \bar{L}^\mu_n(R^2) \bar{L}^\mu_{n'}(R^2) v(\sqrt{2} R) \E^{-R^2} R \D R $$
+where $\bar{L}^\alpha_n(x)$ is the normalized associated Laguerre polynomial defined in @Eq:laguerre-polynomials and $v(R)$ is our central interaction, although this technique generalizes to many kinds of central interactions.  The radial integral may be calculated *exactly* using Gauss–Hermite quadrature of sufficiently high order.  The results are then be transformed back into the laboratory frame.

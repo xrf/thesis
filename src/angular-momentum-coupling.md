@@ -38,7 +38,7 @@ We use $a, b, c, \ldots$ to label single-particle states.  We assume each state 
 
 A 2-particle J-coupled product state is defined as
 $$| \alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b} \rangle = \sum_{m_a m_b} |a \otimes b \rangle \langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle$$
-where $\langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle$ denotes a Clebsch--Gordan coefficient.  To keep things concise, we will use the following shorthand for coupled product states:
+where $\langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle$ denotes a Clebsch–Gordan coefficient that couples angular momentum $j_a m_a$ to $j_b j_b$ (in that order) to form $j_{a b} m_{a b}$.  To keep things concise, we will use the following shorthand for coupled product states:
 $$| a \otimes b \rangle_{12} \equiv | \alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b} \rangle$$
 Keep in mind that unlike M-scheme, the states in J-scheme do *not* depend on the individual projections $m_a$ and $m_b$, only total $m_{a b}$.
 
