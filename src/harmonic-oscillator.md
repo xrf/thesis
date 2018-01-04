@@ -80,6 +80,8 @@ In the presence of other degrees of freedom such as spin or isospin, degenerate 
 
 ## Spherical harmonic oscillator
 
+![Shell structure of the spherical harmonic oscillator](fig-shell-ho3d)
+
 Now we restrict the harmonic oscillator to 3 dimensions only.  In this case, it is useful to redo the problem in spherical coordinates to take advantage of angular momentum symmetries.  We will use natural units as before.
 
 First, we convert the Hamiltonian $\hat{H}$ into spherical form,
