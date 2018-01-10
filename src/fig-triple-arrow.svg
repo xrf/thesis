@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="diagram"
+   class="svg-content"
+   viewBox="0 0 344.22543 179.37419"
+   version="1.1"
+   sodipodi:docname="fig-triple-arrow.svg"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   width="344.22543"
+   height="179.37419">
+  <metadata
+     id="metadata101384">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1914"
+     inkscape:window-height="1051"
+     id="namedview101382"
+     showgrid="false"
+     inkscape:zoom="1.8572942"
+     inkscape:cx="194.54588"
+     inkscape:cy="98.239876"
+     inkscape:window-x="0"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="diagram"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs101279">
+    <symbol
+       id="arrowhead"
+       viewBox="0 0 100 100">
+      <path
+         d="M 100,50 20,10 c -24,-12 0,24 0,40 0,16 -24,52 0,40 z"
+         id="path101270"
+         inkscape:connector-curvature="0" />
+    </symbol>
+    <symbol
+       id="noarrowhead"
+       viewBox="0 0 100 100">
+      <circle
+         cx="50"
+         cy="50"
+         r="50"
+         id="circle101273" />
+    </symbol>
+    <symbol
+       id="clockwise"
+       viewBox="-19 -19 38 38">
+      <path
+         aria-label="circular arrow"
+         transform="scale(1,-1)"
+         d="m 8.2471012,8.29503 q -1.7783211,1.70257 -3.7835148,2.55385 -2.0430737,0.87164 -4.464458,0.87164 -2.5159619,0 -4.4645,-0.87164 -2.1941861,-0.98571 -3.7835149,-2.55385 -1.6838245,-1.6822 -2.5917195,-3.82058 -0.870017,-2.11802 -0.870017,-4.52116 0,-2.32574 0.870017,-4.4458 0.907895,-2.13839 2.5917195,-3.82058 1.6646814,-1.64553 3.7835149,-2.55384 2.0430736,-0.87165 4.46449851992,-0.87165 2.51596198008,0 4.46445798008,0.87165 2.1941862,0.98569 3.7835148,2.55384 1.6838263,1.68219 2.5917253,3.82058 0.681025,1.6659 0.832545,3.48251 l 4.407719,-4.40751 2.269946,2.26873 -7.45339,7.45338 H 9.1930817 L 1.7775313,-3.14878 4.0474772,-5.41751 8.4362974,-0.99085 Q 8.3018846,-2.18427 7.8689127,-3.25958 7.2445045,-4.79106 5.9960953,-6.04151 4.8609186,-7.15755 3.2341172,-7.89477 q -1.399929,-0.6232 -3.19698643,-0.6232 -1.79705757,0 -3.27274667,0.6232 -1.5510414,0.66391 -2.761978,1.85326 -1.2105296,1.20971 -1.872817,2.78193 -0.6244085,1.53149 -0.6244085,3.21777 0,1.75959 0.6244085,3.29108 0.6244083,1.53148 1.872817,2.78192 1.1351766,1.11604 2.761978,1.85327 1.3999291,0.62319 3.19698663,0.62319 1.79705757,0 3.27274647,-0.62319 1.5510416,-0.66392 2.7619781,-1.85327 z"
+         id="path101276"
+         inkscape:connector-curvature="0" />
+    </symbol>
+  </defs>
+  <g
+     id="diagram-main"
+     transform="translate(-237.3555,-202.59701)">
+    <g
+       id="diagram-lines">
+      <g
+         class="line "
+         id="g101299">
+        <title
+           id="title101281">j[1] m[1]</title>
+        <path
+           d="m 440,360 60,-60"
+           class="bg"
+           style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-opacity:0.7"
+           id="path101283"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 440,360 60,-60"
+           class="fg"
+           style="fill:none;stroke:#051308;stroke-width:2"
+           id="path101285"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 440,360 60,-60"
+           class="pith"
+           style="fill:none;stroke:none"
+           id="path101287"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 440,360 60,-60"
+           class="hit"
+           style="fill:none;stroke-width:25;stroke-linecap:round;stroke-opacity:0"
+           id="path101289"
+           inkscape:connector-curvature="0" />
+        <text
+           y="315.85785"
+           x="455.85785"
+           class="label"
+           style="font-size:large;text-anchor:middle;fill:#051308"
+           id="text101291">1</text>
+        <g
+           class="arrow external "
+           id="g101297">
+          <circle
+             cy="330"
+             cx="470"
+             r="15"
+             class="hit"
+             style="fill-opacity:0"
+             id="circle101293" />
+          <use
+             transform="rotate(-45,629.59524,-411.39349)"
+             height="15"
+             width="15"
+             y="-7.5"
+             x="-15"
+             class="arrowhead"
+             xlink:href="#arrowhead"
+             id="use101295" />
+        </g>
+      </g>
+      <g
+         class="line "
+         id="g101319">
+        <title
+           id="title101301">j[2] m[2]</title>
+        <path
+           d="M 560,360 500,300"
+           class="bg"
+           style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-opacity:0.7"
+           id="path101303"
+           inkscape:connector-curvature="0" />
+        <path
+           d="M 560,360 500,300"
+           class="fg"
+           style="fill:none;stroke:#051308;stroke-width:2"
+           id="path101305"
+           inkscape:connector-curvature="0" />
+        <path
+           d="M 560,360 500,300"
+           class="pith"
+           style="fill:none;stroke:none"
+           id="path101307"
+           inkscape:connector-curvature="0" />
+        <path
+           d="M 560,360 500,300"
+           class="hit"
+           style="fill:none;stroke-width:25;stroke-linecap:round;stroke-opacity:0"
+           id="path101309"
+           inkscape:connector-curvature="0" />
+        <text
+           y="315.85785"
+           x="544.14215"
+           class="label"
+           style="font-size:large;text-anchor:middle;fill:#051308"
+           id="text101311">2</text>
+        <g
+           class="arrow external "
+           id="g101317">
+          <circle
+             cy="330"
+             cx="530"
+             r="15"
+             class="hit"
+             style="fill-opacity:0"
+             id="circle101313" />
+          <use
+             transform="rotate(-135,329.59524,53.680105)"
+             height="15"
+             width="15"
+             y="-7.5"
+             x="-15"
+             class="arrowhead"
+             xlink:href="#arrowhead"
+             id="use101315" />
+        </g>
+      </g>
+      <g
+         class="line "
+         id="g101339">
+        <title
+           id="title101321">j[3] m[3]</title>
+        <path
+           d="m 500,220 v 80"
+           class="bg"
+           style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-opacity:0.7"
+           id="path101323"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 500,220 v 80"
+           class="fg"
+           style="fill:none;stroke:#051308;stroke-width:2"
+           id="path101325"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 500,220 v 80"
+           class="pith"
+           style="fill:none;stroke:none"
+           id="path101327"
+           inkscape:connector-curvature="0" />
+        <path
+           d="m 500,220 v 80"
+           class="hit"
+           style="fill:none;stroke-width:25;stroke-linecap:round;stroke-opacity:0"
+           id="path101329"
+           inkscape:connector-curvature="0" />
+        <text
+           y="260"
+           x="520"
+           class="label"
+           style="font-size:large;text-anchor:middle;fill:#051308"
+           id="text101331">3</text>
+        <g
+           class="arrow external "
+           id="g101337">
+          <circle
+             cy="260"
+             cx="500"
+             r="15"
+             class="hit"
+             style="fill-opacity:0"
+             id="circle101333" />
+          <use
+             transform="rotate(90,116.25,383.75)"
+             height="15"
+             width="15"
+             y="-7.5"
+             x="-15"
+             class="arrowhead"
+             xlink:href="#arrowhead"
+             id="use101335" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="diagram-nodes">
+      <g
+         transform="translate(440,360)"
+         class="node terminal "
+         id="g101348">
+        <title
+           id="title101342">m[1] #0</title>
+        <circle
+           r="8"
+           class="fg "
+           style="fill:#000000;fill-opacity:0.3"
+           id="circle101344"
+           cx="0"
+           cy="0" />
+        <circle
+           r="15"
+           class="hit"
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101346"
+           cx="0"
+           cy="0" />
+      </g>
+      <g
+         transform="translate(560,360)"
+         class="node terminal "
+         id="g101356">
+        <title
+           id="title101350">m[2] #1</title>
+        <circle
+           r="8"
+           class="fg "
+           style="fill:#000000;fill-opacity:0.3"
+           id="circle101352"
+           cx="0"
+           cy="0" />
+        <circle
+           r="15"
+           class="hit"
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101354"
+           cx="0"
+           cy="0" />
+      </g>
+      <g
+         transform="translate(500,220)"
+         class="node terminal "
+         id="g101364">
+        <title
+           id="title101358">m[3] #2</title>
+        <circle
+           r="8"
+           class="fg "
+           style="fill:#000000;fill-opacity:0.3"
+           id="circle101360"
+           cx="0"
+           cy="0" />
+        <circle
+           r="15"
+           class="hit"
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101362"
+           cx="0"
+           cy="0" />
+      </g>
+      <g
+         transform="translate(500,300)"
+         class="node w3j "
+         id="g101376">
+        <title
+           id="title101366">{2 3 1} #3</title>
+        <circle
+           r="20"
+           class="bg "
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101368"
+           cx="0"
+           cy="0" />
+        <circle
+           r="18"
+           class="fg "
+           style="fill:#21b0ae"
+           id="circle101370"
+           cx="0"
+           cy="0" />
+        <circle
+           r="25"
+           class="hit "
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101372"
+           cx="0"
+           cy="0" />
+        <use
+           height="30"
+           width="30"
+           y="-15"
+           x="-15"
+           class="arrow "
+           style="fill:#ffffff"
+           xlink:href="#clockwise"
+           id="use101374" />
+      </g>
+    </g>
+  </g>
+  <g
+     id="diagram-track"
+     transform="translate(-419.3555,-202.59702)" />
+  <g
+     transform="translate(-419.3555,-202.59702)"
+     id="diagram-main-3">
+    <g
+       id="diagram-lines-5">
+      <g
+         class="line "
+         id="g101299-7">
+        <title
+           id="title101281-0">j[1] m[1]</title>
+        <path
+           inkscape:connector-curvature="0"
+           d="m 440,360 60,-60"
+           class="bg"
+           style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-opacity:0.7"
+           id="path101283-8" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 440,360 60,-60"
+           class="fg"
+           style="fill:none;stroke:#051308;stroke-width:2"
+           id="path101285-1" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 440,360 60,-60"
+           class="pith"
+           style="fill:none;stroke:none"
+           id="path101287-9" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 440,360 60,-60"
+           class="hit"
+           style="fill:none;stroke-width:25;stroke-linecap:round;stroke-opacity:0"
+           id="path101289-9" />
+        <text
+           y="315.85785"
+           x="455.85785"
+           class="label"
+           style="font-size:large;text-anchor:middle;fill:#051308"
+           id="text101291-7">1</text>
+      </g>
+      <g
+         class="line "
+         id="g101319-3">
+        <title
+           id="title101301-4">j[2] m[2]</title>
+        <path
+           inkscape:connector-curvature="0"
+           d="M 560,360 500,300"
+           class="bg"
+           style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-opacity:0.7"
+           id="path101303-9" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 560,360 500,300"
+           class="fg"
+           style="fill:none;stroke:#051308;stroke-width:2"
+           id="path101305-0" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 560,360 500,300"
+           class="pith"
+           style="fill:none;stroke:none"
+           id="path101307-2" />
+        <path
+           inkscape:connector-curvature="0"
+           d="M 560,360 500,300"
+           class="hit"
+           style="fill:none;stroke-width:25;stroke-linecap:round;stroke-opacity:0"
+           id="path101309-0" />
+        <text
+           y="315.85785"
+           x="544.14215"
+           class="label"
+           style="font-size:large;text-anchor:middle;fill:#051308"
+           id="text101311-1">2</text>
+      </g>
+      <g
+         class="line "
+         id="g101339-1">
+        <title
+           id="title101321-2">j[3] m[3]</title>
+        <path
+           inkscape:connector-curvature="0"
+           d="m 500,220 v 80"
+           class="bg"
+           style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-opacity:0.7"
+           id="path101323-0" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 500,220 v 80"
+           class="fg"
+           style="fill:none;stroke:#051308;stroke-width:2"
+           id="path101325-7" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 500,220 v 80"
+           class="pith"
+           style="fill:none;stroke:none"
+           id="path101327-3" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 500,220 v 80"
+           class="hit"
+           style="fill:none;stroke-width:25;stroke-linecap:round;stroke-opacity:0"
+           id="path101329-1" />
+        <text
+           y="260"
+           x="520"
+           class="label"
+           style="font-size:large;text-anchor:middle;fill:#051308"
+           id="text101331-1">3</text>
+      </g>
+    </g>
+    <g
+       id="diagram-nodes-6">
+      <g
+         transform="translate(440,360)"
+         class="node terminal "
+         id="g101348-7">
+        <title
+           id="title101342-7">m[1] #0</title>
+        <circle
+           cy="0"
+           cx="0"
+           r="8"
+           class="fg "
+           style="fill:#000000;fill-opacity:0.3"
+           id="circle101344-4" />
+        <circle
+           cy="0"
+           cx="0"
+           r="15"
+           class="hit"
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101346-0" />
+      </g>
+      <g
+         transform="translate(560,360)"
+         class="node terminal "
+         id="g101356-6">
+        <title
+           id="title101350-4">m[2] #1</title>
+        <circle
+           cy="0"
+           cx="0"
+           r="8"
+           class="fg "
+           style="fill:#000000;fill-opacity:0.3"
+           id="circle101352-7" />
+        <circle
+           cy="0"
+           cx="0"
+           r="15"
+           class="hit"
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101354-4" />
+      </g>
+      <g
+         transform="translate(500,220)"
+         class="node terminal "
+         id="g101364-8">
+        <title
+           id="title101358-5">m[3] #2</title>
+        <circle
+           cy="0"
+           cx="0"
+           r="8"
+           class="fg "
+           style="fill:#000000;fill-opacity:0.3"
+           id="circle101360-8" />
+        <circle
+           cy="0"
+           cx="0"
+           r="15"
+           class="hit"
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101362-2" />
+      </g>
+      <g
+         transform="translate(500,300)"
+         class="node w3j "
+         id="g101376-6">
+        <title
+           id="title101366-0">{2 3 1} #3</title>
+        <circle
+           cy="0"
+           cx="0"
+           r="20"
+           class="bg "
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101368-6" />
+        <circle
+           cy="0"
+           cx="0"
+           r="18"
+           class="fg "
+           style="fill:#21b0ae"
+           id="circle101370-6" />
+        <circle
+           cy="0"
+           cx="0"
+           r="25"
+           class="hit "
+           style="fill:#ffffff;fill-opacity:0"
+           id="circle101372-4" />
+        <use
+           height="30"
+           width="30"
+           y="-15"
+           x="-15"
+           class="arrow "
+           style="fill:#ffffff"
+           xlink:href="#clockwise"
+           id="use101374-6" />
+      </g>
+    </g>
+  </g>
+  <text
+     y="98.36496"
+     x="174.76999"
+     class="label"
+     style="font-size:large;text-anchor:middle;fill:#051308"
+     id="text101311-9">=</text>
+</svg>

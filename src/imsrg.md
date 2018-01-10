@@ -84,41 +84,79 @@ In the 2-body operator truncation scheme, the generator $\hat{\eta}$ can be writ
 $$\hat{\eta} = \sum_{p q} \eta_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} + \frac{1}{4} \sum_{p q r s} \eta_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r}$$
 where $\eta_{p q}$ and $\eta_{p q r s}$ respectively are its one- and two-body matrix elements normal ordered relative to $\ket{\Phi}$ and subject to the antihermittivity constraint.
 
-By expanding the commutator in [@Eq:imsrgode] and discarding the three-body term, we obtain the matrix-element form of the IM-SRG(2) flow equation:
-$$\frac{\D \hat{H}}{\D s} = 2 \antisymm_{A B} \hat{C}(\hat{\eta}, \hat{H})$$ {#eq:flowmxe}
-where $\hat{C}$ is a (0, 1, 2)-operator defined via
-$$\hat{C} = C_\Phi + \sum_{p q} C_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} + \frac{1}{4} \sum_{p q r s} C_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r}$$
-with matrix elements
-$$\begin{aligned}
-  C_\Phi(\hat{A}, \hat{B})
-  &=
-    \sum_{i a} A_{i a} B_{a i}
-    + \frac{1}{4} \sum_{i j a b} A_{i j a b} B_{a b i j} \\
-  C_{p q}(\hat{A}, \hat{B})
-  &=
-    \sum_r A_{p r} B_{r q}
-    - \frac{1}{2} \sum_{i j a} A_{i j a q} B_{a p i j}
-    + \frac{1}{2} \sum_{i a b} A_{i p a b} B_{a b i q} \\
-  &\quad
-    + \sum_{i a} \left(
-    A_{i a} B_{a p i q}
-    + A_{i p a q} B_{a i}
-    \right) \\
-  C_{p q r s}(\hat{A}, \hat{B})
-  &=
-    4 \antisymm_{p q} \antisymm_{r s} \sum_{i a} A_{i p a r} B_{a q i s}
-    + \frac{1}{2} \sum_{i j} A_{i j r s} B_{p q i j}
-    + \frac{1}{2} \sum_{a b} A_{p q a b} B_{a b r s} \\
-  &\quad
-    + 2 \sum_t \left(
-    \antisymm_{p q} A_{q t} B_{p t r s}
-    + \antisymm_{r s} A_{p q r t} B_{t s}
-    \right)
-\end{aligned}$${#eq:flow}
-@Fig:diagrams-imsrg shows these equations in diagrammatic form.
+The main complication of the IM-SRG flow equation [@Eq:imsrgode] lies in the commutator,
+$$[\hat{\eta}, \hat{H}] = \hat{\eta} \hat{H} - \hat{H} \hat{\eta}$$
+By expanding the commutator diagrammatically, we find that all terms where $\hat{\eta}$ and $\hat{H}$ are connected (disconnected diagrams) vanish because they commute.  The remaining terms are simply the linked products between the two operators, which we denote $\hat{C}(\hat{\eta}, \hat{H})$, in either order:
+$$[\hat{\eta}, \hat{H}] = \hat{C}(\hat{\eta}, \hat{H}) - \hat{C}(\hat{H}, \hat{\eta})$$
 
-![Hugenholtz diagrams representing the terms of $C(\circ, \bullet)$ in [@Eq:flow], with open circles representing $\hat{A}$ and filled circles representing $\hat{B}$.  Three-body terms are shown here diagrammatically, but not included in [@Eq:flow].](fig-diagrams-imsrg){#fig:diagrams-imsrg}
+Consider a generic linked product $\hat{C}(\hat{A}, \hat{B})$ where $\hat{C}$ is a (0, 1, 2, 3)-operator given by
+\begin{gather*}
+  \hat{C} = C_\Phi + \sum_{p q} C_{p q} \normord{\hat{a}_p^\dagger \hat{a}_q} + \frac{1}{4} \sum_{p q r s} C_{p q r s} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_s \hat{a}_r} \\
+  \quad + \frac{1}{36} \sum_{p q r s t u} C_{p q r s t u} \normord{\hat{a}_p^\dagger \hat{a}_q^\dagger \hat{a}_r^\dagger \hat{a}_u \hat{a}_t \hat{a}_s}
+\end{gather*}
+To write out the linked product, we start considering all possible Hugenholtz skeletons^[Hugenholtz skeletons are Hugenholtz diagrams without arrows.] $\hat{C}^{c a b}$ where $a$ is the rank of the first operator from $\hat{A}$, $b$ is the rank of the second operator from $\hat{B}$, and $c$ is the rank of the product diagram.  This leads to the following terms:
+\begin{align*}
+  \hat{C}^{0} &= \hat{C}^{011} + \hat{C}^{022} &
+  \hat{C}^{1} &= \hat{C}^{111} + \hat{C}^{112} + \hat{C}^{121} + \hat{C}^{122} \\
+  \hat{C}^{2} &= \hat{C}^{212} + \hat{C}^{221} + \hat{C}^{222} &
+  \hat{C}^{3} &= \hat{C}^{322}
+\end{align*}
+We can then elaborate on this by considering all possible assignments of the arrows.  We classify these diagrams as $\hat{C}^{c a b d}$ where $d$ is the number of arrows going from $\hat{B}$ toward $\hat{A}$, which is also the number of particle lines.
+\begin{align*}
+  \hat{C}^{011} &= \hat{C}^{0110} &
+  \hat{C}^{022} &= \hat{C}^{0220} \\
+  \hat{C}^{111} &= \hat{C}^{1110} + \hat{C}^{1111} &
+  \hat{C}^{112} &= \hat{C}^{1120} \\
+  \hat{C}^{121} &= \hat{C}^{1210} &
+  \hat{C}^{122} &= \hat{C}^{1220} + \hat{C}^{1221} \\
+  \hat{C}^{212} &= \hat{C}^{2120} + \hat{C}^{2121} &
+  \hat{C}^{221} &= \hat{C}^{2210} + \hat{C}^{2211} \\
+  \hat{C}^{222} &= \hat{C}^{2220} + \hat{C}^{2221} + \hat{C}^{2222} &
+  \hat{C}^{322} &= \hat{C}^{3220} + \hat{C}^{3221}
+\end{align*}
+Finally, we write out the diagrams as,
+\begin{align*}
+  C^{0110}_\Phi &= +\sum_{i \backslash a} A_{i a} B_{a i} &
+  C^{0220}_\Phi &= +\frac{1}{4} \sum_{i j \backslash a b} A_{i j a b} B_{a b i j} \\
+  C^{1110}_{p q} &= -\sum_{i \backslash} A_{i q} B_{p i} &
+  C^{1111}_{p q} &= +\sum_{\backslash a} A_{p a} B_{a q} \\
+  C^{1120}_{p q} &= +\sum_{i \backslash a} A_{i a} B_{a p i q} &
+  C^{1210}_{p q} &= +\sum_{i \backslash a} A_{i p a q} B_{a i} \\
+  C^{1220}_{p q} &= -\frac{1}{2} \sum_{i j \backslash a} A_{i j a q} B_{a p i j} &
+  C^{1221}_{p q} &= +\frac{1}{2} \sum_{i \backslash a b} A_{i p a b} B_{a b i q} \\
+  C^{2120}_{p q r s} &= -2 \mathcal{A}_{r s} \sum_{i \backslash} A_{i r} B_{p q i s} &
+  C^{2121}_{p q r s} &= +2 \mathcal{A}_{p q} \sum_{\backslash a} A_{p a} B_{a q r s} \\
+  C^{2210}_{p q r s} &= -2 \mathcal{A}_{p q} \sum_{i \backslash} A_{i q r s} B_{p i} &
+  C^{2211}_{p q r s} &= +2 \mathcal{A}_{r s} \sum_{\backslash a} A_{p q a s} B_{a r} \\
+  C^{2220}_{p q r s} &= +\frac{1}{2} \sum_{i j \backslash} A_{i j r s} B_{p q i j} &
+  C^{2221}_{p q r s} &= -4 \mathcal{A}_{p q} \mathcal{A}_{r s} \sum_{i \backslash a} A_{i q a r} B_{a p i s} \\
+  C^{2222}_{p q r s} &= +\frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s} \\
+  C^{3220}_{p q r s t u} &= -9 \mathcal{A}_{p q r} \mathcal{A}_{s t u} \sum_{i \backslash} A_{i q s t} B_{p r i u} &
+  C^{3221}_{p q r s t u} &= +9 \mathcal{A}_{p q r} \mathcal{A}_{s t u} \sum_{\backslash a} A_{p q a t} B_{a r s u}
+\end{align*}
+@Fig:diagrams-imsrg shows these diagrams in diagrammatic form.
+
+![Hugenholtz diagrams representing the terms of linked product $\hat{C}(\circ, \bullet)$ in the flow IM-SRG equation, with open circles representing $\hat{A}$ and filled circles representing $\hat{B}$.  We omit diagrams that are related by permutations among the external bra lines or among the external ket lines.](fig-diagrams-imsrg){#fig:diagrams-imsrg}
 
 ## IM-SRG(2) equations in J-scheme
 
-[[TODO]]
+Using the implicit-J convention (@Sec:implicit-j), we can write the IM-SRG(2) equations as
+\begin{align*}
+  C^{0110}_\Phi &= +\sum_{i \backslash a} \jweight{j}_i^2 A_{i a} B_{a i} &
+  C^{0220}_\Phi &= +\frac{1}{4} \sum_{j_{i j}} \sum_{i j \backslash a b} \jweight{j}_{i j}^2 A_{i j a b} B_{a b i j} \\
+  C^{1110}_{p q} &= -\sum_{i \backslash} A_{i q} B_{p i} &
+  C^{1111}_{p q} &= +\sum_{\backslash a} A_{p a} B_{a q} \\
+  C^{1120}_{p q} &= +\sum_{j_{a p}} \sum_{i \backslash a} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} A_{i a} B_{a p i q} &
+  C^{1210}_{p q} &= +\sum_{j_{i p}} \sum_{i \backslash a} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A_{i p a q} B_{a i} \\
+  C^{1220}_{p q} &= -\frac{1}{2} \sum_{j_{a p}} \sum_{i j \backslash a} \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2} A_{i j a q} B_{a p i j} &
+  C^{1221}_{p q} &= +\frac{1}{2} \sum_{j_{i p}} \sum_{i \backslash a b} \frac{\jweight{j}_{i p}^2}{\jweight{j}_p^2} A_{i p a b} B_{a b i q} \\
+  C^{2120}_{p q r s} &= -2 \mathcal{A}_{r s} \sum_{i \backslash} A_{i r} B_{p q i s} &
+  C^{2121}_{p q r s} &= +2 \mathcal{A}_{p q} \sum_{\backslash a} A_{p a} B_{a q r s} \\
+  C^{2210}_{p q r s} &= -2 \mathcal{A}_{p q} \sum_{i \backslash} A_{i q r s} B_{p i} &
+  C^{2211}_{p q r s} &= +2 \mathcal{A}_{r s} \sum_{\backslash a} A_{p q a s} B_{a r} \\
+  C^{2220}_{p q r s} &= +\frac{1}{2} \sum_{i j \backslash} A_{i j r s} B_{p q i j} &
+%  C^{2221}_{p q r s} &= -4 \mathcal{A}_{p q} \mathcal{A}_{r s} \sum_{i \backslash a} A_{i q a r} B_{a p i s}
+  \tilde{C}^{2221}_{p s r q} &= +4 \sum_{i \backslash a} \tilde{A}_{i a r q} \tilde{B}_{p s i a} \\
+  C^{2222}_{p q r s} &= +\frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s}
+\end{align*}
+where the tilde symbol ($\tilde{C}$) denotes non-antisymmetrized Pandya-coupled matrix elements (@Sec:pandya).

@@ -6,7 +6,6 @@
 - [Many-body formalism](many-body-theory.md)
     - [Many-body diagrams](diagrams.md)
 - [Angular momentum coupling](angular-momentum-coupling.md)
-    - [Angular momentum diagrams](angular-momentum-diagrams.md)
 - [Many-body methods](methods.md)
     - [Hartree–Fock method](hartree-fock.md)
     - [In-medium similarity renormalization group method](imsrg.md)
