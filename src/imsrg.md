@@ -73,7 +73,7 @@ The symbol $\tilde{\Delta}$ denotes the **Epstein–Nesbet energy denominators**
   \tilde{\Delta}_{a_1 \ldots a_k i_1 \ldots i_k} &= E_{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} - E_\Phi
 \end{align*}
 whereas $\Delta$ denotes the **Møller–Plesset energy denominators** (named after Møeller–Plesset perturbation theory),
-$$\Delta_{p_1 \ldots p_k q_1 \ldots q_k} = \sum_{i = 1}^k (H_{p_i p_i} -  H_{q_i q_i})$$ {#eq:moellerplessetdenominator}
+$$\Delta_{q_1 \ldots q_k p_1 \ldots p_k} = \sum_{i = 1}^k (H_{q_i q_i} -  H_{p_i p_i})$$ {#eq:moellerplessetdenominator}
 White generators can also use Møller–Plesset energy denominators directly in lieu of Epstein–Nesbet energy denominators [@Hergert2016165], which leads to a slightly different variant of the White generator.  In our calculations, we use exclusively Epstein–Nesbet denominators.
 
 Compared to the Wegner generator, where the derivatives of the final flow equations contain cubes of the Hamiltonian matrix elements (i.e. each term contains a product of 3 one-body and/or two-body matrix elements), the elements in White generators contribute only linearly.  This reduces the stiffness in the differential equation, providing a net increase in computational efficiency as stiff ODE solvers tend to be slower and consume more memory.

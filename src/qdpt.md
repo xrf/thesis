@@ -91,13 +91,13 @@ We choose $u$ to be close to the Fermi level: it should be a single-particle sta
 
 We can then express the perturbation expansion in terms of summations over matrix elements as we did for the IM-SRG flow equation.  We will restrict ourselves to the case where the perturbation $\hat{V}$ is a two-body operator.
 
-![Perturbative Hugenholtz diagrams of the second- and third-order QDPT corrections.  Denominator lines have been elided.  When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish.  The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.](fig-diagrams-sfe){#fig:diagrams-sfe}
+![Perturbative Hugenholtz diagrams ([@Sec:perturbative-diagrams]) of the second- and third-order QDPT corrections.  Denominator lines have been elided.  When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish.  The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.](fig-diagrams-sfe){#fig:diagrams-sfe}
 
 The second-order QDPT corrections of the **left-shift operator** (or **reaction operator**) $\hat{W} = \hat{H}^{\mathrm{eff}} - \hat{H}^\circ$ are:
 $$
   W^{(2)}_{p q} =+ \frac{1}{2} \sum_{i \backslash a b} \frac{V_{i p a b} V_{a b i q}}{\Delta_{i q a b}} - \frac{1}{2} \sum_{i j \backslash a} \frac{V_{i j a q} V_{a p i j}}{\Delta_{i j a p}}
 $$
-Here, $V_{a b i q}$ are matrix elements of the two-body operator $\hat{V}$ and $\Delta$ denotes Møller–Plesset denominators as defined in [@Eq:moellerplessetdenominator].  These second-order corrections are depicted diagrammatically in [@Fig:diagrams-sfe].
+Here, $V_{a b i q}$ are matrix elements of the two-body operator $\hat{V}$ and $\Delta$ denotes Møller–Plesset denominators as defined in [@Eq:moellerplessetdenominator].  These second-order corrections are depicted as perturbative diagrams ([@Sec:perturbative-diagrams]) in [@Fig:diagrams-sfe].
 
 Third-order QDPT corrections are:
 $$\begin{aligned}
@@ -127,7 +127,7 @@ $$\begin{aligned}
   - \sum_{i j k \backslash a b} \frac{V_{i k a q} V_{j p b k} V_{a b i j}}{\Delta_{i k a p} \Delta_{i j a b}}
   - \sum_{i j k \backslash a b} \frac{V_{i j a b} V_{b k j q} V_{a p i k}}{\Delta_{i j q a b p} \Delta_{i k a p}}
 \end{aligned}$$
-Diagrams of third-order corrections are also shown in [@Fig:diagrams-sfe].
+Perturbative diagrams ([@Sec:perturbative-diagrams]) of third-order corrections are also shown in [@Fig:diagrams-sfe].
 
 There is some degree of synergy between IM-SRG and QDPT: a generator that decouples the ground state energy will necessarily drive certain classes of matrix elements to zero.  Consider for example the White generator, which eliminates matrix elements of the form:
 $$V_{i j a b} = V_{a b i j} = 0$$

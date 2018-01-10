@@ -472,7 +472,9 @@ This quantity can be computed easily in the center-of-mass frame.  The Talmi–B
 
 The second part is the actual nuclear interaction.  There are many possible choices here, and they are often available precomputed in a variety of tabular formats.
 
-A common format that used for nuclear matrix elements is the **Darmstadt ME2J format** [@tuprints3946; @tuprints4069; @tuprints3945].  In this format, all matrix elements are stored in a predefined order without explicitly writing out the quantum numbers.  The iteration order is parametrized by $(e_{\mathrm{max}}, n_{\mathrm{max}}, \ell_{\mathrm{max}}, E_{\mathrm{max}})$.  The first three parameters constrain the single-particle basis, which is constructed by the following algorithm:
+A common format that used for nuclear matrix elements is the **Darmstadt ME2J format** [@tuprints3946; @tuprints4069; @tuprints3945].  The chiral-EFT interactions, including [@PhysRevC.68.041001], are often distributed in this format.
+
+In the ME2J format, all matrix elements are stored in a predefined order without explicitly writing out the quantum numbers.  The iteration order is parametrized by $(e_{\mathrm{max}}, n_{\mathrm{max}}, \ell_{\mathrm{max}}, E_{\mathrm{max}})$.  The first three parameters constrain the single-particle basis, which is constructed by the following algorithm:
 \begin{gather*}
   \mathbf{for}\ e\ \mathbf{in}\ 0, \ldots, e_{\mathrm{max}} \\
   \quad \mathbf{for}\ \lambda\ \mathbf{in}\ 0, \ldots, \left\lfloor\frac{e}{2}\right\rfloor \\
@@ -505,8 +507,6 @@ where $n_{\mathrm{b}}$ is the number of single-particle states.  Then, we must i
   \quad \quad \quad \quad \quad \quad \mathbf{for}\ M_T\ \mathbf{in}\ {-T}, \ldots, T \\
   \quad \quad \quad \quad \quad \quad \quad \mathbf{yield}\ (n_p, \ell_p, j_p, n_q, \ell_q, j_q, n_r, \ell_r, j_r, n_s, \ell_s, j_s, J, T, M_T)
 \end{gather*}
-
-The actual interaction that we use our calculations is the nucleon-nucleon interaction of [@PhysRevC.68.041001] computed to the next-to-next-to-next-to-leading order (N^3^LO) of chiral perturbation theory with a momentum cutoff at $\Lambda = \SI{500}{MeV}$.  This interaction has proven to be quite accurate in practice and is widely used in literature.  We do not use the interaction directly, however.  Instead, the interaction is preprocessed by a free-space SRG evolution, “softening” the interaction.  This is highly beneficial in improving convergence, reducing the number of shells needed for accurate results [@PhysRevC.75.061001].  The interactions are involved to a flow parameter of $s = \SI{0.0625}{fm^4}$, or equivalently in the momentum cutoff notation, $\lambda_{\mathrm{SRG}} = s^{-1/4} = \SI{2}{fm^{-1}}$.
 
 ## Implementation of HF
 

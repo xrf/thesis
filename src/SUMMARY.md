@@ -13,6 +13,7 @@
 - [Application to quantum systems](systems.md)
     - [Quantum dots](quantum-dots.md)
     - [Nuclei](nuclei.md)
-        - [Harmonic oscillator](harmonic-oscillator.md)
 - [Implementation](implementation.md)
+- [Results and analysis](results.md)
 - [Conclusions](conclusions.md)
+[Harmonic oscillator](harmonic-oscillator.md)

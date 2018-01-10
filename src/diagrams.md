@@ -56,10 +56,19 @@ $$\hat{R} = + \frac{1}{8} \sum_{\substack{p q r s \\ i \backslash a b c}} W_{i p
 
 ![A Hugenholtz diagram representing to @Eq:example-diagram.  This diagram is useful for determining the weight.](fig-example-diagram-hugenholtz){#fig:example-diagram-hugenholtz}
 
-## Perturbation diagrams
+## Perturbative diagrams {#sec:perturbative-diagrams}
 
-A variant of many-body diagrams is used in perturbation theory, which introduces an unusual kind of node called **resolvents** (or energy denominators), drawn as a line.
+![Interpretation of a perturbative Goldstone diagram](fig-example-qdpt-diagram){#fig:example-qdpt-diagram}
 
-[[TODO: perturbation diagrams]]
+A variant of many-body diagrams is used in perturbation theory, which introduces an unusual kind of node called **resolvents** or **energy denominators**, drawn as a horizontal line that cuts across the diagram.
 
-[[FUTURE-TODO: sign of particle-number-nonconserving diagrams?]]
+An example of such a diagram is shown on the right-hand side of [@Fig:example-qdpt-diagram].  Note that to interpret such a diagram correctly, all incoming external lines must be **folded** upward, as shown on the right-hand side.  For every denominator line, one divides the summation by the following Møller–Plesset denominator (see also [@Eq:moellerplessetdenominator]):
+$$\Delta_{q_1 \ldots q_k p_1 \ldots p_k} = \sum_{i = 1}^k (\varepsilon_{q_i} - \varepsilon_{p_i})$$
+where $q_1 \ldots q_k$ are all downward lines that cut across the denominator line (including ingoing external lines), $p_1 \ldots p_k$ are all upward lines that cut across the denominator line (including outgoing external lines), and $\varepsilon_p$ denotes the energy of the single-particle state $p$.
+
+In the example, the upper denominator is given by
+$$\Delta_{i j q a b p} = \varepsilon_i + \varepsilon_j + \varepsilon_q - \varepsilon_a - \varepsilon_b - \varepsilon_p$$
+whereas the lower denominator is given by
+$$\Delta_{i j c p} = \varepsilon_i + \varepsilon_j - \varepsilon_c - \varepsilon_p$$
+
+For presentation purposes, it is common to omit the denominator lines and to unfold a diagram back into the usual non-perturbative layout, as shown on the left-hand side of [@Fig:example-qdpt-diagram].  To interpret this diagram perturbatively, simply refold the diagram and reinsert denominators between every pair of the $\hat{V}$ interaction nodes.
