@@ -507,6 +507,7 @@ where $n_{\mathrm{b}}$ is the number of single-particle states.  Then, we must i
   \quad \quad \quad \quad \quad \quad \mathbf{for}\ M_T\ \mathbf{in}\ {-T}, \ldots, T \\
   \quad \quad \quad \quad \quad \quad \quad \mathbf{yield}\ (n_p, \ell_p, j_p, n_q, \ell_q, j_q, n_r, \ell_r, j_r, n_s, \ell_s, j_s, J, T, M_T)
 \end{gather*}
+Note that in ME2J, the particle physics convention is used for isospin, so $m_t = -\frac{1}{2}$ is for neutrons and $m_t = +\frac{1}{2}$ is for protons.
 
 ## Implementation of HF
 

@@ -2,9 +2,13 @@
 
 ![A schematic view of the various ways in which many-body methods in this work could be combined to calculate ground state, addition, and removal energies.](fig-methods){#fig:methods}
 
-There is significant flexibility in the application of many-body methods.  The approaches we use are shown in [@Fig:methods].  Applying the methods in this order maximizes the benefits of each method: HF acts as an initial, crude procedure to soften the Hamiltonian, followed by IM-SRG or CC to refine the ground state energy, and then finally QDPT or EOM to refine the addition and removal energies.  We expect single-reference IM-SRG and CC to recover a substantial part of the dynamical correlations, while QDPT and EOM help account for static correlations.
+There is significant flexibility in the application of many-body methods.  The approaches we use are shown in [@Fig:methods].  Applying the methods in this order maximizes the benefits of each method: HF acts as an initial, crude procedure to soften the Hamiltonian, followed by IM-SRG or CC (coupled cluster method) to refine the ground state energy, and then finally QDPT or EOM (equations-of-motion method) to refine the addition and removal energies.  We expect single-reference IM-SRG and CC to recover a substantial part of the dynamical correlations, while QDPT and EOM help account for static correlations.
 
-The general process begins with setting up the input matrix elements.  Afterward, there are several paths through which one can traverse [@Fig:methods] to obtain output observables.  For quantum dots, we primarily focus on the three combinations: (a) HF + IM-SRG(2) + QDPT3, (b) HF + IM-SRG(2) + EOM2, and (c) HF + CCSD + EOM2.
+The general process begins with setting up the input matrix elements.  Afterward, there are several paths through which one can traverse [@Fig:methods] to obtain output observables.  Our primarily focus is on the three combinations:
+
+ a. HF + IM-SRG(2) + QDPT3, computed by us,
+ b. HF + IM-SRG(2) + EOM2, computed and contributed by Nathan M. Parzuchowski, and
+ c. HF + CCSD + EOM2, computed and contributed by Samuel J. Novario.
 
 It is possible to omit some steps of the process.  For example, one can omit HF, but continue with the remaining two steps.  While this is doable, from our experience HF significantly improves the results of the later post-HF methods at very low cost compared to the post-HF methods.  Therefore, in practice there is little reason to omit HF.  We will however investigate the effects of removing one or more of the post-HF methods.
 
@@ -341,3 +345,29 @@ Nonetheless, despite the poor fits that often arise, the extrapolated energies a
 Not all fits yield a positive value of $\beta$ for addition and removal energies, which suggests that the data points do not converge, or require a very high number of shells to converge.  This affects exclusively IM-SRG(2) + QDPT3 for systems with few particles and low frequencies, indicating that perturbation theory is inadequate for such systems.
 
 ## Results for nuclei
+
+In this section, we provide a few selected results for nuclear systems as a proof of concept.  Due to time constraints, we have not been able to run calculations with higher values of $e_{\mathrm{max}}$ or to explore a greater span of the oscillator frequency $\omega$ of the basis.  We expect to gather a more diverse collection of results in a near-future publication.
+
+![Ground state of ^16^O, computed using IM-SRG(2) and CCSD with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o16){#fig:o16}
+
+[@Fig:o16] shows the computed ground state energies of oxygen-16 plotted as a function of the basis oscillator frequency $\omega$.  The results were computed using two many-body methods: HF + IM-SRG and HF + CCSD (coupled cluster singles and doubles).  The interaction we use is the N^3^LO$(\Lambda = \SI{500}{MeV})$ interaction of [@PhysRevC.68.041001], softened by SRG evolution to $\lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}}$.  We use a strictly two-body nuclear interaction here.
+
+We observe that both methods agree with each other to about $\SI{1}{MeV}$.  Furthermore, we see that the results are very close to convergence with respect to $e_{\mathrm{max}}$.  The cup-shaped curve suggests the existence of a local minimum near $\omega = \SI{24}{MeV} / \hbar$.  The curve is quite flat, which again suggests that the results are nearly converged.
+
+For reference, the experimental value is about $\SI{-128}{MeV}$.  The reason for this large discrepancy is that the SRG softening of the interaction has introduced a significant the three-body component to the nuclear interaction that we are neglecting.  With the appropriate treatment of this three-body component, one can achieve much values that are much closer to experimental data.  Readers interested in more elaborate ground state energy calculations using IM-SRG may consult [@PhysRevC.87.034307].
+
+![Addition energy from ^16^O to ^17^O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o17){#fig:o17}
+
+We now consider the the addition energy going from oxygen-16 to oxygen-17, achieved by adding a neutron to the $0\mathrm{d}_{5/2}$ state.  This is presented in [@Fig:o17].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
+
+Both methods agree with each other to about $\SI{0.2}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.05}{MeV}$ per shell, which is also quite good.  Unlike the ground state however, the curve is no longer cup-shaped, but increasing with the frequency.  This is not entirely unusual, as such shapes have been observed in other non-energy observables.  It may also be possible that there is a local minimum to the left side of the graph, though we consider this unlikely given our removal energy results in the next figure.
+
+For comparison, the experimental value is about $\SI{-4.1}{MeV}$.  We suspect based that the absence of three-body forces is a significant reason for this discrepancy.
+
+![Removal energy from ^16^O to ^15^N, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15){#fig:n15}
+
+Finally, we look the removal energy going from oxygen-16 to nitrogen-15, achieved by removing a proton from the $0\mathrm{p}_{1/2}$ state.  This is presented in [@Fig:n15].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
+
+Both methods agree with each other to about $\SI{0.3}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.02}{MeV}$ per shell, which is really good considering the the magnitude of the removal energy.  Like the addition energies, the curve is not cup-shaped, but leans to the side.  However, in this case we clearly see a point where the curves at different $e_{\mathrm{max}}$ values cross each other, at around $\omega = \SI{25}{MeV} / \hbar$.
+
+For comparison, the experimental value is about $\SI{-12}{MeV}$.  Again, our values are significantly different, likely due to missing three-body contributions.
