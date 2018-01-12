@@ -1,3 +1,5 @@
+At last, we may now discuss the results we obtained with our many-body methods for quantum dots and nuclei.
+
 ## Methodology {#sec:methodology}
 
 ![A schematic view of the various ways in which many-body methods in this work could be combined to calculate ground state, addition, and removal energies.](fig-methods){#fig:methods}
@@ -14,7 +16,7 @@ It is possible to omit some steps of the process.  For example, one can omit HF,
 
 Since every calculation in this work begins with the HF stage, we will not explicitly state *HF* unless there is no post-HF method used at all, in which case we write *HF only*.
 
-All calculations of ground state energy $E_N$ in this work are restricted to cases where the number of particles $N$ is a magic number, i.e. a **closed shell** system.  This is a limitation of the many-body methods used in this work and while there are ways to overcome this limit they are beyond the scope of this work (see [@Sec:conclusions] for some ideas).  Addition/removal energies $\varepsilon^{(\pm)}$ are similarly restricted in that we only calculate the energy difference between $E_N$ of a closed shell system and $E_{N \pm 1}$ of the same system but with one particle added/removed:
+All calculations of ground state energy $E_N$ in this work are restricted to cases where the number of particles $N$ is a magic number, i.e. a **closed shell** system.  This is a limitation of the many-body methods used in this work and while there are ways to overcome this limit they are beyond the scope of this work (see [@HeikoReview]).  Addition/removal energies $\varepsilon^{(\pm)}$ are similarly restricted in that we only calculate the energy difference between $E_N$ of a closed shell system and $E_{N \pm 1}$ of the same system but with one particle added/removed:
 \begin{align*}
   \varepsilon^{(+)} &= E_{(N + 1)} - E_N \\
   \varepsilon^{(-)} &= E_N - E_{(N - 1)}
@@ -199,7 +201,7 @@ In [@Fig:rel-slopes], we plot the $\rho_{15}$ for IM-SRG(2) + QDPT3.  The many-b
 $$V_{\sigma_{\mathrm{A}}, \sigma_{\mathrm{B}}}(r) = \frac{(1 + c)^{1 - 1/c}}{c} \left(1 - \E^{-r^2 / (2 \sigma_{\mathrm{A}}^2)}\right) \E^{-r^2 / (2 \sigma_{\mathrm{B}}^2)} \frac{1}{r}$$
 where $c = \sqrt{\sigma_{\mathrm{B}} / \sigma_{\mathrm{A}}}$.  The coefficient is chosen to ensure the peak of the envelope remains at unity.  With $(\sigma_{\mathrm{A}}, \sigma_{\mathrm{B}}) = (0, \infty)$ one recovers the original Coulomb interaction.  By increasing $\sigma_{\mathrm{A}}$ one can truncate the short-range part of the interaction, and analogously by increasing $\sigma_{\mathrm{B}}$ one can truncate the long-range part of the interaction.  For our numerical experiments we considered the following four combinations of $(\sigma_{\mathrm{A}}, \sigma_{\mathrm{B}})$: $(0, \infty)$, $(\frac{1}{2}, \infty)$, $(0, 4)$, $(\frac{1}{2}, 4)$.
 
-Reducing the short-range part of the interaction appears improves the rate of convergence substantially.  Many of the cases have reached the precision of the ODE solver ($10^{-5}$ to $10^{-6}$).  In contrast, eliminating the long-range part of the interaction had very little effect.  This suggests that the main cause of the slow convergence lies in the highly repulsive, short-ranged part of the interaction, which leads to the presence of nondifferentiable cusps (the so-called *Coulomb cusps*) in the exact wave functions that are difficult to reproduce exactly using linear combinations of the smooth harmonic oscillator wave functions.
+Reducing the short-range part of the interaction appears to improve the rate of convergence substantially.  Many of the cases have reached the precision of the ODE solver ($10^{-5}$ to $10^{-6}$).  In contrast, eliminating the long-range part of the interaction had very little effect.  This suggests that the main cause of the slow convergence lies in the highly repulsive, short-ranged part of the interaction, which leads to the presence of nondifferentiable cusps (the so-called *Coulomb cusps*) in the exact wave functions that are difficult to reproduce exactly using linear combinations of the smooth harmonic oscillator wave functions.
 
 The convergence is negatively impacted at lower frequencies and, to a lesser extent, by the increased number of particles.  Both are expected: lower frequencies increase the correlation in the system, while higher number of particles naturally require more shells to converge.
 
@@ -346,7 +348,7 @@ Not all fits yield a positive value of $\beta$ for addition and removal energies
 
 ## Results for nuclei
 
-In this section, we provide a few selected results for nuclear systems as a proof of concept.  Due to time constraints, we have not been able to run calculations with higher values of $e_{\mathrm{max}}$ or to explore a greater span of the oscillator frequency $\omega$ of the basis.  We expect to gather a more diverse collection of results in a near-future publication.
+In this section, we provide a few selected results for nuclear systems as a proof of concept.  Due to time constraints, we have not been able to run calculations with higher values of $e_{\mathrm{max}}$ or to explore a greater span of the oscillator frequency $\omega$ of the basis.  We expect to gather a more diverse collection of results in a future publication [@SpEnergiesNucl].
 
 ![Ground state of ^16^O, computed using IM-SRG(2) and CCSD with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o16){#fig:o16}
 
@@ -354,11 +356,11 @@ In this section, we provide a few selected results for nuclear systems as a proo
 
 We observe that both methods agree with each other to about $\SI{1}{MeV}$.  Furthermore, we see that the results are very close to convergence with respect to $e_{\mathrm{max}}$.  The cup-shaped curve suggests the existence of a local minimum near $\omega = \SI{24}{MeV} / \hbar$.  The curve is quite flat, which again suggests that the results are nearly converged.
 
-For reference, the experimental value is about $\SI{-128}{MeV}$.  The reason for this large discrepancy is that the SRG softening of the interaction has introduced a significant the three-body component to the nuclear interaction that we are neglecting.  With the appropriate treatment of this three-body component, one can achieve much values that are much closer to experimental data.  Readers interested in more elaborate ground state energy calculations using IM-SRG may consult [@PhysRevC.87.034307].
+For reference, the experimental value is about $\SI{-128}{MeV}$.  The reason for this large discrepancy is that the SRG softening of the interaction has introduced a significant three-body component to the nuclear interaction that we are neglecting.  With the appropriate treatment of this three-body component, one can achieve values much closer to experimental data.  Readers interested in more elaborate ground state energy calculations using IM-SRG may consult [@PhysRevC.87.034307].
 
 ![Addition energy from ^16^O to ^17^O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o17){#fig:o17}
 
-We now consider the the addition energy going from oxygen-16 to oxygen-17, achieved by adding a neutron to the $0\mathrm{d}_{5/2}$ state.  This is presented in [@Fig:o17].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
+We now consider the addition energy going from oxygen-16 to oxygen-17, achieved by adding a neutron to the $0\mathrm{d}_{5/2}$ state.  This is presented in [@Fig:o17].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
 
 Both methods agree with each other to about $\SI{0.2}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.05}{MeV}$ per shell, which is also quite good.  Unlike the ground state however, the curve is no longer cup-shaped, but increasing with the frequency.  This is not entirely unusual, as such shapes have been observed in other non-energy observables.  It may also be possible that there is a local minimum to the left side of the graph, though we consider this unlikely given our removal energy results in the next figure.
 
@@ -366,8 +368,10 @@ For comparison, the experimental value is about $\SI{-4.1}{MeV}$.  We suspect ba
 
 ![Removal energy from ^16^O to ^15^N, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15){#fig:n15}
 
-Finally, we look the removal energy going from oxygen-16 to nitrogen-15, achieved by removing a proton from the $0\mathrm{p}_{1/2}$ state.  This is presented in [@Fig:n15].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
+Finally, we look at the removal energy going from oxygen-16 to nitrogen-15, achieved by removing a proton from the $0\mathrm{p}_{1/2}$ state.  This is presented in [@Fig:n15].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
 
-Both methods agree with each other to about $\SI{0.3}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.02}{MeV}$ per shell, which is really good considering the the magnitude of the removal energy.  Like the addition energies, the curve is not cup-shaped, but leans to the side.  However, in this case we clearly see a point where the curves at different $e_{\mathrm{max}}$ values cross each other, at around $\omega = \SI{25}{MeV} / \hbar$.
+Both methods agree with each other to about $\SI{0.3}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.02}{MeV}$ per shell, which is really good considering the magnitude of the removal energy.  Like the addition energies, the curve is not cup-shaped, but leans to the side.  However, in this case we clearly see a point where the curves at different $e_{\mathrm{max}}$ values cross each other, at around $\omega = \SI{25}{MeV} / \hbar$.
 
 For comparison, the experimental value is about $\SI{-12}{MeV}$.  Again, our values are significantly different, likely due to missing three-body contributions.
+
+From the preliminary results so far, we see that our perturbative results agree quite well with the EOM results.  In conjunction with the testing and verification described in [@Sec:testing], this helps confirm the correctness of our J-scheme implementation.  We believe these results indicate a promising start for future studies of nuclei through this approach.

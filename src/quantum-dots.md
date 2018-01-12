@@ -1,4 +1,4 @@
-Quantum dots, also known as “artificial atoms”, are prototypical quantum systems consisting of electrons confined by an external potential.  They provide a simple system for studying quantum phenomena from both experimental and theoretical perspectives.
+Quantum dots, also known as “artificial atoms”, are prototypical quantum systems consisting of electrons confined by an external potential.
 
 ## Quantum dot Hamiltonian
 

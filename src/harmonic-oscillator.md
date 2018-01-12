@@ -112,7 +112,7 @@ $$2 n + \ell = N$$
 
 The final trick is to substitute $r$ with a new variable $u = r^2$ to obtain
 $$\left(u \frac{\partial^2}{\partial u^2} + \left(\ell + \frac{3}{2} - u\right) \frac{\partial}{\partial u} + n\right) f(\sqrt{u}) = 0$$
-This is in the form of a generalized Laguerre equation with parameter $\alpha = \ell + 1/2$.  Therefore, solutions of this equation are proportional to generalized Laguerre polynomials, [[TODO: Cite and relate to quantum dots]]
+This is in the form of a associated Laguerre equation with parameter $\alpha = \ell + 1/2$.  Therefore, solutions of this equation are proportional to associated Laguerre polynomials,
 $$f(\sqrt{u}) \propto L_n^{(\ell + 1/2)}(u)$$
 which are defined as
 $$L_n^{(\alpha)}(u) = \frac{1}{n!} u^{-a} \E^u \frac{\D^n}{\D u^n} \E^{-u} u^{a + n}$$

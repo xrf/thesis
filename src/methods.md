@@ -1,6 +1,4 @@
-[[motivation]]
-
-In @Sec:symmetrization, we have noted that antisymmetrized states (Slater determinants) provide solutions for any non-interacting fermionic system.  We have not yet discussed how to solve *interacting* systems however, which is the principal focus of many-body theory.
+We now discuss the many-body methods that form the core of our many-body code.  In @Sec:symmetrization, we have noted that antisymmetrized states (Slater determinants) provide solutions for any non-interacting fermionic system.  We have not yet discussed how to solve *interacting* systems however, which is the principal focus of many-body theory.
 
 In general, while solutions of the non-interacting Hamiltonian $\hat{H}^\circ$ are often not solutions of any interacting Hamiltonian $\hat{H}$, they do nonetheless provide a useful basis for the Fock space.  We expect from basic linear algebra that, if the degrees of freedom (including boundary conditions) are the same between $\hat{H}^{\mathrm{NI}}$ and $\hat{H}$, then any exact $N$-particle solution $\ket{\Psi}$ can be expanded as a linear combination of antisymmetrized states,
 $$\ket{\Psi} = \frac{1}{N!} \sum_{p_1 \ldots p_N} \Psi_{p_1 \ldots p_N} \hat{a}_{p_1}^\dagger \cdots \hat{a}_{p_N}^\dagger \ket{\varnothing}$$

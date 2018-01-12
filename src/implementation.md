@@ -1,6 +1,8 @@
 # Implementation
 
-The many-body methods in this work are implemented as part of the Lutario project [@Lutario], an open-source library written in Rust, dual licensed under the permissive MIT [@MIT] and Apache 2.0 licenses [@Apache2].
+We now discuss the details of our specific implementation of the many-body methods that we have discussed.  In our experience, we find a dearth of such documentation in scientific literature, potentially leading to the loss of valuable practical knowledge.  We hope readers will find this information helpful for either developing their own codes, reproducing our results, or utilizing our code.
+
+The many-body methods in this work are implemented as part of the Lutario project [@Lutario], an open-source library written in Rust, dual licensed under the permissive MIT [@MIT] and Apache 2.0 licenses [@Apache2].  Lutario implements a J-scheme framework for many-body calculations, upon which HF, Møller–Plesset perturbation theory to second order (MP2), IM-SRG(2), and QDPT3 are written.  The code supports several systems, including quantum dots and nuclei, whose results we discuss in detail in the next chapter.  The code also contains implementations of infinite matter and homogeneous electron gas, but we have not included any of those results in this work.
 
 ## Programming language
 
@@ -215,7 +217,7 @@ The encoder is a hash table that maps from a `T` object into an index, whereas t
 
 In our code, we do not store $\kappa$ directly, but represent $\kappa$ using another abstract index $k$ isomorphic to $\kappa$.  This design allows the type of the $l \simeq (j, k)$ chart to be completely independent of the type of $\kappa$, avoiding code bloat due to monomorphization.  The rationale for this is that most operations in many-body theory only require knowledge of the total angular momentum magnitude $j$ and not of $\kappa$.
 
-There is also an bijection between $\mu$ and $u$ but it is $l$-dependent,
+There is also a bijection between $\mu$ and $u$ but it is $l$-dependent,
 $$(l, u) \simeq (l, \mu)$$
 This bijection is needed to recover the non-conserved quantum numbers and is needed to interpret matrix elements (e.g. reading input matrix elements, displaying output), but is irrelevant within the core of the many-body methods.
 
@@ -823,7 +825,7 @@ qdpt_term_b(
 )
 ```
 
-## Testing and benchmarking
+## Testing and benchmarking {#sec:testing}
 
 The first line of defense for ensuring correct code is through properly designed abstractions and data types.  By categorizing values into distinct types one can avoid accidental confusion of quantities.
 

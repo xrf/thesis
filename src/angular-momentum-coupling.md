@@ -1,6 +1,4 @@
-[[motivations]]
-
-Angular momentum plays a fundamental role in quantum systems with spherical symmetry, both theoretically and computationally.
+We shall first discuss the details of angular momentum coupling in general, and then more specifically in the context of many-body theory.  The objective of this chapter is to lay out the formalism that one needs to derive the angular-momentum-coupled equations in many-body theory (*J-scheme*), which are essential for efficient computations in spherically symmetric systems such as nuclei.
 
 ## Angular momentum and isospin
 

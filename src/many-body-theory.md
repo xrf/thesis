@@ -1,4 +1,4 @@
-[[motivate]]
+In this section we review the fundamentals of many-body theory.  While we have aimed to make the presentation fairly pedagogical, the primary goal of this chapter is to define the concepts, terminology, notation, and conventions used throughout this work.
 
 ## Many-particle states
 
