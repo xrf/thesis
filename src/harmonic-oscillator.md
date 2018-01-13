@@ -80,8 +80,6 @@ In the presence of other degrees of freedom such as spin or isospin, degenerate 
 
 ## Spherical harmonic oscillator
 
-![Shell structure of the spherical harmonic oscillator](fig-shell-ho3d)
-
 Now we restrict the harmonic oscillator to 3 dimensions only.  In this case, it is useful to redo the problem in spherical coordinates to take advantage of angular momentum symmetries.  We will use natural units as before.
 
 First, we convert the Hamiltonian $\hat{H}$ into spherical form,
@@ -123,6 +121,7 @@ where $\Gamma$ is the gamma function, we can determine the normalization coeffic
 $$\psi_{n \ell m_\ell}(r, \theta, \varphi) = \sqrt{\frac{n! 2 (m \omega / \hbar)^{\ell + 3/2}}{\Gamma(n + \ell + 3/2)}} r^\ell \E^{-m \omega r^2 / (2 \hbar)} L_n^{(\ell + 1/2)}\left(\frac{m \omega r^2}{\hbar}\right) Y_{\ell m_\ell}(\theta, \varphi)$$
 in ordinary units.  As derived earlier, the energy is given by:
 $$E_{n \ell m_\ell} = \hbar \omega \left(2 n + \ell + \frac{3}{2}\right)$$
+The shell structure is shown in [@Fig:shell-ho3d].
 
 ### Matrix elements of kinetic energy
 

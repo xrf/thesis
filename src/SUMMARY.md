@@ -16,4 +16,4 @@
 - [Implementation](implementation.md)
 - [Results and analysis](results.md)
 - [Conclusions](conclusions.md)
-[Harmonic oscillator](harmonic-oscillator.md)
+- [Appendix](harmonic-oscillator.md)
