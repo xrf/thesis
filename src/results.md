@@ -368,10 +368,18 @@ For comparison, the experimental value is about $\SI{-4.1}{MeV}$.  We suspect ba
 
 ![Removal energy from ^16^O to ^15^N, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15){#fig:n15}
 
-Finally, we look at the removal energy going from oxygen-16 to nitrogen-15, achieved by removing a proton from the $0\mathrm{p}_{1/2}$ state.  This is presented in [@Fig:n15].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
+The removal energy going from oxygen-16 to nitrogen-15 is achieved by removing a proton from the $0\mathrm{p}_{1/2}$ state.  This is presented in [@Fig:n15].  The energies were calculated using HF + IM-SRG(2) + QDPT3 and HF + CCSD + EOM2 with the same nuclear interaction as before.
 
 Both methods agree with each other to about $\SI{0.3}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.02}{MeV}$ per shell, which is really good considering the magnitude of the removal energy.  Like the addition energies, the curve is not cup-shaped, but leans to the side.  However, in this case we clearly see a point where the curves at different $e_{\mathrm{max}}$ values cross each other, at around $\omega = \SI{25}{MeV} / \hbar$.
 
 For comparison, the experimental value is about $\SI{-12}{MeV}$.  Again, our values are significantly different, likely due to missing three-body contributions.
 
-From the preliminary results so far, we see that our perturbative results agree quite well with the EOM results.  In conjunction with the testing and verification described in [@Sec:testing], this helps confirm the correctness of our J-scheme implementation.  We believe these results indicate a promising start for future studies of nuclei through this approach.
+For reference, we have also attached the results for nitrogen-15 in the excited state $J^\pi = 3/2^+$ in [@Fig:n15-3], oxygen-23 in [@Fig:o23], and oxygen 21 in [@Fig:o21].  All these results were calculated using the same approach as before.  In all cases, the difference between the two methods is very small and the convergence with respect to $e_{\mathrm{max}}$ appears to be quite good.
+
+![Removal energy from ^16^O to ^15^N^\*^ in the $J^\pi = 3/2^+$ state, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15-3){#fig:n15-3}
+
+![Addition energy from ^22^O to ^23^O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o23){#fig:o23}
+
+![Removal energy from ^22^O to ^21^O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o21){#fig:o21}
+
+From the preliminary results so far, we see that our perturbative results agree quite well with the EOM results.  In conjunction with the testing and verification described in [@Sec:testing], this helps confirm the correctness of our J-scheme implementation.  We believe these results indicate a promising start for more extensive studies of nuclei through this approach.
