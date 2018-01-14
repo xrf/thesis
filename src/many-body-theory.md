@@ -78,13 +78,13 @@ Note that:
 
 Objects with more than two variables may be $\pm$-symmetric in many combinations of variables.  In particular, if it is $\pm$-symmetric for every pair of variables in $a_1 \ldots a_n$, then it is said to be **fully $\pm$-symmetric** in $a_1 \ldots a_n$.
 
-If an object is not fully $\pm$-symmetric, we can make it so using the **$\pm$-symmetrization symbol**  $\mathcal{S}^\pm$, defined as
+If an object is not fully $\pm$-symmetric, we can make it so using the **$\pm$-symmetrization symbol**  $\symm^\pm$, defined as
 \begin{gather*}
-  \mathcal{S}^\pm_\varnothing X = X \\
-  \mathcal{S}^\pm_a X_a = X_a \\
-  \mathcal{S}^\pm_{a b} X_{a b} = \frac{1}{2} (X_{a b} \pm X_{b a}) \\
-  \mathcal{S}^\pm_{a b c} X_{a b c} = \frac{1}{6} (X_{a b c} \pm X_{b a c} + X_{b c a} \pm X_{c b a} + X_{c a b} \pm X_{a c b}) \\
-  \mathcal{S}^\pm_{a_1 \ldots a_n} X_{a_1 \ldots a_n} = \frac{1}{N!} \sum_{\sigma \in S_n} (\pm)^\sigma X_{\sigma(a_1 \ldots a_n)}
+  \symm^\pm_\varnothing X = X \\
+  \symm^\pm_a X_a = X_a \\
+  \symm^\pm_{a b} X_{a b} = \frac{1}{2} (X_{a b} \pm X_{b a}) \\
+  \symm^\pm_{a b c} X_{a b c} = \frac{1}{6} (X_{a b c} \pm X_{b a c} + X_{b c a} \pm X_{c b a} + X_{c a b} \pm X_{a c b}) \\
+  \symm^\pm_{a_1 \ldots a_n} X_{a_1 \ldots a_n} = \frac{1}{N!} \sum_{\sigma \in S_n} (\pm)^\sigma X_{\sigma(a_1 \ldots a_n)}
 \end{gather*}
 where
 
@@ -94,15 +94,19 @@ where
 - $(+)^\sigma = 1$, and
 - $\sigma(a_1 \ldots a_n)$ applies the permutation $\sigma$ to the sequence of indices $a_1 \ldots a_n$.
 
-We will often use the abbreviations $\mathcal{S} = \mathcal{S}^+$ and $\antisymm = \mathcal{S}^-$.
+We will often use the abbreviations $\symm = \symm^+$ and $\antisymm = \symm^-$.  We will also sometimes use the shorthand
+$$\symm^{(i)} = \symm^{(-)^i} = \begin{cases}
+  \symm^+ & \text{if } i \text{ is even} \\
+  \symm^- & \text{if } i \text{ is odd} \\
+\end{cases}$$
 
-Note that the $\pm$-symmetrization symbol $\mathcal{S}^\pm$ is merely a notational shorthand, not unlike the summation symbol $\sum$.  It is not a quantum operator, but we can use it to define one.  Let us introduce the **$N$-particle $\pm$-symmetrizer** $\hat{S}^\pm_N$, an operator defined as
+Note that the $\pm$-symmetrization symbol $\symm^\pm$ is merely a notational shorthand, much like the summation symbol $\sum$.  It is not a quantum operator, but we can use it to define one.  Let us introduce the **$N$-particle $\pm$-symmetrizer** $\hat{S}^\pm_N$, an operator defined as^[The $\pm$-symmetrizer $\hat{S}^\pm$ should not be confused with the spin operator $\hat{S}$ introduced in later sections.]
 \begin{gather*}
   \hat{S}^\pm_0 \ket{\varnothing} = \ket{\varnothing} \\
   \hat{S}^\pm_1 \ket{p} = \ket{p} \\
   \hat{S}^\pm_2 \ket{p_1 \otimes p_2} = \frac{\ket{p_1 \otimes p_2} \pm \ket{p_2 \otimes p_1}}{2} \\
   \hat{S}^\pm_3 \ket{p_1 \otimes p_2 \otimes p_3} = \frac{\ket{p_1 \otimes p_2 \otimes p_3} \pm \ket{p_2 \otimes p_1 \otimes p_3} + \ket{p_2 \otimes p_3 \otimes p_1} \pm \cdots}{6} \\
-  \hat{S}^\pm_N \ket{p_1 \otimes \cdots \otimes p_N} = \mathcal{S}^\pm_{p_1 \ldots p_N} \ket{p_1 \otimes \cdots \otimes p_N}
+  \hat{S}^\pm_N \ket{p_1 \otimes \cdots \otimes p_N} = \symm^\pm_{p_1 \ldots p_N} \ket{p_1 \otimes \cdots \otimes p_N}
 \end{gather*}
 Despite the involvement of a specific single-particle basis $\ket{p}$ in the definition of $\hat{S}^\pm_N$, one can show that the operator is actually independent of the basis choice.
 
@@ -194,8 +198,10 @@ Kinetic energy and external potentials are examples of such operators.  The matr
 $$T_{p q} = \bra{p} \hat{T} \ket{q} = \int \varphi_p^*(x) \hat{t} \varphi_q(x) \D x$$
 One-body operators have two notable properties:
 
-  - Their expectation value is zero in the vacuum state.
-  - They do not contribute if the bra and ket states differ in more than one single-particle state.
+  - Their expectation value in the vacuum state is zero:
+    $$\bra{\varnothing} \hat{T} \ket{\varnothing} = 0$$
+  - They do not contribute if the bra and ket states differ in more than one single-particle state.  That is, unless the set intersection $\{p_1, \ldots, p_N\} \cap \{q_1, \ldots, q_N\}$ has at least $N - 1$ elements, then
+    $$\bra{p_1 \cdots p_N} \hat{T} \ket{q_1 \cdots q_N} = 0$$
 
 ### Two-body operators
 
@@ -211,12 +217,17 @@ where
 $$V^\otimes_{p q r s} = \bra{p \otimes q} \hat{V} \ket{r \otimes s} = \iint \varphi_p^*(x_1) \varphi_q^*(x_2) \hat{v} \varphi_r(x_1) \varphi_s(x_2) \D x_1 \D x_2$$
 are the **non-antisymmetrized matrix elements** of $\hat{V}$, which may considered matrix elements in the product state basis.  These matrix elements have a weaker symmetry,
 $$V^\otimes_{p q r s} = \symm_{(p, r) (q, s)} V^\otimes_{p q r s}$$
-In other words, $V^\otimes_{p q r s} = V^\otimes_{q p s r}$.
+In other words, $V^\otimes_{p q r s} = V^\otimes_{q p s r}$.  This arises from the indistinguishability of particles.
 
 Two-body operators have two notable properties:
 
-  - Their expectation value is zero in the vacuum state or one-particle state.
-  - They do not contribute if the bra and ket states differ in more than two single-particle states.
+  - Matrix elements of states with one or fewer particles vanish:
+    \begin{align*}
+      \bra{\varnothing} \hat{V} \ket{\varnothing} &= 0 &
+      \bra{p} \hat{V} \ket{q} &= 0
+    \end{align*}
+  - They do not contribute if the bra and ket states differ in more than two single-particle states.  That is, unless the set intersection $\{p_1, \ldots, p_N\} \cap \{q_1, \ldots, q_N\}$ has at least $N - 2$ elements, then
+    $$\bra{p_1 \cdots p_N} \hat{V} \ket{q_1 \cdots q_N} = 0$$
 
 ### Three-body operators and beyond
 
@@ -249,8 +260,10 @@ and symmetries
 
 $k$-body operators have two notable properties:
 
-  - Their expectation value is zero in the any state with $k$ or fewer particles.
-  - They do not contribute if the bra and ket states differ in more than $k$ single-particle states.
+  - Matrix elements of states with one or fewer particles vanish.  That is, if $m < k$, then
+    $$\bra{p_1 \ldots p_m} \hat{X} \ket{q_1 \ldots q_m} = 0$$
+  - They do not contribute if the bra and ket states differ in more than $k$ single-particle states.  That is, unless the set intersection $\{p_1, \ldots, p_N\} \cap \{q_1, \ldots, q_N\}$ has at least $N - k$ elements, then
+    $$\bra{p_1 \cdots p_N} \hat{X} \ket{q_1 \cdots q_N} = 0$$
 
 ## Particle-hole formalism {#sec:ph-formalism}
 

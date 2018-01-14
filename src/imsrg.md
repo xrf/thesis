@@ -46,6 +46,8 @@ The commutator in the flow equations [@Eq:imsrgode] ensures that the evolved sta
 
 An accurate and robust solver is required to solve ordinary differential equation (ODE) in [@Eq:imsrgode].  In particular, the solver must be capable of handling the stiffness that often arises in such problems.  For our numerical experiments, we used a high-order ODE solver algorithm by L. F. Shampine and M. K. Gordon [@shampine1975computer], which is a multistep method based on the implicit Adams predictor-corrector formulas.  Its source code is freely available [@odesolver; @sgode].
 
+IM-SRG has relations to several other well-known methods of quantum chemistry such as coupled cluster theory [@shavitt2009many], canonical transformation theory [@White:cond-mat0201346; @CTreview], the irreducible/anti-Hermitian contracted Schrödinger equation approach [@Mazziotti1; @Mazziotti2], and the driven similarity renormalization group method [@Evangelista].  These connections are explored in more detail in [@HeikoReview].
+
 ## IM-SRG generators
 
 With an appropriate choice of the generator $\hat{\eta}$, the evolved state $\hat U(s) \ket{\Phi}$ will gradually approach a more “diagonal” form.  If the “diagonal” form decouples the ground state from the excited states, then $\hat{U}(\infty) \ket{\Phi}$ would yield the exact ground state solution of the problem if no operator or basis truncations are made.  In particular, $E_\Phi(\infty)$ would be the exact ground state energy.

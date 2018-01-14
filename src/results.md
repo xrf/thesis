@@ -1,4 +1,4 @@
-At last, we may now discuss the results we obtained with our many-body methods for quantum dots and nuclei.
+Finally, we discuss the results we obtained with our many-body methods for quantum dots and nuclei.
 
 ## Methodology {#sec:methodology}
 
@@ -364,7 +364,7 @@ We now consider the addition energy going from oxygen-16 to oxygen-17, achieved 
 
 Both methods agree with each other to about $\SI{0.2}{MeV}$.  With respect to $e_{\mathrm{max}}$, both curves are converging at a rate of $\SI{0.05}{MeV}$ per shell, which is also quite good.  Unlike the ground state however, the curve is no longer cup-shaped, but increasing with the frequency.  This is not entirely unusual, as such shapes have been observed in other non-energy observables.  It may also be possible that there is a local minimum to the left side of the graph, though we consider this unlikely given our removal energy results in the next figure.
 
-For comparison, the experimental value is about $\SI{-4.1}{MeV}$.  We suspect based that the absence of three-body forces is a significant reason for this discrepancy.
+For comparison, the experimental value is about $\SI{-4.1}{MeV}$.  We suspect that the absence of three-body forces is a significant reason for this discrepancy.
 
 ![Removal energy from ^16^O to ^15^N, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15){#fig:n15}
 

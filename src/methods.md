@@ -4,7 +4,7 @@ In general, while solutions of the non-interacting Hamiltonian $\hat{H}^\circ$ a
 $$\ket{\Psi} = \frac{1}{N!} \sum_{p_1 \ldots p_N} \Psi_{p_1 \ldots p_N} \hat{a}_{p_1}^\dagger \cdots \hat{a}_{p_N}^\dagger \ket{\varnothing}$$
 Solving a quantum system in this manner is the central theme of **exact diagonalization** methods, such as **full configuration interaction** (FCI) [@doi:10.1063/1.455063; @KNOWLES1984315] and **no-core shell model** (NCSM) [@PhysRevC.62.054311; @0954-3899-36-8-083101].
 
-The key advantage of exact diagonalization is the ability to obtain exact numeric results within the basis (up to machine precision), capturing the all the details of the quantum system.  However, such methods are very costly as the number of $N$-particle basis states $n_{\mathrm{B}}$ increases rapidly with the number of particles $N$ and the number of single-particle states $n_{\mathrm{b}}$, specifically
+The key advantage of exact diagonalization is the ability to obtain exact numeric results within the basis (up to machine precision), capturing all the details of the quantum system.  However, such methods are very costly as the number of $N$-particle basis states $n_{\mathrm{B}}$ increases rapidly with the number of particles $N$ and the number of single-particle states $n_{\mathrm{b}}$, specifically
 $$n_{\mathrm{B}} = \binom{n_{\mathrm{b}}}{N}$$
 where $\binom{n}{k}$ denotes the binomial coefficient.  The combinatorial explosion quickly renders such methods unfeasible in systems with even a moderate number of particles, beyond the computational power that exists in the observable universe.
 

@@ -52,11 +52,13 @@ $$\begin{aligned}
   &R_{n \mu}(\rho) = \sqrt{2} \mathrm{e}^{-\rho^2 / 2} \rho^\mu \bar{L}_n^\mu(\varrho^2) \\
   &A_{m_\ell}(\varphi) = \frac{1}{\sqrt{2 \pi}} \mathrm{e}^{\mathrm{i} m_\ell \varphi}
 \end{aligned}$$ {#eq:fockdarwin}
-in ordinary units.  Here, $\sqrt{\hbar / m \omega}$ is the characteristic length of the harmonic oscillator, $\Gamma(x)$ is the gamma function, $L_n^\alpha(x)$ is the associated Laguerre polynomial of degree $n$ and parameter $\alpha$ [@DLMF], and $\bar{L}_n^\alpha(x)$ is its normalized version:
+in ordinary units.  Here, $\sqrt{\hbar / m \omega}$ is the characteristic length of the harmonic oscillator, $\Gamma(x)$ is the gamma function, and $\bar{L}_n^\alpha(x)$ is the *normalized* variant of the associated Laguerre polynomial $L_n^\alpha(x)$ of degree $n$ and parameter $\alpha$ [@DLMF]:
 $$\begin{aligned}
   &\bar{L}^\alpha_n(x) = \sqrt{\frac{n!}{\Gamma(n + \alpha + 1)}} L^\alpha_n(x) \\
   &L_n^\alpha(x) = \frac{1}{n!} x^{-\alpha} \mathrm{e}^x \frac{\mathrm{d}^n}{\mathrm{d} x^n} (\mathrm{e}^{-x} x^{\alpha + n})
 \end{aligned}$$ {#eq:laguerre-polynomials}
+The normalized Laguerre polynomials satisfy the following orthogonality relation:
+$$\int_0^\infty u^\alpha \E^{-u} \bar{L}_m^{(\alpha)}(u) \bar{L}_n^{(\alpha)}(u) \D u = \delta_{m n}$$
 
 The states are labeled by two quantum numbers: the principal quantum number $n \in \{0, 1, 2, \ldots\}$ and orbital angular momentum projection $m_\ell \in \mathbb \{\ldots, -2, -1, 0, +1, +2, \ldots\}$.  For a wave function, $n$ indicates the degree of the Laguerre polynomial, whereas $m_\ell$ is the eigenvalue of $\hat{L}_3$.
 
@@ -76,7 +78,7 @@ When the number of particles $N$ satisfies $N = K_{\mathrm{F}} (K_{\mathrm{F}} +
 
 ## Coulomb interaction in the Fock–Darwin basis
 
-For many-body calculations, we will need matrix elements of the Coulomb interaction in the Fock–Darwin basis that we chose.  The antisymmetrized matrix elements, needed for @Eq:two-body-operator, are given by
+For many-body calculations, we will need matrix elements of the Coulomb interaction in the Fock–Darwin basis that we chose.  The antisymmetrized matrix elements, needed for [@Eq:two-body-operator], are given by
 $$\begin{aligned}
   &\bra{(n m s)_1 (n m s)_2} \hat{H}_2 \ket{(n m s)_3 (n m s)_4} \\
   &= \bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4} \delta_{s_1 s_3} \delta_{s_2 s_4} \\

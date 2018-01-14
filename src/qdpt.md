@@ -34,7 +34,7 @@ where
 This definition of $\hat{\Omega}$ entails that the exact states $\ket{u}$ are no longer normalized but instead satisfy the so-called **intermediate normalization**,
 $$\bkt{u | u^\circ} = 1$$
 
-From [@Eq:omega-condition1; @Eq:omega-condition2], observe that
+From [@Eq:omega-condition1; @Eq:omega-condition2] we observe that
 $$\hat{\Omega} \hat{H}^\circ = \hat{\Omega} \hat{P} \hat{H}^\circ \hat{P} \hat{\Omega} = \hat{\Omega} \hat{H}^\circ \hat{\Omega}$$
 $$\hat{H} \hat{\Omega} = \sum_u \hat{\Omega} E_u \hat{\Omega} \hat{P}_u = \hat{\Omega} \hat{H} \hat{\Omega}$$
 These equations can be used to simplify the commutator $[\hat{\Omega}, \hat{H}^\circ]$, leading to the **generalized Bloch equation** [@LindgrenMorrison1986] that defines QDPT:
@@ -129,7 +129,7 @@ $$\begin{aligned}
 \end{aligned}$$
 Perturbative diagrams ([@Sec:perturbative-diagrams]) of third-order corrections are also shown in [@Fig:diagrams-sfe].
 
-There is some degree of synergy between IM-SRG and QDPT: a generator that decouples the ground state energy will necessarily drive certain classes of matrix elements to zero.  Consider for example the White generator, which eliminates matrix elements of the form:
+One of the benefits of applying QDPT to an IM-SRG-evolved Hamiltonian is that many of the QDPT terms vanish.  In IM-SRG, a generator that decouples the ground state energy is required to drive certain classes of matrix elements to zero.  Consider for example the White generator, which eliminates matrix elements of the form:
 $$V_{i j a b} = V_{a b i j} = 0$$
 This means certain kinds of vertices in the diagrams become forbidden, reducing the number of nonzero diagrams at third order from 18 to only four.  Out of these four, two of them contribute only to the correction of hole states (removal energies), while the other two contribute only to the correction of the particle states (addition energies).
 

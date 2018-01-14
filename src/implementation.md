@@ -292,7 +292,7 @@ When a matrix element is accessed using an augmented state index, we must perfor
 where
 $$\phi_{a b} = \begin{cases}
   0 & \text{if } t_{a b} = 0 \\
-  (-1)^{j_1 + j_2 - j_{1 2}} & \text{if }t_{a b} = 1 \\
+  -(-1)^{j_a + j_b - j_{a b}} & \text{if } t_{a b} = 1 \\
 \end{cases}$$
 When a matrix element is *set* using an augmented state index, we perform the same phase adjustment to the value being set,
 \begin{align*}
@@ -312,9 +312,9 @@ As it turns out, this will cause many of the matrix elements to be incremented *
 \begin{align*}
 &\mathbf{function}\ \mathrm{add}(V, (t_{1 2}, l_{1 2}, u_{1 2}), (t_{3 4}, l_{3 4}, u_{3 4}), x) \\
 &\quad \mathrm{assert}(l_{1 2} = l_{3 4}) \\
-&\quad V^{l_{1 2}}_{u_{1 2} u_{3 4}} \leftarrow V^{l_{1 2}}_{u_{1 2} u_{3 4}} + \frac{\phi_{1 2} \phi_{3 4}}{(2 - \delta_{p_1 p_2}) (2 - \delta_{p_3 p_4})} x
+&\quad V^{l_{1 2}}_{u_{1 2} u_{3 4}} \leftarrow V^{l_{1 2}}_{u_{1 2} u_{3 4}} + \frac{\phi_{1 2} \phi_{3 4}}{N_{1 2} N_{3 4}} x
 \end{align*}
-The denominator helps compensate for the overcounting.
+where $N_{a b}$ is the normalization factor in [@Eq:two-particle-j-normalization-factor], which simplifies to $N_{a b} = 2 - \delta_{p_a p_b}$ if non-existent states are excluded.  The denominator helps compensate for the overcounting.
 
 ### Initialization of the basis
 
@@ -525,7 +525,7 @@ The overall structure of our HF program is as follows:
 
      c. Solve the Hartree–Fock equation as a Hermitian eigenvalue problem on $\bm{F}^{(i)}$.  This results in a new set of coefficients $\bm{C}^{(i)}$ and a vector of eigenvalues (orbital energies) $\bm{\varepsilon}^{(i)}$.  We use `heevr` from LAPACK for this, applied separately to every block of the matrix.
 
-     d. Compute the sum of orbital energies $S^{(i)} = \sum_p \varepsilon_p^{(i)}$ as a diagnostic for convergence.
+     d. Compute the sum of orbital energies $S^{(i)} = \sum_p \jweight{j}_p^2 \varepsilon_p^{(i)}$ as a diagnostic for convergence.
 
      e. Adjust the linear mixing factor using [@Eq:hf-mixing-adjustment].
 
@@ -541,9 +541,9 @@ From $\bm{C}$, we compute an auxiliary matrix $\bm{Q}$ defined as
 $$Q_{r s} = \sum_{i \backslash} C_{r i'}^* C_{s i'}$$
 This summation may be readily computed using GEMM.
 
-Using $\bm{Q}$, we can reduce the cost of computing the Fock matrix, which is now described by the equation in J-scheme:
-$$F_{p q} = \bra{p} \hat{H}_1 \ket{q} + \sum_{j_{p q} r s} \frac{\jweight{j}_{p r}^2}{\jweight{j}_p^2} Q_{r s} \bra{p r} \hat{H}_2 \ket{q s}$$ {#eq:fock-q}
-Compared with [@Eq:fock], which has a triply-nested sum, this equation only has a doubly-nested sum.
+Using $\bm{Q}$, we can reduce the cost of computing the Fock matrix, which is now described by this equation in J-scheme:
+$$F_{p q} = \bra{p} \hat{H}_1 \ket{q} + \sum_{j_{p r} r s} \frac{\jweight{j}_{p r}^2}{\jweight{j}_p^2} Q_{r s} \bra{p r} \hat{H}_2 \ket{q s}$$ {#eq:fock-q}
+Compared with [@Eq:fock-j], which has a triply-nested sum, this equation only has a doubly-nested sum.
 
 As a demonstration of our J-scheme framework, we include the code used to calculate the two-body contribution to the Fock matrix below.
 
@@ -625,8 +625,8 @@ This could be broken down even further into four 5-th power steps, but we genera
 [@Eq:hf-transform-2-fast] can be programmed naively, which results in a slow but tolerable transformation.  Alternatively, one could perform the transformation using GEMM.  Our benchmarks indicate that the use of GEMM can provide a two-orders-of-magnitude improvement in speed.  Unfortunately, it causes the internal details of implicit antisymmetrization to leak, complicating the phase factor.
 
 In any case, the technique is as follows.  Define the following two-body antisymmetrized coefficient matrix $\bm{G}$:
-$$G_{r s r' s'} = (2 - \delta_{r s}) \symm^{(-)^{j_r + j_s - j_{r s}}}_{r s} \symm^{(-)^{j_{r'} + j_{s'} - j_{r s}}}_{r' s'} C_{r r'} C_{s s'}$$
-Then we can compute the transformation using GEMM:
+$$G_{r s r' s'} = N_{r s} \symm^{(1 + j_r + j_s - j_{r s})}_{r s} \symm^{(1 + j_{r'} + j_{s'} - j_{r s})}_{r' s'} C_{r r'} C_{s s'}$$
+where $N_{r s}$ is the normalization factor in [@Eq:two-particle-j-normalization-factor] and $\symm^{(i)}$ is the $(-)^i$-symmetrization symbol of [@Sec:symmetrization].  Then we can compute the transformation using GEMM:
 $$\begin{gathered}
   T_{p' q' r s} = \sum_{p \ge q} G_{p q p' q'}^* H_{p q r s} \\
   H'_{p' q' r' s'} = \sum_{r \ge s} T_{p' q' r s} G_{r s r' s'}
@@ -688,10 +688,12 @@ Calculating these terms using GEMM is quite straightforward and offers orders of
 
 However, a subtlety arises due to the implicit antisymmetrization, which we also encountered earlier in the HF transformation optimization: we must not double-count the $i = j$ (or $a = b$) states.  With this taken into account, the equations become
 \begin{gather*}
-  C^{2220}_{p q r s} = \frac{1}{2} \sum_{i \ge j \backslash} (2 - \delta_{i j}) A_{i j r s} B_{p q i j} \\
-  C^{2222}_{p q r s} = \frac{1}{2} \sum_{\backslash a \ge b} (2 - \delta_{a b}) A_{p q a b} B_{a b r s}
+  C^{2220}_{p q r s} = \frac{1}{2} \sum_{i \ge j \backslash} N_{i j} A_{i j r s} B_{p q i j} \\
+  C^{2222}_{p q r s} = \frac{1}{2} \sum_{\backslash a \ge b} N_{a b} A_{p q a b} B_{a b r s}
 \end{gather*}
-Note that these two equations can be implemented as just one function.  The difference between the two is the that $A$ and $B$ have been swapped, and that the part of states being summed over are different.
+where $N_{a b}$ denotes the normalization factor in [@Eq:two-particle-j-normalization-factor].  This is an unfortunate consequence of using unnormalized matrix elements; had we used normalized ones, the spurious $N_{a b}$ factor would not appear.
+
+Note that the above two equations are extremely similar and can be implemented as just one function.  The difference between the two is the that $A$ and $B$ have been swapped, and that the parts of states being summed over are different.
 
 #### Optimization of terms 2221
 

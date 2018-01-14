@@ -16,6 +16,8 @@ pandoc_args=--mathjax --number-sections --biblatex \
             -M lot \
             -M toc
 
+pp_pandoc_args=--filter=pp-version
+
 latex_documentclass=msudissertation
 latex_pandoc_deps=head.tex
 latex_pandoc_args=-H $(1)

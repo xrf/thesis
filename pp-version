@@ -1,0 +1,5 @@
+#!/bin/sh
+dirty=
+[ -z "`git status --porcelain`" ] || dirty=-dirty
+version=r`git rev-list --count HEAD`-g`git rev-parse --short HEAD`$dirty
+exec sed "s/{{VERSION}}/$version/"

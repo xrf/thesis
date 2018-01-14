@@ -16,4 +16,3 @@
 - [Implementation](implementation.md)
 - [Results and analysis](results.md)
 - [Conclusions](conclusions.md)
-- [Appendix](harmonic-oscillator.md)

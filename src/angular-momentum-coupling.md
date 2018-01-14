@@ -1,4 +1,4 @@
-We shall first discuss the details of angular momentum coupling in general, and then more specifically in the context of many-body theory.  The objective of this chapter is to lay out the formalism that one needs to derive the angular-momentum-coupled equations in many-body theory (*J-scheme*), which are essential for efficient computations in spherically symmetric systems such as nuclei.
+We shall first discuss the details of angular momentum coupling in general, and then more specifically in the context of many-body theory.  The objective of this chapter is to lay out the formalism (J-scheme, @Sec:j-scheme) that one needs to derive the angular-momentum-coupled equations in many-body theory, which are essential for efficient computations in spherically symmetric systems such as nuclei.  We also include a brief discussion of our graphical angular momentum software (@Sec:jucys) used for derivations of angular momentum quantities.
 
 ## Angular momentum and isospin
 
@@ -48,7 +48,7 @@ $$\hat{\bm{S}} = \frac{\hbar}{2} \hat{\bm{\sigma}}
   \hat{\sigma}_2 \\
   \hat{\sigma}_3 \\
 \end{bmatrix}$$
-Each Pauli matrix $\sigma_i$ act on the two-dimensional Hilbert subspace of spin.
+Each Pauli matrix $\sigma_i$ acts on the two-dimensional Hilbert subspace of spin.
 
 The spin operator satisfies commutation relations similar to the orbital angular momentum operator,
 $$[\hat{S}_i, \hat{S}_j] = \I \hbar \sum_{k = 1}^3 \epsilon_{i j k} \hat{S}_k$$
@@ -67,7 +67,7 @@ $$
   m_j \in M_j
 $$
 
-Lastly, there is a mathematically similar quantity known as **isospin** $\hat{\bm{I}}$, which arises in the physics of nucleons.   However, unlike spin, it is not physically considered angular momentum despite the confusing name.  The isospin eigenstates may be denoted $\ket{t m_t}$, labeled by isospin magnitude $t$ and isospin projection $m_t$, with relations just like angular momentum,
+Lastly, there is a mathematically similar quantity known as **isospin** $\hat{\bm{I}}$, which arises in the physics of nucleons.   However, unlike spin, it is not physically considered as an angular momentum despite the confusing name.  The isospin eigenstates may be denoted $\ket{t m_t}$, labeled by isospin magnitude $t$ and isospin projection $m_t$, with relations just like angular momentum,
 \begin{gather*}
   \hat{\bm{I}}^2 \ket{t m_t} = t (t + 1) \ket{t m_t} \\
   \hat{I}_3 \ket{t m_t} = m_t \ket{t m_t} \\
@@ -85,7 +85,7 @@ $$\hat{\bm{I}} = \frac{1}{2} \hat{\bm{\tau}}
   \hat{\tau}_2 \\
   \hat{\tau}_3 \\
 \end{bmatrix}$$
-Each Pauli matrix $\hat{\tau}_i$ act on the two-dimensional Hilbert subspace of isospin.  The two eigenstates of isospin $\ket{t = \frac{1}{2}, m_t = \pm\frac{1}{2}}$ correspond to neutrons and protons, with two possible conventions:
+Each Pauli matrix $\hat{\tau}_i$ acts on the two-dimensional Hilbert subspace of isospin.  The two eigenstates of isospin $\ket{t = \frac{1}{2}, m_t = \pm\frac{1}{2}}$ correspond to neutrons and protons, with two possible conventions:
 
   - $m_t = -\frac{1}{2}$ corresponds to neutrons and $m_t = +\frac{1}{2}$ corresponds to protons (sometimes referred to as the *particle physics convention*)
   - $m_t = +\frac{1}{2}$ corresponds to neutrons and $m_t = -\frac{1}{2}$ corresponds to protons (sometimes referred to as the *nuclear physics convention*)
@@ -112,7 +112,7 @@ Observe that $\hat{\bm{J}}^2$ commutes with $\hat{\bm{L}}^2$ and $\hat{\bm{S}}^2
 $$\hat{\bm{J}}^2 = \hat{\bm{L}}^2 + 2 \hat{\bm{L}} \cdot \hat{\bm{S}} + \hat{\bm{S}}^2$$
 The term $2 \hat{\bm{L}} \cdot \hat{\bm{S}}$ does not commute with $\hat{L}_3$ nor $\hat{S}_3$.  This means we can choose the eigenstates of $(\hat{\bm{J}}^2, \hat{J}_3)$ to be eigenstates of $\hat{\bm{L}}^2$ and $\hat{\bm{S}}^2$ as well, but they cannot not in general be eigenstates of $\hat{J}_3$ nor $\hat{S}_3$.  We may label such a state as
 $$\ket{j m_j \ell s}$$
-This known in general as a **coupled state**, and if $\hat{\bm{L}}$ is orbital angular momentum and $\hat{\bm{S}}$ is spin, then this particular example would be referred to as *LS coupling*.  Such states have the following eigenvalues,
+This is known in general as a **coupled state**, and if $\hat{\bm{L}}$ is orbital angular momentum and $\hat{\bm{S}}$ is spin, then this particular example would be referred to as *LS coupling*.  Such states have the following eigenvalues,
 \begin{gather*}
   \hat{\bm{J}}^2 \ket{j m_j \ell s} = \hbar j (j + 1) \ket{j m_j \ell s} \\
   \hat{J}_3 \ket{j m_j \ell s} = \hbar m_j \ket{j m_j \ell s} \\
@@ -233,7 +233,7 @@ where:
   - The summation is performed over all half-integers $k_i$ subject to the following constraints:
 
      1. $m_1 + k_2 - k_3 = m_2 + k_3 - k_1 = m_3 + k_1 - k_2 = 0$
-     2. Argument of all factorials involving $k_i$ must be nonnegative integers.
+     2. Argument of every factorial involving $k_i$ must be a nonnegative integer.
 
   - $\Delta(j_1\ j_2\ j_3)$ is the **triangle coefficient**:
 
@@ -251,6 +251,7 @@ we obtain the more conventional form used by Racah [@PhysRev.62.438]
 &\qquad \frac{(-1)^k}{k! (j_1 + j_2 - j_3 - k)! (j_1 - m_1 - k)! (j_2 + m_2 - k)!} \\
 &\qquad \times \frac{1}{(j_3 - j_2 + m_1 + k)! (j_3 - j_1 - m_2 + k)!}
 \end{align*}
+The summation is performed over all half-integers $k$ such that the argument of every factorial involving $k$ is a nonnegative integer.
 
 The 3-jm symbol is invariant under even permutations of its columns,
 $$
@@ -350,14 +351,14 @@ The **lines** (edges) in angular momentum diagrams serve to link the $m$-type ar
 
 As a convenience (or perhaps a source of confusion), we introduce a special exception to this interpretation when the label is “0”.  In this case, we instead interpret it to indicate that the domain is $M_0 = \{ 0 \}$, i.e. $m = j = 0$.  To alert the reader of this special interpretation, the line is drawn in a faded grey color.
 
-![Degenerate line diagrams: upper diagram: $(0' 0'')$ in [@Eq:zero-line]; middle diagram: $(1 1')$ in [@Eq:mdelta-line]; lower diagram: $(\check{2} 2')$ in [@Eq:arrow]](fig-lines){#fig:lines}
+![Degenerate line diagrams: upper diagram: $(0' 0'')$ in [@Eq:zero-line]; middle diagram: $(1 1')$ in [@Eq:mdelta-line]; lower diagram: $(\check{2} 2')$ in [@Eq:arrow-diagram]](fig-lines){#fig:lines}
 
 Lines can appear in isolation, as shown in [@Fig:lines].  The middle diagram of [@Fig:lines] represents the Kronecker delta,
 $$(1 1') = \delta_{m_1 m_1'}$$ {#eq:mdelta-line}
 The upper diagram is also a Kronecker delta, but with the extra constraint that $m_0' \in M_0$, hence
 $$(0' 0'') = \delta_{m_0' m_0''} \delta_{m_0' 0}$$ {#eq:zero-line}
-In the lower diagram, we introduce the notion of an **arrow** on a line.  Lines with arrows (*directed* lines) are associated with a $(-)^{j - m}$ phase as well as a sign reversal in $m$.  More precisely, the diagram represents the quantity:
-$$(\check{2} 2') = \delta_{m_2, -m_2'} (-)^{j_2 - m_2'}$$
+In the lower diagram, we introduce the notion of an **arrow** on a line.  Lines with arrows (*directed* lines) are associated with a $(-)^{j - m}$ phase as well as a sign reversal in $m$, i.e. the **time-reversal** of angular momentum.  More precisely, the diagram represents the quantity:
+$$(\check{2} 2') = \delta_{m_2, -m_2'} (-)^{j_2 - m_2'}$$ {#eq:arrow-diagram}
 This is sometimes referred to as a **Herring–Wigner 1-jm symbol**, denoted by
 $$\begin{pmatrix}
 j \\
@@ -382,7 +383,7 @@ $$(\check{1} 0 2) = \frac{(1 2)}{\jweight{j}_1}$$
 
 ![Second orthogonality relation for 3-jm symbols: $(1 2 3) (2 3 4) = (1 4) (1' 2 3) (1' 2 3)$ in [@Eq:3jm-orthogonality-2]](fig-3jm-orthogonality-2){#fig:3jm-orthogonality-2}
 
-In lines with no terminals – the *internal* lines – their $m$ variables are always summed over.  This exemplified in [@Fig:3jm-orthogonality-2], which depicts the second orthogonality relation for 3-jm symbols in [@Eq:3jm-orthogonality-2] as
+In lines with no terminals – the *internal* lines – their $m$ variables are always summed over.  This is exemplified in [@Fig:3jm-orthogonality-2], which depicts the second orthogonality relation for 3-jm symbols in [@Eq:3jm-orthogonality-2] as
 $$(1 2 3) (2 3 4) = (1 4) (1' 2 3) (1' 2 3) = (1 4) \{1' 2 3\}$$
 On the left-hand side, the $m_2$ and $m_3$ lines are both internal and therefore summed over.  On the right-hand side, $1 = 4$ label indicates the presence of a $j$-relating Kronecker delta $\delta_{j_1 j_4}$ in addition to the usual $\delta_{m_1 m_4}$.  In the upper right, there is a special subdiagram $(1' 2 3) (1' 2 3)$, which is in fact the triangular delta $\tridelta{j_1}{j_2}{j_3}$ as defined in [@Eq:tridelta].
 
@@ -396,7 +397,7 @@ $$
     m_1 & m_2 & m_3 \\
   \end{pmatrix}^2 = \tridelta{j_1}{j_2}{j_3}
 $$ {#eq:tridelta-diagram}
-The triangular delta is the simplest **irreducible closed diagram**: it cannot be broken down into simpler components in a nontrivial way (*irreducible*), and there are no free $m$-type variables (*closed*).  Specifically, we say a diagram is irreducible if it cannot be factorized into subdiagrams without either (a) introducing a summation over a new $j$-type variable, or (b) introducing another triangular delta.  The (b) constraint comes from the fact that a triangular delta can be split (factorized) into an finite number of identical triangular deltas, which is not very interesting.
+The triangular delta is the simplest **irreducible closed diagram**: it cannot be broken down into simpler components in a nontrivial way (*irreducible*), and there are no free $m$-type variables (*closed*).  Specifically, we say a diagram is irreducible if it cannot be factorized into subdiagrams without either (a) introducing a summation over a new $j$-type variable, or (b) introducing another triangular delta.  The (b) constraint comes from the fact that a triangular delta can be split (factorized) into a finite number of identical triangular deltas, which is not very interesting.
 
 ![First orthogonality relation for 3-jm symbols: $\sum_{j_3} \jweight{j}_3^2 (1 2 3) (1' 2' 3) = (1 1') (2 2')$ in [@Eq:3jm-orthogonality]](fig-3jm-orthogonality){#fig:3jm-orthogonality}
 
@@ -424,7 +425,7 @@ The table has a toroidal topology: it wraps around both horizontally and vertica
 
 Canonicalization provides a mechanical approach for deciding whether two phases are equivalent.  Unfortunately, when non-local rules are involved, there is no longer an obvious way to canonicalize phases – the symmetries of the phases become entangled with the topology of the angular momentum diagram.  Nonetheless, local canonicalization provides an easy way to eliminate one of the sources of redundancy.
 
-It is common to work with only real recoupling coefficients, thus it is unusual for $(-1)^j$ or $(-1)^{3 j}$ to appear in isolation.  They typically appear in groups, such as triplets $(-1)^{j_1 + j_2 + j_3}$ or quadruplets.
+It is common to work with only real recoupling coefficients, thus it is unusual for $(-)^j$ or $(-)^{3 j}$ to appear in isolation.  They typically appear in groups, such as triplets $(-)^{j_1 + j_2 + j_3}$ or quadruplets.
 
 ![Upper diagram: arrow cancellation: $(\check{1} \check{1}') = (1 1')$ in [@Eq:arrow-cancellation]; lower diagram: arrow reversal: $(\check{1} 1') = (-)^{2 j_1} (1 \check{1})$ in [@Eq:arrow-reversal]](fig-arrow-cancellation){#fig:arrow-cancellation}
 
@@ -751,7 +752,7 @@ Even with the fastest algorithms, it is often more performant to reuse (re)coupl
 
 In practice, we found the canonicalization scheme most useful for calculations as it provides a guaranteed 1-2 orders of magnitude reduction in memory usage.  In contrast, the indexing scheme is not substantially faster than a plain hash-table lookup and comes with the disadvantage of requiring all coefficients to be precomputed up to some limit.  This makes it somewhat difficult to use in practice and can result in wasted memory if the limit is overestimated.
 
-## Graphical tool for angular momentum diagrams
+## Graphical tool for angular momentum diagrams {#sec:jucys}
 
 We have developed a graphical tool [@Jucys] that can be used to perform graphical manipulation of angular momentum coefficients with the diagrammatic technique explained in this chapter, with a few slight modifications.  Specifically, non-diagrammatic objects such as phases, $\jweight{j}$-like factors, Kronecker deltas, or summations over $j$-type variables are all tracked separately in a **tableau** that is displayed beside the diagram.
 
@@ -765,9 +766,9 @@ rec (p - s) (r - q)
 ```
 
 Here, `rel` equates the two angular momenta `p + q` and `r + s`.  The `rec` equates the two angular momenta `p - s` and `r - q` but also includes an extra $1 / \jweight{j}_{p s}^2$ factor.  The plus sign in `p + q` denotes the usual CG coupling
-$$\langle p, q | pq \rangle = \langle j_p m_p j_q m_q | j_{pq} m_{pq} \rangle$$
+$$\bkt{p, q | pq} = \bkt{j_p m_p j_q m_q | j_{pq} m_{pq}}$$
 whereas the minus sign in `p - s` denotes coupling with the second angular momentum time-reversed:
-$$\langle p, \check{s} | ps \rangle = (-)^{j_s - m_s} \langle j_p, m_p, j_s, -m_s | j_{ps}, m_{ps} \rangle$$
+$$\bkt{p, \check{s} | ps} = (-)^{j_s - m_s} \bkt{j_p, m_p, j_s, -m_s | j_{ps}, m_{ps}}$$ {#eq:time-reversed-clebschgordan}
 After providing this input to the tool, the corresponding 6-j diagram can be rapidly derived along with the associated phases and factors.
 
 As another example, the Pandya transformation coefficient for a spherical tensor $\hat{A}^{j_A}_{m_A}$ is described by
@@ -783,66 +784,97 @@ The tool is a web application written in a combination of JavaScript, HTML, and 
 
 We will not attempt to explain the usage of the program here, as that information will very likely become out of date as the program evolves.  Interested users are advised to read the official documentation for usage information.
 
-## Fermionic states in J-scheme
+## Fermionic states in J-scheme {#sec:j-scheme}
 
-J-scheme is a many-body formalism that takes advantage of angular momentum conservation to reduce the dimensionality of the problem (i.e. the computational cost and size of matrices).  In this context, the usual formalism where we do not take advantage of angular momentum symmetries is dubbed *M-scheme*.
+**J-scheme** is a many-body formalism that takes advantage of angular momentum conservation to reduce the dimensionality of the problem (i.e. the computational cost and size of matrices).  In this context, the usual formalism where we do not take advantage of angular momentum symmetries is dubbed **M-scheme** for contrast.
 
 We use $a, b, c, \ldots$ to label single-particle states in this section.  We assume each state has some definite angular-momentum-like quantum numbers: magnitude $j$ and projection $m$, along with some other quantum number(s) $\alpha$ that are not relevant here.
 
-### 2-particle states
+### Two-particle states
 
-A 2-particle J-coupled product state is defined as
-$$| \alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b} \rangle = \sum_{m_a m_b} |a \otimes b \rangle \langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle$$
-where $\langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle$ denotes a Clebsch–Gordan coefficient that couples angular momentum $j_a m_a$ to $j_b j_b$ (in that order) to form $j_{a b} m_{a b}$.  To keep things concise, we will use the following shorthand for coupled product states:
-$$| a \otimes b \rangle_{12} = | \alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b} \rangle$$
+A two-particle J-coupled product state is defined as
+\begin{align*}
+  \ket{\alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b}}
+  &= \sum_{m_a m_b} \ket{a \otimes b} \bkt{a, b | a b} \\
+  &= \sum_{m_a m_b} \ket{\alpha_a j_a m_a \otimes \alpha_b j_b m_b} \bkt{j_a m_a j_b m_b | j_{a b} m_{a b}}
+\end{align*}
+where $\bkt{a, b | a b} = \bkt{j_a m_a j_b m_b | j_{a b} m_{a b}}$ is the Clebsch–Gordan coefficient ([@Sec:clebschgordan]) and $\ket{a \otimes b} = \ket{\alpha_a j_a m_a \otimes \alpha_b j_b m_b}$ denotes the (non-antisymmetrized) tensor product state (@Sec:prod-state) in M-scheme.  To keep things concise, we will use the following shorthand for coupled product states:
+$$\ket{(12) a \otimes b} = \ket{\alpha_a j_a \otimes \alpha_b j_b; j_{a b} m_{a b}}$$
 Keep in mind that unlike M-scheme, the states in J-scheme do *not* depend on the individual projections $m_a$ and $m_b$, only total $m_{a b}$.
 
 The coupled product states are eigenstates of the total $\hat{J}^2$ of all particles,
-$$\hat{J}^2 |a \otimes b \rangle_{12} = j_{a b} (j_{a b} + 1) |a \otimes b \rangle_{12}$$
+$$\hat{J}^2 |(12) a \otimes b \rangle = j_{a b} (j_{a b} + 1) |(12) a \otimes b \rangle$$
 In contrast, uncoupled states are not eigenstates of $\hat{J}^2$.
 
 For fermionic problems, we can form an antisymmetrized state for J-scheme.  The most straightforward way to do this is by coupling the antisymmetrized state,
 $$| \alpha_a j_a \alpha_b j_b; j_{a b} m_{a b} \rangle = \frac{1}{\sqrt{N_{a b}}} \sum_{m_a m_b} | a b \rangle \langle j_a m_a j_b m_b | j_{a b} m_{a b} \rangle$$
 where the normalization factor is given by
-$$N_{a b} = 1 - (-1)^{2 j_a - j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}$$
-Note that $N_{a b}$ depends on only the non-$m$ parts of $a$ and $b$.  If $j_a$ and $j_b$ are always half-odd, the normalization factor can be further simplified to
-$$N_{a b}^{\text{fermions}} = 1 + (-1)^{j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}$$
+$$N_{a b} = 1 - (-)^{2 j_a + j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}$$ {#eq:two-particle-j-normalization-factor}
+If the normalization factor is zero, then the antisymmetrized state does not exist.
+
+Note that $N_{a b}$ depends on only the non-$m$ parts of $a$ and $b$.  If $j_a$ and $j_b$ are always half-odd, then the normalization factor can be further simplified to $N_{a b} = 1 + (-)^{j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}$, which means if $\alpha_a = \alpha_b$ and $j_a = j_b$, then states with odd $j_{a b}$ do not exist.
 
 As before, we will also introduce a shorthand for the antisymmetrized states,
-$$| a b \rangle_{12} = | \alpha_a j_a \alpha_b j_b; j_{a b} m_{a b} \rangle$$
+$$\ket{(12) a b} = \ket{\alpha_a j_a \alpha_b j_b; j_{a b} m_{a b}}$$
 which depends on neither $m_a$ nor $m_b$.
 
-Alternatively, one can also obtain the same state by antisymmetrizing a J-coupled product state:
-$$| a b \rangle_{12}
-= \frac{1}{\sqrt{2 N_{a b}}} \bigl(| a \otimes b \rangle_{12} - (-1)^{j_a + j_b - j_{a b}} | b \otimes a \rangle_{12}\bigr)$$
-Note that the antisymmetrization operator in J-scheme is a bit unusual compared to that in M-scheme: matrix elements of the antisymmetrization operator in the J-scheme are no longer always antisymmetric; instead they depend on the $j$ quantities.  This becomes even more complex for 3 or more particles as the matrix elements of the antisymmetrization operator contain 6-j-like recoupling coefficients.
+Alternatively, one can also obtain the same state from a J-coupled product state:
+\begin{align*}
+  \ket{(12) a b}
+  &= \sqrt{\frac{2}{N_{a b}}} \symm^{(1 + j_a + j_b - j_{a b})} \ket{(12) a \otimes b} \\
+  &= \frac{1}{\sqrt{2 N_{a b}}} \left(\ket{(12) a \otimes b} - (-)^{j_a + j_b - j_{a b}} \ket{(12) b \otimes a}\right)
+\end{align*}
+where $\symm^{(1 + j_a + j_b - j_{a b})}$ is the $\pm$-symmetrization symbol introduced in [@Sec:symmetrization],
+$$\symm^{(1 + j_a + j_b - j_{a b})} X_{a b} = \frac{1}{2} \left(X_{a b} + (-)^{1 + j_a + j_b - j_{a b}} X_{b a}\right)$$
+
+Note that the antisymmetrizer $\hat{S}^-$ ([@Sec:symmetrization]) operates differently in J-scheme compared to in M-scheme: matrix elements of the antisymmetrizer $\hat{S}^-$ are not always antisymmetric with respect to $(j, \alpha)$ in J-scheme; instead they depend on the parity of $j_a + j_b - j_{a b}$.  This becomes even more complex for 3 or more particles as the matrix elements of the antisymmetrizer may contain 6-j or higher symbols.
 
 Under particle exchange, the J-scheme antisymmetrized state has the following property:
-$$| a b \rangle_{12} = -(-1)^{j_a + j_b - j_{a b}} | b a \rangle_{12}$$
+$$|(12) a b \rangle = -(-)^{j_a + j_b - j_{a b}} |(12) b a \rangle$$
 
 In J-scheme, the two-body antisymmetrized matrix elements are related to the product matrix elements by
-$${}_{12} \langle a b | \hat{V} | c d \rangle_{12} = \frac{1}{\sqrt{2 N_{a b}}} {}_{12} \langle a \otimes b | \hat{V} | c d \rangle_{12}$$
+\begin{align*}
+  &\bra{(12) a b} \hat{V} \ket{(12) c d} \\
+  &= \sqrt{\frac{2}{N_{a b}}} \bra{(12) a \otimes b} \hat{V} \ket{(12) c d} \\
+  &= \frac{1}{\sqrt{N_{a b} N_{c d}}} \left(\bra{(12) a \otimes b} \hat{V} \ket{(12) c \otimes d} - (-)^{j_c + j_d - j_{c d}} \bra{(12) a \otimes b} \hat{V} \ket{(12) d \otimes c}\right)
+\end{align*}
 
-### 3-particle states
+### Three-particle states
 
-3-particle states have 3 nontrivially distinct ways of coupling.  We will stick to the convention of coupling the first two, then the third, which we call the **standard coupling order**.  In this case, the product state in J-scheme is given by
-$$| a \otimes b \otimes c \rangle_{((12)3)} = \sum_{m_a m_b m_c} | a \otimes b \otimes c \rangle \bkt{a, b | ab} \bkt{ab, c | abc}$$
+Three-particle states have 3 nontrivially distinct ways of coupling.  We will stick to the convention of coupling the first two, then the third, which we call the **standard coupling order**.  In this case, the product state in J-scheme is given by
+$$|((12)3) a \otimes b \otimes c \rangle = \sum_{m_a m_b m_c} | a \otimes b \otimes c \rangle \bkt{a, b | ab} \bkt{ab, c | abc}$$
 As usual, the J-scheme antisymmetrized state is formed by coupling the M-scheme antisymmetrized state,
-$$| a b c \rangle_{((12)3)}
+$$|((12)3) a b c \rangle
 = \frac{1}{\sqrt{N_{(a b) c}}} \sum_{m_a m_b m_c}| a b c \rangle \bkt{a, b | ab} \bkt{ab, c | abc}$$
-The normalization constant is rather complicated.  As a result, in practice, normalized states are rarely needed.
+where the normalization constant $N_{(a b) c}$ is given by
+\begin{align*}
+  N_{(a b) c} &= 1 - (-)^{2 j_a + j_{a b}} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b}
+  \\ &\quad
+  - (-)^{2 j_{a b c}} \jweight{j}_{a b} \begin{Bmatrix}
+    j_a & j_b & j_{a b} \\
+    j_{a b c} & j_b & j_{a b} \\
+  \end{Bmatrix} \delta_{\alpha_b \alpha_c} \delta_{j_b j_c}
+  \\ &\quad
+  - (-)^{2 j_{a b c}} \jweight{j}_{a b} \begin{Bmatrix}
+    j_b & j_a & j_{a b} \\
+    j_{a b c} & j_a & j_{a b} \\
+  \end{Bmatrix} \delta_{\alpha_a \alpha_c} \delta_{j_a j_c}
+  \\ &\quad
+  + 2 (-)^{j_{a b}} \jweight{j}_{a b} \begin{Bmatrix}
+    j_a & j_a & j_{a b} \\
+    j_{a b c} & j_a & j_{a b} \\
+  \end{Bmatrix} \delta_{\alpha_a \alpha_b} \delta_{j_a j_b} \delta_{\alpha_a \alpha_c} \delta_{j_a j_c}
+\end{align*}
 
 ## Matrix elements in J-scheme
 
-In this work, we do not use normalized J-scheme states, which are generally counterproductive for many-body calculations.  Therefore, all J-scheme matrix elements are **unnormalized matrix elements** and use unnormalized states in which the $1 / \sqrt{N}$ factor is omitted.  This convention is used throughout.
+In this work, we do not use normalized J-scheme states: equations tend to be simpler if we use **unnormalized matrix elements** in which the $1 / \sqrt{N}$ factor (see [@Eq:two-particle-j-normalization-factor]) is omitted.  This convention is used throughout.
 
 ### Standard-coupled matrix elements
 
 Given an M-scheme two-body matrix $A^{m_p m_q m_r m_s}_{p q r s}$, we can couple $p$ to $q$ and $r$ to $s$,
-$$A^{j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s} = \sum_{m_p m_q m_r m_s} \cg_{p, q} \cg_{r, s} A^{m_p m_q m_r m_s}_{p q r s}$$
-where
-$$\cg_{p, q} = \bkt{j_p m_p j_q m_q | j_{p q} m_{p q}}$$
-is a shorthand for the CG coefficient.  We call this the **standard coupling** for two-body matrix elements and denote it by schematically as $1 2; 3 4$.  We will often omit the $(1 2; 3 4)$ superscript as we consider this the default coupling scheme.
+$$A^{j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s} = \sum_{m_p m_q m_r m_s} \bkt{p, q | pq} \bkt{r, s | rs} A^{m_p m_q m_r m_s}_{p q r s}$$
+where $\bkt{p, q | pq} = \bkt{j_p m_p j_q m_q | j_{p q} m_{p q}}$ is the CG coefficient ([@Sec:clebschgordan]).  We call this the **standard coupling** for two-body matrix elements and denote it by schematically as $1 2; 3 4$.  We will often omit the $(1 2; 3 4)$ superscript as we consider this the default coupling scheme.
 
 If the matrix is a spherical scalar, then thanks to the Wigner–Eckart theorem we can omit many of the superscripts:
 $$A^{j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s} = \delta_{j_{p q} j_{r s}} \delta_{m_{p q} m_{r s}} A^{j_{p q} (1 2; 3 4)}_{p q r s}$$
@@ -858,22 +890,22 @@ $$A^{j_A m_A j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s}
   A^{j_A j_{p q} j_{r s} (1 2; 3 4)}_{p q r s}$$
 
 The standard coupling can be extended for higher-body operators: one simply couples the bra and ket indices in the order as written.  For example, a three-body matrix in standard coupling would be
-$$A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} = \sum_{m_p m_q m_r m_s m_t m_u} \cg_{p, q} \cg_{p q, r} \cg_{s, t} \cg_{s t, u} A^{m_p m_q m_r m_s m_t m_u}_{p q r s t u}$$
+$$A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} = \sum_{m_p m_q m_r m_s m_t m_u} \bkt{p, q | pq} \bkt{pq, r | pqr} \bkt{s, t | st} \bkt{st, u | stu} A^{m_p m_q m_r m_s m_t m_u}_{p q r s t u}$$
 This is denoted schematically by $(1 2) 3; (4 5) 6$.  In the case of spherical scalars, we have the following reduced matrix elements in the CG convention:
 $$A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} = \delta_{j_{p q r} j_{s t u}} \delta_{m_{p q r} m_{s t u}} A^{j_{p q r} j_{p q} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u}$$
 
 ### Pandya-coupled matrix elements {#sec:pandya}
 
-Besides the standard coupling, two-body operators can be coupled in several other ways.  Some are equivalent to $1 2; 3 4$ up to a phase factor.  A nontrivial combination is the **Pandya coupling** [@PhysRev.103.956; @Suhonen2007] $1 \overline{4}; 3 \overline{2}$:
-$$A^{j_{p s} m_{p s} j_{r q} m_{r q} (1 \overline{4}; 3 \overline{2})}_{p s r q} = -\sum_{m_p m_s m_r m_q} \cg_{p, \overline{s}} \cg_{r, \overline{q}} A^{m_p m_q m_r m_s}_{p q r s}$$
-where
-$$\cg_{p, \overline{s}} = (-)^{j_s - m_s} \bkt{j_p m_p j_s (-m_s) | j_{p s} m_{p s}}$$
+Besides the standard coupling, two-body operators can be coupled in several other ways.  Some are equivalent to $1 2; 3 4$ up to a phase factor.  A nontrivial combination is the **Pandya coupling** [@PhysRev.103.956; @Suhonen2007] $1 \check{4}; 3 \check{2}$:
+$$A^{j_{p s} m_{p s} j_{r q} m_{r q} (1 \check{4}; 3 \check{2})}_{p s r q} = -\sum_{m_p m_s m_r m_q} \bkt{p, \check{s} | ps} \bkt{r, \check{q} | rq} A^{m_p m_q m_r m_s}_{p q r s}$$
+where the $\bkt{p, \check{s} | ps}$ uses the time-reversed CG notation introduced in [@Eq:time-reversed-clebschgordan].
+
 The extraneous minus sign in front of the summation is conventional: if we treat this a recoupling of field operators, we would obtain a minus sign due to antisymmetry since the permutation $1 2 3 4 \to 1 4 3 2$ is odd.  If instead we omit the extraneous minus sign, the coupling is often referred to as **cross-coupling** [@KUO1981237] rather than Pandya-coupling.
 
 For spherical scalars, we have the following reduced matrix elements in the CG convention.
-$$A^{j_{p s} m_{p s} j_{r q} m_{r q} (1 \overline{4}; 3 \overline{2})}_{p s r q} = \delta_{j_{p s} j_{r q}} \delta_{m_{p s} m_{r q}} A^{j_{p s} (1 \overline{4}; 3 \overline{2})}_{p s r q}$$
+$$A^{j_{p s} m_{p s} j_{r q} m_{r q} (1 \check{4}; 3 \check{2})}_{p s r q} = \delta_{j_{p s} j_{r q}} \delta_{m_{p s} m_{r q}} A^{j_{p s} (1 \check{4}; 3 \check{2})}_{p s r q}$$
 They are related to the standard-coupled reduced matrix elements the **Pandya transformation**:
-$$A^{j_{p s} (1 \overline{4}; 3 \overline{2})}_{p s r q} =
+$$A^{j_{p s} (1 \check{4}; 3 \check{2})}_{p s r q} =
   -\sum_{j_{p q}}
   (-)^{2 j_{p q}}
   \jweight{j}_{p q}^2
@@ -893,26 +925,25 @@ $$A^{j_{p s} (1 2; 3 4)}_{p q r s} =
     j_p & j_q & j_{p q} \\
     j_r & j_s & j_{p s} \\
   \end{Bmatrix}
-  A^{j_{p s} (1 \overline{4}; 3 \overline{2})}_{p s r q}
+  A^{j_{p s} (1 \check{4}; 3 \check{2})}_{p s r q}
 $$
 
 However, typically when Pandya-coupled matrices are involved, the fermionic antisymmetry is temporarily broken.  As a result, in our implementation, Pandya-coupled matrices are not antisymmetrized even though standard-coupled matrices are.  To restore the antisymmetry when performing the inverse transformation, we must perform an explicit antisymmetrization during the inverse transformation:
 $$A_{p q r s}^{1 2; 3 4} =
   -(-)^{2 j_{p q}}
-  \symm^{-(-)^{j_p + j_q - j_{p q}}}_{p q}
-  \symm^{-(-)^{j_r + j_s - j_{r s}}}_{r s}
+  \symm^{(1 + j_p + j_q - j_{p q})}_{p q}
+  \symm^{(1 + j_r + j_s - j_{r s})}_{r s}
   \sum_{j_{p s}}
   \jweight{j}_{p s}^2
   \begin{Bmatrix}
     j_p & j_q & j_{p q} \\
     j_r & j_s & j_{p s} \\
   \end{Bmatrix}
-  \tilde{A}^{1 \overline{4}; 3 \overline{2}}_{p s r q}$$
-where the tilde symbol ($\tilde{A}$) indicates that the matrix element is not antisymmetrized and the $\pm$-symmetrization symbol $\symm^{\pm}$ is given by
-$$\symm^{-(-)^{j_p + j_q - j_{p q}}}_{p q} X_{p q} = \frac{1}{2} \left(X_{p q} - (-)^{j_p + j_q - j_{p q}} X_{q p}\right)$$
+  \tilde{A}^{1 \check{4}; 3 \check{2}}_{p s r q}$$
+where the tilde symbol ($\tilde{A}$) indicates that the matrix element is not antisymmetrized and $\symm^{(i)}$ is the $(-)^i$-symmetrization symbol in [@Sec:symmetrization].
 
 For completeness, we also include the Pandya transformation for spherical tensor operators,
-$$A^{j_A j_{p s} j_{r q} (1 \overline{4}; 3 \overline{2})}_{p s r q} =
+$$A^{j_A j_{p s} j_{r q} (1 \check{4}; 3 \check{2})}_{p s r q} =
 -\sum_{j_{p q} j_{r s}}
 \jweight{j}_{p q}
 \jweight{j}_{r s}
@@ -926,13 +957,13 @@ j_{p s} & j_{r q} & j_A
 \end{Bmatrix}
 A^{j_A j_{p q} j_{r s} (1 2; 3 4)}_{p q r s}$$
 where we use reduced matrix elements in the 3-jm convention,
-$$A^{j_A m_A j_{p s} m_{p s} j_{r q} m_{r q} (1 \overline{4}; 3 \overline{2})}_{p s r q}
+$$A^{j_A m_A j_{p s} m_{p s} j_{r q} m_{r q} (1 \check{4}; 3 \check{2})}_{p s r q}
   = (-)^{j_{p s} - m_{p s}}
   \begin{pmatrix}
     j_{p s} & j_A & j_{r q} \\
     -m_{p s} & m_A & m_{r q}
   \end{pmatrix}
-  A^{j_A j_{p s} j_{r q} (1 \overline{4}; 3 \overline{2})}_{p s r q}$$
+  A^{j_A j_{p s} j_{r q} (1 \check{4}; 3 \check{2})}_{p s r q}$$
 The inverse transformation is identical except the summation is over $j_{p s}$ and $j_{r q}$.
 
 ### Implicit-J convention {#sec:implicit-j}
