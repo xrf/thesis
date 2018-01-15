@@ -890,7 +890,10 @@ $$A^{j_A m_A j_{p q} m_{p q} j_{r s} m_{r s} (1 2; 3 4)}_{p q r s}
   A^{j_A j_{p q} j_{r s} (1 2; 3 4)}_{p q r s}$$
 
 The standard coupling can be extended for higher-body operators: one simply couples the bra and ket indices in the order as written.  For example, a three-body matrix in standard coupling would be
-$$A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} = \sum_{m_p m_q m_r m_s m_t m_u} \bkt{p, q | pq} \bkt{pq, r | pqr} \bkt{s, t | st} \bkt{st, u | stu} A^{m_p m_q m_r m_s m_t m_u}_{p q r s t u}$$
+\begin{gather*}
+  A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} \\
+  = \sum_{m_p m_q m_r m_s m_t m_u} \bkt{p, q | pq} \bkt{pq, r | pqr} \bkt{s, t | st} \bkt{st, u | stu} A^{m_p m_q m_r m_s m_t m_u}_{p q r s t u}
+\end{gather*}
 This is denoted schematically by $(1 2) 3; (4 5) 6$.  In the case of spherical scalars, we have the following reduced matrix elements in the CG convention:
 $$A^{j_{p q r} m_{p q r} j_{p q} j_{s t u} m_{s t u} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u} = \delta_{j_{p q r} j_{s t u}} \delta_{m_{p q r} m_{s t u}} A^{j_{p q r} j_{p q} j_{s t} ((1 2) 3; (4 5) 6)}_{p q r s t u}$$
 
