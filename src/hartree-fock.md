@@ -57,7 +57,15 @@ Since HF restricts the ground state to merely a single Slater determinant of sin
 
 To make use of the HF solution as the reference state for post-HF calculations, we transform the matrix elements via [@Eq:hftransform].  In effect, this means we are no longer operating within the harmonic oscillator single-particle basis, but rather a HF-optimized single-particle basis.  However, we will omit the prime symbols as the post-HF methods are generic and can be used in any basis, whether optimized by HF or not.
 
-An example of a commonly used post-HF method is the *coupled-cluster* (CC) method [@shavitt2009many], in which the $N$-particle correlated wave function $\ket{\Psi}$ is expressed as the exponential ansatz,
+A commonly used post-HF method is the **Møller–Plesset perturbation theory at second order** (MP2) [@MoellerPlesset1934], which adds an energy correction to the Hartree–Fock result:
+$$\Delta E = \frac{1}{4} \sum_{i j \backslash a b} \frac{V_{i j a b} V_{a b i j}}{\Delta_{i j a b}}$$ {#eq:mp2}
+where $V_{i j a b}$ are two-body matrix elements of the HF-transformed Hamiltonian, $\Delta$ denotes the **Møller–Plesset energy denominators** [@MoellerPlesset1934],
+$$\Delta_{q_1 \ldots q_k p_1 \ldots p_k} = \sum_{i = 1}^k (\varepsilon_{q_i} -  \varepsilon_{p_i})$$ {#eq:moellerplessetdenominator}
+and $\varepsilon_p$ are HF orbital energies.  In J-scheme, the MP2 correction is given by:
+$$\Delta E = \frac{1}{4} \sum_{j_{i j}} \sum_{i j \backslash a b} \jweight{j}_{i j}^2 \frac{V_{i j a b} V_{a b i j}}{\Delta_{i j a b}}$$ {#eq:mp2-j}
+The MP2 calculation is extremely simple and cheap, thus it is often used as a diagnostic for estimating the strength of correlations that remain unaccounted for.
+
+A more sophisticated post-HF method is the *coupled-cluster* (CC) method [@shavitt2009many], in which the $N$-particle correlated wave function $\ket{\Psi}$ is expressed as the exponential ansatz,
 $$\ket{\Psi} = \E^{\hat{T}} \ket{\Phi}$$
 Here, $\ket{\Phi}$ is a Slater determinant reference state such as the one from HF and $\hat{T}$ is the *cluster operator*, which is a sum of $k$-particle-$k$-hole excitation operators of various $k$.  The Schrödinger equation with this ansatz becomes a set of non-linear algebraic equations (*coupled-cluster equations*) with which one can solve for the matrix elements of $\hat{T}$ and thereby obtain information about $\ket{\Psi}$.
 

@@ -66,7 +66,7 @@ The White generator is explicitly constructed in the following way [@PhysRevLett
 $$\hat{\eta}^{\text{Wh}} = \hat{\eta}' - \hat{\eta}'{}^\dagger$$ {#eq:white-generator}
 where $\hat{\eta}'$ is defined as
 $$\hat{\eta}' = \sum_{i \backslash a} \frac{H_{a i}}{\tilde{\Delta}_{a i}} \normord{\hat{a}^\dagger_a \hat{a}_i} + \frac{1}{4} \sum_{i j \backslash a b} \frac{H_{a b i j}}{\tilde{\Delta}_{a b i j}} \normord{\hat{a}^\dagger_a \hat{a}^\dagger_b \hat{a}_j \hat{a}_i} + \cdots$$
-The symbol $\tilde{\Delta}$ denotes the **Epstein–Nesbet energy denominators** [@shavitt2009many], defined as
+The symbol $\tilde{\Delta}$ denotes the **Epstein–Nesbet energy denominators** [@PhysRev.28.695; @Nesbet312; @shavitt2009many], defined as
 \begin{align*}
   \tilde{\Delta}_{a i} &= E_{\Phi_{a i}} - E_\Phi \\
   &= \Delta_{a i} - H_{a i a i} \\
@@ -74,9 +74,7 @@ The symbol $\tilde{\Delta}$ denotes the **Epstein–Nesbet energy denominators**
   &= \Delta_{a b i j} + H_{a b a b} - H_{a i a i} - H_{b i b i} + H_{i j i j} - H_{a j a j} - H_{b j b j} \\
   \tilde{\Delta}_{a_1 \ldots a_k i_1 \ldots i_k} &= E_{\Phi_{a_1 \ldots a_k i_1 \ldots i_k}} - E_\Phi
 \end{align*}
-whereas $\Delta$ denotes the **Møller–Plesset energy denominators** (named after Møeller–Plesset perturbation theory),
-$$\Delta_{q_1 \ldots q_k p_1 \ldots p_k} = \sum_{i = 1}^k (H_{q_i q_i} -  H_{p_i p_i})$$ {#eq:moellerplessetdenominator}
-White generators can also use Møller–Plesset energy denominators directly in lieu of Epstein–Nesbet energy denominators [@Hergert2016165], which leads to a slightly different variant of the White generator.  In our calculations, we use exclusively Epstein–Nesbet denominators.
+whereas $\Delta$ denotes the Møller–Plesset energy denominators [@MoellerPlesset1934] defined in [@Eq:moellerplessetdenominator].  White generators can also use Møller–Plesset energy denominators directly in lieu of Epstein–Nesbet energy denominators [@Hergert2016165], which leads to a slightly different variant of the White generator.  In our calculations, we use exclusively Epstein–Nesbet denominators.
 
 Compared to the Wegner generator, where the derivatives of the final flow equations contain cubes of the Hamiltonian matrix elements (i.e. each term contains a product of 3 one-body and/or two-body matrix elements), the elements in White generators contribute only linearly.  This reduces the stiffness in the differential equation, providing a net increase in computational efficiency as stiff ODE solvers tend to be slower and consume more memory.
 
