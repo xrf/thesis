@@ -348,7 +348,7 @@ Not all fits yield a positive value of $\beta$ for addition and removal energies
 
 ## Results for nuclei
 
-In this section, we provide a few selected results for nuclear systems as a proof of concept.  Due to time constraints, we have not been able to run calculations with higher values of $e_{\mathrm{max}}$ or to explore a greater span of the oscillator frequency $\omega$ of the basis.  We expect to gather a more diverse collection of results in a future publication [@SpEnergiesNucl].
+In this section, we provide a few selected results for nuclear systems as a proof of concept.  Due to time constraints, we have not been able to run calculations with higher values of $e_{\mathrm{max}}$ ([@Eq:emax]) or to explore a greater span of the oscillator frequency $\omega$ of the basis.  We expect to gather a more diverse collection of results in a future publication [@SpEnergiesNucl].
 
 ![Ground state of ^16^O, computed using IM-SRG(2) and CCSD with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o16){#fig:o16}
 

@@ -62,17 +62,17 @@ $$\int_0^\infty u^\alpha \E^{-u} \bar{L}_m^{(\alpha)}(u) \bar{L}_n^{(\alpha)}(u)
 
 The states are labeled by two quantum numbers: the principal quantum number $n \in \{0, 1, 2, \ldots\}$ and orbital angular momentum projection $m_\ell \in \mathbb \{\ldots, -2, -1, 0, +1, +2, \ldots\}$.  For a wave function, $n$ indicates the degree of the Laguerre polynomial, whereas $m_\ell$ is the eigenvalue of $\hat{L}_3$.
 
-Since electrons are spin-$\frac{1}{2}$ fermions, they can occupy either of the two possible spin states $\chi_{-\frac{1}{2}}$ or $\chi_{+\frac{1}{2}}$.  Thus, every single-particle basis state $|n m_\ell m_{\mathrm{s}}\rangle$ contains both a spatial component \eqref{eq:fockdarwin} and a spin component,
-$$\langle r \varphi m_{\mathrm{s}}' |n m_\ell m_{\mathrm{s}}\rangle = F_{n m_\ell}(r, \varphi) \delta_{m_{\mathrm{s}}^{} m_{\mathrm{s}}'}$$ {#eq:singleparticlestate}
-Here we have introduced spin projection $m_{\mathrm{s}} \in \bigl\{-\frac{1}{2}, +\frac{1}{2}\bigr\}$ as the third quantum number, which is the eigenvalue of the spin projection operator $\hat{S}_3$.
+Since electrons are spin-$\frac{1}{2}$ fermions, they can occupy either of the two possible spin states $\chi_{-\frac{1}{2}}$ or $\chi_{+\frac{1}{2}}$.  Thus, every single-particle basis state $|n m_\ell m_s\rangle$ contains both a spatial component \eqref{eq:fockdarwin} and a spin component,
+$$\langle r \varphi m_s' |n m_\ell m_s\rangle = F_{n m_\ell}(r, \varphi) \delta_{m_s^{} m_s'}$$ {#eq:singleparticlestate}
+Here we have introduced spin projection $m_s \in \bigl\{-\frac{1}{2}, +\frac{1}{2}\bigr\}$ as the third quantum number, which is the eigenvalue of the spin projection operator $\hat{S}_3$.
 
-![The 42 lowest single-particle states (the first 5 shells) in the 2D harmonic oscillator basis.  Each box represents a single-particle state arranged by $m_\ell$, $m_{\mathrm{s}}$, and energy, and the up/down arrows indicate the spin of the states.  Within each column, the principal quantum number $n$ increases as one traverses upward.](fig-shell-structure){#fig:shell-structure}
+![The 42 lowest single-particle states (the first 5 shells) in the 2D harmonic oscillator basis.  Each box represents a single-particle state arranged by $m_\ell$, $m_s$, and energy, and the up/down arrows indicate the spin of the states.  Within each column, the principal quantum number $n$ increases as one traverses upward.](fig-shell-structure){#fig:shell-structure}
 
-The energy of the single-particle state $|n m_\ell m_{\mathrm{s}}\rangle$ is given by
-$$\varepsilon_{n m_\ell m_{\mathrm{s}}} = (2 n + |m_\ell| + 1) \hbar \omega$$ {#eq:energysingleparticlestate}
-in ordinary units.  These energies are degenerate with respect to the spin projection $m_{\mathrm{s}}$ as our Hamiltonian $\hat{h}$ does not distinguish between them.  Additionally, they are degenerate with respect to the number of quanta $k$, defined as
+The energy of the single-particle state $|n m_\ell m_s\rangle$ is given by
+$$\varepsilon_{n m_\ell m_s} = (2 n + |m_\ell| + 1) \hbar \omega$$ {#eq:energysingleparticlestate}
+in ordinary units.  These energies are degenerate with respect to the spin projection $m_s$ as our Hamiltonian $\hat{h}$ does not distinguish between them.  Additionally, they are degenerate with respect to the number of quanta $k$, defined as
 $$k = 2 n + |m_\ell|$$ {#eq:shell_index}
-We also call $k$ the **shell index** as this nonnegative integer labels each shell starting from zero.  The shells are equidistant with an energy spacing of $\hbar \omega$.  This is depicted graphically in [@Fig:shell-structure].
+We also call $k$ the **shell index of the two-dimensional harmonic oscillator** as this nonnegative integer labels each shell starting from zero.  The shells are equidistant with an energy spacing of $\hbar \omega$.  This is depicted graphically in [@Fig:shell-structure].
 
 When the number of particles $N$ satisfies $N = K_{\mathrm{F}} (K_{\mathrm{F}} + 1)$ for some nonnegative integer $K_{\mathrm{F}}$, there would be just enough particles to form a closed-shell Slater determinant, leading to a unique, well-isolated ground state.  These specific values of $N$ form the **magic numbers** of this system.  We call $K_{\mathrm{F}}$ the **number of filled shells** (or “Fermi level”).  In particular, a single-particle state is occupied in the ground state Slater determinant if and only if $k < K_{\mathrm{F}}$, where $k$ is the shell index of the single-particle state as defined in @Eq:shell_index.
 
@@ -84,7 +84,7 @@ $$\begin{aligned}
   &= \bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4} \delta_{s_1 s_3} \delta_{s_2 s_4} \\
   &\quad - \bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_4 (n m)_3} \delta_{s_1 s_4} \delta_{s_2 s_3}
 \end{aligned}$$
-where for brevity we have relabeled the quantum numbers with $m = m_\ell$ and $s = m_{\mathrm{s}}$, and
+where for brevity we have relabeled the quantum numbers with $m = m_\ell$ and $s = m_s$, and
 $$\begin{aligned}
   &\bra{(n m)_1 (n m)_2} \hat{H}_2 \ket{(n m)_3 (n m)_4} \\
   &= \frac{e^2}{4 \PI \epsilon} \iint \frac{F_{(n m)_1}(\bm{r}) F_{(n m)_2}(\bm{r}') F_{(n m)_3}(\bm{r}) F_{(n m)_4}(\bm{r}')}{|\bm{r} - \bm{r}'|} \D^2 r \D^2 r'

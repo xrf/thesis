@@ -1,6 +1,6 @@
 # Conclusions
 
-In this work, our focus has been on the calculation of single-particle energies (addition and removal energies) of quantum dots and nuclei using a combination of HF, IM-SRG(2), and QDPT3 methods.  We have compared the results to other methods like EOM2 and CCSD and found good agreement in the majority of the systems.  Thus, we have a reasonably effective and inexpensive way to compute energies of states near closed-shell nuclei.
+In this work, our focus has been on the calculation of single-particle energies (addition and removal energies) of quantum dots and nuclei using a combination of Hartree–Fock (HF) theory, in-medium similarity renormalization group theory up to two-body operators (IM-SRG(2)), and quasidegenerate perturbation theory at third order (QDPT3).  We have compared the results to other methods like equations-of-motion up to two-particle excitations (EOM2) and coupled cluster with singles and doubles (CCSD) and found good agreement in the majority of the systems.  Thus, we have a reasonably effective and inexpensive way to compute energies of states near closed-shell nuclei.
 
 To achieve this calculation, we have developed an open-source J-scheme implementation of the three major many-body methods verified by a variety of tests.  It is capable of calculating various quantum systems, including quantum dots and nuclei.  The framework of the code is highly flexible: one can readily add additional quantum systems simply by writing a module that supplies the appropriate input single-particle basis ([@Sec:input-single-particle-basis]).
 
@@ -8,7 +8,7 @@ In concert with the J-scheme implementation, we have also developed a graphical 
 
 ## Future perspectives
 
-There are many directions in which our current work can be improved upon.  The most immediate extension is the exploration of additional parameters for our nuclear calculations, including additional oscillator frequencies $\omega$, additional $e_{\mathrm{max}}$, and of course additional nuclear isotopes.  There are numerous possibilities here.
+There are many directions in which our current work can be improved upon.  The most immediate extension is the exploration of additional parameters for our nuclear calculations, including additional oscillator frequencies $\omega$, additional values of $e_{\mathrm{max}}$ (maximum shell index, [@Eq:emax]), and of course additional nuclear isotopes.  There are numerous possibilities here.
 
 As we have already implemented systems like infinite nuclear matter [@lnp936] and homogeneous electron gas [@PhysRevLett.110.226401], we could also explore these systems and analyze their results.  Neutron drop calculations can also be readily achieved with our code since it uses essentially the same basis as nuclei.
 

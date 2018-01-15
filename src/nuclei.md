@@ -59,7 +59,10 @@ where $n$ is the principal quantum number, $\ell$ is the orbital angular momentu
 ![Shell structure of the spherical harmonic oscillator](fig-shell-ho3d){#fig:shell-ho3d}
 
 The energy is given by:
-$$E_{n \ell m_\ell} = \hbar \omega \left(2 n + \ell + \frac{3}{2}\right)$$
+$$E_{n \ell m_\ell} = \hbar \omega \left(e + \frac{3}{2}\right)$$
+where $e$ is the **shell index of the three-dimensional harmonic oscillator**:
+$$e = 2 n + \ell$$ {#eq:ho3d-shell-index}
+which counts shells starting at zero.  Compare with [@Eq:shell_index], which is for the two-dimensional harmonic oscillator.  These shells are also equidistant with an energy spacing of $\hbar \omega$.
 
 Nucleons are associated with two additional non-spatial quantum numbers: spin projection $m_s = \pm 1 / 2$ and isospin projection $m_t = \pm 1 / 2$.  This means a proper nucleonic state should have 5 quantum numbers:
 $$\ket{n \ell m_\ell m_s m_t}$$
@@ -70,6 +73,14 @@ The corresponding harmonic oscillator shell structure is shown in [@Fig:shell-ho
 
 The nuclear Hamiltonian also conserves parity, thus it can be convenient to use the parity quantum number $\pi = (-)^\ell$ in lieu of $\ell$, since from $\pi$ and $j$ one can recover $\ell$:
 $$\ket{n \pi j m_j m_t} \simeq \ket{n \ell j m_j m_t}$$
+
+For calculations, it is necessary to truncate the single-particle harmonic oscillator basis.  The simplest way is to impose a limit on the number of shells by the **maximum shell index** parameter $e_{\mathrm{max}}$:
+$$e \le e_{\mathrm{max}}$$ {#eq:emax}
+We can analogously limit $n$ and/or $\ell$:
+$$n \le n_{\mathrm{max}} \qquad \qquad \ell \le \ell_{\mathrm{max}}$$ {#eq:nlmax}
+On two-particle states constructed from the harmonic oscillator, we may also impose a limit through the $E_{\mathrm{max}}$ parameter (not to be confused with energy):
+$$e_1 + e_2 \le E_{\mathrm{max}}$$ {#eq:eemax}
+Currently, for our calculations we only use the $e_{\mathrm{max}}$ truncation.  In future, we may require other forms of truncation in addition to $e_{\mathrm{max}}$ to keep the basis from growing too rapidly as we explore higher numbers of shells.
 
 ## Matrix elements of kinetic energy
 
