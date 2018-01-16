@@ -12,7 +12,7 @@ The recent introduction of chiral effective-field theory (EFT) [@MACHLEIDT20111]
 
 ![Nuclear chart showing the current progress of *ab initio* nuclear structure.  Image courtesy of Heiko Hergert [@Hergert2016165].](fig-nuclear-chart){#fig:nuclear-chart}
 
-The fruits of this progress can be seen in [@Fig:nuclear-chart].  Only a decade ago, the chart would show only a dozen nuclei near or below oxygen-16 that could be computed by *ab initio* methods (blue squares).  The idea that something as heavy as tin-100 could be computed through an *ab initio* method would have been considered absurd.
+The fruits of this progress can be seen in [@Fig:nuclear-chart].  Just a decade ago, only a handful of nuclei near or below oxygen-16 could be computed by *ab initio* methods, as shown by the blue squares in the upper chart.  The idea of calculating a nucleus as heavy as tin-100 through an *ab initio* method would have been considered absurd.
 
 One particular many-body theory, the so-called in-medium similarity renormalization group method (IM-SRG) [@Hergert2016165], has gained significant attention in nuclear theory of late.  IM-SRG fuses the flow equation approach of similarity renormalization group (SRG) with the particle-hole operator formalism to reduce computational cost, providing a novel *ab initio* approach for solving the many-body problem.  Over the years, IM-SRG has proven to be a highly flexible and adaptable method.  It offers efficient evaluation of observables beyond energy [@PhysRevC.92.034331; @morris2016thesis], the ability to tackle excited states [@PhysRevC.95.044304; @parzuchowski2017thesis], as well as extensions to open-shell nuclei [@HeikoReview].
 
