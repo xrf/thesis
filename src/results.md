@@ -374,9 +374,9 @@ Both methods agree with each other to about $\SI{0.3}{MeV}$.  With respect to $e
 
 For comparison, the experimental value is about $\SI{-12}{MeV}$.  Again, our values are significantly different, likely due to missing three-body contributions.
 
-For reference, we have also attached the results for nitrogen-15 in the excited state $J^\pi = 3/2^+$ in [@Fig:n15-3], oxygen-23 in [@Fig:o23], and oxygen 21 in [@Fig:o21].  All these results were calculated using the same approach as before.  In all cases, the difference between the two methods is very small and the convergence with respect to $e_{\mathrm{max}}$ appears to be quite good.
+For reference, we have also attached the results for nitrogen-15 in the excited state $J^\pi = \frac{3}{2}^-$ in [@Fig:n15-3], oxygen-23 in [@Fig:o23], and oxygen 21 in [@Fig:o21].  All these results were calculated using the same approach as before.  In all cases, the difference between the two methods is very small and the convergence with respect to $e_{\mathrm{max}}$ appears to be quite good.
 
-![Removal energy from ^16^O to ^15^N^\*^ in the $J^\pi = 3/2^+$ state, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15-3){#fig:n15-3}
+![Removal energy from ^16^O to ^15^N in the excited $J^\pi = \frac{3}{2}^-$ state, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-n15-3){#fig:n15-3}
 
 ![Addition energy from ^22^O to ^23^O, computed using IM-SRG(2) + QDPT3 and CCSD + EOM2 with the N^3^LO$(\Lambda = \SI{500}{MeV}, \lambda_{\mathrm{SRG}} = \SI{2}{fm^{-1}})$ interaction](fig-o23){#fig:o23}
 
