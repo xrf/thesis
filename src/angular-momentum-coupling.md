@@ -564,9 +564,9 @@ $$\bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}
     0 & 0 & 0
   \end{pmatrix}}$$
 
-## Separation rules {#sec:separation-rule}
+## Separation rules {#sec:cutting-rule}
 
-![Separation rules: (a) single-line separation rule: $f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)$ in [@Eq:separation-rule]; (b) double-line separation rule; (c) triple-line separation rule.](fig-cutting-rule){#fig:cutting-rule}
+![Separation rules: (a) single-line separation rule: $f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)$ in [@Eq:cutting-rule]; (b) double-line separation rule; (c) triple-line separation rule.](fig-cutting-rule){#fig:cutting-rule}
 
 There is a general diagrammatic rule that is closely related to the more specialized Wigner–Eckart theorem.  Suppose we have an angular momentum diagram $f(j_1, m_1)$ composed of 3-jm nodes with exactly one external line and every one of its internal lines has an arrow.  Then, we can partition the diagram into two pieces:
 $$f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)$$ {#eq:cutting-rule}
