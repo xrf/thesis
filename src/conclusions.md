@@ -10,7 +10,9 @@ In concert with the J-scheme implementation, we have also developed a graphical 
 
 There are many directions in which our current work can be improved upon.  The most immediate extension is the exploration of additional parameters for our nuclear calculations, including additional oscillator frequencies $\omega$, additional values of $e_{\mathrm{max}}$ (maximum shell index, [@Eq:emax]), and of course additional nuclear isotopes.  There are numerous possibilities here.
 
-As we have already implemented systems like infinite nuclear matter [@lnp936] and homogeneous electron gas [@PhysRevLett.110.226401], we could also explore these systems and analyze their results.  Neutron drop calculations can also be readily achieved with our code since it uses essentially the same basis as nuclei.
+After obtaining nuclear results with more parameters, we could perform a more detailed analysis of the convergence patterns with respect to both $e_{\mathrm{max}}$ and $\omega$.  We can also compute extrapolations using, for example, the prescription in [@Hergert2016165].
+
+As we have already implemented systems like infinite nuclear matter [@lnp936] and homogeneous electron gas [@PhysRevLett.110.226401], we could explore these systems and analyze the quality our method in these systems.  Neutron drop calculations can also be readily achieved with our code since it uses essentially the same basis as nuclei.
 
 The inclusion of three-body force is likely a necessity for results that are comparable with experimental data.  We can introduce a large fraction of its contribution through the three-body normal-ordering process, which is computationally tractable, unlike IM-SRG(3).  We could also upgrade the HF framework to include three-body forces.
 
