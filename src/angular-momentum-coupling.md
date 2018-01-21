@@ -337,6 +337,8 @@ Read in reverse, this means one can also represent Kronecker deltas with zeros a
 
 Angular momentum diagrams, originally introduced by Jucys (whose name is also translated as Yutsis) [@Yutsis1962], provide a graphical way to manipulate expressions of coupling coefficients of angular momentum states.  Our presentation  of diagrams differs from [@Yutsis1962; @WORMER200659; @BalcarLovesey2009] in the treatment of arrows.  In other literature, arrows are used to distinguish between covariant and contravariant angular momenta.  However, we treat them mechanically as 1-jm symbols.^[Conversion from our presentation to the traditional presentation in, say, [@WORMER200659] done by a two-step process:  (1) use diagrammatic rules to ensure that every internal line has an arrow and that every arrow on external lines (if any) point *away* from the terminal; (2) on any remaining external lines with no arrows, draw an arrow pointing toward the terminal.  Now the diagram can be interpreted in the traditional manner.  To convert back, simply revert step (2): delete all arrows on external lines that point toward the terminal.]  Other differences in presentation are largely superficial.  For practical reasons we do not use graphics to describe $\sqrt{2 j + 1}$ factors unlike [@BalcarLovesey2009].
 
+### Nodes
+
 ![Diagram of the 3-jm symbol $(1 2 3)$ in [@Eq:3jm-node]](fig-3jm){#fig:3jm}
 
 The main ingredient of angular momentum algebra are 3-jm symbols.  Since they are functions of six variables, one might be tempted to introduce a node with six lines emanating from it.  However, this quickly becomes unwieldy.  Instead, it is better to treat each $(j, m)$-pair as a combined entity.
@@ -346,6 +348,8 @@ $$(1 2 3) = \begin{pmatrix} j_1 & j_2 & j_3 \\ m_1 & m_2 & m_3 \\ \end{pmatrix}$
 for which we have assigned the shorthand $(1 2 3)$.  Note that 3-jm symbols are the only kind of primitive **node** (vertex) that appears in angular momentum diagrams.  Hence, they are the basic building block of such diagrams.
 
 Because 3-jm symbols are invariant under *even* permutations only, it is necessary to assign a definite ordering to the lines.  This is denoted by the circular arrow within the node.  In other literature, circular arrows are usually replaced by a sign: $+$ for anticlockwise and $-$ for clockwise.
+
+### Lines
 
 The **lines** (edges) in angular momentum diagrams serve to link the $m$-type arguments on both ends of the line.  The domain $M_j$ over which the $m$ variable is valid is indicated by the label on the line.^[Because of this, unlike many-body diagrams, labels on lines are *not* optional.]  For example, if a line labeled “1”, this means the $m$ variable must lie within the domain $M_{j_1}$ of the $j_1$ variable.
 
@@ -357,7 +361,10 @@ Lines can appear in isolation, as shown in [@Fig:lines].  The middle diagram of 
 $$(1 1') = \delta_{m_1 m_1'}$$ {#eq:mdelta-line}
 The upper diagram is also a Kronecker delta, but with the extra constraint that $m_0' \in M_0$, hence
 $$(0' 0'') = \delta_{m_0' m_0''} \delta_{m_0' 0}$$ {#eq:zero-line}
-In the lower diagram, we introduce the notion of an **arrow** on a line.  Lines with arrows (*directed* lines) are associated with a $(-)^{j - m}$ phase as well as a sign reversal in $m$, i.e. the **time-reversal** of angular momentum.  More precisely, the diagram represents the quantity:
+
+### Herring–Wigner 1-jm symbol
+
+In the lower diagram of [@Fig:lines], we introduce the notion of an **arrow** on a line.  Lines with arrows (*directed* lines) are associated with a $(-)^{j - m}$ phase as well as a sign reversal in $m$, i.e. the **time-reversal** of angular momentum.  More precisely, the diagram represents the quantity:
 $$(\check{2} 2') = \delta_{m_2, -m_2'} (-)^{j_2 - m_2'}$$ {#eq:arrow-diagram}
 This is sometimes referred to as a **Herring–Wigner 1-jm symbol**, denoted by
 $$\begin{pmatrix}
@@ -374,12 +381,16 @@ m \quad m' \\
 \end{pmatrix} |j m\rangle \otimes |j m'\rangle$$
 is invariant under SU(2) transformations.
 
+### Terminals
+
 The **terminals** of lines, highlighted by the grey circles, represent the free $m$ variables (i.e. those that are not summed over).  We label the terminals so as to provide a correspondence to the algebraic equations.  For example, in [@Fig:3jm] we label the terminals “1”, “2”, and “3” to indicate their correspondence to $m_1$, $m_2$, and $m_3$.
 
 ![3-jm symbol when an argument is zero: $(\check{1} 0 2) = (1 2) / \jweight{j}_1$ in [@Eq:3jm-zero]](fig-3jm-zero){#fig:3jm-zero}
 
-There is one exceptional situation where a terminal may be absent: when the line is zero.  This occurs in, for example, the simplification of a 3-jm symbol when one of the angular momenta is zero in [@Eq:3jm-zero].  This is depicted diagramatticaly in [@Fig:3jm-zero], and shown here in shorthand notation:
+There is one exceptional situation where a terminal may be absent: when the line is zero.  This occurs in, for example, the simplification of a 3-jm symbol when one of the angular momenta is zero in [@Eq:3jm-zero].  This is depicted diagrammatically in [@Fig:3jm-zero], and shown here in shorthand notation:
 $$(\check{1} 0 2) = \frac{(1 2)}{\jweight{j}_1}$$
+
+### Closed diagrams
 
 ![Second orthogonality relation for 3-jm symbols: $(1 2 3) (2 3 4) = (1 4) (1' 2 3) (1' 2 3)$ in [@Eq:3jm-orthogonality-2]](fig-3jm-orthogonality-2){#fig:3jm-orthogonality-2}
 
@@ -397,7 +408,12 @@ $$
     m_1 & m_2 & m_3 \\
   \end{pmatrix}^2 = \tridelta{j_1}{j_2}{j_3}
 $$ {#eq:tridelta-diagram}
+
 The triangular delta is the simplest **irreducible closed diagram**: it cannot be broken down into simpler components in a nontrivial way (*irreducible*), and there are no free $m$-type variables (*closed*).  Specifically, we say a diagram is irreducible if it cannot be factorized into subdiagrams without either (a) introducing a summation over a new $j$-type variable, or (b) introducing another triangular delta.  The (b) constraint comes from the fact that a triangular delta can be split (factorized) into a finite number of identical triangular deltas, which is not very interesting.
+
+The triangular delta is a rather degenerate case of an irreducible closed diagram.  In [@Sec:6j; @Sec:9j], we introduce more interesting cases: the 6-j and 9-j symbols.  In graph theory, irreducible closed diagrams correspond to cubic graphs that are *cyclically 4-connected*, namely, 3-edge-connected graphs in which every split by the deletion of 3 edges yields at least one disconnected vertex.  The triangular delta is unusual in that it is the only non-simple graph of this family.
+
+### Summed lines {#sec:summed-lines}
 
 ![First orthogonality relation for 3-jm symbols: $\sum_{j_3} \jweight{j}_3^2 (1 2 3) (1' 2' 3) = (1 1') (2 2')$ in [@Eq:3jm-orthogonality]](fig-3jm-orthogonality){#fig:3jm-orthogonality}
 
@@ -548,13 +564,21 @@ $$\bkt{j_1 \alpha_1 \| \hat{T}^{j_T} \| j_2 \alpha_2}
     0 & 0 & 0
   \end{pmatrix}}$$
 
-## The cutting rule {#sec:cutting-rule}
+## Separation rules {#sec:separation-rule}
 
-![Cutting rule: $f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)$ in [@Eq:cutting-rule]](fig-cutting-rule){#fig:cutting-rule}
+![Separation rules: (a) single-line separation rule: $f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)$ in [@Eq:separation-rule]; (b) double-line separation rule; (c) triple-line separation rule.](fig-cutting-rule){#fig:cutting-rule}
 
-There is a general diagrammatic rule that is closely related to the more specialized Wigner–Eckart theorem.  Suppose we have an angular momentum diagram $f(j_1, m_1)$ with exactly one external line and every one of its internal lines has an arrow.  Then, we can partition the diagram into two pieces:
+There is a general diagrammatic rule that is closely related to the more specialized Wigner–Eckart theorem.  Suppose we have an angular momentum diagram $f(j_1, m_1)$ composed of 3-jm nodes with exactly one external line and every one of its internal lines has an arrow.  Then, we can partition the diagram into two pieces:
 $$f(j_1, m_1) = \delta_{j_1 0} \delta_{m_1 0} f(0, 0)$$ {#eq:cutting-rule}
-We call this the **cutting rule** because it allows us to “cut” the lone external line.  This seemingly simple rule can be used to factorize arbitrarily complicated diagrams because any “bundle” of lines can be merged into a single line via the first orthogonality relation.  It plays an essential role in the derivation of recoupling coefficients.  Moreover, it can be used to *derive* the second orthogonality relation of 3-jm symbols.
+In other words, $f$ must be invariant (a spherical scalar).  We call this the **single-line separation rule** because it allows us to cut the lone external line to separate the diagram into two disconnected pieces.  This rule is shown in [@Fig:cutting-rule] (a).
+
+![A schematic derivation of the separation rule for five lines.  The topologies of the diagrams are shown but most details (such as phases or other factors) have been omitted.  Double lines indicate summed lines as before ([@Sec:summed-lines]).  The meaning of the yellow rectangles is the same as in [@Fig:cutting-rule].](fig-cutting-rule-schematic-proof){#fig:cutting-rule-schematic-proof}
+
+This seemingly simple rule can be used to separate arbitrarily complicated diagrams through a mechanical process ([@Fig:cutting-rule-schematic-proof]) in which lines are repeatedly pairwise combined using the first orthogonality relation ([@Fig:3jm-orthogonality]) until a single line remains, which can then be cut using [@Eq:cutting-rule].
+
+Separation rules for the special cases of two and three lines are shown in [@Fig:cutting-rule] (b) and (c) respectively.  Both can be derived using (a) and the first orthogonality relation.  Analogous separation rules for four or more lines can be derived, but they always introduce new angular momentum variables to be summed over.  With six or more lines, there can be multiple non-equivalent separation rules.
+
+Separation rules are used in the derivation of recoupling coefficients.  They can also be used to *derive* the second orthogonality relation of 3-jm symbols.
 
 ## Recoupling coefficients and 3n-j symbols
 
@@ -756,7 +780,7 @@ In practice, we found the canonicalization scheme most useful for calculations a
 
 We have developed a graphical tool [@Jucys] that can be used to perform graphical manipulation of angular momentum coefficients with the diagrammatic technique explained in this chapter, with a few slight modifications.  Specifically, non-diagrammatic objects such as phases, $\jweight{j}$-like factors, Kronecker deltas, or summations over $j$-type variables are all tracked separately in a **tableau** that is displayed beside the diagram.
 
-The primary motivation of the tool is to eliminate human errors that commonly occur in angular momentum algebra and improve the speed of such derivations.  To achieve this, the diagram offers a special *reduction mode* that, when activated, *ensures that all of the user’s diagrammatic manipulations preserve equality*.  The user modifies the diagram through various gestures and clicks of the mouse cursor.  The program is responsible for enforcing the diagrammatic rules, including orthogonal relations, cutting rule, various phase rules, etc.
+The primary motivation of the tool is to eliminate human errors that commonly occur in angular momentum algebra and improve the speed of such derivations.  To achieve this, the diagram offers a special *reduction mode* that, when activated, *ensures that all of the user’s diagrammatic manipulations preserve equality*.  The user modifies the diagram through various gestures and clicks of the mouse cursor.  The program is responsible for enforcing the diagrammatic rules, including orthogonal relations, separation rules, various phase rules, etc.
 
 The program comes with a separate *input tool* for writing angular momentum expressions, without which the user would have to manually draw angular momentum diagrams node by node – a tedious and error-prone process.  The input tool provides fast means of describing coupling coefficients in text, reducing the room for human error.  As an example, the Pandya transformation coefficient for spherical scalars is described by the following input:
 
