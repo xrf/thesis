@@ -292,7 +292,7 @@ The quasiparticle operators have an algebra analogous to the original field oper
 The quasiparticle field operators treat $\ket{\Phi}$ as their “vacuum” state, similar to how original field operators treat $\ket{\varnothing}$ as their vacuum state.  For this reason, the reference state $\ket{\Phi}$ is also known as a **Fermi vacuum**.
 
 So far, we have used the letters $p$, $q$, $r$, … to label single-particle states, which contain both hole and particle states relative to the Fermi vacuum.  We will continue to use this convention.  It is often convenient to sum over only hole states, or only particle states.  To this end, we introduce a convention where $i$, $j$, $k$, … are used to label hole states and $a$, $b$, $c$, … label particle states.  We also introduce a special notation for **summation over holes and particles**:
-$$\sum_{i j k \ldots \backslash a b c \ldots} \cdots$$
+$$\sum_{i j k \ldots \backslash a b c \ldots} \cdots$$ {#eq:ph-summation}
 The backslash serves as an additional reminder that $i$, $j$, $k$, … should be summed over hole states only, and $a$, $b$, $c$, … should be summed over particle states only.
 
 In this formalism, we use the following concise notation to denote states near the reference state,

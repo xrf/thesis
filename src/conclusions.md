@@ -14,6 +14,8 @@ After obtaining nuclear results with more parameters, we could perform a more de
 
 As we have already implemented systems like infinite nuclear matter [@lnp936] and homogeneous electron gas [@PhysRevLett.110.226401], we could explore these systems and analyze the quality our method in these systems.  Neutron drop calculations can also be readily achieved with our code since it uses essentially the same basis as nuclei.
 
+It is possible to construct valence shell model Hamiltonians using only QDPT [@HJORTHJENSEN1995125], but concerns were raised about its convergence due to the strength of the nuclear interaction.  Given our preliminary but promising results, it may be possible to use IM-SRG + QDPT to construct valence shell model Hamiltonians and operators with comparable quality to those from EOM-based approaches, which are significantly more expensive.
+
 The inclusion of three-body force is likely a necessity for results that are comparable with experimental data.  We can introduce a large fraction of its contribution through the three-body normal-ordering process, which is computationally tractable, unlike IM-SRG(3).  We could also upgrade the HF framework to include three-body forces.
 
 We could improve the IM-SRG(2) approximation by incorporating some of the truncated higher-body terms in the commutator through approximate techniques such as those described in [@Hergert2016165; @morris2016thesis].  It may also be worth evaluating additional QDPT terms at fourth order for greater accuracy.  Since the nature of IM-SRG can eliminate a large number of QDPT terms, QDPT4 may be feasible.  Some classes of diagrams could even be summed to infinite order through resummation techniques.

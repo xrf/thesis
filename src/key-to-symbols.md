@@ -33,7 +33,7 @@
 * $\hat{a}_p$ — physical annihilation operator ([@Sec:second-quantization])
 * $\hat{b}_p$ — quasiparticle annihilation operator ([@Sec:ph-formalism])
 * $\symm^\pm$, $\symm^{(i)}$, $\symm$, $\antisymm$ — symmetrization/antisymmetrization symbols ([@Sec:symmetrization])
-* $\sum_{i j \backslash a b}$ — summation over holes and particles ([@Sec:ph-formalism])
+* $\sum_{i j \backslash a b}$ — summation over holes and particles ([@Eq:ph-summation])
 * $\prod_{k = m}^{\to n}$ — ordered product from left ($k = m$) to right ($k = n$)
 * $M_j = \{-j, -j + 1, \ldots, j - 1, j\}$ — projection quantum numbers of a multiplet ([@Eq:mset])
 * $\jweight{j}_a = \sqrt{2 j_a + 1}$ — ([@Eq:jweight])

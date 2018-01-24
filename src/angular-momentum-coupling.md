@@ -90,7 +90,7 @@ Each Pauli matrix $\hat{\tau}_i$ acts on the two-dimensional Hilbert subspace of
   - $m_t = -\frac{1}{2}$ corresponds to neutrons and $m_t = +\frac{1}{2}$ corresponds to protons (sometimes referred to as the *particle physics convention*)
   - $m_t = +\frac{1}{2}$ corresponds to neutrons and $m_t = -\frac{1}{2}$ corresponds to protons (sometimes referred to as the *nuclear physics convention*)
 
-Mathematically, the quantities $\hat{\bm{L}}$, $\hat{\bm{S}}$, $\hat{\bm{J}}$, and $\hat{\bm{I}}$ are all very similar.  Specifically, these operators are representations of the $\mathfrak{su}(2)$ Lie algebra, which are generators of the special unitary group of two-dimensional matrices, $\mathrm{SU}(2)$.  Elements of the Lie algebra are characterized by commutation relation of the form
+Mathematically, the quantities $\hat{\bm{L}}$, $\hat{\bm{S}}$, $\hat{\bm{J}}$, and $\hat{\bm{I}}$ are all very similar.  Specifically, these operators are representations of the $\mathfrak{su}(2)$ Lie algebra, which are generators of the special unitary group of two-dimensional matrices, $\mathrm{SU}(2)$.  Elements of the Lie algebra are characterized by commutation relations of the form
 \begin{gather*}
   [\hat{J}_i, \hat{J}_j] \propto \sum_{k = 1}^3 \epsilon_{i j k} \hat{J}_k
 \end{gather*}
@@ -335,7 +335,7 @@ Read in reverse, this means one can also represent Kronecker deltas with zeros a
 
 ## Angular momentum diagrams
 
-Angular momentum diagrams, originally introduced by Jucys (whose name is also translated as Yutsis) [@Yutsis1962], provide a graphical way to manipulate expressions of coupling coefficients of angular momentum states.  Our presentation  of diagrams differs from [@Yutsis1962; @WORMER200659; @BalcarLovesey2009] in the treatment of arrows.  In other literature, arrows are used to distinguish between covariant and contravariant angular momenta.  However, we treat them mechanically as 1-jm symbols.^[Conversion from our presentation to the traditional presentation in, say, [@WORMER200659] done by a two-step process:  (1) use diagrammatic rules to ensure that every internal line has an arrow and that every arrow on external lines (if any) point *away* from the terminal; (2) on any remaining external lines with no arrows, draw an arrow pointing toward the terminal.  Now the diagram can be interpreted in the traditional manner.  To convert back, simply revert step (2): delete all arrows on external lines that point toward the terminal.]  Other differences in presentation are largely superficial.  For practical reasons we do not use graphics to describe $\sqrt{2 j + 1}$ factors unlike [@BalcarLovesey2009].
+Angular momentum diagrams, originally introduced by Jucys (whose name is also translated as Yutsis) [@Yutsis1962], provide a graphical way to manipulate expressions of coupling coefficients of angular momentum states.  Our presentation of diagrams differs from [@Yutsis1962; @WORMER200659; @BalcarLovesey2009] in the treatment of arrows.^[Conversion from our presentation to the traditional presentation in, say, [@WORMER200659] is done by a two-step process:  (1) use diagrammatic rules to ensure that every internal line has an arrow and that every arrow on external lines (if any) point *away* from the terminal; (2) on any remaining external lines with no arrows, draw an arrow pointing toward the terminal.  Now the diagram can be interpreted in the traditional manner.  To convert back, simply revert step (2): delete all arrows on external lines that point toward the terminal.]  In other literature, arrows are used to distinguish between covariant and contravariant angular momenta.  However, we treat them mechanically as 1-jm symbols (see [@Sec:1jm]).  Other differences in presentation are largely superficial.  For practical reasons we do not use graphics to describe $\sqrt{2 j + 1}$ factors unlike [@BalcarLovesey2009].
 
 ### Nodes
 
@@ -351,7 +351,7 @@ Because 3-jm symbols are invariant under *even* permutations only, it is necessa
 
 ### Lines
 
-The **lines** (edges) in angular momentum diagrams serve to link the $m$-type arguments on both ends of the line.  The domain $M_j$ over which the $m$ variable is valid is indicated by the label on the line.^[Because of this, unlike many-body diagrams, labels on lines are *not* optional.]  For example, if a line labeled “1”, this means the $m$ variable must lie within the domain $M_{j_1}$ of the $j_1$ variable.
+The **lines** (edges) in angular momentum diagrams serve to link the $m$-type arguments on both ends of the line.  The domain $M_j$ over which the $m$ variable is valid is indicated by the label on the line.^[Because of this, unlike many-body diagrams, labels on lines are *not* optional.]  For example, if a line is labeled “1”, this means the $m$ variable must lie within the domain $M_{j_1}$ of the $j_1$ variable.
 
 As a convenience (or perhaps a source of confusion), we introduce a special exception to this interpretation when the label is “0”.  In this case, we instead interpret it to indicate that the domain is $M_0 = \{ 0 \}$, i.e. $m = j = 0$.  To alert the reader of this special interpretation, the line is drawn in a faded grey color.
 
@@ -362,7 +362,7 @@ $$(1 1') = \delta_{m_1 m_1'}$$ {#eq:mdelta-line}
 The upper diagram is also a Kronecker delta, but with the extra constraint that $m_0' \in M_0$, hence
 $$(0' 0'') = \delta_{m_0' m_0''} \delta_{m_0' 0}$$ {#eq:zero-line}
 
-### Herring–Wigner 1-jm symbol
+### Herring–Wigner 1-jm symbol {#sec:1jm}
 
 In the lower diagram of [@Fig:lines], we introduce the notion of an **arrow** on a line.  Lines with arrows (*directed* lines) are associated with a $(-)^{j - m}$ phase as well as a sign reversal in $m$, i.e. the **time-reversal** of angular momentum.  More precisely, the diagram represents the quantity:
 $$(\check{2} 2') = \delta_{m_2, -m_2'} (-)^{j_2 - m_2'}$$ {#eq:arrow-diagram}

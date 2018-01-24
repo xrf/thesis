@@ -1,6 +1,6 @@
 # Hartree-Fock method
 
-The reference state formed by basis states of the non-interacting Hamiltonian  may not offer a good approximation of the true ground state (i.e. of the interacting Hamiltonian).  The Hartree–Fock (HF) method [@hartree_1928; @Fock1930] provides a way to optimize the basis states so as to provide the best approximation of the true ground state (in some sense).
+The reference state formed by basis states of the non-interacting Hamiltonian may not offer a good approximation of the true ground state (i.e. of the interacting Hamiltonian).  The Hartree–Fock (HF) method [@hartree_1928; @Fock1930] provides a way to optimize the basis states such that the reference state provides the best variational estimate of the ground state energy.
 
 ## Hartree–Fock equations
 
@@ -27,6 +27,7 @@ $$\begin{aligned}
   &\bra{p'} \hat{H}_1 \ket{q'} = \sum_{p q} C_{p p'}^* \bra{p} \hat{H}_1 \ket{q} C_{q q'} \\
   &\bra{p' q'} \hat{H}_2 \ket{r' s'} = \sum_{p q r s} C_{p p'}^* C_{q q'}^* \bra{p q} \hat{H}_2 \ket{r s} C_{r r'} C_{s s'}
 \end{aligned}$$ {#eq:hftransform}
+and $\sum_{i' \backslash}$ denotes a summation over all hole states $\ket{i'}$ in the unknown basis (see [@Eq:ph-summation]).
 
 With the method of Lagrange multipliers, the minimization problem can be reduced to the solving of a nonlinear equation – the self-consistent **Hartree–Fock equations**:
 $$\bm{F} \bm{C} = \bm{C} \bm{\varepsilon}$$ {#eq:hartreefock}
