@@ -474,9 +474,7 @@ This quantity can be computed easily in the center-of-mass frame.  The Talmi–B
 
 The second part is the actual nuclear interaction.  There are many possible choices here, and they are often available precomputed in a variety of tabular formats.
 
-A common format that used for nuclear matrix elements is the **Darmstadt ME2J format** [@tuprints3946; @tuprints4069; @tuprints3945].  The chiral-EFT interactions, including [@PhysRevC.68.041001], are often distributed in this format.
-
-In the ME2J format, all matrix elements are stored in a predefined order without explicitly writing out the quantum numbers.  The iteration order is parametrized by $(e_{\mathrm{max}}, n_{\mathrm{max}}, \ell_{\mathrm{max}}, E_{\mathrm{max}})$ as defined in [@Eq:emax; @Eq:nlmax; @Eq:eemax].  The first three parameters constrain the single-particle basis, which is constructed by the following algorithm:
+A common format that used for nuclear matrix elements is the **Darmstadt ME2J format** [@tuprints3946; @tuprints4069; @tuprints3945].  The chiral-EFT interactions, including [@PhysRevC.68.041001], are often distributed in this format.  In this format, all matrix elements are stored in a predefined order without explicitly writing out the quantum numbers.  The iteration order is parametrized by $(e_{\mathrm{max}}, n_{\mathrm{max}}, \ell_{\mathrm{max}}, E_{\mathrm{max}})$ as defined in [@Eq:emax; @Eq:nlmax; @Eq:eemax].  The first three parameters constrain the single-particle basis, which is constructed by the following algorithm:
 \begin{gather*}
   \mathbf{for}\ e\ \mathbf{in}\ 0, \ldots, e_{\mathrm{max}} \\
   \quad \mathbf{for}\ \lambda\ \mathbf{in}\ 0, \ldots, \left\lfloor\frac{e}{2}\right\rfloor \\

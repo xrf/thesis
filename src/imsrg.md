@@ -136,11 +136,24 @@ Finally, we write out the diagrams as,
 \end{align*}
 @Fig:diagrams-imsrg shows these diagrams in diagrammatic form.
 
-![Hugenholtz diagrams representing the terms of linked product $\hat{C}(\circ, \bullet)$ in the flow IM-SRG equation, with open circles representing $\hat{A}$ and filled circles representing $\hat{B}$.  We omit diagrams that are related by permutations among the external bra lines or among the external ket lines.](fig-diagrams-imsrg){#fig:diagrams-imsrg}
+![Hugenholtz diagrams representing the linked product $\hat{C}(\circ, \bullet)$ in the IM-SRG flow equation, with open circles representing $\hat{A}$ and filled circles representing $\hat{B}$.  We omit diagrams that are related by permutations among the external bra lines or among the external ket lines.](fig-diagrams-imsrg){#fig:diagrams-imsrg}
 
 ## IM-SRG(2) equations in J-scheme {#sec:imsrg-j-eqs}
 
-Using the implicit-J convention (@Sec:implicit-j), we can write the IM-SRG(2) equations as
+Once again, we use the implicit-J convention (@Sec:implicit-j) to write J-scheme equations.  Although some equations in J-scheme appear superficially identical to those in M-scheme, they are not interpreted in the same way due to the lack of $m$-type variables in J-scheme.
+
+The Epstein–Nesbet energy denominators that arise in White generators contain two-body terms that cannot be expressed in J-scheme.  As a practical workaround, one could replace occurrences of $H_{p q r s}$ in the denominator with the monopole matrix element
+$$H_{p q r s}^{\mathrm{mono}} = \frac{\sum_{j_{p q}} \jweight{j}_{p q}^2 H_{p q r s}}{\sum_{j_{p q}} \jweight{j}_{p q}^2 \tridelta{j_p}{j_q}{j_{p q}}}$$
+Unlike the usual matrix element $H_{p q r s}$, the monopole matrix element $H_{p q r s}^{\mathrm{mono}}$ does not depend on $j_{p q}$.
+
+The replacement by monopole matrix elements leads to the following Epstein–Nesbet energy denominators:
+\begin{align*}
+  \tilde{\Delta}_{a i}^{\mathrm{mono}} &= \Delta_{a i} - H_{a i a i}^{\mathrm{mono}} \\
+  \tilde{\Delta}_{a b i j}^{\mathrm{mono}} &= \Delta_{a b i j} + H_{a b a b}^{\mathrm{mono}} - H_{a i a i}^{\mathrm{mono}} - H_{b i b i}^{\mathrm{mono}} + H_{i j i j}^{\mathrm{mono}} - H_{a j a j}^{\mathrm{mono}} - H_{b j b j}^{\mathrm{mono}}
+\end{align*}
+These do result in a different White generator, however.  The generator in M-scheme is no longer equivalent to that in J-scheme if monopole matrix elements are used.
+
+Finally, here are the J-scheme IM-SRG(2) equations using the implicit-J convention (@Sec:implicit-j):
 \begin{align*}
   C^{0110}_\Phi &= +\sum_{i \backslash a} \jweight{j}_i^2 A_{i a} B_{a i} &
   C^{0220}_\Phi &= +\frac{1}{4} \sum_{j_{i j}} \sum_{i j \backslash a b} \jweight{j}_{i j}^2 A_{i j a b} B_{a b i j} \\
@@ -159,14 +172,3 @@ Using the implicit-J convention (@Sec:implicit-j), we can write the IM-SRG(2) eq
   C^{2222}_{p q r s} &= +\frac{1}{2} \sum_{\backslash a b} A_{p q a b} B_{a b r s}
 \end{align*}
 where the tilde symbol ($\tilde{C}$) denotes non-antisymmetrized Pandya-coupled matrix elements ([@Sec:pandya]).
-
-The Epstein–Nesbet energy denominators that arise in White generators contain two-body terms that cannot be expressed in J-scheme.  As a practical workaround, one could replace occurrences of $H_{p q r s}$ in the denominator with the monopole matrix element
-$$H_{p q r s}^{\mathrm{mono}} = \frac{\sum_{j_{p q}} \jweight{j}_{p q}^2 H_{p q r s}}{\sum_{j_{p q}} \jweight{j}_{p q}^2 \tridelta{j_p}{j_q}{j_{p q}}}$$
-Unlike the usual matrix element $H_{p q r s}$, the monopole matrix element $H_{p q r s}^{\mathrm{mono}}$ does not depend on $j_{p q}$.
-
-The replacement by monopole matrix elements leads to the following Epstein–Nesbet energy denominators:
-\begin{align*}
-  \tilde{\Delta}_{a i}^{\mathrm{mono}} &= \Delta_{a i} - H_{a i a i}^{\mathrm{mono}} \\
-  \tilde{\Delta}_{a b i j}^{\mathrm{mono}} &= \Delta_{a b i j} + H_{a b a b}^{\mathrm{mono}} - H_{a i a i}^{\mathrm{mono}} - H_{b i b i}^{\mathrm{mono}} + H_{i j i j}^{\mathrm{mono}} - H_{a j a j}^{\mathrm{mono}} - H_{b j b j}^{\mathrm{mono}}
-\end{align*}
-These do result in a different White generator, however.  The generator in M-scheme is no longer equivalent to that in J-scheme if monopole matrix elements are used.

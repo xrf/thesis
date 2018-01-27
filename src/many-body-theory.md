@@ -39,7 +39,7 @@ each with energy $\varepsilon_p$ and labeled by the quantum numbers $p$.  For ex
 
 From the single-particle basis, we can define a set of $N$-particle wave functions
 $$\ket{p_1 \otimes \cdots \otimes p_N} \leftrightarrow \Phi_{p_1 \otimes \cdots \otimes p_N}(x_1, \ldots, x_N)$$
-via the tensor product construction^[Inside kets, $\otimes$ is an annotation to alert the reader that this is a product state.  Outside the kets, $\otimes$ denotes the *tensor product constructor*, a multilinear operation that constructs maps multiple vectors to a vector in their tensor product space.]
+via the tensor product construction^[A ket with $\otimes$ inside denotes a  product state.  Outside kets, $\otimes$ denotes the *tensor product constructor*, a multilinear operation that constructs maps multiple vectors to a vector in their tensor product space.]
 \begin{gather*}
   \ket{p_1 \otimes p_2} = \ket{p_1} \otimes \ket{p_2} \\
   \ket{p_1 \otimes p_2 \otimes p_3} = \ket{p_1} \otimes \ket{p_2} \otimes \ket{p_3} \\
@@ -51,7 +51,9 @@ In terms of wave functions, this is equivalent to the definition
   \Phi_{p_1 \otimes p_2 \otimes p_3}(x_1, x_2, x_3) = \varphi_{p_1}(x_1) \varphi_{p_2}(x_2) \varphi_{p_3}(x_3) \\
   \Phi_{p_1 \otimes \cdots \otimes p_N}(x_1, \ldots, x_N) = \prod_{\alpha = 1}^N \varphi_{p_\alpha}(x_\alpha)
 \end{gather*}
-These **product states** (also known as **Hartree products**) are eigenstates of the many-body Schrödinger equation and form an orthonormal basis for the $N$-particle Hilbert space $\mathbb{H}^N$ of the non-interacting $N$-particle Hamiltonian $\hat{H}_N^\circ$.  Formally, $\mathbb{H}^N$ is defined as the $N$-th tensor power of the single-particle vector spaces^[To further add to the confusion, this $\otimes$ symbol denotes the *tensor product* of vector spaces.]
+These **product states** (also known as **Hartree products**) are eigenstates of the many-body Schrödinger equation and form an orthonormal basis for the $N$-particle Hilbert space $\mathbb{H}^N$ of the non-interacting $N$-particle Hamiltonian $\hat{H}_N^\circ$.
+
+Formally, $\mathbb{H}^N$ is defined as the $N$-th tensor power of the single-particle vector spaces^[To further add to the confusion, this $\otimes$ symbol denotes the *tensor product* of vector spaces.]
 $$\mathbb{H}^N = \bigotimes_{\alpha = 1}^N \mathbb{H}$$
 Each product state is labeled by the tuple $(p_1, \ldots, p_N)$ and has the following energy in this non-interacting system:
 $$E^\circ_{p_1 \otimes \ldots \otimes p_N} = \sum_{\alpha = 1}^N \varepsilon_{p_\alpha}$$
@@ -543,8 +545,7 @@ For the induction step, assume the lemma holds for $j$.  Then, we can prove it h
 \begin{align*}
   &\hat{\alpha} \hat{\gamma}_1 \ldots \hat{\gamma}_{j + 1} \\
   &= (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j \hat{\alpha} \hat{\gamma}_{j + 1} + \sum_{i = 1}^j (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1} \\
-  &= (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j (\pm \hat{\gamma}_{j + 1} \hat{\alpha} + [\hat{\alpha}, \hat{\gamma}_{j + 1}]_\mp) \\
-  &\quad + \sum_{i = 1}^j (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1} \\
+  &= (\pm)^j \hat{\gamma}_1 \ldots \hat{\gamma}_j (\pm \hat{\gamma}_{j + 1} \hat{\alpha} + [\hat{\alpha}, \hat{\gamma}_{j + 1}]_\mp) + \sum_{i = 1}^j (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1} \\
   &= (\pm)^{j + 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{j + 1} \hat{\alpha} + \sum_{i = 1}^{j + 1} (\pm)^{i - 1} \hat{\gamma}_1 \ldots \hat{\gamma}_{i - 1} [\hat{\alpha}, \hat{\gamma}_i]_\mp \hat{\gamma}_{i + 1} \ldots \hat{\gamma}_{j + 1}
 \end{align*}
 thus we have proven the case for $j + 1$.  $\blacksquare$

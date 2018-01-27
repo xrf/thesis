@@ -79,7 +79,7 @@ $$E_u^{(n)} = \begin{cases}
   \bra{u^\circ} \hat{V} \hat{\Omega}^{(n - 1)} \ket{u^\circ} & \text{if } n > 0
 \end{cases}$$
 The coefficients $C_{u' u}$ are obtained by diagonalizing the effective Hamiltonian through the eigenvalue problem,
-$$\sum_{v'} \bra{u^{\prime\circ}} \hat{H}^{\mathrm{eff}} \ket{v^{\prime\circ}} C_{v' u} = C_{u' u} E_u$$
+$$\sum_{v'} \bra{u^{\prime\circ}} \hat{H}^{\mathrm{eff}} \ket{v^{\prime\circ}} C_{v' u} = C_{u' u} E_u$$ {#eq:qdpt-diagonalization}
 
 ## QDPT equations {#sec:qdpt-eqs}
 
@@ -87,11 +87,9 @@ We now consider the application of QDPT to the treatment of addition and removal
 $$\ket{u^\circ} = \ket{\Phi_u}$$
 Take note that in QDPT *Fermi vacuum* and *reference state* are no longer synonymous.
 
-We choose $u$ to be close to the Fermi level: it should be a single-particle state within an adjacent shell.  Therefore, the number of reference states in the model space of QDPT is equal to the number of particles in either the lowest unoccupied shell or the highest occupied shell of $\ket{\Phi}$, depending on whether we are considering addition or removal energies, respectively.
+We choose $u$ to be close to the Fermi level: it should be a single-particle state within an adjacent shell (**valence shell**).  Therefore, the number of reference states in the model space of QDPT is equal to the number of particles in either the lowest unoccupied shell or the highest occupied shell of $\ket{\Phi}$, depending on whether we are considering addition or removal energies, respectively.
 
 We can then express the perturbation expansion in terms of summations over matrix elements as we did for the IM-SRG flow equation.  We will restrict ourselves to the case where the perturbation $\hat{V}$ is a two-body operator.
-
-![Perturbative Hugenholtz diagrams ([@Sec:perturbative-diagrams]) of the second- and third-order QDPT corrections.  Denominator lines have been elided.  When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish.  The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.](fig-diagrams-sfe){#fig:diagrams-sfe}
 
 The second-order QDPT corrections of the **left-shift operator** (or **reaction operator**) $\hat{W} = \hat{H}^{\mathrm{eff}} - \hat{H}^\circ$ are:
 $$
@@ -129,9 +127,13 @@ $$\begin{aligned}
 \end{aligned}$$
 Perturbative diagrams ([@Sec:perturbative-diagrams]) of third-order corrections are also shown in [@Fig:diagrams-sfe].
 
+![Perturbative Hugenholtz diagrams ([@Sec:perturbative-diagrams]) of the second- and third-order QDPT corrections.  Denominator lines have been elided.  When QDPT is performed on IM-SRG-evolved Hamiltonians, many of the diagrams vanish.  The remaining nonvanishing diagrams for addition energy are highlighted in blue and for removal energy are highlighted in red.](fig-diagrams-sfe){#fig:diagrams-sfe}
+
 One of the benefits of applying QDPT to an IM-SRG-evolved Hamiltonian is that many of the QDPT terms vanish.  In IM-SRG, a generator that decouples the ground state energy is required to drive certain classes of matrix elements to zero.  Consider for example the White generator, which eliminates matrix elements of the form:
 $$V_{i j a b} = V_{a b i j} = 0$$
 This means certain kinds of vertices in the diagrams become forbidden, reducing the number of nonzero diagrams at third order from 18 to only four.  Out of these four, two of them contribute only to the correction of hole states (removal energies), while the other two contribute only to the correction of the particle states (addition energies).
+
+Note that the final step of diagonalizing the effective Hamiltonian ([@Eq:qdpt-diagonalization]) is usually not needed for the calculation of single-particle energies with one valence shell as the matrix is often already diagonal due to conservation laws of the quantum system.
 
 In J-scheme, the second-order corrections are:
 $$
@@ -143,8 +145,9 @@ $$
     \frac{\jweight{j}_{a p}^2}{\jweight{j}_p^2}
     \frac{V_{i j a q} V_{a p i j}}{\Delta_{i j a p}}
 $$
+As usual, these equations use the implicit-J convention (@Sec:implicit-j).
 
-With Pandya-transformed matrix elements $\tilde{V}_{p s r q}$ ([@Sec:pandya]), the third-order QDPT corrections in J-scheme are given by:
+For efficiency, the third-order corrections in J-scheme make use of the non-antisymmetrized Pandya-transformed matrix elements of $\hat{V}$, which are denoted $\tilde{V}_{p s r q}$ ([@Sec:pandya]).  Using these matrix elements, we may write the third-order terms as:
 $$\begin{aligned}
   &W^{(3)}_{p q} =
   \\ &\quad

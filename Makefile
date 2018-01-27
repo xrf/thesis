@@ -6,10 +6,8 @@ pandoc_args=--mathjax --number-sections --biblatex \
             -M bibliography=book.bib \
             -M biblio-style=alphabetic \
             -M biblio-title=References,heading=bibintoc \
-            -M citecolor=OliveGreen \
             -M classoption=fleqn \
-            -M colorlinks \
-            -M date=2017 \
+            -M date=2018 \
             -M indent \
             -M link-citations=true \
             -M lof \

@@ -185,11 +185,11 @@ The results of our addition and removal energy calculations are summarized in [@
 
 As before, we do not include results from *HF only* in these plots as they are significantly further from the rest.  Analogously, we also exclude results from pure IM-SRG (i.e. without QDPT nor EOM) or pure CCSD, as QDPT or EOM both add significant contributions to addition and removal energies.  Some HF only and pure IM-SRG results can be seen in [@Fig:by-freq-10-6-normal].
 
+![The behavior of ground state, addition, and removal energies as a function of the oscillator frequency $\omega$, with $K = 10$ shells in the basis.  The energy is normalized with respect to the HF values to magnify the differences.  Lower frequency leads to stronger correlations and thereby a more difficult problem.](fig-by-freq-10-6-normal){#fig:by-freq-10-6-normal}
+
 There is strong agreement between IM-SRG(2) + QDPT3 and IM-SRG(2) + EOM2 in many cases, and slightly weaker agreement between the IM-SRG and CCSD families.  This suggests that the EOM2 corrections are largely accounted for by the inexpensive QDPT3 method.  However, in some cases, most notably with few particles and high correlations (low frequency), the IM-SRG(2) + QDPT3 result differs significantly from both IM-SRG(2) + EOM2 and CCSD + EOM2.
 
 ### Rate of convergence
-
-![The behavior of ground state, addition, and removal energies as a function of the oscillator frequency $\omega$, with $K = 10$ shells in the basis.  The energy is normalized with respect to the HF values to magnify the differences.  Lower frequency leads to stronger correlations and thereby a more difficult problem.](fig-by-freq-10-6-normal){#fig:by-freq-10-6-normal}
 
 ![The impact of the interaction on convergence of addition and removal energies using IM-SRG(2) + QDPT3.  For clarity, the plot does not distinguish between addition and removal energies.  The horizontal axis shows the system parameters, where $N$ is the number of particles and $\omega$ is the oscillator frequency.  The vertical axis shows $|\rho_{15}|$ (*relative slope*), which estimates the rate of convergence at 15 total shells.  The lower the value of $|\rho_{15}|$, the faster the convergence.  The data points are categorized by the interactions.  The trends suggest that the singular short-range part of the interaction has a much stronger impact on the convergence than the long-range tail.](fig-rel-slopes2.pdf){#fig:rel-slopes}
 
