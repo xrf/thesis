@@ -39,8 +39,8 @@ The remainder of this thesis is structured as follows:
   - In chapter 3, we discuss the details of angular momentum coupling.  This forms a critical part of our J-scheme machinery, needed for efficient nuclear calculations.  We also discuss angular momentum diagrams, which are an effective tool for manipulation of angular momentum expressions, as well as the `jucys` software that we have developed to aid simplification of such diagrams.
   - In chapter 4, we discuss each of the three major many-body methods that we use in our thesis: Hartree–Fock, IM-SRG, and QDPT.  We explain and show all the critical equations that are needed to implement them.
   - In chapter 5, we discuss the theoretical background for the main quantum systems that we have chosen to study and analyze: circular quantum dots and nuclei.
-  - We then provide an overview of our concrete implementation of many-body methods and the quantum systems.  We offer explanations, rationale, and discussion of various choices that we have made throughout the evolution of the project.
-  - In the penultimate chapter 6, we discuss the numerical results obtained from our codes, and compare them with results of collaborators.  We perform analysis and also extrapolation of our results.
-  - Finally, we conclude in chapter 7 with a review of our main results and perspectives for the future.
+  - In chapter 6, we provide an overview of our concrete implementation of many-body methods and the quantum systems.  We offer explanations, rationale, and discussion of various choices that we have made throughout the evolution of the project.
+  - In the penultimate chapter 7, we discuss the numerical results obtained from our codes, and compare them with results of collaborators.  We perform analysis and also extrapolation of our results.
+  - Finally, we conclude in chapter 8 with a review of our main results and perspectives for the future.
 
 An online version of this thesis is available^[URL: <https://github.com/xrf/thesis>] along with any fixes to errors discovered after publication.  Issues may be reported through the website.  The version of this document is `{{VERSION}}`.
